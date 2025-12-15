@@ -1,6 +1,6 @@
 import { useAtom, useSetAtom } from "jotai";
 import { Routes, Route, Link } from "react-router-dom";
-import { useActiveProducts } from "./hooks/useProducts";
+import { useActiveProducts } from "@/hooks/useProducts";
 import {
   cartItemsAtom,
   cartTotalAtom,
@@ -8,8 +8,10 @@ import {
   addToCartAtom,
   removeFromCartAtom,
   clearCartAtom,
-} from "./store/cart";
-import type { Product } from "./lib/api";
+} from "@/store/cart";
+import type { Product } from "@/lib/api";
+import { LoginPage, RegisterPage } from "@/pages";
+import { useAuthStatus, useLogout } from "@/hooks/useAuth";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
       </Routes>
     </div>
   );
@@ -25,6 +29,16 @@ function App() {
 
 function Header() {
   const [cartCount] = useAtom(cartCountAtom);
+  const { user, isAuthenticated } = useAuthStatus();
+  const logout = useLogout();
+
+  const handleLogout = async () => {
+    try {
+      await logout.mutateAsync();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   return (
     <header className="border-b">
@@ -44,6 +58,29 @@ function Header() {
               </span>
             )}
           </Link>
+          {isAuthenticated ? (
+            <>
+              <span className="text-sm text-muted-foreground">
+                {user?.username}
+              </span>
+              <button
+                onClick={handleLogout}
+                className="hover:underline"
+                disabled={logout.isPending}
+              >
+                {logout.isPending ? "Logging out..." : "Logout"}
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="hover:underline">
+                Login
+              </Link>
+              <Link to="/register" className="hover:underline">
+                Sign Up
+              </Link>
+            </>
+          )}
         </nav>
       </div>
     </header>

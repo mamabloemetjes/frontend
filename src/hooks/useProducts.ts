@@ -1,12 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { api, queryKeys, ApiError } from "../lib/api";
+import { api, queryKeys, ApiError } from "@/lib/api";
 import type {
   ProductListFilters,
   ProductListResponse,
   ProductDetailResponse,
   ProductCountResponse,
   Product,
-} from "../lib/api";
+} from "@/lib/api";
 
 // ============================================================================
 // QUERY HOOKS
@@ -15,14 +15,20 @@ import type {
 export function useProducts(filters?: ProductListFilters) {
   return useQuery<ProductListResponse, ApiError>({
     queryKey: queryKeys.products.list(filters),
-    queryFn: () => api.products.getAll(filters),
+    queryFn: async () => {
+      const res = await api.products.getAll(filters);
+      return res.data;
+    },
   });
 }
 
 export function useProduct(id: string, includeImages: boolean = false) {
   return useQuery<ProductDetailResponse, ApiError>({
     queryKey: queryKeys.products.detail(id),
-    queryFn: () => api.products.getById(id, includeImages),
+    queryFn: async () => {
+      const res = await api.products.getById(id, includeImages);
+      return res.data;
+    },
     enabled: !!id, // Only fetch if ID exists
   });
 }
@@ -34,14 +40,20 @@ export function useActiveProducts(
 ) {
   return useQuery<ProductListResponse, ApiError>({
     queryKey: queryKeys.products.active(page, pageSize),
-    queryFn: () => api.products.getActive(page, pageSize, includeImages),
+    queryFn: async () => {
+      const res = await api.products.getActive(page, pageSize, includeImages);
+      return res.data;
+    },
   });
 }
 
 export function useProductCount(filters?: ProductListFilters) {
   return useQuery<ProductCountResponse, ApiError>({
     queryKey: queryKeys.products.count(filters),
-    queryFn: () => api.products.getCount(filters),
+    queryFn: async () => {
+      const response = await api.products.getCount(filters);
+      return response.data;
+    },
   });
 }
 

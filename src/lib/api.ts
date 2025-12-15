@@ -1,5 +1,6 @@
 import axios, { type AxiosInstance, type AxiosError } from "axios";
 import { QueryClient } from "@tanstack/react-query";
+import type { User, RegisterData, LoginCredentials } from "@/types/auth";
 
 // ============================================================================
 // CONFIGURATION
@@ -121,23 +122,10 @@ const apiClient: AxiosInstance = axios.create({
   withCredentials: true,
 });
 
-// Request interceptor
-apiClient.interceptors.request.use(
-  (config) => {
-    // Add auth token if exists
-    const token = localStorage.getItem("auth_token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error),
-);
-
 // Response interceptor - unwrap gecho response
 apiClient.interceptors.response.use(
   (response) => {
-    const apiResponse = response.data;
+    const apiResponse: ApiResponse<unknown> = response.data;
 
     // Check if gecho indicates success
     if (!apiResponse.success) {
@@ -148,8 +136,8 @@ apiClient.interceptors.response.use(
       );
     }
 
-    // Return the data field directly
-    return apiResponse.data;
+    // Return the response with validated data
+    return response.data;
   },
   (error: AxiosError) => {
     if (error.response) {
@@ -190,7 +178,7 @@ export const api = {
   products: {
     getAll: async (
       filters?: ProductListFilters,
-    ): Promise<ProductListResponse> => {
+    ): Promise<ApiResponse<ProductListResponse>> => {
       const params: Record<string, unknown> = {};
 
       if (filters?.page) params.page = filters.page;
@@ -226,7 +214,7 @@ export const api = {
     getById: async (
       id: string,
       includeImages: boolean = false,
-    ): Promise<ProductDetailResponse> => {
+    ): Promise<ApiResponse<ProductDetailResponse>> => {
       return apiClient.get(`/products/${id}`, {
         params: { include_images: includeImages },
       });
@@ -240,7 +228,7 @@ export const api = {
       page: number = 1,
       pageSize: number = 20,
       includeImages: boolean = false,
-    ): Promise<ProductListResponse> => {
+    ): Promise<ApiResponse<ProductListResponse>> => {
       return apiClient.get("/products/active", {
         params: {
           page,
@@ -256,7 +244,7 @@ export const api = {
      */
     getCount: async (
       filters?: ProductListFilters,
-    ): Promise<ProductCountResponse> => {
+    ): Promise<ApiResponse<ProductCountResponse>> => {
       const params: Record<string, unknown> = {};
 
       if (filters?.is_active !== undefined)
@@ -269,6 +257,34 @@ export const api = {
       if (filters?.max_price) params.max_price = filters.max_price;
 
       return apiClient.get("/products/count", { params });
+    },
+  },
+  auth: {
+    login: async (
+      loginCredentials: LoginCredentials,
+    ): Promise<ApiResponse<User>> => {
+      return apiClient.post("/auth/login", {
+        email: loginCredentials.email,
+        password: loginCredentials.password,
+      });
+    },
+    register: async (
+      registerData: RegisterData,
+    ): Promise<ApiResponse<User>> => {
+      return apiClient.post("/auth/register", {
+        username: registerData.username,
+        email: registerData.email,
+        password: registerData.password,
+      });
+    },
+    logout: async (): Promise<ApiResponse<null>> => {
+      return apiClient.post("/auth/logout");
+    },
+    refreshToken: async (): Promise<ApiResponse<User>> => {
+      return apiClient.post("/auth/refresh");
+    },
+    getCurrentUser: async (): Promise<ApiResponse<User>> => {
+      return apiClient.get("/auth/me");
     },
   },
 };
@@ -288,6 +304,9 @@ export const queryKeys = {
       [...queryKeys.products.all, "active", { page, pageSize }] as const,
     count: (filters?: ProductListFilters) =>
       [...queryKeys.products.all, "count", filters] as const,
+  },
+  auth: {
+    currentUser: ["auth", "user"] as const,
   },
 } as const;
 
