@@ -1,12 +1,15 @@
-import { createContext } from "react";
-import type { AuthState } from "@/types/auth";
+import type { User } from "@/types/auth";
+import React from "react";
 
-export interface AuthContextType extends AuthState {
-  login: () => void;
-  logout: () => void;
-  refreshAuth: () => void;
-}
+export type AuthContextType = {
+  user: User | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  error?: string;
+};
 
-export const AuthContext = createContext<AuthContextType | undefined>(
-  undefined,
-);
+export const AuthContext = React.createContext<AuthContextType>({
+  user: null,
+  isAuthenticated: false,
+  isLoading: true,
+});

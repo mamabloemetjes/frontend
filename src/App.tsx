@@ -10,18 +10,47 @@ import {
   clearCartAtom,
 } from "@/store/cart";
 import type { Product } from "@/lib/api";
-import { LoginPage, RegisterPage } from "@/pages";
+import { DashboardPage, LoginPage, RegisterPage } from "@/pages";
 import { useAuthStatus, useLogout } from "@/hooks/useAuth";
+import { AdminRoute } from "./components/ProtectedRoute";
+import { TokenRefreshHandler } from "./components/TokenRefreshHandler";
 
 function App() {
   return (
     <div className="min-h-screen bg-background">
+      <TokenRefreshHandler />
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route
+          path="/dashboard"
+          element={
+            <AdminRoute>
+              <DashboardPage />
+            </AdminRoute>
+          }
+        />
+        {/* 404 route */}
+        <Route
+          path="*"
+          element={
+            <div className="container mx-auto px-4 py-16 text-center">
+              <h1 className="text-4xl font-bold mb-4">404 - Page Not Found</h1>
+              <p className="text-muted-foreground mb-8">
+                The page you are looking for does not exist.
+              </p>
+              <Link
+                to="/"
+                className="inline-block bg-primary text-primary-foreground px-6 py-3 rounded hover:bg-primary/90 transition-colors"
+              >
+                Go to Home
+              </Link>
+            </div>
+          }
+        />
       </Routes>
     </div>
   );
@@ -80,6 +109,11 @@ function Header() {
                 Sign Up
               </Link>
             </>
+          )}
+          {isAuthenticated && user?.role === "admin" && (
+            <Link to="/dashboard" className="hover:underline">
+              Dashboard
+            </Link>
           )}
         </nav>
       </div>
@@ -173,8 +207,8 @@ function ProductCard({ product, onAddToCart }: ProductCardProps) {
   const imageUrl = primaryImage?.url || product.images?.[0]?.url;
 
   // Convert cents to euros for display
-  const priceInEuros = product.subtotal / 100;
-  const originalPrice = product.price / 100;
+  const priceInEuros = (product.subtotal - (product.discount || 0)) / 100;
+  const originalPrice = product.subtotal / 100;
   const hasDiscount = product.discount && product.discount > 0;
 
   return (

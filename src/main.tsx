@@ -5,12 +5,15 @@ import { BrowserRouter } from "react-router-dom";
 import { queryClient } from "@/lib/api";
 import "@/index.css";
 import App from "@/App.tsx";
+import { AuthProvider } from "./contexts/AuthContext";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </BrowserRouter>
     </QueryClientProvider>
   </StrictMode>,

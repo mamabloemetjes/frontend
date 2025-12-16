@@ -210,23 +210,35 @@ export function useRefreshToken() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (): Promise<boolean> => {
+    mutationFn: async (): Promise<User | null> => {
       const response = await apiClient.auth.refreshToken();
 
-      if (!response.data || !response.data) {
-        return false;
+      if (!response.success || !response.data) {
+        return null;
       }
 
-      return true;
+      return response.data;
     },
-    onSuccess: (success: boolean) => {
-      if (success) {
-        // Invalidate user query to refetch user data
-        queryClient.invalidateQueries({ queryKey: ["auth", "user"] });
+    onSuccess: (user: User | null) => {
+      if (user) {
+        // Update auth tracking
+        hasAttemptedAuth = true;
+        lastAuthResult = true;
+        // Cache the refreshed user data
+        queryClient.setQueryData(["auth", "user"], user);
+        queryClient.invalidateQueries({ queryKey: ["auth"] });
       } else {
         // Clear auth data if refresh failed
+        hasAttemptedAuth = true;
+        lastAuthResult = false;
         queryClient.removeQueries({ queryKey: ["auth"] });
       }
+    },
+    onError: () => {
+      // Clear auth data on error
+      hasAttemptedAuth = true;
+      lastAuthResult = false;
+      queryClient.removeQueries({ queryKey: ["auth"] });
     },
   });
 }
