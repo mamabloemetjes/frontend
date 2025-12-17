@@ -2,6 +2,7 @@ import axios, { type AxiosInstance, type AxiosError } from "axios";
 import axiosRetry from "axios-retry";
 import { QueryClient } from "@tanstack/react-query";
 import type { User, RegisterData, LoginCredentials } from "@/types/auth";
+import { csrfService } from "./csrf";
 
 // ============================================================================
 // CONFIGURATION
@@ -143,6 +144,30 @@ axiosRetry(apiClient, {
   },
 });
 
+// Request interceptor - add CSRF token to mutating requests
+apiClient.interceptors.request.use(
+  async (config) => {
+    // Skip CSRF token for GET requests and the CSRF endpoint itself
+    if (
+      config.method &&
+      !["get", "head", "options"].includes(config.method.toLowerCase()) &&
+      !config.url?.includes("/auth/csrf")
+    ) {
+      try {
+        const csrfToken = await csrfService.getToken();
+        config.headers["X-CSRF-Token"] = csrfToken;
+      } catch (error) {
+        console.error("[API] Failed to get CSRF token:", error);
+        // Continue without CSRF token - let the server reject it
+      }
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
+
 // Track if we're currently refreshing to prevent multiple refresh calls
 let isRefreshing = false;
 let failedQueue: Array<{
@@ -188,6 +213,33 @@ apiClient.interceptors.response.use(
       const apiResponse = error.response.data as
         | ApiResponse<unknown>
         | undefined;
+
+      // Handle 403 Forbidden - might be CSRF token issue
+      if (
+        error.response.status === 403 &&
+        originalRequest &&
+        !originalRequest._retry
+      ) {
+        const errorMessage = apiResponse?.message || error.message;
+
+        // If it's a CSRF error, try to refresh the token and retry
+        if (errorMessage.toLowerCase().includes("csrf")) {
+          console.log("[API] CSRF token invalid, refreshing...");
+          originalRequest._retry = true;
+
+          try {
+            await csrfService.refreshToken();
+            return apiClient(originalRequest);
+          } catch (csrfError) {
+            console.error("[API] Failed to refresh CSRF token:", csrfError);
+            throw new ApiError(
+              "CSRF token refresh failed. Please reload the page.",
+              403,
+              apiResponse?.data,
+            );
+          }
+        }
+      }
 
       // Handle 401 Unauthorized - attempt to refresh token
       if (

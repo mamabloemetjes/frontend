@@ -20,16 +20,12 @@ export function RegisterPage() {
       return;
     }
 
-    try {
-      await register.mutateAsync(formData);
-      navigate("/");
-    } catch (error) {
-      // Error is handled by the mutation
-      console.error("Registration failed:", error);
-    }
+    await register.mutateAsync(formData);
+    navigate("/");
   };
 
-  const passwordsMatch = formData.password === confirmPassword || confirmPassword === "";
+  const passwordsMatch =
+    formData.password === confirmPassword || confirmPassword === "";
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
@@ -62,10 +58,7 @@ export function RegisterPage() {
             </div>
 
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium mb-2"
-              >
+              <label htmlFor="email" className="block text-sm font-medium mb-2">
                 Email
               </label>
               <input
@@ -123,16 +116,6 @@ export function RegisterPage() {
                 </p>
               )}
             </div>
-
-            {register.error && (
-              <div className="bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded">
-                <p className="text-sm">
-                  {register.error instanceof Error
-                    ? register.error.message
-                    : "Registration failed. Please try again."}
-                </p>
-              </div>
-            )}
 
             <button
               type="submit"

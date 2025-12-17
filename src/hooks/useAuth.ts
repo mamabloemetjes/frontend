@@ -3,6 +3,7 @@ import { api as apiClient } from "@/lib/api";
 import { env } from "@/lib/env";
 import type { User, LoginCredentials, RegisterData } from "@/types/auth";
 import { useNavigate } from "react-router";
+import { showApiError, showApiSuccess } from "@/lib/apiToast";
 
 /**
  * Track authentication state across app lifecycle
@@ -39,10 +40,12 @@ export function useLogin() {
       // Cache user data - tokens are now handled via cookies
       queryClient.setQueryData(["auth", "user"], user);
       queryClient.invalidateQueries({ queryKey: ["auth"] });
+      showApiSuccess("Welcome back!", `Logged in as ${user.username}`);
     },
-    onError: () => {
+    onError: (error) => {
       // Clear any existing auth data on login failure
       queryClient.removeQueries({ queryKey: ["auth"] });
+      showApiError(error);
     },
   });
 }
@@ -75,10 +78,12 @@ export function useRegister() {
       // Cache user data - tokens are now handled via cookies
       queryClient.setQueryData(["auth", "user"], user);
       queryClient.invalidateQueries({ queryKey: ["auth"] });
+      showApiSuccess("Account created!", `Welcome, ${user.username}`);
     },
-    onError: () => {
+    onError: (error) => {
       // Clear any existing auth data on registration failure
       queryClient.removeQueries({ queryKey: ["auth"] });
+      showApiError(error);
     },
   });
 }
@@ -105,14 +110,16 @@ export function useLogout() {
       // Clear all cached data
       queryClient.clear();
 
+      showApiSuccess("Logged out", "See you next time!");
       navigate("/login");
     },
-    onError: () => {
+    onError: (error) => {
       // Reset auth tracking even if logout fails
       hasAttemptedAuth = true;
       lastAuthResult = false;
       // Even if logout API fails, clear local data
       queryClient.clear();
+      showApiError(error);
     },
   });
 }

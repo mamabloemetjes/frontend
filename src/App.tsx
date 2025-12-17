@@ -14,10 +14,16 @@ import { DashboardPage, LoginPage, RegisterPage } from "@/pages";
 import { useAuthStatus, useLogout } from "@/hooks/useAuth";
 import { AdminRoute } from "./components/ProtectedRoute";
 import { TokenRefreshHandler } from "./components/TokenRefreshHandler";
+import { useCSRF } from "@/hooks/useCSRF";
+import { Toaster } from "@/components/ui/sonner";
 
 function App() {
+  // Initialize CSRF token on app startup
+  useCSRF();
+
   return (
     <div className="min-h-screen bg-background">
+      <Toaster />
       <TokenRefreshHandler />
       <Header />
       <Routes>
@@ -278,13 +284,11 @@ function ProductCard({ product, onAddToCart }: ProductCardProps) {
           <button
             onClick={onAddToCart}
             disabled={product.stock === 0 || !product.is_active}
-            className="bg-primary text-primary-foreground px-4 py-2 rounded hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-primary text-primary-foreground px-4 py-2 rounded hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
             Add to Cart
           </button>
         </div>
-
-        <p className="text-xs text-muted-foreground">SKU: {product.sku}</p>
       </div>
     </div>
   );

@@ -13,13 +13,8 @@ export function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      await login.mutateAsync(credentials);
-      navigate("/");
-    } catch (error) {
-      // Error is handled by the mutation
-      console.error("Login failed:", error);
-    }
+    await login.mutateAsync(credentials);
+    navigate("/");
   };
 
   return (
@@ -33,10 +28,7 @@ export function LoginPage() {
         <div className="border rounded-lg p-8">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium mb-2"
-              >
+              <label htmlFor="email" className="block text-sm font-medium mb-2">
                 Email
               </label>
               <input
@@ -71,16 +63,6 @@ export function LoginPage() {
                 placeholder="••••••••"
               />
             </div>
-
-            {login.error && (
-              <div className="bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded">
-                <p className="text-sm">
-                  {login.error instanceof Error
-                    ? login.error.message
-                    : "Login failed. Please try again."}
-                </p>
-              </div>
-            )}
 
             <button
               type="submit"

@@ -5,6 +5,7 @@ import {
   type Product,
   type ProductListFilters,
 } from "@/lib/api";
+import { showApiError, showApiSuccess } from "@/lib/apiToast";
 
 /**
  * Hook to fetch all products (admin only)
@@ -45,6 +46,10 @@ export function useCreateProduct() {
       // Invalidate all product queries
       queryClient.invalidateQueries({ queryKey: queryKeys.admin.products.all });
       queryClient.invalidateQueries({ queryKey: queryKeys.products.all });
+      showApiSuccess("Product created");
+    },
+    onError: (error) => {
+      showApiError(error);
     },
   });
 }
@@ -70,6 +75,10 @@ export function useUpdateProduct() {
       // Invalidate all product queries
       queryClient.invalidateQueries({ queryKey: queryKeys.admin.products.all });
       queryClient.invalidateQueries({ queryKey: queryKeys.products.all });
+      showApiSuccess("Product updated");
+    },
+    onError: (error) => {
+      showApiError(error);
     },
   });
 }
@@ -89,6 +98,10 @@ export function useUpdateProductStock() {
       // Invalidate all product queries
       queryClient.invalidateQueries({ queryKey: queryKeys.admin.products.all });
       queryClient.invalidateQueries({ queryKey: queryKeys.products.all });
+      showApiSuccess("Stock updated");
+    },
+    onError: (error) => {
+      showApiError(error);
     },
   });
 }
@@ -108,6 +121,10 @@ export function useDeleteProduct() {
       // Invalidate all product queries
       queryClient.invalidateQueries({ queryKey: queryKeys.admin.products.all });
       queryClient.invalidateQueries({ queryKey: queryKeys.products.all });
+      showApiSuccess("Product deleted");
+    },
+    onError: (error) => {
+      showApiError(error);
     },
   });
 }
