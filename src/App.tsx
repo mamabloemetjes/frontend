@@ -273,13 +273,6 @@ function ProductCard({ product, onAddToCart }: ProductCardProps) {
                 </span>
               )}
             </div>
-            {product.stock !== undefined && (
-              <p className="text-xs text-muted-foreground">
-                {product.stock > 0
-                  ? `${product.stock} in stock`
-                  : "Out of stock"}
-              </p>
-            )}
           </div>
 
           <button

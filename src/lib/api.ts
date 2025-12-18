@@ -249,7 +249,7 @@ apiClient.interceptors.response.use(
       ) {
         // Don't retry refresh or logout endpoints
         if (
-          originalRequest.url?.includes("/auth/refresh") ||
+          originalRequest.url?.includes("/auth/me") ||
           originalRequest.url?.includes("/auth/logout")
         ) {
           throw new ApiError(
@@ -276,8 +276,8 @@ apiClient.interceptors.response.use(
         isRefreshing = true;
 
         try {
-          // Attempt to refresh the token
-          await apiClient.post("/auth/refresh");
+          // Attempt to refresh the token by calling /auth/me
+          await apiClient.get("/auth/me");
 
           // Token refreshed successfully, process queued requests
           processQueue(null);
@@ -438,7 +438,7 @@ export const api = {
       return apiClient.post("/auth/logout");
     },
     refreshToken: async (): Promise<ApiResponse<User>> => {
-      return apiClient.post("/auth/refresh");
+      return apiClient.get("/auth/me");
     },
     getCurrentUser: async (): Promise<ApiResponse<User>> => {
       return apiClient.get("/auth/me");
