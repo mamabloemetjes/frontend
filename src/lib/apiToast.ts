@@ -112,8 +112,8 @@ export function showApiError(
       return;
     }
 
-    toast.error("Error", {
-      description: error.message || fallbackMessage,
+    toast.error(error.message || "Error", {
+      description: fallbackMessage || error.message,
       duration: 4000,
     });
     return;

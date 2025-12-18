@@ -188,6 +188,7 @@ function HomePage() {
                 name: product.name,
                 price: product.subtotal / 100, // Convert cents to euros
                 image: product.images?.[0]?.url,
+                availableStock: product.stock || 0,
               })
             }
           />
