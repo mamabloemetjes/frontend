@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from "@/hooks/useAuth";
 import type { LoginCredentials } from "@/types/auth";
+import { toast } from "sonner";
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -13,8 +14,37 @@ export function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await login.mutateAsync(credentials);
-    navigate("/");
+
+    try {
+      await login.mutateAsync(credentials);
+      toast.success("Welcome back!", {
+        description: "You have successfully logged in.",
+        duration: 10000,
+      });
+      navigate("/");
+    } catch (error: unknown) {
+      // Check if the error is about email verification
+      if (
+        error &&
+        typeof error === "object" &&
+        "response" in error &&
+        error.response &&
+        typeof error.response === "object" &&
+        "data" in error.response &&
+        error.response.data &&
+        typeof error.response.data === "object" &&
+        "message" in error.response.data &&
+        typeof error.response.data.message === "string" &&
+        error.response.data.message.includes("verify your email")
+      ) {
+        toast.error("Email not verified", {
+          description:
+            "Please check your inbox and verify your email address before logging in.",
+          duration: 10000,
+        });
+      }
+      // Other errors will be handled by the mutation error handler
+    }
   };
 
   return (

@@ -54,10 +54,8 @@ export function useLogin() {
  * Hook for user registration
  */
 export function useRegister() {
-  const queryClient = useQueryClient();
-
   return useMutation({
-    mutationFn: async (userData: RegisterData): Promise<User> => {
+    mutationFn: async (userData: RegisterData) => {
       // Check if registration feature is enabled
       if (!env.features.enableRegister) {
         throw new Error("Registratie functionaliteit is uitgeschakeld");
@@ -65,24 +63,19 @@ export function useRegister() {
 
       const response = await apiClient.auth.register(userData);
 
-      if (!response.success || !response.data) {
+      if (!response.success) {
         throw new Error(response.message || "Registratie mislukt");
       }
-
-      return response.data;
     },
-    onSuccess: (user: User) => {
-      // Reset auth tracking on successful registration
-      hasAttemptedAuth = true;
-      lastAuthResult = true;
-      // Cache user data - tokens are now handled via cookies
-      queryClient.setQueryData(["auth", "user"], user);
-      queryClient.invalidateQueries({ queryKey: ["auth"] });
-      showApiSuccess("Account created!", `Welcome, ${user.username}`);
+    onSuccess: () => {
+      // Don't log user in - they need to verify their email first
+      // Success toast will be shown by the RegisterPage component
+      showApiSuccess(
+        "Account created!",
+        `Please check your email to verify your account.`,
+      );
     },
     onError: (error) => {
-      // Clear any existing auth data on registration failure
-      queryClient.removeQueries({ queryKey: ["auth"] });
       showApiError(error);
     },
   });

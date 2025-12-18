@@ -19,7 +19,7 @@ export function showApiError(
         description:
           backendMessage ||
           "You're making too many requests. Please wait a moment and try again.",
-        duration: 5000,
+        duration: 10000,
       });
       return;
     }
@@ -28,7 +28,7 @@ export function showApiError(
     if (error.status === 403 && backendMessage.toLowerCase().includes("csrf")) {
       toast.error("Session expired", {
         description: "Please refresh the page and try again.",
-        duration: 5000,
+        duration: 10000,
       });
       return;
     }
@@ -37,7 +37,7 @@ export function showApiError(
     if (error.status === 401) {
       toast.error("Authentication required", {
         description: backendMessage || "Please log in to continue.",
-        duration: 4000,
+        duration: 10000,
       });
       return;
     }
@@ -47,7 +47,7 @@ export function showApiError(
       toast.error("Access denied", {
         description:
           backendMessage || "You don't have permission to perform this action.",
-        duration: 4000,
+        duration: 10000,
       });
       return;
     }
@@ -56,7 +56,7 @@ export function showApiError(
     if (error.status === 400) {
       toast.error("Invalid request", {
         description: backendMessage || "Please check your input and try again.",
-        duration: 4000,
+        duration: 10000,
       });
       return;
     }
@@ -65,7 +65,7 @@ export function showApiError(
     if (error.status === 404) {
       toast.error("Not found", {
         description: backendMessage || "The requested item could not be found.",
-        duration: 4000,
+        duration: 10000,
       });
       return;
     }
@@ -74,7 +74,7 @@ export function showApiError(
     if (error.status === 409) {
       toast.error("Already exists", {
         description: backendMessage || "This item already exists.",
-        duration: 4000,
+        duration: 10000,
       });
       return;
     }
@@ -85,7 +85,7 @@ export function showApiError(
         description:
           backendMessage ||
           "Something went wrong on our end. Please try again in a moment.",
-        duration: 5000,
+        duration: 10000,
       });
       return;
     }
@@ -93,7 +93,7 @@ export function showApiError(
     // Generic API error with backend message
     toast.error("Request failed", {
       description: backendMessage || fallbackMessage,
-      duration: 4000,
+      duration: 10000,
     });
     return;
   }
@@ -107,14 +107,14 @@ export function showApiError(
       toast.error("Connection problem", {
         description:
           "Unable to reach the server. Please check your internet connection.",
-        duration: 5000,
+        duration: 10000,
       });
       return;
     }
 
     toast.error(error.message || "Error", {
       description: fallbackMessage || error.message,
-      duration: 4000,
+      duration: 10000,
     });
     return;
   }
@@ -122,7 +122,7 @@ export function showApiError(
   // Fallback for unknown errors
   toast.error("Error", {
     description: fallbackMessage,
-    duration: 4000,
+    duration: 10000,
   });
 }
 
@@ -132,7 +132,7 @@ export function showApiError(
 export function showApiSuccess(message: string, description?: string) {
   toast.success(message, {
     description,
-    duration: 3000,
+    duration: 10000,
   });
 }
 
@@ -156,13 +156,13 @@ export function updateToast(
     toast.success(message, {
       id: toastId,
       description,
-      duration: 3000,
+      duration: 10000,
     });
   } else {
     toast.error(message, {
       id: toastId,
       description,
-      duration: 4000,
+      duration: 10000,
     });
   }
 }

@@ -10,7 +10,12 @@ import {
   clearCartAtom,
 } from "@/store/cart";
 import type { Product } from "@/lib/api";
-import { DashboardPage, LoginPage, RegisterPage } from "@/pages";
+import {
+  DashboardPage,
+  LoginPage,
+  RegisterPage,
+  EmailVerificationPage,
+} from "@/pages";
 import { useAuthStatus, useLogout } from "@/hooks/useAuth";
 import { AdminRoute } from "./components/ProtectedRoute";
 import { TokenRefreshHandler } from "./components/TokenRefreshHandler";
@@ -31,6 +36,8 @@ function App() {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/email-verification" element={<EmailVerificationPage />} />
+        <Route path="/email-verified" element={<EmailVerificationPage />} />
         <Route
           path="/dashboard"
           element={

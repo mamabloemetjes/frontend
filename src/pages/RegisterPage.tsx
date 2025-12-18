@@ -20,8 +20,17 @@ export function RegisterPage() {
       return;
     }
 
-    await register.mutateAsync(formData);
-    navigate("/");
+    try {
+      await register.mutateAsync(formData);
+      // Success message is shown by the useRegister hook
+      // Redirect to login page after successful registration
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000); // Give time for user to see the success toast
+    } catch (error) {
+      // Error will be handled by the mutation error handler
+      console.error("Registration failed:", error);
+    }
   };
 
   const passwordsMatch =
