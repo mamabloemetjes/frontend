@@ -48,12 +48,15 @@ export interface ProductImage {
   is_primary: boolean;
 }
 
+// Type for creating product images (without id and product_id)
+export type ProductImageInput = Omit<ProductImage, "id" | "product_id">;
+
 export interface Product {
   id: string;
   name: string;
   sku: string;
   price: number; // in cents
-  discount?: number; // in cents
+  discount: number; // in cents
   tax: number; // in cents
   subtotal: number; // in cents
   description: string;
@@ -66,6 +69,14 @@ export interface Product {
   stock?: number;
   images?: ProductImage[];
 }
+
+// Type for creating/updating products with images
+export type ProductInput = Omit<
+  Product,
+  "id" | "created_at" | "updated_at" | "subtotal" | "images"
+> & {
+  images?: ProductImageInput[];
+};
 
 // Response from GET /products
 export interface ProductListResponse {
@@ -486,9 +497,7 @@ export const api = {
        * POST /admin/products
        * Create a new product
        */
-      create: async (
-        product: Omit<Product, "id" | "created_at" | "updated_at" | "subtotal">,
-      ): Promise<ApiResponse<Product>> => {
+      create: async (product: ProductInput): Promise<ApiResponse<Product>> => {
         return apiClient.post("/admin/products", product);
       },
 
@@ -498,7 +507,7 @@ export const api = {
        */
       update: async (
         id: string,
-        updates: Partial<Product>,
+        updates: Partial<ProductInput>,
       ): Promise<ApiResponse<Product>> => {
         return apiClient.put(`/admin/products/${id}`, {
           products: {
@@ -528,6 +537,20 @@ export const api = {
        */
       delete: async (id: string): Promise<ApiResponse<null>> => {
         return apiClient.delete(`/admin/products/${id}`);
+      },
+
+      /**
+       * PUT /admin/products/{id}/images
+       * Add images to a product
+       */
+      uploadImages: async (
+        productId: string,
+        images: Omit<ProductImage, "id" | "product_id">[],
+      ): Promise<ApiResponse<null>> => {
+        return apiClient.put(`/admin/products/${productId}/images`, {
+          product_id: productId,
+          images: images,
+        });
       },
     },
   },

@@ -6,6 +6,7 @@ export interface CartItem {
   id: string;
   name: string;
   price: number;
+  discount: number;
   quantity: number;
   image?: string;
   availableStock: number;
@@ -17,7 +18,16 @@ export const cartItemsAtom = atomWithStorage<CartItem[]>("cart", []);
 // Derived atom - calculate total price
 export const cartTotalAtom = atom((get) => {
   const items = get(cartItemsAtom);
-  return items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  return items.reduce(
+    (sum, item) => sum + (item.price - item.discount) * item.quantity,
+    0,
+  );
+});
+
+// Derived atom - calculate total discount
+export const cartDiscountAtom = atom((get) => {
+  const items = get(cartItemsAtom);
+  return items.reduce((sum, item) => sum + item.discount * item.quantity, 0);
 });
 
 // Derived atom - count total items

@@ -3,6 +3,8 @@ import {
   api,
   queryKeys,
   type Product,
+  type ProductImage,
+  type ProductInput,
   type ProductListFilters,
 } from "@/lib/api";
 import { showApiError, showApiSuccess } from "@/lib/apiToast";
@@ -36,9 +38,7 @@ export function useCreateProduct() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (
-      product: Omit<Product, "id" | "created_at" | "updated_at" | "subtotal">,
-    ) => {
+    mutationFn: async (product: ProductInput) => {
       const response = await api.admin.products.create(product);
       return response.data;
     },
@@ -66,7 +66,7 @@ export function useUpdateProduct() {
       updates,
     }: {
       id: string;
-      updates: Partial<Product>;
+      updates: Partial<ProductInput>;
     }) => {
       const response = await api.admin.products.update(id, updates);
       return response.data;
@@ -122,6 +122,35 @@ export function useDeleteProduct() {
       queryClient.invalidateQueries({ queryKey: queryKeys.admin.products.all });
       queryClient.invalidateQueries({ queryKey: queryKeys.products.all });
       showApiSuccess("Product deleted");
+    },
+    onError: (error) => {
+      showApiError(error);
+    },
+  });
+}
+
+/**
+ * Hook to upload images to a product
+ */
+export function useUploadProductImages() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      productId,
+      images,
+    }: {
+      productId: string;
+      images: Omit<ProductImage, "id" | "product_id">[];
+    }) => {
+      const response = await api.admin.products.uploadImages(productId, images);
+      return response.data;
+    },
+    onSuccess: () => {
+      // Invalidate all product queries
+      queryClient.invalidateQueries({ queryKey: queryKeys.admin.products.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.products.all });
+      showApiSuccess("Images uploaded successfully");
     },
     onError: (error) => {
       showApiError(error);

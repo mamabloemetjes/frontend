@@ -5,6 +5,7 @@ import {
   cartItemsAtom,
   cartTotalAtom,
   cartCountAtom,
+  cartDiscountAtom,
   addToCartAtom,
   removeFromCartAtom,
   clearCartAtom,
@@ -193,7 +194,8 @@ function HomePage() {
               addToCart({
                 id: product.id,
                 name: product.name,
-                price: product.subtotal / 100, // Convert cents to euros
+                price: product.price / 100, // Convert cents to euros
+                discount: (product.discount || 0) / 100, // Convert cents to euros
                 image: product.images?.[0]?.url,
                 availableStock: product.stock || 0,
               })
@@ -221,8 +223,8 @@ function ProductCard({ product, onAddToCart }: ProductCardProps) {
   const imageUrl = primaryImage?.url || product.images?.[0]?.url;
 
   // Convert cents to euros for display
-  const priceInEuros = (product.subtotal - (product.discount || 0)) / 100;
-  const originalPrice = product.subtotal / 100;
+  const priceInEuros = (product.price - (product.discount || 0)) / 100;
+  const originalPrice = product.price / 100;
   const hasDiscount = product.discount && product.discount > 0;
 
   return (
@@ -298,6 +300,7 @@ function ProductCard({ product, onAddToCart }: ProductCardProps) {
 function CartPage() {
   const [cartItems] = useAtom(cartItemsAtom);
   const [cartTotal] = useAtom(cartTotalAtom);
+  const [totalDiscount] = useAtom(cartDiscountAtom);
   const removeFromCart = useSetAtom(removeFromCartAtom);
   const clearCart = useSetAtom(clearCartAtom);
 
@@ -347,14 +350,22 @@ function CartPage() {
               )}
               <div>
                 <h3 className="font-semibold">{item.name}</h3>
-                <p className="text-sm text-muted-foreground">
-                  €{item.price.toFixed(2)} × {item.quantity}
-                </p>
+                <div className="flex items-center gap-2 text-sm">
+                  <span className="text-muted-foreground">
+                    €{(item.price - item.discount).toFixed(2)}
+                  </span>
+                  {item.discount > 0 && (
+                    <span className="text-muted-foreground line-through">
+                      €{item.price.toFixed(2)}
+                    </span>
+                  )}
+                  <span>× {item.quantity}</span>
+                </div>
               </div>
             </div>
             <div className="flex items-center gap-4">
               <span className="font-bold text-lg">
-                €{(item.price * item.quantity).toFixed(2)}
+                €{((item.price - item.discount) * item.quantity).toFixed(2)}
               </span>
               <button
                 onClick={() => removeFromCart(item.id)}
@@ -368,9 +379,19 @@ function CartPage() {
       </div>
 
       <div className="mt-8 border-t pt-4">
-        <div className="flex items-center justify-between text-2xl font-bold">
-          <span>Total:</span>
-          <span>€{cartTotal.toFixed(2)}</span>
+        <div className="space-y-2">
+          {totalDiscount > 0 && (
+            <div className="flex items-center justify-between text-lg">
+              <span className="text-muted-foreground">Total Discount:</span>
+              <span className="font-semibold text-green-600">
+                -€{totalDiscount.toFixed(2)}
+              </span>
+            </div>
+          )}
+          <div className="flex items-center justify-between text-2xl font-bold">
+            <span>Total:</span>
+            <span>€{cartTotal.toFixed(2)}</span>
+          </div>
         </div>
         <button className="w-full mt-4 bg-primary text-primary-foreground py-3 rounded-lg text-lg font-semibold hover:bg-primary/90 transition-colors">
           Proceed to Checkout

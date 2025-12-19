@@ -8,6 +8,7 @@ import {
 } from "@/hooks/useAdminProducts";
 import type { Product, Color, Size, ProductType } from "@/lib/api";
 import { Pencil } from "lucide-react";
+import { ImageManager } from "@/components/admin/ImageManager";
 
 type Tab = "products" | "orders";
 
@@ -321,6 +322,14 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
     colors: (product?.colors || []).map((c) => c.toLowerCase() as Color),
   });
 
+  const [images, setImages] = useState(
+    (product?.images || []).map((img) => ({
+      url: img.url,
+      alt_text: img.alt_text || "",
+      is_primary: img.is_primary,
+    })),
+  );
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -339,6 +348,14 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
         formData.colors.length > 0
           ? formData.colors.map((c) => c.toLowerCase() as Color)
           : undefined,
+      images:
+        images.length > 0
+          ? images.map((img) => ({
+              url: img.url,
+              alt_text: img.alt_text,
+              is_primary: img.is_primary,
+            }))
+          : undefined,
     };
 
     if (isEditing) {
@@ -349,6 +366,7 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
     } else {
       await createProduct.mutateAsync(productData);
     }
+
     onSuccess();
   };
 
@@ -557,6 +575,15 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
               />
               <span className="font-semibold text-sm">Active</span>
             </label>
+          </div>
+
+          {/* Image Manager */}
+          <div className="pt-4 border-t border-border">
+            <ImageManager
+              images={images}
+              onChange={setImages}
+              product_name={formData.name}
+            />
           </div>
 
           <div className="flex gap-2 justify-end pt-4 border-t border-border">
