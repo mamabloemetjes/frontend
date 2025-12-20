@@ -1,13 +1,13 @@
 import { toast } from "sonner";
 import { ApiError } from "./api";
-
+import i18n from "@/i18n";
 /**
  * Show a toast notification for API errors
  * Prefers backend messages when available, falls back to user-friendly defaults
  */
 export function showApiError(
   error: unknown,
-  fallbackMessage = "Something went wrong",
+  fallbackMessage = i18n.t("toasts.apiErrors.requestFailed"),
 ) {
   if (error instanceof ApiError) {
     // Always prefer the backend message if it exists and is user-friendly
@@ -15,10 +15,9 @@ export function showApiError(
 
     // Handle rate limiting specifically
     if (error.status === 429) {
-      toast.error("Too many requests", {
+      toast.error(i18n.t("toasts.apiErrors.tooManyRequests"), {
         description:
-          backendMessage ||
-          "You're making too many requests. Please wait a moment and try again.",
+          backendMessage || i18n.t("toasts.apiErrors.rateLimitDescription"),
         duration: 10000,
       });
       return;
@@ -26,8 +25,8 @@ export function showApiError(
 
     // Handle CSRF errors
     if (error.status === 403 && backendMessage.toLowerCase().includes("csrf")) {
-      toast.error("Session expired", {
-        description: "Please refresh the page and try again.",
+      toast.error(i18n.t("toasts.apiErrors.sessionExpired"), {
+        description: i18n.t("toasts.apiErrors.sessionExpiredDescription"),
         duration: 10000,
       });
       return;
@@ -35,8 +34,10 @@ export function showApiError(
 
     // Handle authentication errors (401)
     if (error.status === 401) {
-      toast.error("Authentication required", {
-        description: backendMessage || "Please log in to continue.",
+      toast.error(i18n.t("toasts.apiErrors.authenticationRequired"), {
+        description:
+          backendMessage ||
+          i18n.t("toasts.apiErrors.authenticationRequiredDescription"),
         duration: 10000,
       });
       return;
@@ -44,9 +45,9 @@ export function showApiError(
 
     // Handle forbidden errors (403)
     if (error.status === 403) {
-      toast.error("Access denied", {
+      toast.error(i18n.t("toasts.apiErrors.accessDenied"), {
         description:
-          backendMessage || "You don't have permission to perform this action.",
+          backendMessage || i18n.t("toasts.apiErrors.accessDeniedDescription"),
         duration: 10000,
       });
       return;
@@ -54,8 +55,10 @@ export function showApiError(
 
     // Handle validation errors (400)
     if (error.status === 400) {
-      toast.error("Invalid request", {
-        description: backendMessage || "Please check your input and try again.",
+      toast.error(i18n.t("toasts.apiErrors.invalidRequest"), {
+        description:
+          backendMessage ||
+          i18n.t("toasts.apiErrors.invalidRequestDescription"),
         duration: 10000,
       });
       return;
@@ -63,8 +66,9 @@ export function showApiError(
 
     // Handle not found errors (404)
     if (error.status === 404) {
-      toast.error("Not found", {
-        description: backendMessage || "The requested item could not be found.",
+      toast.error(i18n.t("toasts.apiErrors.notFound"), {
+        description:
+          backendMessage || i18n.t("toasts.apiErrors.notFoundDescription"),
         duration: 10000,
       });
       return;
@@ -72,8 +76,9 @@ export function showApiError(
 
     // Handle conflict errors (409)
     if (error.status === 409) {
-      toast.error("Already exists", {
-        description: backendMessage || "This item already exists.",
+      toast.error(i18n.t("toasts.apiErrors.alreadyExists"), {
+        description:
+          backendMessage || i18n.t("toasts.apiErrors.alreadyExistsDescription"),
         duration: 10000,
       });
       return;
@@ -81,17 +86,16 @@ export function showApiError(
 
     // Handle server errors (500+)
     if (error.status >= 500) {
-      toast.error("Server error", {
+      toast.error(i18n.t("toasts.apiErrors.serverError"), {
         description:
-          backendMessage ||
-          "Something went wrong on our end. Please try again in a moment.",
+          backendMessage || i18n.t("toasts.apiErrors.serverErrorDescription"),
         duration: 10000,
       });
       return;
     }
 
     // Generic API error with backend message
-    toast.error("Request failed", {
+    toast.error(i18n.t("toasts.apiErrors.requestFailed"), {
       description: backendMessage || fallbackMessage,
       duration: 10000,
     });
@@ -104,15 +108,14 @@ export function showApiError(
       error.message.includes("Network Error") ||
       error.message.includes("timeout")
     ) {
-      toast.error("Connection problem", {
-        description:
-          "Unable to reach the server. Please check your internet connection.",
+      toast.error(i18n.t("toasts.apiErrors.connectionProblem"), {
+        description: i18n.t("toasts.apiErrors.connectionProblemDescription"),
         duration: 10000,
       });
       return;
     }
 
-    toast.error(error.message || "Error", {
+    toast.error(error.message || i18n.t("toasts.apiErrors.error"), {
       description: fallbackMessage || error.message,
       duration: 10000,
     });
@@ -120,7 +123,7 @@ export function showApiError(
   }
 
   // Fallback for unknown errors
-  toast.error("Error", {
+  toast.error(i18n.t("toasts.apiErrors.error"), {
     description: fallbackMessage,
     duration: 10000,
   });

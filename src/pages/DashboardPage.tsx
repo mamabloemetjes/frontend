@@ -8,6 +8,7 @@ import {
 } from "@/hooks/useAdminProducts";
 import type { Product, Color, Size, ProductType } from "@/lib/api";
 import { Pencil } from "lucide-react";
+import i18n from "@/i18n";
 import { ImageManager } from "@/components/admin/ImageManager";
 
 type Tab = "products" | "orders";
@@ -17,7 +18,9 @@ const DashboardPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
+      <h1 className="text-3xl font-bold mb-8">
+        {i18n.t("pages.dashboard.title")}
+      </h1>
 
       {/* Tab Navigation */}
       <div className="border-b border-border mb-6">
@@ -30,7 +33,7 @@ const DashboardPage = () => {
                 : "border-transparent text-muted-foreground hover:text-foreground"
             }`}
           >
-            Products
+            {i18n.t("pages.dashboard.products")}
           </button>
           <button
             onClick={() => setActiveTab("orders")}
@@ -40,7 +43,7 @@ const DashboardPage = () => {
                 : "border-transparent text-muted-foreground hover:text-foreground"
             }`}
           >
-            Orders
+            {i18n.t("navigation.orders")}
           </button>
         </div>
       </div>
@@ -67,7 +70,7 @@ function ProductsTab() {
   const deleteProduct = useDeleteProduct();
 
   const handleDelete = async (id: string) => {
-    if (confirm("Are you sure you want to delete this product?")) {
+    if (confirm(i18n.t("pages.dashboard.confirmDelete"))) {
       await deleteProduct.mutateAsync(id);
     }
   };
@@ -94,12 +97,14 @@ function ProductsTab() {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">Products</h2>
+        <h2 className="text-2xl font-bold">
+          {i18n.t("pages.dashboard.products")}
+        </h2>
         <button
           onClick={() => setShowCreateForm(true)}
           className="px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors rounded"
         >
-          Create New Product
+          {i18n.t("pages.dashboard.addProduct")}
         </button>
       </div>
 
@@ -124,28 +129,25 @@ function ProductsTab() {
           <thead className="bg-muted">
             <tr>
               <th className="text-left p-3 border-b border-border font-semibold">
-                Image
+                {i18n.t("pages.dashboard.productName")}
               </th>
               <th className="text-left p-3 border-b border-border font-semibold">
-                Name
+                {i18n.t("pages.dashboard.productSku")}
               </th>
               <th className="text-left p-3 border-b border-border font-semibold">
-                SKU
+                {i18n.t("pages.dashboard.productPrice")}
               </th>
               <th className="text-left p-3 border-b border-border font-semibold">
-                Price
+                {i18n.t("pages.dashboard.productStock")}
               </th>
               <th className="text-left p-3 border-b border-border font-semibold">
-                Stock
+                {i18n.t("pages.dashboard.productType")}
               </th>
               <th className="text-left p-3 border-b border-border font-semibold">
-                Type
+                {i18n.t("pages.dashboard.productStatus")}
               </th>
               <th className="text-left p-3 border-b border-border font-semibold">
-                Active
-              </th>
-              <th className="text-left p-3 border-b border-border font-semibold">
-                Actions
+                {i18n.t("common.actions")}
               </th>
             </tr>
           </thead>
@@ -202,14 +204,14 @@ function ProductsTab() {
                         onClick={() => setEditingProduct(product)}
                         className="px-3 py-1 bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded transition-colors"
                       >
-                        Edit
+                        {i18n.t("pages.dashboard.editProduct")}
                       </button>
                       <button
                         onClick={() => handleDelete(product.id)}
                         className="px-3 py-1 bg-destructive text-destructive-foreground hover:bg-destructive/90 rounded transition-colors disabled:opacity-50"
                         disabled={deleteProduct.isPending}
                       >
-                        Delete
+                        {i18n.t("pages.dashboard.deleteProduct")}
                       </button>
                     </div>
                   </td>
@@ -400,12 +402,16 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
     <div className="fixed inset-0 bg-black/50 dark:bg-black/80 flex items-center justify-center p-4 z-50">
       <div className="bg-background border border-border rounded-lg p-6 max-w-2xl w-full max-h-screen overflow-y-auto shadow-xl">
         <h3 className="text-xl font-bold mb-4">
-          {isEditing ? "Edit Product" : "Create New Product"}
+          {isEditing
+            ? i18n.t("pages.dashboard.editProduct")
+            : i18n.t("pages.dashboard.createProduct")}
         </h3>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block mb-1 font-semibold text-sm">Name *</label>
+            <label className="block mb-1 font-semibold text-sm">
+              {i18n.t("pages.dashboard.formLabels.name")}
+            </label>
             <input
               type="text"
               value={formData.name}
@@ -433,7 +439,7 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
           <div className="grid grid-cols-3 gap-4">
             <div>
               <label className="block mb-1 font-semibold text-sm">
-                Price (€) *
+                {i18n.t("pages.dashboard.formLabels.price")}
               </label>
               <input
                 type="number"
@@ -479,7 +485,7 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
 
           <div>
             <label className="block mb-1 font-semibold text-sm">
-              Description *
+              {i18n.t("pages.dashboard.formLabels.description")}
             </label>
             <textarea
               value={formData.description}
@@ -532,7 +538,9 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
           </div>
 
           <div>
-            <label className="block mb-1 font-semibold text-sm">Stock</label>
+            <label className="block mb-1 font-semibold text-sm">
+              {i18n.t("pages.dashboard.formLabels.stock")}
+            </label>
             <input
               type="number"
               value={formData.stock}
@@ -544,7 +552,9 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
           </div>
 
           <div>
-            <label className="block mb-2 font-semibold text-sm">Colors</label>
+            <label className="block mb-2 font-semibold text-sm">
+              {i18n.t("pages.dashboard.formLabels.colors")}
+            </label>
             <div className="flex flex-wrap gap-2">
               {allColors.map((color) => (
                 <button
@@ -573,7 +583,9 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
                 }
                 className="w-4 h-4 rounded border-border"
               />
-              <span className="font-semibold text-sm">Active</span>
+              <span className="font-semibold text-sm">
+                {i18n.t("pages.dashboard.formLabels.active")}
+              </span>
             </label>
           </div>
 
@@ -593,7 +605,7 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
               className="px-4 py-2 border border-border rounded hover:bg-muted transition-colors disabled:opacity-50"
               disabled={createProduct.isPending || updateProduct.isPending}
             >
-              Cancel
+              {i18n.t("common.cancel")}
             </button>
             <button
               type="submit"
@@ -601,10 +613,10 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
               disabled={createProduct.isPending || updateProduct.isPending}
             >
               {createProduct.isPending || updateProduct.isPending
-                ? "Saving..."
+                ? i18n.t("common.saving")
                 : isEditing
-                  ? "Update"
-                  : "Create"}
+                  ? i18n.t("common.update")
+                  : i18n.t("common.create")}
             </button>
           </div>
         </form>

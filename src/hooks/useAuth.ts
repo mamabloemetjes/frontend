@@ -4,6 +4,7 @@ import { env } from "@/lib/env";
 import type { User, LoginCredentials, RegisterData } from "@/types/auth";
 import { useNavigate } from "react-router";
 import { showApiError, showApiSuccess } from "@/lib/apiToast";
+import i18n from "@/i18n";
 
 /**
  * Track authentication state across app lifecycle
@@ -40,7 +41,10 @@ export function useLogin() {
       // Cache user data - tokens are now handled via cookies
       queryClient.setQueryData(["auth", "user"], user);
       queryClient.invalidateQueries({ queryKey: ["auth"] });
-      showApiSuccess("Welcome back!", `Logged in as ${user.username}`);
+      showApiSuccess(
+        i18n.t("auth.login.welcomeBack"),
+        i18n.t("auth.login.loggedInAs", { username: user.username }),
+      );
     },
     onError: (error) => {
       // Clear any existing auth data on login failure
@@ -71,8 +75,8 @@ export function useRegister() {
       // Don't log user in - they need to verify their email first
       // Success toast will be shown by the RegisterPage component
       showApiSuccess(
-        "Account created!",
-        `Please check your email to verify your account.`,
+        i18n.t("auth.register.accountCreated"),
+        i18n.t("auth.register.pleaseVerifyEmail"),
       );
     },
     onError: (error) => {
@@ -103,8 +107,12 @@ export function useLogout() {
       // Clear all cached data
       queryClient.clear();
 
-      showApiSuccess("Logged out", "See you next time!");
-      navigate("/login");
+      showApiSuccess(i18n.t("auth.success"), i18n.t("auth.seeYouNextTime"));
+      // Redirect to login page after logout with language awareness
+      const currentLanguage = window.location.pathname.startsWith("/en")
+        ? "en"
+        : "nl";
+      navigate(currentLanguage === "en" ? "/en/login" : "/login");
     },
     onError: (error) => {
       // Reset auth tracking even if logout fails

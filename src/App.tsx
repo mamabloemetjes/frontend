@@ -1,5 +1,7 @@
 import { useAtom, useSetAtom } from "jotai";
 import { Routes, Route, Link } from "react-router-dom";
+import { LanguageAwareLink } from "./components/LanguageAwareLink";
+import { useTranslation } from "react-i18next";
 import { useActiveProducts } from "@/hooks/useProducts";
 import {
   cartItemsAtom,
@@ -19,13 +21,20 @@ import {
 } from "@/pages";
 import { useAuthStatus, useLogout } from "@/hooks/useAuth";
 import { AdminRoute } from "./components/ProtectedRoute";
+import { LanguageSwitcher } from "./components/LanguageSwitcher";
 import { TokenRefreshHandler } from "./components/TokenRefreshHandler";
 import { useCSRF } from "@/hooks/useCSRF";
 import { Toaster } from "@/components/ui/sonner";
+import LanguageRoute from "./LanguageRoute";
+import { ShoppingCart } from "lucide-react";
+import { useDocumentTitle } from "./i18n/documentTitle";
 
 function App() {
   // Initialize CSRF token on app startup
   useCSRF();
+
+  // Document title
+  useDocumentTitle();
 
   return (
     <div className="min-h-screen bg-background">
@@ -33,44 +42,54 @@ function App() {
       <TokenRefreshHandler />
       <Header />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/email-verification" element={<EmailVerificationPage />} />
-        <Route path="/email-verified" element={<EmailVerificationPage />} />
-        <Route
-          path="/dashboard"
-          element={
-            <AdminRoute>
-              <DashboardPage />
-            </AdminRoute>
-          }
-        />
-        {/* 404 route */}
-        <Route
-          path="*"
-          element={
-            <div className="container mx-auto px-4 py-16 text-center">
-              <h1 className="text-4xl font-bold mb-4">404 - Page Not Found</h1>
-              <p className="text-muted-foreground mb-8">
-                The page you are looking for does not exist.
-              </p>
-              <Link
-                to="/"
-                className="inline-block bg-primary text-primary-foreground px-6 py-3 rounded hover:bg-primary/90 transition-colors"
-              >
-                Go to Home
-              </Link>
-            </div>
-          }
-        />
+        <Route element={<LanguageRoute lang="nl" />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="cart" element={<CartPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="register" element={<RegisterPage />} />
+          <Route
+            path="email-verification"
+            element={<EmailVerificationPage />}
+          />
+          <Route path="email-verified" element={<EmailVerificationPage />} />
+          <Route
+            path="dashboard"
+            element={
+              <AdminRoute>
+                <DashboardPage />
+              </AdminRoute>
+            }
+          />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+
+        <Route path="/en" element={<LanguageRoute lang="en" />}>
+          <Route index element={<HomePage />} />
+          <Route path="cart" element={<CartPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="register" element={<RegisterPage />} />
+          <Route
+            path="email-verification"
+            element={<EmailVerificationPage />}
+          />
+          <Route path="email-verified" element={<EmailVerificationPage />} />
+          <Route
+            path="dashboard"
+            element={
+              <AdminRoute>
+                <DashboardPage />
+              </AdminRoute>
+            }
+          />
+          <Route path="*" element={<NotFound />} />
+        </Route>
       </Routes>
     </div>
   );
 }
 
 function Header() {
+  const { t } = useTranslation();
   const [cartCount] = useAtom(cartCountAtom);
   const { user, isAuthenticated } = useAuthStatus();
   const logout = useLogout();
@@ -90,17 +109,17 @@ function Header() {
           🌸 Mama Bloemetjes
         </Link>
         <nav className="flex items-center gap-6">
-          <Link to="/" className="hover:underline">
-            Products
-          </Link>
-          <Link to="/cart" className="relative hover:underline">
-            Cart
+          <LanguageAwareLink to="/" className="hover:underline">
+            {t("navigation.products")}
+          </LanguageAwareLink>
+          <LanguageAwareLink to="/cart" className="relative hover:underline">
+            {t("navigation.cart")}
             {cartCount > 0 && (
               <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground rounded-full w-5 h-5 text-xs flex items-center justify-center">
                 {cartCount}
               </span>
             )}
-          </Link>
+          </LanguageAwareLink>
           {isAuthenticated ? (
             <>
               <span className="text-sm text-muted-foreground">
@@ -111,24 +130,27 @@ function Header() {
                 className="hover:underline"
                 disabled={logout.isPending}
               >
-                {logout.isPending ? "Logging out..." : "Logout"}
+                {logout.isPending ? t("auth.loggingOut") : t("auth.logout")}
               </button>
             </>
           ) : (
             <>
-              <Link to="/login" className="hover:underline">
-                Login
-              </Link>
-              <Link to="/register" className="hover:underline">
-                Sign Up
-              </Link>
+              <LanguageAwareLink to="/login" className="hover:underline">
+                {t("navigation.login")}
+              </LanguageAwareLink>
+              <LanguageAwareLink to="/register" className="hover:underline">
+                {t("navigation.signUp")}
+              </LanguageAwareLink>
             </>
           )}
           {isAuthenticated && user?.role === "admin" && (
-            <Link to="/dashboard" className="hover:underline">
-              Dashboard
-            </Link>
+            <LanguageAwareLink to="/dashboard" className="hover:underline">
+              {t("navigation.dashboard")}
+            </LanguageAwareLink>
           )}
+          <div className="flex items-center gap-2">
+            <LanguageSwitcher />
+          </div>
         </nav>
       </div>
     </header>
@@ -136,6 +158,7 @@ function Header() {
 }
 
 function HomePage() {
+  const { t } = useTranslation();
   // Fetch active products with images
   const { data, isLoading, error } = useActiveProducts(1, 20, true);
   const addToCart = useSetAtom(addToCartAtom);
@@ -143,7 +166,9 @@ function HomePage() {
   if (isLoading) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <p className="text-center text-muted-foreground">Loading products...</p>
+        <p className="text-center text-muted-foreground">
+          {t("pages.home.loading")}
+        </p>
       </div>
     );
   }
@@ -152,10 +177,10 @@ function HomePage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded">
-          <p className="font-medium">Error loading products</p>
-          <p className="text-sm mt-1">
-            Please try again later or contact support.
+          <p className="font-medium">
+            {t("pages.dashboard.errorLoadingProducts")}
           </p>
+          <p className="text-sm mt-1">{t("pages.dashboard.tryAgainLater")}</p>
           <p className="text-xs mt-2 font-mono">{error.message}</p>
         </div>
       </div>
@@ -168,7 +193,7 @@ function HomePage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <p className="text-center text-muted-foreground mb-8">
-          No products found.
+          {t("pages.home.noProducts")}
         </p>
       </div>
     );
@@ -177,10 +202,13 @@ function HomePage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold">Our Products</h1>
+        <h1 className="text-3xl font-bold">{t("pages.home.title")}</h1>
         {data?.pagination && (
           <p className="text-sm text-muted-foreground">
-            Showing {products.length} of {data.pagination.total_items} products
+            {t("pages.home.showingProducts", {
+              count: products.length,
+              total: data.pagination.total_items,
+            })}
           </p>
         )}
       </div>
@@ -206,7 +234,7 @@ function HomePage() {
 
       {data?.meta && (
         <p className="text-xs text-muted-foreground text-center mt-8">
-          Query took {data.meta.query_time_ms}ms
+          {t("pages.home.queryTime", { time: data.meta.query_time_ms })}
         </p>
       )}
     </div>
@@ -289,7 +317,7 @@ function ProductCard({ product, onAddToCart }: ProductCardProps) {
             disabled={product.stock === 0 || !product.is_active}
             className="bg-primary text-primary-foreground px-4 py-2 rounded hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
-            Add to Cart
+            <ShoppingCart className="w-5 h-5" />
           </button>
         </div>
       </div>
@@ -303,17 +331,20 @@ function CartPage() {
   const [totalDiscount] = useAtom(cartDiscountAtom);
   const removeFromCart = useSetAtom(removeFromCartAtom);
   const clearCart = useSetAtom(clearCartAtom);
+  const { t } = useTranslation();
 
   if (cartItems.length === 0) {
     return (
       <div className="container mx-auto px-4 py-16 text-center">
-        <p className="text-muted-foreground text-xl mb-4">Your cart is empty</p>
-        <Link
+        <p className="text-muted-foreground text-xl mb-4">
+          {t("pages.cart.emptyCart")}
+        </p>
+        <LanguageAwareLink
           to="/"
           className="inline-block bg-primary text-primary-foreground px-6 py-3 rounded hover:bg-primary/90 transition-colors"
         >
-          Continue Shopping
-        </Link>
+          {t("pages.cart.continueShopping")}
+        </LanguageAwareLink>
       </div>
     );
   }
@@ -321,12 +352,12 @@ function CartPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold">Shopping Cart</h1>
+        <h1 className="text-3xl font-bold">{t("pages.cart.title")}</h1>
         <button
           onClick={() => clearCart()}
           className="text-destructive hover:underline"
         >
-          Clear Cart
+          {t("pages.cart.clearCart")}
         </button>
       </div>
 
@@ -371,7 +402,7 @@ function CartPage() {
                 onClick={() => removeFromCart(item.id)}
                 className="text-destructive hover:underline text-sm"
               >
-                Remove
+                {t("pages.cart.remove")}
               </button>
             </div>
           </div>
@@ -382,21 +413,39 @@ function CartPage() {
         <div className="space-y-2">
           {totalDiscount > 0 && (
             <div className="flex items-center justify-between text-lg">
-              <span className="text-muted-foreground">Total Discount:</span>
+              <span className="text-muted-foreground">
+                {t("pages.cart.totalDiscount")}
+              </span>
               <span className="font-semibold text-green-600">
                 -€{totalDiscount.toFixed(2)}
               </span>
             </div>
           )}
           <div className="flex items-center justify-between text-2xl font-bold">
-            <span>Total:</span>
+            <span>{t("pages.cart.total")}</span>
             <span>€{cartTotal.toFixed(2)}</span>
           </div>
         </div>
         <button className="w-full mt-4 bg-primary text-primary-foreground py-3 rounded-lg text-lg font-semibold hover:bg-primary/90 transition-colors">
-          Proceed to Checkout
+          {t("pages.cart.proceedToCheckout")}
         </button>
       </div>
+    </div>
+  );
+}
+
+function NotFound() {
+  const { t } = useTranslation();
+  return (
+    <div className="container mx-auto px-4 py-16 text-center">
+      <h1 className="text-4xl font-bold mb-4">{t("pages.404.title")}</h1>
+      <p className="text-muted-foreground mb-8">{t("pages.404.description")}</p>
+      <LanguageAwareLink
+        to="/"
+        className="inline-block bg-primary text-primary-foreground px-6 py-3 rounded hover:bg-primary/90 transition-colors"
+      >
+        {t("pages.404.goToHome")}
+      </LanguageAwareLink>
     </div>
   );
 }

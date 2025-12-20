@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useLogin } from "@/hooks/useAuth";
 import type { LoginCredentials } from "@/types/auth";
 import { toast } from "sonner";
+import i18n from "@/i18n";
+import { LanguageAwareLink } from "@/components/LanguageAwareLink";
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -17,11 +19,11 @@ export function LoginPage() {
 
     try {
       await login.mutateAsync(credentials);
-      toast.success("Welcome back!", {
-        description: "You have successfully logged in.",
-        duration: 10000,
-      });
-      navigate("/");
+      // Redirect to the language-aware home page
+      const currentLanguage = window.location.pathname.startsWith("/en")
+        ? "en"
+        : "nl";
+      navigate(currentLanguage === "en" ? "/en" : "/");
     } catch (error: unknown) {
       // Check if the error is about email verification
       if (
@@ -37,9 +39,8 @@ export function LoginPage() {
         typeof error.response.data.message === "string" &&
         error.response.data.message.includes("verify your email")
       ) {
-        toast.error("Email not verified", {
-          description:
-            "Please check your inbox and verify your email address before logging in.",
+        toast.error(i18n.t("auth.login.emailNotVerified"), {
+          description: i18n.t("auth.login.verifyEmailDescription"),
           duration: 10000,
         });
       }
@@ -52,14 +53,14 @@ export function LoginPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-2">🌸 Mama Bloemetjes</h1>
-          <p className="text-muted-foreground">Sign in to your account</p>
+          <p className="text-muted-foreground">{i18n.t("auth.login.title")}</p>
         </div>
 
         <div className="border rounded-lg p-8">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="email" className="block text-sm font-medium mb-2">
-                Email
+                {i18n.t("auth.login.email")}
               </label>
               <input
                 id="email"
@@ -79,7 +80,7 @@ export function LoginPage() {
                 htmlFor="password"
                 className="block text-sm font-medium mb-2"
               >
-                Password
+                {i18n.t("auth.login.password")}
               </label>
               <input
                 id="password"
@@ -99,26 +100,31 @@ export function LoginPage() {
               disabled={login.isPending}
               className="w-full bg-primary text-primary-foreground py-2 px-4 rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {login.isPending ? "Signing in..." : "Sign In"}
+              {login.isPending
+                ? i18n.t("auth.login.signingIn")
+                : i18n.t("auth.login.signIn")}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-sm text-muted-foreground">
-              Don't have an account?{" "}
-              <Link to="/register" className="text-primary hover:underline">
-                Sign up
-              </Link>
+              {i18n.t("auth.login.dontHaveAccount")}{" "}
+              <LanguageAwareLink
+                to="/register"
+                className="text-primary hover:underline"
+              >
+                {i18n.t("auth.login.signUp")}
+              </LanguageAwareLink>
             </p>
           </div>
 
           <div className="mt-4 text-center">
-            <Link
+            <LanguageAwareLink
               to="/"
               className="text-sm text-muted-foreground hover:underline"
             >
-              ← Back to home
-            </Link>
+              {i18n.t("auth.login.backToHome")}
+            </LanguageAwareLink>
           </div>
         </div>
       </div>

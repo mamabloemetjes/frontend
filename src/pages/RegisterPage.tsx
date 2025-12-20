@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useRegister } from "@/hooks/useAuth";
 import type { RegisterData } from "@/types/auth";
+import i18n from "@/i18n";
+import { LanguageAwareLink } from "@/components/LanguageAwareLink";
 
 export function RegisterPage() {
   const navigate = useNavigate();
@@ -41,7 +43,9 @@ export function RegisterPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-2">🌸 Mama Bloemetjes</h1>
-          <p className="text-muted-foreground">Create your account</p>
+          <p className="text-muted-foreground">
+            {i18n.t("auth.register.title")}
+          </p>
         </div>
 
         <div className="border rounded-lg p-8">
@@ -51,7 +55,7 @@ export function RegisterPage() {
                 htmlFor="username"
                 className="block text-sm font-medium mb-2"
               >
-                Username
+                {i18n.t("auth.register.username")}
               </label>
               <input
                 id="username"
@@ -68,7 +72,7 @@ export function RegisterPage() {
 
             <div>
               <label htmlFor="email" className="block text-sm font-medium mb-2">
-                Email
+                {i18n.t("auth.register.email")}
               </label>
               <input
                 id="email"
@@ -88,7 +92,7 @@ export function RegisterPage() {
                 htmlFor="password"
                 className="block text-sm font-medium mb-2"
               >
-                Password
+                {i18n.t("auth.register.password")}
               </label>
               <input
                 id="password"
@@ -108,7 +112,7 @@ export function RegisterPage() {
                 htmlFor="confirmPassword"
                 className="block text-sm font-medium mb-2"
               >
-                Confirm Password
+                {i18n.t("auth.register.confirmPassword")}
               </label>
               <input
                 id="confirmPassword"
@@ -121,7 +125,7 @@ export function RegisterPage() {
               />
               {!passwordsMatch && (
                 <p className="text-sm text-destructive mt-1">
-                  Passwords do not match
+                  {i18n.t("auth.register.passwordsDoNotMatch")}
                 </p>
               )}
             </div>
@@ -131,26 +135,31 @@ export function RegisterPage() {
               disabled={register.isPending || !passwordsMatch}
               className="w-full bg-primary text-primary-foreground py-2 px-4 rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {register.isPending ? "Creating account..." : "Sign Up"}
+              {register.isPending
+                ? i18n.t("auth.register.creatingAccount")
+                : i18n.t("auth.register.signUp")}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-sm text-muted-foreground">
-              Already have an account?{" "}
-              <Link to="/login" className="text-primary hover:underline">
-                Sign in
-              </Link>
+              {i18n.t("auth.register.alreadyHaveAccount")}{" "}
+              <LanguageAwareLink
+                to="/login"
+                className="text-primary hover:underline"
+              >
+                {i18n.t("auth.register.signIn")}
+              </LanguageAwareLink>
             </p>
           </div>
 
           <div className="mt-4 text-center">
-            <Link
+            <LanguageAwareLink
               to="/"
               className="text-sm text-muted-foreground hover:underline"
             >
-              ← Back to home
-            </Link>
+              {i18n.t("auth.register.backToHome")}
+            </LanguageAwareLink>
           </div>
         </div>
       </div>

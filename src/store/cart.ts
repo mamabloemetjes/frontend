@@ -1,6 +1,7 @@
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { showApiError, showApiSuccess } from "@/lib/apiToast";
+import i18n from "@/i18n";
 
 export interface CartItem {
   id: string;
@@ -46,8 +47,10 @@ export const addToCartAtom = atom(
     if (existingItem) {
       if (existingItem.quantity >= existingItem.availableStock) {
         showApiError(
-          new Error("Not enough stock"),
-          `Cannot add more than ${existingItem.availableStock} items of ${existingItem.name} to the cart.`,
+          new Error(i18n.t("toasts.cart.insufficientStock")),
+          i18n.t("toasts.cart.insufficientStockDescription", {
+            name: product.name,
+          }),
         );
         return; // Do not add more than available stock
       }
@@ -62,8 +65,8 @@ export const addToCartAtom = atom(
     } else {
       set(cartItemsAtom, [...items, { ...product, quantity: 1 }]);
     }
-
-    showApiSuccess(`${product.name} added to cart!`);
+    const message = i18n.t("toasts.cart.addedToCart", { name: product.name });
+    showApiSuccess(message);
   },
 );
 

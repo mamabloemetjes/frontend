@@ -2,6 +2,7 @@ import { CheckSquare, XCircle, Clock } from "lucide-react";
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
+import i18n from "@/i18n";
 
 export function EmailVerificationPage() {
   const navigate = useNavigate();
@@ -11,20 +12,21 @@ export function EmailVerificationPage() {
   useEffect(() => {
     // Show appropriate toast based on status
     if (status === "ok") {
-      toast.success("Email verified successfully!", {
-        description: "You can now log in to your account.",
+      toast.success(i18n.t("auth.emailVerification.successTitle"), {
+        description: i18n.t("auth.emailVerification.successDescription"),
         duration: 10000,
       });
     } else if (status === "err") {
-      toast.error("Email verification failed", {
-        description:
-          "The verification link is invalid or has expired. Please try again or request a new verification email.",
+      toast.error(i18n.t("auth.emailVerification.failureTitle"), {
+        description: i18n.t("auth.emailVerification.failureDescription"),
         duration: 10000,
       });
     } else {
       // No status parameter
-      toast.info("Email verification", {
-        description: "Checking your verification status...",
+      toast.info(i18n.t("auth.emailVerification.verificationInfo"), {
+        description: i18n.t(
+          "auth.emailVerification.verificationInfoDescription",
+        ),
         duration: 10000,
       });
     }
@@ -55,15 +57,15 @@ export function EmailVerificationPage() {
         </div>
         <h1 className="text-2xl font-bold mb-2">
           {status === "ok"
-            ? "Email Verified!"
+            ? i18n.t("auth.emailVerification.successTitle")
             : status === "err"
-              ? "Verification Failed"
-              : "Verifying..."}
+              ? i18n.t("auth.emailVerification.failureTitle")
+              : i18n.t("auth.emailVerification.verifying")}
         </h1>
         <p className="text-muted-foreground">
           {status === "ok"
-            ? "Redirecting to login page..."
-            : "Redirecting to home page..."}
+            ? i18n.t("auth.emailVerification.redirectingToLogin")
+            : i18n.t("auth.emailVerification.redirectingToHome")}
         </p>
       </div>
     </div>

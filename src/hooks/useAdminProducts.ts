@@ -8,6 +8,7 @@ import {
   type ProductListFilters,
 } from "@/lib/api";
 import { showApiError, showApiSuccess } from "@/lib/apiToast";
+import i18n from "@/i18n";
 
 /**
  * Hook to fetch all products (admin only)
@@ -46,7 +47,7 @@ export function useCreateProduct() {
       // Invalidate all product queries
       queryClient.invalidateQueries({ queryKey: queryKeys.admin.products.all });
       queryClient.invalidateQueries({ queryKey: queryKeys.products.all });
-      showApiSuccess("Product created");
+      showApiSuccess(i18n.t("pages.dashboard.productCreated"));
     },
     onError: (error) => {
       showApiError(error);
@@ -75,7 +76,7 @@ export function useUpdateProduct() {
       // Invalidate all product queries
       queryClient.invalidateQueries({ queryKey: queryKeys.admin.products.all });
       queryClient.invalidateQueries({ queryKey: queryKeys.products.all });
-      showApiSuccess("Product updated");
+      showApiSuccess(i18n.t("pages.dashboard.productUpdated"));
     },
     onError: (error) => {
       showApiError(error);
@@ -98,7 +99,7 @@ export function useUpdateProductStock() {
       // Invalidate all product queries
       queryClient.invalidateQueries({ queryKey: queryKeys.admin.products.all });
       queryClient.invalidateQueries({ queryKey: queryKeys.products.all });
-      showApiSuccess("Stock updated");
+      showApiSuccess(i18n.t("pages.dashboard.stockUpdated"));
     },
     onError: (error) => {
       showApiError(error);
@@ -121,7 +122,7 @@ export function useDeleteProduct() {
       // Invalidate all product queries
       queryClient.invalidateQueries({ queryKey: queryKeys.admin.products.all });
       queryClient.invalidateQueries({ queryKey: queryKeys.products.all });
-      showApiSuccess("Product deleted");
+      showApiSuccess(i18n.t("pages.dashboard.productDeleted"));
     },
     onError: (error) => {
       showApiError(error);
@@ -150,7 +151,7 @@ export function useUploadProductImages() {
       // Invalidate all product queries
       queryClient.invalidateQueries({ queryKey: queryKeys.admin.products.all });
       queryClient.invalidateQueries({ queryKey: queryKeys.products.all });
-      showApiSuccess("Images uploaded successfully");
+      showApiSuccess(i18n.t("pages.dashboard.imagesUploaded"));
     },
     onError: (error) => {
       showApiError(error);
