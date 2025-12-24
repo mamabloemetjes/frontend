@@ -2,7 +2,7 @@ import axios, { type AxiosInstance, type AxiosError } from "axios";
 import axiosRetry from "axios-retry";
 import { QueryClient } from "@tanstack/react-query";
 import type { User, RegisterData, LoginCredentials } from "@/types/auth";
-import { csrfService } from "./csrf";
+import { csrfService } from "@/lib/csrf";
 
 // ============================================================================
 // CONFIGURATION
@@ -509,7 +509,7 @@ export const api = {
         id: string,
         updates: Partial<ProductInput>,
       ): Promise<ApiResponse<Product>> => {
-        return apiClient.put(`/admin/products/${id}`, {
+        return apiClient.put(`/admin/products`, {
           products: {
             [id]: updates,
           },

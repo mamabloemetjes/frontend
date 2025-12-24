@@ -64,7 +64,21 @@
       "loading": "Loading products...",
       "noProducts": "No products found.",
       "showingProducts": "Showing {{count}} of {{total}} products",
-      "queryTime": "Query took {{time}}ms"
+      "queryTime": "Query took {{time}}ms",
+      "hero": {
+        "title": "Welcome to Mama Bloemetjes",
+        "subtitle": "Handmade bouquets with love"
+      },
+      "premade": {
+        "title": "Premade Bouquets",
+        "description": "Ready-to-order bouquets, handmade with love and ready to be shipped.",
+        "cta": "Browse our products"
+      },
+      "custom": {
+        "title": "Custom Bouquets",
+        "description": "Have a special request? We can create a custom bouquet for any occasion.",
+        "cta": "Request a custom bouquet"
+      }
     },
     "cart": {
       "title": "Shopping Cart",

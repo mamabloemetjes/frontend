@@ -64,7 +64,21 @@
       "loading": "Producten laden...",
       "noProducts": "Geen producten gevonden.",
       "showingProducts": "Toont {{count}} van {{total}} producten",
-      "queryTime": "Query duurde {{time}}ms"
+      "queryTime": "Query duurde {{time}}ms",
+      "hero": {
+        "title": "Welkom bij Mama Bloemetjes",
+        "subtitle": "Handgemaakte boeketten met liefde"
+      },
+      "premade": {
+        "title": "Kant-en-klare boeketten",
+        "description": "Boeketten die klaar zijn om te bestellen, handgemaakt met liefde en klaar om verzonden te worden.",
+        "cta": "Bekijk onze producten"
+      },
+      "custom": {
+        "title": "Boeketten op maat",
+        "description": "Heeft u een speciaal verzoek? Wij kunnen een boeket op maat maken voor elke gelegenheid.",
+        "cta": "Vraag een boeket op maat aan"
+      }
     },
     "cart": {
       "title": "Winkelwagen",

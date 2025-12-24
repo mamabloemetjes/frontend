@@ -1,4 +1,4 @@
-import { apiClient } from "./api";
+import { apiClient } from "@/lib/api";
 
 class CSRFService {
   private fetchPromise: Promise<void> | null = null;

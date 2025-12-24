@@ -1,4 +1,4 @@
-export { LoginPage } from "./LoginPage";
-export { RegisterPage } from "./RegisterPage";
-export { DashboardPage } from "./DashboardPage";
-export { EmailVerificationPage } from "./EmailVerificationPage";
+export { LoginPage } from "@/pages/LoginPage";
+export { RegisterPage } from "@/pages/RegisterPage";
+export { DashboardPage } from "@/pages/DashboardPage";
+export { EmailVerificationPage } from "@/pages/EmailVerificationPage";

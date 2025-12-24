@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import { ApiError } from "./api";
+import { ApiError } from "@/lib/api";
 import i18n from "@/i18n";
 /**
  * Show a toast notification for API errors

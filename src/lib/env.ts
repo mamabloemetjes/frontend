@@ -60,9 +60,11 @@ export const env = {
   /** Node environment */
   nodeEnv: import.meta.env.NODE_ENV || "development",
 
-  supabaseAnonKey: import.meta.env.VITE_SUPABASE_ANON_KEY || "",
+  supabaseAnonKey: import.meta.env.VITE_SUPABASE_ANON || "",
 
   supabaseUrl: import.meta.env.VITE_SUPABASE_URL || "",
+
+  shopOwnerEmail: import.meta.env.VITE_SHOP_OWNER_EMAIL || "",
 
   /** Feature flags */
   features: getFeatureFlags(),

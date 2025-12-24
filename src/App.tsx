@@ -1,33 +1,23 @@
-import { useAtom, useSetAtom } from "jotai";
-import { Routes, Route, Link } from "react-router-dom";
-import { LanguageAwareLink } from "./components/LanguageAwareLink";
+import { Routes, Route } from "react-router-dom";
+import { LanguageAwareLink } from "@/components/LanguageAwareLink";
 import { useTranslation } from "react-i18next";
-import { useActiveProducts } from "@/hooks/useProducts";
-import {
-  cartItemsAtom,
-  cartTotalAtom,
-  cartCountAtom,
-  cartDiscountAtom,
-  addToCartAtom,
-  removeFromCartAtom,
-  clearCartAtom,
-} from "@/store/cart";
-import type { Product } from "@/lib/api";
 import {
   DashboardPage,
   LoginPage,
   RegisterPage,
   EmailVerificationPage,
 } from "@/pages";
-import { useAuthStatus, useLogout } from "@/hooks/useAuth";
-import { AdminRoute } from "./components/ProtectedRoute";
-import { LanguageSwitcher } from "./components/LanguageSwitcher";
-import { TokenRefreshHandler } from "./components/TokenRefreshHandler";
+import { AdminRoute } from "@/components/ProtectedRoute";
+import { TokenRefreshHandler } from "@/components/TokenRefreshHandler";
 import { useCSRF } from "@/hooks/useCSRF";
 import { Toaster } from "@/components/ui/sonner";
-import LanguageRoute from "./LanguageRoute";
-import { ShoppingCart } from "lucide-react";
-import { useDocumentTitle } from "./i18n/documentTitle";
+import LanguageRoute from "@/LanguageRoute";
+import { useDocumentTitle } from "@/i18n/documentTitle";
+import FeatureRoute from "@/components/FeatureRoute";
+import { Header } from "@/components/Header";
+import HomePage from "./pages/HomePage";
+import CartPage from "./pages/CartPage";
+import ProductsPage from "./pages/ProductsPage";
 
 function App() {
   // Initialize CSRF token on app startup
@@ -45,8 +35,23 @@ function App() {
         <Route element={<LanguageRoute lang="nl" />}>
           <Route path="/" element={<HomePage />} />
           <Route path="cart" element={<CartPage />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="register" element={<RegisterPage />} />
+          <Route path="products" element={<ProductsPage />} />
+          <Route
+            path="login"
+            element={
+              <FeatureRoute type="login">
+                <LoginPage />
+              </FeatureRoute>
+            }
+          />
+          <Route
+            path="register"
+            element={
+              <FeatureRoute type="register">
+                <RegisterPage />
+              </FeatureRoute>
+            }
+          />
           <Route
             path="email-verification"
             element={<EmailVerificationPage />}
@@ -66,8 +71,23 @@ function App() {
         <Route path="/en" element={<LanguageRoute lang="en" />}>
           <Route index element={<HomePage />} />
           <Route path="cart" element={<CartPage />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="register" element={<RegisterPage />} />
+          <Route path="products" element={<ProductsPage />} />
+          <Route
+            path="login"
+            element={
+              <FeatureRoute type="login">
+                <LoginPage />
+              </FeatureRoute>
+            }
+          />
+          <Route
+            path="register"
+            element={
+              <FeatureRoute type="register">
+                <RegisterPage />
+              </FeatureRoute>
+            }
+          />
           <Route
             path="email-verification"
             element={<EmailVerificationPage />}
@@ -84,352 +104,6 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
-    </div>
-  );
-}
-
-function Header() {
-  const { t } = useTranslation();
-  const [cartCount] = useAtom(cartCountAtom);
-  const { user, isAuthenticated } = useAuthStatus();
-  const logout = useLogout();
-
-  const handleLogout = async () => {
-    try {
-      await logout.mutateAsync();
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
-  };
-
-  return (
-    <header className="border-b">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <Link to="/" className="text-2xl font-bold">
-          🌸 Mama Bloemetjes
-        </Link>
-        <nav className="flex items-center gap-6">
-          <LanguageAwareLink to="/" className="hover:underline">
-            {t("navigation.products")}
-          </LanguageAwareLink>
-          <LanguageAwareLink to="/cart" className="relative hover:underline">
-            {t("navigation.cart")}
-            {cartCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground rounded-full w-5 h-5 text-xs flex items-center justify-center">
-                {cartCount}
-              </span>
-            )}
-          </LanguageAwareLink>
-          {isAuthenticated ? (
-            <>
-              <span className="text-sm text-muted-foreground">
-                {user?.username}
-              </span>
-              <button
-                onClick={handleLogout}
-                className="hover:underline"
-                disabled={logout.isPending}
-              >
-                {logout.isPending ? t("auth.loggingOut") : t("auth.logout")}
-              </button>
-            </>
-          ) : (
-            <>
-              <LanguageAwareLink to="/login" className="hover:underline">
-                {t("navigation.login")}
-              </LanguageAwareLink>
-              <LanguageAwareLink to="/register" className="hover:underline">
-                {t("navigation.signUp")}
-              </LanguageAwareLink>
-            </>
-          )}
-          {isAuthenticated && user?.role === "admin" && (
-            <LanguageAwareLink to="/dashboard" className="hover:underline">
-              {t("navigation.dashboard")}
-            </LanguageAwareLink>
-          )}
-          <div className="flex items-center gap-2">
-            <LanguageSwitcher />
-          </div>
-        </nav>
-      </div>
-    </header>
-  );
-}
-
-function HomePage() {
-  const { t } = useTranslation();
-  // Fetch active products with images
-  const { data, isLoading, error } = useActiveProducts(1, 20, true);
-  const addToCart = useSetAtom(addToCartAtom);
-
-  if (isLoading) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <p className="text-center text-muted-foreground">
-          {t("pages.home.loading")}
-        </p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded">
-          <p className="font-medium">
-            {t("pages.dashboard.errorLoadingProducts")}
-          </p>
-          <p className="text-sm mt-1">{t("pages.dashboard.tryAgainLater")}</p>
-          <p className="text-xs mt-2 font-mono">{error.message}</p>
-        </div>
-      </div>
-    );
-  }
-
-  const products = data?.products || [];
-
-  if (products.length === 0) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <p className="text-center text-muted-foreground mb-8">
-          {t("pages.home.noProducts")}
-        </p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold">{t("pages.home.title")}</h1>
-        {data?.pagination && (
-          <p className="text-sm text-muted-foreground">
-            {t("pages.home.showingProducts", {
-              count: products.length,
-              total: data.pagination.total_items,
-            })}
-          </p>
-        )}
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            onAddToCart={() =>
-              addToCart({
-                id: product.id,
-                name: product.name,
-                price: product.price / 100, // Convert cents to euros
-                discount: (product.discount || 0) / 100, // Convert cents to euros
-                image: product.images?.[0]?.url,
-                availableStock: product.stock || 0,
-              })
-            }
-          />
-        ))}
-      </div>
-
-      {data?.meta && (
-        <p className="text-xs text-muted-foreground text-center mt-8">
-          {t("pages.home.queryTime", { time: data.meta.query_time_ms })}
-        </p>
-      )}
-    </div>
-  );
-}
-
-interface ProductCardProps {
-  product: Product;
-  onAddToCart: () => void;
-}
-
-function ProductCard({ product, onAddToCart }: ProductCardProps) {
-  const primaryImage = product.images?.find((img) => img.is_primary);
-  const imageUrl = primaryImage?.url || product.images?.[0]?.url;
-
-  // Convert cents to euros for display
-  const priceInEuros = (product.price - (product.discount || 0)) / 100;
-  const originalPrice = product.price / 100;
-  const hasDiscount = product.discount && product.discount > 0;
-
-  return (
-    <div className="border rounded-lg p-4 hover:shadow-lg transition-shadow">
-      {imageUrl ? (
-        <img
-          src={imageUrl}
-          alt={primaryImage?.alt_text || product.name}
-          className="w-full h-48 object-cover rounded mb-4"
-        />
-      ) : (
-        <div className="w-full h-48 bg-muted rounded mb-4 flex items-center justify-center text-4xl">
-          🌸
-        </div>
-      )}
-
-      <div className="space-y-2">
-        <div className="flex items-start justify-between gap-2">
-          <h3 className="font-semibold text-lg line-clamp-2">{product.name}</h3>
-          {product.product_type && (
-            <span className="text-xs bg-secondary px-2 py-1 rounded">
-              {product.product_type}
-            </span>
-          )}
-        </div>
-
-        {product.description && (
-          <p className="text-sm text-muted-foreground line-clamp-2">
-            {product.description}
-          </p>
-        )}
-
-        {product.colors && product.colors.length > 0 && (
-          <div className="flex gap-1">
-            {product.colors.slice(0, 4).map((color) => (
-              <span
-                key={color}
-                className="text-xs px-2 py-0.5 bg-accent rounded capitalize"
-              >
-                {color}
-              </span>
-            ))}
-          </div>
-        )}
-
-        <div className="flex items-center justify-between pt-2">
-          <div className="space-y-0.5">
-            <div className="flex items-baseline gap-2">
-              <span className="text-xl font-bold">
-                €{priceInEuros.toFixed(2)}
-              </span>
-              {hasDiscount && (
-                <span className="text-sm text-muted-foreground line-through">
-                  €{originalPrice.toFixed(2)}
-                </span>
-              )}
-            </div>
-          </div>
-
-          <button
-            onClick={onAddToCart}
-            disabled={product.stock === 0 || !product.is_active}
-            className="bg-primary text-primary-foreground px-4 py-2 rounded hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-          >
-            <ShoppingCart className="w-5 h-5" />
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function CartPage() {
-  const [cartItems] = useAtom(cartItemsAtom);
-  const [cartTotal] = useAtom(cartTotalAtom);
-  const [totalDiscount] = useAtom(cartDiscountAtom);
-  const removeFromCart = useSetAtom(removeFromCartAtom);
-  const clearCart = useSetAtom(clearCartAtom);
-  const { t } = useTranslation();
-
-  if (cartItems.length === 0) {
-    return (
-      <div className="container mx-auto px-4 py-16 text-center">
-        <p className="text-muted-foreground text-xl mb-4">
-          {t("pages.cart.emptyCart")}
-        </p>
-        <LanguageAwareLink
-          to="/"
-          className="inline-block bg-primary text-primary-foreground px-6 py-3 rounded hover:bg-primary/90 transition-colors"
-        >
-          {t("pages.cart.continueShopping")}
-        </LanguageAwareLink>
-      </div>
-    );
-  }
-
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold">{t("pages.cart.title")}</h1>
-        <button
-          onClick={() => clearCart()}
-          className="text-destructive hover:underline"
-        >
-          {t("pages.cart.clearCart")}
-        </button>
-      </div>
-
-      <div className="space-y-4">
-        {cartItems.map((item) => (
-          <div
-            key={item.id}
-            className="border rounded-lg p-4 flex items-center justify-between"
-          >
-            <div className="flex items-center gap-4">
-              {item.image ? (
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-20 h-20 object-cover rounded"
-                />
-              ) : (
-                <div className="w-20 h-20 bg-muted rounded flex items-center justify-center text-2xl">
-                  🌸
-                </div>
-              )}
-              <div>
-                <h3 className="font-semibold">{item.name}</h3>
-                <div className="flex items-center gap-2 text-sm">
-                  <span className="text-muted-foreground">
-                    €{(item.price - item.discount).toFixed(2)}
-                  </span>
-                  {item.discount > 0 && (
-                    <span className="text-muted-foreground line-through">
-                      €{item.price.toFixed(2)}
-                    </span>
-                  )}
-                  <span>× {item.quantity}</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <span className="font-bold text-lg">
-                €{((item.price - item.discount) * item.quantity).toFixed(2)}
-              </span>
-              <button
-                onClick={() => removeFromCart(item.id)}
-                className="text-destructive hover:underline text-sm"
-              >
-                {t("pages.cart.remove")}
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-8 border-t pt-4">
-        <div className="space-y-2">
-          {totalDiscount > 0 && (
-            <div className="flex items-center justify-between text-lg">
-              <span className="text-muted-foreground">
-                {t("pages.cart.totalDiscount")}
-              </span>
-              <span className="font-semibold text-green-600">
-                -€{totalDiscount.toFixed(2)}
-              </span>
-            </div>
-          )}
-          <div className="flex items-center justify-between text-2xl font-bold">
-            <span>{t("pages.cart.total")}</span>
-            <span>€{cartTotal.toFixed(2)}</span>
-          </div>
-        </div>
-        <button className="w-full mt-4 bg-primary text-primary-foreground py-3 rounded-lg text-lg font-semibold hover:bg-primary/90 transition-colors">
-          {t("pages.cart.proceedToCheckout")}
-        </button>
-      </div>
     </div>
   );
 }

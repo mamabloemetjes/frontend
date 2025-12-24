@@ -3,13 +3,21 @@ import {
   useAdminProducts,
   useCreateProduct,
   useUpdateProduct,
-  useDeleteProduct,
-  useUpdateProductStock,
 } from "@/hooks/useAdminProducts";
-import type { Product, Color, Size, ProductType } from "@/lib/api";
-import { Pencil } from "lucide-react";
+import type { Product } from "@/lib/api";
 import i18n from "@/i18n";
 import { ImageManager } from "@/components/admin/ImageManager";
+import { ProductsTable } from "@/components/admin/ProductsTable";
+import { type ColumnDef } from "@tanstack/react-table";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type Tab = "products" | "orders";
 
@@ -58,22 +66,118 @@ const DashboardPage = () => {
 function ProductsTab() {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [page, setPage] = useState(1);
   const pageSize = 20;
 
   const { data, isLoading, error } = useAdminProducts({
-    page,
+    page: 1,
     page_size: pageSize,
     include_images: true,
   });
 
-  const deleteProduct = useDeleteProduct();
+  const updateProduct = useUpdateProduct();
 
-  const handleDelete = async (id: string) => {
-    if (confirm(i18n.t("pages.dashboard.confirmDelete"))) {
-      await deleteProduct.mutateAsync(id);
-    }
+  const handleMarkAsSold = async (id: string) => {
+    await updateProduct.mutateAsync({
+      id,
+      updates: { is_active: false },
+    });
   };
+
+  const columns: ColumnDef<Product>[] = [
+    {
+      accessorKey: "name",
+      header: "Name",
+      cell: ({ row }) => {
+        const primaryImage = row.original.images?.find((img) => img.is_primary);
+        const imageUrl = primaryImage?.url || row.original.images?.[0]?.url;
+        return (
+          <div className="flex items-center gap-4">
+            {imageUrl ? (
+              <img
+                src={imageUrl}
+                alt={primaryImage?.alt_text || row.original.name}
+                className="w-12 h-12 object-cover border border-border rounded"
+              />
+            ) : (
+              <div className="w-12 h-12 bg-muted border border-border rounded flex items-center justify-center text-xl">
+                🌸
+              </div>
+            )}
+            <span>{row.original.name}</span>
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "sku",
+      header: "SKU",
+    },
+    {
+      accessorKey: "price",
+      header: "Price",
+      cell: ({ row }) => `€${(row.original.subtotal / 100).toFixed(2)}`,
+    },
+    {
+      accessorKey: "is_active",
+      header: "Status",
+      cell: ({ row }) => (
+        <span
+          className={`px-2 py-1 rounded text-xs ${
+            row.original.is_active
+              ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+              : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
+          }`}
+        >
+          {row.original.is_active ? "Active" : "Sold"}
+        </span>
+      ),
+    },
+    {
+      id: "actions",
+      cell: ({ row }) => (
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setEditingProduct(row.original)}
+          >
+            Edit
+          </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button
+                variant="destructive"
+                size="sm"
+                disabled={!row.original.is_active}
+              >
+                Mark as Sold
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Are you sure?</DialogTitle>
+              </DialogHeader>
+              <p>
+                This will mark the product as sold and it will no longer be
+                visible to customers.
+              </p>
+              <div className="flex justify-end gap-2">
+                <DialogTrigger asChild>
+                  <Button variant="outline">Cancel</Button>
+                </DialogTrigger>
+                <Button
+                  variant="destructive"
+                  onClick={() => handleMarkAsSold(row.original.id)}
+                >
+                  Mark as Sold
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+      ),
+    },
+  ];
 
   if (isLoading) {
     return (
@@ -92,7 +196,6 @@ function ProductsTab() {
   }
 
   const products = data?.products || [];
-  const pagination = data?.pagination;
 
   return (
     <div>
@@ -100,201 +203,41 @@ function ProductsTab() {
         <h2 className="text-2xl font-bold">
           {i18n.t("pages.dashboard.products")}
         </h2>
-        <button
-          onClick={() => setShowCreateForm(true)}
-          className="px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors rounded"
-        >
+        <Button onClick={() => setShowCreateForm(true)}>
           {i18n.t("pages.dashboard.addProduct")}
-        </button>
+        </Button>
       </div>
 
       {showCreateForm && (
-        <ProductForm
-          onClose={() => setShowCreateForm(false)}
-          onSuccess={() => setShowCreateForm(false)}
-        />
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle>{i18n.t("pages.dashboard.createProduct")}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ProductForm
+              onClose={() => setShowCreateForm(false)}
+              onSuccess={() => setShowCreateForm(false)}
+            />
+          </CardContent>
+        </Card>
       )}
 
       {editingProduct && (
-        <ProductForm
-          product={editingProduct}
-          onClose={() => setEditingProduct(null)}
-          onSuccess={() => setEditingProduct(null)}
-        />
+        <Dialog open onOpenChange={() => setEditingProduct(null)}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{i18n.t("pages.dashboard.editProduct")}</DialogTitle>
+            </DialogHeader>
+            <ProductForm
+              product={editingProduct}
+              onClose={() => setEditingProduct(null)}
+              onSuccess={() => setEditingProduct(null)}
+            />
+          </DialogContent>
+        </Dialog>
       )}
 
-      {/* Products Table */}
-      <div className="border border-border rounded-lg overflow-hidden">
-        <table className="w-full">
-          <thead className="bg-muted">
-            <tr>
-              <th className="text-left p-3 border-b border-border font-semibold">
-                {i18n.t("pages.dashboard.productName")}
-              </th>
-              <th className="text-left p-3 border-b border-border font-semibold">
-                {i18n.t("pages.dashboard.productSku")}
-              </th>
-              <th className="text-left p-3 border-b border-border font-semibold">
-                {i18n.t("pages.dashboard.productPrice")}
-              </th>
-              <th className="text-left p-3 border-b border-border font-semibold">
-                {i18n.t("pages.dashboard.productStock")}
-              </th>
-              <th className="text-left p-3 border-b border-border font-semibold">
-                {i18n.t("pages.dashboard.productType")}
-              </th>
-              <th className="text-left p-3 border-b border-border font-semibold">
-                {i18n.t("pages.dashboard.productStatus")}
-              </th>
-              <th className="text-left p-3 border-b border-border font-semibold">
-                {i18n.t("common.actions")}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((product) => {
-              const primaryImage = product.images?.find(
-                (img) => img.is_primary,
-              );
-              const imageUrl = primaryImage?.url || product.images?.[0]?.url;
-
-              return (
-                <tr
-                  key={product.id}
-                  className="border-b border-border hover:bg-muted/50 transition-colors"
-                >
-                  <td className="p-3">
-                    {imageUrl ? (
-                      <img
-                        src={imageUrl}
-                        alt={primaryImage?.alt_text || product.name}
-                        className="w-12 h-12 object-cover border border-border rounded"
-                      />
-                    ) : (
-                      <div className="w-12 h-12 bg-muted border border-border rounded flex items-center justify-center text-xl">
-                        🌸
-                      </div>
-                    )}
-                  </td>
-                  <td className="p-3">{product.name}</td>
-                  <td className="p-3 text-muted-foreground">{product.sku}</td>
-                  <td className="p-3">
-                    €{(product.subtotal / 100).toFixed(2)}
-                  </td>
-                  <td className="p-3">
-                    <StockEditor product={product} />
-                  </td>
-                  <td className="p-3 capitalize text-muted-foreground">
-                    {product.product_type || "-"}
-                  </td>
-                  <td className="p-3">
-                    <span
-                      className={`px-2 py-1 rounded text-xs ${
-                        product.is_active
-                          ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
-                          : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
-                      }`}
-                    >
-                      {product.is_active ? "Yes" : "No"}
-                    </span>
-                  </td>
-                  <td className="p-3">
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => setEditingProduct(product)}
-                        className="px-3 py-1 bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded transition-colors"
-                      >
-                        {i18n.t("pages.dashboard.editProduct")}
-                      </button>
-                      <button
-                        onClick={() => handleDelete(product.id)}
-                        className="px-3 py-1 bg-destructive text-destructive-foreground hover:bg-destructive/90 rounded transition-colors disabled:opacity-50"
-                        disabled={deleteProduct.isPending}
-                      >
-                        {i18n.t("pages.dashboard.deleteProduct")}
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Pagination */}
-      {pagination && pagination.total_pages > 1 && (
-        <div className="flex justify-center gap-2 mt-6">
-          <button
-            onClick={() => setPage(page - 1)}
-            disabled={page === 1}
-            className="px-4 py-2 border border-border rounded hover:bg-muted transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Previous
-          </button>
-          <span className="px-4 py-2 text-muted-foreground">
-            Page {pagination.page} of {pagination.total_pages}
-          </span>
-          <button
-            onClick={() => setPage(page + 1)}
-            disabled={page === pagination.total_pages}
-            className="px-4 py-2 border border-border rounded hover:bg-muted transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Next
-          </button>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function StockEditor({ product }: { product: Product }) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [stock, setStock] = useState(product.stock?.toString() || "0");
-  const updateStock = useUpdateProductStock();
-
-  const handleSave = async () => {
-    await updateStock.mutateAsync({
-      id: product.id,
-      stock: parseInt(stock, 10),
-    });
-    setIsEditing(false);
-  };
-
-  if (!isEditing) {
-    return (
-      <span
-        onClick={() => setIsEditing(true)}
-        className="cursor-pointer hover:bg-muted px-2 py-1 rounded transition-colors inline-flex items-center gap-2"
-      >
-        {product.stock || 0}
-        <Pencil className="w-4 h-4 text-muted-foreground" />
-      </span>
-    );
-  }
-
-  return (
-    <div className="flex gap-2">
-      <input
-        type="number"
-        value={stock}
-        onChange={(e) => setStock(e.target.value)}
-        className="w-20 border border-border bg-background text-foreground px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-ring"
-        autoFocus
-      />
-      <button
-        onClick={handleSave}
-        className="px-2 py-1 bg-green-600 hover:bg-green-700 text-white rounded transition-colors"
-        disabled={updateStock.isPending}
-      >
-        ✓
-      </button>
-      <button
-        onClick={() => setIsEditing(false)}
-        className="px-2 py-1 bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded transition-colors"
-      >
-        ✗
-      </button>
+      <ProductsTable columns={columns} data={products} />
     </div>
   );
 }
@@ -318,10 +261,6 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
     tax: product ? (product.tax / 100).toString() : "",
     description: product?.description || "",
     is_active: product?.is_active ?? true,
-    size: (product?.size || "") as Size | "",
-    product_type: (product?.product_type || "") as ProductType | "",
-    stock: product?.stock?.toString() || "0",
-    colors: (product?.colors || []).map((c) => c.toLowerCase() as Color),
   });
 
   const [images, setImages] = useState(
@@ -341,15 +280,12 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
       price: Math.round(parseFloat(formData.price) * 100),
       discount: Math.round(parseFloat(formData.discount) * 100),
       tax: Math.round(parseFloat(formData.tax) * 100),
+      subtotal:
+        Math.round(parseFloat(formData.price) * 100) -
+        Math.round(parseFloat(formData.discount) * 100) +
+        Math.round(parseFloat(formData.tax) * 100),
       description: formData.description,
       is_active: formData.is_active,
-      size: formData.size || undefined,
-      product_type: formData.product_type || undefined,
-      stock: parseInt(formData.stock, 10),
-      colors:
-        formData.colors.length > 0
-          ? formData.colors.map((c) => c.toLowerCase() as Color)
-          : undefined,
       images:
         images.length > 0
           ? images.map((img) => ({
@@ -372,256 +308,136 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
     onSuccess();
   };
 
-  const handleColorToggle = (color: Color) => {
-    if (formData.colors.includes(color)) {
-      setFormData({
-        ...formData,
-        colors: formData.colors.filter((c) => c !== color),
-      });
-    } else {
-      setFormData({
-        ...formData,
-        colors: [...formData.colors, color],
-      });
-    }
-  };
-
-  const allColors: Color[] = [
-    "red",
-    "blue",
-    "green",
-    "yellow",
-    "black",
-    "white",
-    "purple",
-    "orange",
-    "pink",
-  ];
-
   return (
-    <div className="fixed inset-0 bg-black/50 dark:bg-black/80 flex items-center justify-center p-4 z-50">
-      <div className="bg-background border border-border rounded-lg p-6 max-w-2xl w-full max-h-screen overflow-y-auto shadow-xl">
-        <h3 className="text-xl font-bold mb-4">
-          {isEditing
-            ? i18n.t("pages.dashboard.editProduct")
-            : i18n.t("pages.dashboard.createProduct")}
-        </h3>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block mb-1 font-semibold text-sm">
-              {i18n.t("pages.dashboard.formLabels.name")}
-            </label>
-            <input
-              type="text"
-              value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
-              className="w-full border border-border bg-background text-foreground px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-ring"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block mb-1 font-semibold text-sm">SKU *</label>
-            <input
-              type="text"
-              value={formData.sku}
-              onChange={(e) =>
-                setFormData({ ...formData, sku: e.target.value })
-              }
-              className="w-full border border-border bg-background text-foreground px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-ring"
-              required
-            />
-          </div>
-
-          <div className="grid grid-cols-3 gap-4">
-            <div>
-              <label className="block mb-1 font-semibold text-sm">
-                {i18n.t("pages.dashboard.formLabels.price")}
-              </label>
-              <input
-                type="number"
-                step="0.01"
-                value={formData.price}
-                onChange={(e) =>
-                  setFormData({ ...formData, price: e.target.value })
-                }
-                className="w-full border border-border bg-background text-foreground px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-ring"
-                required
-              />
-            </div>
-            <div>
-              <label className="block mb-1 font-semibold text-sm">
-                Discount (€)
-              </label>
-              <input
-                type="number"
-                step="0.01"
-                value={formData.discount}
-                onChange={(e) =>
-                  setFormData({ ...formData, discount: e.target.value })
-                }
-                className="w-full border border-border bg-background text-foreground px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-ring"
-              />
-            </div>
-            <div>
-              <label className="block mb-1 font-semibold text-sm">
-                Tax (€) *
-              </label>
-              <input
-                type="number"
-                step="0.01"
-                value={formData.tax}
-                onChange={(e) =>
-                  setFormData({ ...formData, tax: e.target.value })
-                }
-                className="w-full border border-border bg-background text-foreground px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-ring"
-                required
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block mb-1 font-semibold text-sm">
-              {i18n.t("pages.dashboard.formLabels.description")}
-            </label>
-            <textarea
-              value={formData.description}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
-              className="w-full border border-border bg-background text-foreground px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-ring"
-              rows={3}
-              required
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block mb-1 font-semibold text-sm">Type</label>
-              <select
-                value={formData.product_type}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    product_type: e.target.value as ProductType | "",
-                  })
-                }
-                className="w-full border border-border bg-background text-foreground px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-ring"
-              >
-                <option value="">None</option>
-                <option value="flower">Flower</option>
-                <option value="bouquet">Bouquet</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block mb-1 font-semibold text-sm">Size</label>
-              <select
-                value={formData.size}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    size: e.target.value as Size | "",
-                  })
-                }
-                className="w-full border border-border bg-background text-foreground px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-ring"
-              >
-                <option value="">None</option>
-                <option value="small">Small</option>
-                <option value="medium">Medium</option>
-                <option value="large">Large</option>
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <label className="block mb-1 font-semibold text-sm">
-              {i18n.t("pages.dashboard.formLabels.stock")}
-            </label>
-            <input
-              type="number"
-              value={formData.stock}
-              onChange={(e) =>
-                setFormData({ ...formData, stock: e.target.value })
-              }
-              className="w-full border border-border bg-background text-foreground px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-ring"
-            />
-          </div>
-
-          <div>
-            <label className="block mb-2 font-semibold text-sm">
-              {i18n.t("pages.dashboard.formLabels.colors")}
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {allColors.map((color) => (
-                <button
-                  key={color}
-                  type="button"
-                  onClick={() => handleColorToggle(color)}
-                  className={`px-3 py-1 border border-border rounded capitalize transition-colors ${
-                    formData.colors.includes(color)
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-background hover:bg-muted"
-                  }`}
-                >
-                  {color}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={formData.is_active}
-                onChange={(e) =>
-                  setFormData({ ...formData, is_active: e.target.checked })
-                }
-                className="w-4 h-4 rounded border-border"
-              />
-              <span className="font-semibold text-sm">
-                {i18n.t("pages.dashboard.formLabels.active")}
-              </span>
-            </label>
-          </div>
-
-          {/* Image Manager */}
-          <div className="pt-4 border-t border-border">
-            <ImageManager
-              images={images}
-              onChange={setImages}
-              product_name={formData.name}
-            />
-          </div>
-
-          <div className="flex gap-2 justify-end pt-4 border-t border-border">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 border border-border rounded hover:bg-muted transition-colors disabled:opacity-50"
-              disabled={createProduct.isPending || updateProduct.isPending}
-            >
-              {i18n.t("common.cancel")}
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90 transition-colors disabled:opacity-50"
-              disabled={createProduct.isPending || updateProduct.isPending}
-            >
-              {createProduct.isPending || updateProduct.isPending
-                ? i18n.t("common.saving")
-                : isEditing
-                  ? i18n.t("common.update")
-                  : i18n.t("common.create")}
-            </button>
-          </div>
-        </form>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div>
+        <label className="block mb-1 font-semibold text-sm">
+          {i18n.t("pages.dashboard.formLabels.name")}
+        </label>
+        <input
+          type="text"
+          value={formData.name}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          className="w-full border border-border bg-background text-foreground px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-ring"
+          required
+        />
       </div>
-    </div>
+
+      <div>
+        <label className="block mb-1 font-semibold text-sm">SKU *</label>
+        <input
+          type="text"
+          value={formData.sku}
+          onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
+          className="w-full border border-border bg-background text-foreground px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-ring"
+          required
+        />
+      </div>
+
+      <div className="grid grid-cols-3 gap-4">
+        <div>
+          <label className="block mb-1 font-semibold text-sm">
+            {i18n.t("pages.dashboard.formLabels.price")}
+          </label>
+          <input
+            type="number"
+            step="0.01"
+            value={formData.price}
+            onChange={(e) =>
+              setFormData({ ...formData, price: e.target.value })
+            }
+            className="w-full border border-border bg-background text-foreground px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-ring"
+            required
+          />
+        </div>
+        <div>
+          <label className="block mb-1 font-semibold text-sm">
+            Discount (€)
+          </label>
+          <input
+            type="number"
+            step="0.01"
+            value={formData.discount}
+            onChange={(e) =>
+              setFormData({ ...formData, discount: e.target.value })
+            }
+            className="w-full border border-border bg-background text-foreground px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-ring"
+          />
+        </div>
+        <div>
+          <label className="block mb-1 font-semibold text-sm">Tax (€) *</label>
+          <input
+            type="number"
+            step="0.01"
+            value={formData.tax}
+            onChange={(e) => setFormData({ ...formData, tax: e.target.value })}
+            className="w-full border border-border bg-background text-foreground px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-ring"
+            required
+          />
+        </div>
+      </div>
+
+      <div>
+        <label className="block mb-1 font-semibold text-sm">
+          {i18n.t("pages.dashboard.formLabels.description")}
+        </label>
+        <textarea
+          value={formData.description}
+          onChange={(e) =>
+            setFormData({ ...formData, description: e.target.value })
+          }
+          className="w-full border border-border bg-background text-foreground px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-ring"
+          rows={3}
+          required
+        />
+      </div>
+
+      <div>
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={formData.is_active}
+            onChange={(e) =>
+              setFormData({ ...formData, is_active: e.target.checked })
+            }
+            className="w-4 h-4 rounded border-border"
+          />
+          <span className="font-semibold text-sm">
+            {i18n.t("pages.dashboard.formLabels.active")}
+          </span>
+        </label>
+      </div>
+
+      {/* Image Manager */}
+      <div className="pt-4 border-t border-border">
+        <ImageManager
+          images={images}
+          onChange={setImages}
+          product_name={formData.name}
+        />
+      </div>
+
+      <div className="flex gap-2 justify-end pt-4 border-t border-border">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onClose}
+          disabled={createProduct.isPending || updateProduct.isPending}
+        >
+          {i18n.t("common.cancel")}
+        </Button>
+        <Button
+          type="submit"
+          disabled={createProduct.isPending || updateProduct.isPending}
+        >
+          {createProduct.isPending || updateProduct.isPending
+            ? i18n.t("common.saving")
+            : isEditing
+              ? i18n.t("common.update")
+              : i18n.t("common.create")}
+        </Button>
+      </div>
+    </form>
   );
 }
 
