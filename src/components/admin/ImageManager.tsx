@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { X, Star, Upload, Image as ImageIcon } from "lucide-react";
-import { env } from "@/lib/env";
 import { v4 as uuidv4 } from "uuid";
+import { client } from "@/lib/supabase";
 
 interface ImageData {
   url: string;
@@ -18,6 +18,8 @@ interface ImageManagerProps {
   product_name: string;
 }
 
+const BUCKET_NAME = "product_images";
+
 export function ImageManager({
   images,
   onChange,
@@ -29,26 +31,46 @@ export function ImageManager({
 
   const uploadImageFile = async (
     file: File,
-    product_name: string,
+    productName: string,
   ): Promise<string> => {
-    const fileExt = file.name.split(".").pop();
+    if (!file) {
+      throw new Error("No file provided");
+    }
+
+    const fileExt = file.name.split(".").pop()?.toLowerCase();
+    if (!fileExt) {
+      throw new Error("Invalid file extension");
+    }
+
     const id = uuidv4();
-    const fileNameSanitized = product_name
+    const sanitizedName = productName
       .toLowerCase()
+      .trim()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-+|-+$/g, "");
-    const completeFilename = `product_images/${fileNameSanitized}-${id}.${fileExt}`;
-    const url = `${env.bunnyStorageUrl}/${env.bunnyZoneName}/${completeFilename}`;
-    await fetch(url, {
-      method: "PUT",
-      headers: {
-        AccessKey: env.bunnyApiKey,
-        "Content-Type": "application/octet-stream",
-      },
-      body: file,
-    });
 
-    return `${env.bunnyCdnUrl}/${completeFilename}`;
+    const filePath = `${sanitizedName}-${id}.${fileExt}`;
+
+    const { error: uploadError } = await client.storage
+      .from(BUCKET_NAME)
+      .upload(filePath, file, {
+        cacheControl: "86400",
+        upsert: true,
+        contentType: file.type, // keeps correct MIME type
+      });
+
+    if (uploadError) {
+      console.error("Supabase upload error:", uploadError);
+      throw new Error("Failed to upload image");
+    }
+
+    const { data } = client.storage.from(BUCKET_NAME).getPublicUrl(filePath);
+
+    if (!data?.publicUrl) {
+      throw new Error("Failed to retrieve public image URL");
+    }
+
+    return data.publicUrl;
   };
 
   const handleFileSelect = async (

@@ -60,17 +60,9 @@ export const env = {
   /** Node environment */
   nodeEnv: import.meta.env.NODE_ENV || "development",
 
-  /** Bunny.net api key */
-  bunnyApiKey: import.meta.env.VITE_BUNNY_API_KEY || "",
+  supabaseAnonKey: import.meta.env.VITE_SUPABASE_ANON_KEY || "",
 
-  /** Bunny.net storage zone name */
-  bunnyZoneName: import.meta.env.VITE_BUNNY_ZONE_NAME || "",
-
-  /** Bunny.net CDN URL */
-  bunnyCdnUrl: import.meta.env.VITE_BUNNY_CDN_URL || "",
-
-  /** Bunny.net storage URL */
-  bunnyStorageUrl: import.meta.env.VITE_BUNNY_STORAGE_URL || "",
+  supabaseUrl: import.meta.env.VITE_SUPABASE_URL || "",
 
   /** Feature flags */
   features: getFeatureFlags(),
