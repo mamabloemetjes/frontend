@@ -73,7 +73,7 @@ export interface Product {
 // Type for creating/updating products with images
 export type ProductInput = Omit<
   Product,
-  "id" | "created_at" | "updated_at" | "subtotal" | "images"
+  "id" | "created_at" | "updated_at" | "subtotal" | "images" | "sku"
 > & {
   images?: ProductImageInput[];
 };

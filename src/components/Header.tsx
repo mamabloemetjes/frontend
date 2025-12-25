@@ -18,7 +18,6 @@ import {
 import { useState } from "react";
 import FeatureComponent from "./FeatureComponent";
 import { Button } from "./ui/button";
-import { Label } from "./ui/label";
 
 export function Header() {
   const { t } = useTranslation();
@@ -122,13 +121,6 @@ export function Header() {
               <LanguageSwitcher />
               <ModeToggle />
             </div>
-
-            <div className="ml-auto flex items-center gap-2 px-4 py-1.5 rounded-lg bg-accent/50 absolute right-4">
-              <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-semibold text-sm shadow-md">
-                {user?.username?.charAt(0).toUpperCase()}
-              </div>
-              <Label className="text-sm font-medium">{user?.username}</Label>
-            </div>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -192,13 +184,6 @@ export function Header() {
                     {logout.isPending ? t("auth.loggingOut") : t("auth.logout")}
                   </span>
                 </Button>
-
-                <div className="flex items-center gap-3 px-4 py-22 bg-accent/40 rounded-lg mt-2">
-                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-semibold shadow-md">
-                    {user?.username?.charAt(0).toUpperCase()}
-                  </div>
-                  <span className="text-sm">{user?.username}</span>
-                </div>
               </>
             ) : (
               <>

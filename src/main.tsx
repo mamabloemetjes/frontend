@@ -8,6 +8,7 @@ import "@/i18n";
 import App from "@/App.tsx";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import SnowFallComponent from "@/components/Snowfall";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -16,6 +17,7 @@ createRoot(document.getElementById("root")!).render(
         <AuthProvider>
           <ThemeProvider>
             <Suspense fallback={<div>Loading...</div>}>
+              <SnowFallComponent />
               <App />
             </Suspense>
           </ThemeProvider>

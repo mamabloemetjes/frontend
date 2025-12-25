@@ -94,18 +94,18 @@ function ProductsTab() {
     });
   };
 
-  const handleProductClick = async (id: string) => {
-    if (editingProduct?.is_active) {
-      await handleMarkAsSold(id);
+  const handleProductClick = async (product: Product) => {
+    if (product.is_active) {
+      await handleMarkAsSold(product.id);
     } else {
-      await handleUndoMarkAsSold(id);
+      await handleUndoMarkAsSold(product.id);
     }
   };
 
   const columns: ColumnDef<Product>[] = [
     {
       accessorKey: "name",
-      header: "Name",
+      header: i18n.t("common.name"),
       cell: ({ row }) => {
         const primaryImage = row.original.images?.find((img) => img.is_primary);
         const imageUrl = primaryImage?.url || row.original.images?.[0]?.url;
@@ -127,18 +127,18 @@ function ProductsTab() {
         );
       },
     },
-    {
-      accessorKey: "sku",
-      header: "SKU",
-    },
+    // {
+    //   accessorKey: "sku",
+    //   header: "SKU",
+    // },
     {
       accessorKey: "price",
-      header: "Price",
+      header: i18n.t("common.price"),
       cell: ({ row }) => `€${(row.original.subtotal / 100).toFixed(2)}`,
     },
     {
       accessorKey: "is_active",
-      header: "Status",
+      header: i18n.t("common.status"),
       cell: ({ row }) => (
         <span
           className={`px-2 py-1 rounded text-xs ${
@@ -147,7 +147,9 @@ function ProductsTab() {
               : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
           }`}
         >
-          {row.original.is_active ? "Active" : "Sold"}
+          {row.original.is_active
+            ? i18n.t("pages.dashboard.active")
+            : i18n.t("pages.dashboard.sold")}
         </span>
       ),
     },
@@ -160,7 +162,7 @@ function ProductsTab() {
             size="sm"
             onClick={() => setEditingProduct(row.original)}
           >
-            Edit
+            {i18n.t("common.edit")}
           </Button>
           <Dialog>
             <DialogTrigger asChild>
@@ -170,7 +172,7 @@ function ProductsTab() {
                   size="sm"
                   disabled={!row.original.is_active}
                 >
-                  Mark as Sold
+                  {i18n.t("pages.dashboard.markAsSold")}
                 </Button>
               ) : (
                 <Button
@@ -178,27 +180,34 @@ function ProductsTab() {
                   size="sm"
                   disabled={row.original.is_active}
                 >
-                  Undo Sold
+                  {i18n.t("pages.dashboard.undoSold")}
                 </Button>
               )}
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Are you sure?</DialogTitle>
+                <DialogTitle>
+                  {row.original.is_active
+                    ? i18n.t("pages.dashboard.confirmMarkAsSoldTitle")
+                    : i18n.t("pages.dashboard.confirmUndoSoldTitle")}
+                </DialogTitle>
               </DialogHeader>
               <p>
-                This will mark the product as sold and it will no longer be
-                visible to customers.
+                {row.original.is_active
+                  ? i18n.t("pages.dashboard.confirmMarkAsSoldDescription")
+                  : i18n.t("pages.dashboard.confirmUndoSoldDescription")}
               </p>
               <div className="flex justify-end gap-2">
                 <DialogTrigger asChild>
-                  <Button variant="outline">Cancel</Button>
+                  <Button variant="outline">{i18n.t("common.cancel")}</Button>
                 </DialogTrigger>
                 <Button
                   variant="destructive"
-                  onClick={() => handleProductClick(row.original.id)}
+                  onClick={() => handleProductClick(row.original)}
                 >
-                  {row.original.is_active ? "Mark as Sold" : "Undo Sold"}
+                  {row.original.is_active
+                    ? i18n.t("pages.dashboard.markAsSold")
+                    : i18n.t("pages.dashboard.undoSold")}
                 </Button>
               </div>
             </DialogContent>
@@ -284,10 +293,10 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
 
   const [formData, setFormData] = useState({
     name: product?.name || "",
-    sku: product?.sku || "",
     price: product ? (product.price / 100).toString() : "",
     discount: product ? ((product.discount || 0) / 100).toString() : "0",
-    tax: product ? (product.tax / 100).toString() : "",
+    tax: product ? ((product.price * 0.21) / 100).toString() : "0",
+    enableTax: product ? product.tax > 0 : true,
     description: product?.description || "",
     is_active: product?.is_active ?? true,
   });
@@ -303,16 +312,19 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const tax = formData.enableTax
+      ? Math.round(parseFloat(formData.price) * 0.21 * 100)
+      : 0;
+
     const productData = {
       name: formData.name,
-      sku: formData.sku,
       price: Math.round(parseFloat(formData.price) * 100),
       discount: Math.round(parseFloat(formData.discount) * 100),
-      tax: Math.round(parseFloat(formData.tax) * 100),
+      tax,
       subtotal:
         Math.round(parseFloat(formData.price) * 100) -
         Math.round(parseFloat(formData.discount) * 100) +
-        Math.round(parseFloat(formData.tax) * 100),
+        tax,
       description: formData.description,
       is_active: formData.is_active,
       images:
@@ -351,16 +363,6 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
         />
       </div>
 
-      <div>
-        <Label className="block mb-1 font-semibold text-sm">SKU *</Label>
-        <Input
-          type="text"
-          value={formData.sku}
-          onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
-          required
-        />
-      </div>
-
       <div className="grid grid-cols-3 gap-4">
         <div>
           <Label className="block mb-1 font-semibold text-sm">
@@ -368,7 +370,9 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
           </Label>
           <Input
             type="number"
-            step="0.01"
+            step="0.50"
+            max="9999.99"
+            min="0.00"
             value={formData.price}
             onChange={(e) =>
               setFormData({ ...formData, price: e.target.value })
@@ -382,22 +386,25 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
           </Label>
           <Input
             type="number"
-            step="0.01"
+            step="0.50"
+            max="9999.99"
+            min="0.00"
             value={formData.discount}
             onChange={(e) =>
               setFormData({ ...formData, discount: e.target.value })
             }
           />
         </div>
+
         <div>
           <Label className="block mb-1 font-semibold text-sm">Tax (€) *</Label>
-          <Input
-            type="number"
-            step="0.01"
-            value={formData.tax}
-            onChange={(e) => setFormData({ ...formData, tax: e.target.value })}
-            required
-          />
+          {/* Assuming a fixed tax rate of 21% for simplicity */}
+          <Label className="block p-3 bg-muted rounded">
+            €
+            {formData.enableTax
+              ? (parseFloat(formData.price || "0") * 0.21).toFixed(2)
+              : "0.00"}
+          </Label>
         </div>
 
         <Label className="col-span-3 text-right font-bold text-lg mt-2">
@@ -405,9 +412,22 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
           {(
             parseFloat(formData.price || "0") -
             parseFloat(formData.discount || "0") +
-            parseFloat(formData.tax || "0")
+            (formData.enableTax ? parseFloat(formData.price || "0") * 0.21 : 0)
           ).toFixed(2)}
         </Label>
+      </div>
+
+      <div className="flex flex-col items-start">
+        <Label className="block mb-1 font-semibold text-sm">
+          {i18n.t("pages.dashboard.formLabels.enableTax")}
+        </Label>
+        <Checkbox
+          className="w-5 h-5 rounded border-border"
+          checked={formData.enableTax}
+          onClick={() =>
+            setFormData({ ...formData, enableTax: !formData.enableTax })
+          }
+        />
       </div>
 
       <div>

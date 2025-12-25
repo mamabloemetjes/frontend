@@ -2,6 +2,7 @@ import { useState } from "react";
 import { X, Star, Upload, Image as ImageIcon } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 import { client } from "@/lib/supabase";
+import i18n from "@/i18n";
 
 interface ImageData {
   url: string;
@@ -156,7 +157,8 @@ export function ImageManager({
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <label className="block font-semibold text-sm">
-          Product Images ({images.length}/{maxImages})
+          {i18n.t("pages.dashboard.imageManager.title")} ({images.length}/
+          {maxImages})
         </label>
         <label
           htmlFor="image-upload"
@@ -167,7 +169,9 @@ export function ImageManager({
           }`}
         >
           <Upload className="w-4 h-4" />
-          {uploading ? "Uploading..." : "Add Images"}
+          {uploading
+            ? "Uploading..."
+            : i18n.t("pages.dashboard.imageManager.uploadImages")}
         </label>
         <input
           id="image-upload"
@@ -196,12 +200,14 @@ export function ImageManager({
         >
           <ImageIcon className="w-12 h-12 mx-auto mb-3 text-muted-foreground" />
           <p className="text-sm text-muted-foreground mb-1">
-            {uploading ? "Uploading images..." : "Drag and drop images here"}
+            {uploading
+              ? i18n.t("pages.dashboard.imageManager.uploading")
+              : i18n.t("pages.dashboard.imageManager.dropZone")}
           </p>
           <p className="text-xs text-muted-foreground">
             {uploading
-              ? "Please wait..."
-              : 'or click "Add Images" button above'}
+              ? i18n.t("pages.dashboard.imageManager.pleaseWait")
+              : i18n.t("pages.dashboard.imageManager.orClickToUpload")}
           </p>
         </div>
       )}
@@ -239,7 +245,7 @@ export function ImageManager({
                 {image.is_primary && (
                   <div className="absolute top-2 left-2 px-2 py-0.5 bg-primary text-primary-foreground text-xs rounded-full font-semibold flex items-center gap-1">
                     <Star className="w-3 h-3 fill-current" />
-                    Primary
+                    {i18n.t("pages.dashboard.imageManager.primary")}
                   </div>
                 )}
               </div>
@@ -266,7 +272,7 @@ export function ImageManager({
                   className="w-full text-sm px-3 py-1.5 border border-border rounded hover:bg-muted transition-colors flex items-center justify-center gap-2"
                 >
                   <Star className="w-3 h-3" />
-                  Set as Primary
+                  {i18n.t("pages.dashboard.imageManager.setAsPrimary")}
                 </button>
               )}
             </div>
@@ -276,7 +282,7 @@ export function ImageManager({
 
       {images.length === 0 && (
         <p className="text-sm text-muted-foreground text-center py-4">
-          No images added yet. Add some images to showcase your product!
+          {i18n.t("pages.dashboard.imageManager.noImagesUploaded")}
         </p>
       )}
     </div>

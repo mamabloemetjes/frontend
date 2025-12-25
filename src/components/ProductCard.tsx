@@ -11,8 +11,8 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
   const imageUrl = primaryImage?.url || product.images?.[0]?.url;
 
   // Convert cents to euros for display
-  const priceInEuros = (product.price - (product.discount || 0)) / 100;
-  const originalPrice = product.price / 100;
+  const priceInEuros = (product.subtotal - (product.discount || 0)) / 100;
+  const originalPrice = product.subtotal / 100;
   const hasDiscount = product.discount && product.discount > 0;
 
   return (

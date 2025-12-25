@@ -109,7 +109,7 @@
       "insufficientStockDescription": "Some items in your cart exceed available stock. Please adjust quantities before proceeding to checkout."
     },
     "dashboard": {
-      "title": "Admin Dashboard",
+      "title": "Dashboard",
       "products": "Products",
       "addProduct": "Add Product",
       "editProduct": "Edit",
@@ -128,7 +128,7 @@
       "productColors": "Colors",
       "productDescription": "Description",
       "active": "Active",
-      "inactive": "Inactive",
+      "sold": "Sold",
       "inStock": "In Stock",
       "outOfStock": "Out of Stock",
       "saveChanges": "Save Changes",
@@ -141,6 +141,12 @@
       "imagesUploaded": "Images uploaded successfully!",
       "errorLoadingProducts": "Error loading products",
       "tryAgainLater": "Please try again later or contact support.",
+      "markAsSold": "Mark as Sold",
+      "confirmMarkAsSoldTitle": "Are you sure you want to mark this product as sold?",
+      "confirmUndoSoldTitle": "Are you sure you want to undo the sold status for this product?",
+      "confirmMarkAsSoldDescription": "This will set the product status to sold and make it unavailable for purchase.",
+      "confirmUndoSoldDescription": "This will set the product status back to active and make it available for purchase.",
+      "undoSold": "Undo Sold",
       "formLabels": {
         "name": "Name *",
         "price": "Price (€) *",
@@ -151,7 +157,19 @@
         "productType": "Product Type",
         "active": "Active",
         "images": "Images",
-        "sku": "SKU"
+        "sku": "SKU",
+        "enableTax": "Enable Tax"
+      },
+      "imageManager": {
+        "title": "Product Images",
+        "uploadImages": "Upload Images",
+        "primary": "Primary",
+        "setAsPrimary": "Set as Primary",
+        "dropZone": "Drag and drop images here",
+        "orClickToUpload": "or click \"Add Images\" Above",
+        "uploading": "Uploading...",
+        "pleaseWait": "Please wait...",
+        "noImagesUploaded": "No images uploaded yet."
       }
     },
     "404": {
@@ -215,7 +233,10 @@
     "update": "Update",
     "create": "Create",
     "total": "Total",
-    "discount": "Discount"
+    "discount": "Discount",
+    "name": "Name",
+    "price": "Price",
+    "status": "Status"
   },
   "backend": {
     "error": {

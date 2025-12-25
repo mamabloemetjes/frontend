@@ -61,7 +61,7 @@ function ProductsPage() {
               addToCart({
                 id: product.id,
                 name: product.name,
-                price: product.price / 100, // Convert cents to euros
+                price: product.subtotal / 100, // Convert cents to euros
                 discount: (product.discount || 0) / 100, // Convert cents to euros
                 image: product.images?.[0]?.url,
                 availableStock: 1,
