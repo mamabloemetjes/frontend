@@ -60,11 +60,9 @@
   },
   "pages": {
     "home": {
-      "title": "Onze Producten",
+      "title": "Producten",
       "loading": "Producten laden...",
       "noProducts": "Geen producten gevonden.",
-      "showingProducts": "Toont {{count}} van {{total}} producten",
-      "queryTime": "Query duurde {{time}}ms",
       "hero": {
         "title": "Welkom bij Mama Bloemetjes",
         "subtitle": "Handgemaakte boeketten met liefde"
@@ -72,13 +70,31 @@
       "premade": {
         "title": "Kant-en-klare boeketten",
         "description": "Boeketten die klaar zijn om te bestellen, handgemaakt met liefde en klaar om verzonden te worden.",
-        "cta": "Bekijk onze producten"
+        "cta": "Bekijk alle producten"
       },
       "custom": {
         "title": "Boeketten op maat",
         "description": "Heeft u een speciaal verzoek? Wij kunnen een boeket op maat maken voor elke gelegenheid.",
         "cta": "Vraag een boeket op maat aan"
       }
+    },
+    "contact": {
+      "title": "Neem Contact Op",
+      "description": "Vul het onderstaande formulier in en we nemen zo snel mogelijk contact met je op.",
+      "name": "Naam",
+      "yourName": "Voer je naam in",
+      "email": "E-mail",
+      "yourEmail": "jouw.email@voorbeeld.nl",
+      "subject": "Onderwerp",
+      "selectSubject": "Selecteer een onderwerp",
+      "generalInquiry": "Algemene Vraag",
+      "customOrder": "Boeket aanvraag",
+      "message": "Bericht",
+      "yourMessage": "Vertel ons meer over je vraag...",
+      "deadlineDateQuestion": "Heb je een deadline?",
+      "deadlineDateDescription": "Houd er rekening mee dat een bouquet 3-6 maanden voorbereidingstijd nodig heeft.",
+      "pickDate": "Kies een datum",
+      "sendMessage": "Verstuur Bericht"
     },
     "cart": {
       "title": "Winkelwagen",
@@ -195,7 +211,9 @@
     "actions": "Acties",
     "saving": "Opslaan...",
     "update": "Bijwerken",
-    "create": "Aanmaken"
+    "create": "Aanmaken",
+    "total": "Totaal",
+    "discount": "Korting"
   },
   "backend": {
     "error": {

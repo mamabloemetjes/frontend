@@ -5,12 +5,27 @@ import { useTranslation } from "react-i18next";
 import { cartCountAtom } from "@/store/cart";
 import { useAuthStatus, useLogout } from "@/hooks/useAuth";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { ModeToggle } from "@/components/themeToggle";
+import {
+  ShoppingCart,
+  User,
+  LogOut,
+  LayoutDashboard,
+  Package,
+  Menu,
+  X,
+} from "lucide-react";
+import { useState } from "react";
+import FeatureComponent from "./FeatureComponent";
+import { Button } from "./ui/button";
+import { Label } from "./ui/label";
 
 export function Header() {
   const { t } = useTranslation();
   const [cartCount] = useAtom(cartCountAtom);
   const { user, isAuthenticated } = useAuthStatus();
   const logout = useLogout();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -21,56 +36,198 @@ export function Header() {
   };
 
   return (
-    <header className="border-b">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <Link to="/" className="text-2xl font-bold">
-          🌸 Mama Bloemetjes
-        </Link>
-        <nav className="flex items-center gap-6">
-          <LanguageAwareLink to="/products" className="hover:underline">
-            {t("navigation.products")}
-          </LanguageAwareLink>
-          <LanguageAwareLink to="/cart" className="relative hover:underline">
-            {t("navigation.cart")}
-            {cartCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground rounded-full w-5 h-5 text-xs flex items-center justify-center">
-                {cartCount}
-              </span>
-            )}
-          </LanguageAwareLink>
-          {isAuthenticated ? (
-            <>
-              <span className="text-sm text-muted-foreground">
-                {user?.username}
-              </span>
-              <button
-                onClick={handleLogout}
-                className="hover:underline"
-                disabled={logout.isPending}
-              >
-                {logout.isPending ? t("auth.loggingOut") : t("auth.logout")}
-              </button>
-            </>
-          ) : (
-            <>
-              <LanguageAwareLink to="/login" className="hover:underline">
-                {t("navigation.login")}
-              </LanguageAwareLink>
-              <LanguageAwareLink to="/register" className="hover:underline">
-                {t("navigation.signUp")}
-              </LanguageAwareLink>
-            </>
-          )}
-          {isAuthenticated && user?.role === "admin" && (
-            <LanguageAwareLink to="/dashboard" className="hover:underline">
-              {t("navigation.dashboard")}
+    <nav className="sticky top-0 z-50 backdrop-blur-xl bg-background/80 border-b border-border/40 shadow-sm">
+      <div className="container mx-auto px-4 lg:px-6">
+        <div className="flex items-center justify-between h-16 lg:h-20">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-3">
+            <span className="text-3xl lg:text-4xl inline-block">🌸</span>
+            <span className="text-xl lg:text-2xl font-bold">
+              Mama Bloemetjes
+            </span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center gap-2">
+            <LanguageAwareLink
+              to="/products"
+              className="px-4 py-2 rounded-lg hover:bg-accent transition-all duration-200 flex items-center gap-2 group"
+            >
+              <Package className="w-4 h-4 group-hover:scale-110 transition-transform" />
+              <span>{t("navigation.products")}</span>
             </LanguageAwareLink>
-          )}
-          <div className="flex items-center gap-2">
-            <LanguageSwitcher />
+
+            <LanguageAwareLink
+              to="/cart"
+              className="px-4 py-2 rounded-lg hover:bg-accent transition-all duration-200 flex items-center gap-2 relative group"
+            >
+              <div className="relative">
+                <ShoppingCart className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground rounded-full w-5 h-5 text-xs flex items-center justify-center font-semibold shadow-lg animate-pulse">
+                    {cartCount}
+                  </span>
+                )}
+              </div>
+              <span>{t("navigation.cart")}</span>
+            </LanguageAwareLink>
+
+            {isAuthenticated ? (
+              <>
+                {user?.role === "admin" && (
+                  <LanguageAwareLink
+                    to="/dashboard"
+                    className="px-4 py-2 rounded-lg hover:bg-accent transition-all duration-200 flex items-center gap-2 group"
+                  >
+                    <LayoutDashboard className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                    <span>{t("navigation.dashboard")}</span>
+                  </LanguageAwareLink>
+                )}
+
+                <Button
+                  onClick={handleLogout}
+                  disabled={logout.isPending}
+                  variant="ghost"
+                >
+                  <LogOut className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                  <span>
+                    {logout.isPending ? t("auth.loggingOut") : t("auth.logout")}
+                  </span>
+                </Button>
+              </>
+            ) : (
+              <>
+                <FeatureComponent type="login">
+                  <LanguageAwareLink
+                    to="/login"
+                    className="px-4 py-2 rounded-lg hover:bg-accent transition-all duration-200 flex items-center gap-2 group"
+                  >
+                    <User className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                    <span>{t("navigation.login")}</span>
+                  </LanguageAwareLink>
+                </FeatureComponent>
+
+                <FeatureComponent type="register">
+                  <LanguageAwareLink
+                    to="/register"
+                    className="px-4 py-2 rounded-lg bg-primary text-primary-foreground font-medium hover:brightness-110 transition-all duration-200"
+                  >
+                    {t("navigation.signUp")}
+                  </LanguageAwareLink>
+                </FeatureComponent>
+              </>
+            )}
+
+            <div className="flex items-center gap-1 ml-2 pl-2 border-l border-border">
+              <LanguageSwitcher />
+              <ModeToggle />
+            </div>
+
+            <div className="ml-auto flex items-center gap-2 px-4 py-1.5 rounded-lg bg-accent/50 absolute right-4">
+              <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-semibold text-sm shadow-md">
+                {user?.username?.charAt(0).toUpperCase()}
+              </div>
+              <Label className="text-sm font-medium">{user?.username}</Label>
+            </div>
+          </nav>
+
+          {/* Mobile Menu Button */}
+          <div className="flex items-center gap-2 lg:hidden">
+            <LanguageAwareLink to="/cart" className="relative p-2">
+              <ShoppingCart className="w-5 h-5" />
+              {cartCount > 0 && (
+                <span className="absolute top-0 right-0 bg-primary text-primary-foreground rounded-full w-5 h-5 text-xs flex items-center justify-center font-semibold">
+                  {cartCount}
+                </span>
+              )}
+            </LanguageAwareLink>
+            <Button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 hover:bg-accent rounded-lg transition-colors"
+            >
+              {mobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </Button>
           </div>
-        </nav>
+        </div>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden border-t border-border/40 py-4 space-y-2 animate-in slide-in-from-top duration-200">
+            <LanguageAwareLink
+              to="/products"
+              className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <Package className="w-5 h-5" />
+              <span>{t("navigation.products")}</span>
+            </LanguageAwareLink>
+
+            {isAuthenticated ? (
+              <>
+                {user?.role === "admin" && (
+                  <LanguageAwareLink
+                    to="/dashboard"
+                    className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <LayoutDashboard className="w-5 h-5" />
+                    <span>{t("navigation.dashboard")}</span>
+                  </LanguageAwareLink>
+                )}
+
+                <Button
+                  onClick={() => {
+                    handleLogout();
+                    setMobileMenuOpen(false);
+                  }}
+                  disabled={logout.isPending}
+                  variant="ghost"
+                >
+                  <LogOut className="w-5 h-5" />
+                  <span>
+                    {logout.isPending ? t("auth.loggingOut") : t("auth.logout")}
+                  </span>
+                </Button>
+
+                <div className="flex items-center gap-3 px-4 py-22 bg-accent/40 rounded-lg mt-2">
+                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-semibold shadow-md">
+                    {user?.username?.charAt(0).toUpperCase()}
+                  </div>
+                  <span className="text-sm">{user?.username}</span>
+                </div>
+              </>
+            ) : (
+              <>
+                <LanguageAwareLink
+                  to="/login"
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <User className="w-5 h-5" />
+                  <span>{t("navigation.login")}</span>
+                </LanguageAwareLink>
+
+                <LanguageAwareLink
+                  to="/register"
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary text-primary-foreground font-medium"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {t("navigation.signUp")}
+                </LanguageAwareLink>
+              </>
+            )}
+
+            <div className="flex items-center gap-2 px-4 py-3 border-t border-border/40 mt-2 pt-4">
+              <LanguageSwitcher />
+              <ModeToggle />
+            </div>
+          </div>
+        )}
       </div>
-    </header>
+    </nav>
   );
 }

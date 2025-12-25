@@ -2,7 +2,6 @@ import { LanguageAwareLink } from "@/components/LanguageAwareLink";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import i18n from "@/i18n";
-import { env } from "@/lib/env";
 import { Mail, ShoppingBag } from "lucide-react";
 
 const HomePage = () => {
@@ -45,9 +44,9 @@ const HomePage = () => {
           <CardContent>
             <p className="mb-4">{i18n.t("pages.home.custom.description")}</p>
             <Button asChild>
-              <a href={`mailto:${env.shopOwnerEmail}`}>
+              <LanguageAwareLink to="/contact">
                 {i18n.t("pages.home.custom.cta")}
-              </a>
+              </LanguageAwareLink>
             </Button>
           </CardContent>
         </Card>

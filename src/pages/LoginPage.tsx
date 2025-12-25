@@ -5,6 +5,9 @@ import type { LoginCredentials } from "@/types/auth";
 import { toast } from "sonner";
 import i18n from "@/i18n";
 import { LanguageAwareLink } from "@/components/LanguageAwareLink";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -53,16 +56,18 @@ export function LoginPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-2">🌸 Mama Bloemetjes</h1>
-          <p className="text-muted-foreground">{i18n.t("auth.login.title")}</p>
+          <Label className="text-muted-foreground">
+            {i18n.t("auth.login.title")}
+          </Label>
         </div>
 
         <div className="border rounded-lg p-8">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium mb-2">
+              <Label htmlFor="email" className="block text-sm font-medium mb-2">
                 {i18n.t("auth.login.email")}
-              </label>
-              <input
+              </Label>
+              <Input
                 id="email"
                 type="email"
                 required
@@ -70,19 +75,18 @@ export function LoginPage() {
                 onChange={(e) =>
                   setCredentials({ ...credentials, email: e.target.value })
                 }
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder="you@example.com"
               />
             </div>
 
             <div>
-              <label
+              <Label
                 htmlFor="password"
                 className="block text-sm font-medium mb-2"
               >
                 {i18n.t("auth.login.password")}
-              </label>
-              <input
+              </Label>
+              <Input
                 id="password"
                 type="password"
                 required
@@ -90,24 +94,19 @@ export function LoginPage() {
                 onChange={(e) =>
                   setCredentials({ ...credentials, password: e.target.value })
                 }
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder="••••••••"
               />
             </div>
 
-            <button
-              type="submit"
-              disabled={login.isPending}
-              className="w-full bg-primary text-primary-foreground py-2 px-4 rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
+            <Button className="w-full" type="submit" disabled={login.isPending}>
               {login.isPending
                 ? i18n.t("auth.login.signingIn")
                 : i18n.t("auth.login.signIn")}
-            </button>
+            </Button>
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-sm text-muted-foreground">
+            <Label className="text-sm text-muted-foreground">
               {i18n.t("auth.login.dontHaveAccount")}{" "}
               <LanguageAwareLink
                 to="/register"
@@ -115,7 +114,7 @@ export function LoginPage() {
               >
                 {i18n.t("auth.login.signUp")}
               </LanguageAwareLink>
-            </p>
+            </Label>
           </div>
 
           <div className="mt-4 text-center">

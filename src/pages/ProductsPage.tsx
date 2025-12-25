@@ -48,17 +48,9 @@ function ProductsPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex items-center justify-between mb-8">
+      <header className="flex items-center justify-between mb-8">
         <h1 className="text-3xl font-bold">{t("pages.home.title")}</h1>
-        {data?.pagination && (
-          <p className="text-sm text-muted-foreground">
-            {t("pages.home.showingProducts", {
-              count: products.length,
-              total: data.pagination.total_items,
-            })}
-          </p>
-        )}
-      </div>
+      </header>
 
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
@@ -78,12 +70,6 @@ function ProductsPage() {
           />
         ))}
       </div>
-
-      {data?.meta && (
-        <p className="text-xs text-muted-foreground text-center mt-8">
-          {t("pages.home.queryTime", { time: data.meta.query_time_ms })}
-        </p>
-      )}
     </div>
   );
 }

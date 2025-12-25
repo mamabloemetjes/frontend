@@ -60,11 +60,9 @@
   },
   "pages": {
     "home": {
-      "title": "Our Products",
+      "title": "Products",
       "loading": "Loading products...",
       "noProducts": "No products found.",
-      "showingProducts": "Showing {{count}} of {{total}} products",
-      "queryTime": "Query took {{time}}ms",
       "hero": {
         "title": "Welcome to Mama Bloemetjes",
         "subtitle": "Handmade bouquets with love"
@@ -72,13 +70,31 @@
       "premade": {
         "title": "Premade Bouquets",
         "description": "Ready-to-order bouquets, handmade with love and ready to be shipped.",
-        "cta": "Browse our products"
+        "cta": "Browse products"
       },
       "custom": {
         "title": "Custom Bouquets",
         "description": "Have a special request? We can create a custom bouquet for any occasion.",
         "cta": "Request a custom bouquet"
       }
+    },
+    "contact": {
+      "title": "Contact Us",
+      "description": "Fill out the form below and we'll get back to you as soon as possible.",
+      "name": "Name",
+      "yourName": "Enter your name",
+      "email": "Email",
+      "yourEmail": "your.email@example.com",
+      "subject": "Subject",
+      "selectSubject": "Select a subject",
+      "generalInquiry": "General Inquiry",
+      "customOrder": "Custom Order",
+      "message": "Message",
+      "yourMessage": "Tell us more about your inquiry...",
+      "deadlineDateQuestion": "Do you have a deadline?",
+      "deadlineDateDescription": "Do note that a bouquet takes 3-6 months to make",
+      "pickDate": "Pick a date",
+      "sendMessage": "Send Message"
     },
     "cart": {
       "title": "Shopping Cart",
@@ -87,7 +103,7 @@
       "clearCart": "Clear Cart",
       "remove": "Remove",
       "totalDiscount": "Total Discount:",
-      "total": "Total:",
+      "total": "Total",
       "proceedToCheckout": "Proceed to Checkout",
       "addedToCart": "{{name}} has been added to your cart.",
       "insufficientStockDescription": "Some items in your cart exceed available stock. Please adjust quantities before proceeding to checkout."
@@ -197,7 +213,9 @@
     "actions": "Actions",
     "saving": "Saving...",
     "update": "Update",
-    "create": "Create"
+    "create": "Create",
+    "total": "Total",
+    "discount": "Discount"
   },
   "backend": {
     "error": {

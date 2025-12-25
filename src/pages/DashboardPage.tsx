@@ -18,6 +18,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 type Tab = "products" | "orders";
 
@@ -83,6 +87,21 @@ function ProductsTab() {
     });
   };
 
+  const handleUndoMarkAsSold = async (id: string) => {
+    await updateProduct.mutateAsync({
+      id,
+      updates: { is_active: true },
+    });
+  };
+
+  const handleProductClick = async (id: string) => {
+    if (editingProduct?.is_active) {
+      await handleMarkAsSold(id);
+    } else {
+      await handleUndoMarkAsSold(id);
+    }
+  };
+
   const columns: ColumnDef<Product>[] = [
     {
       accessorKey: "name",
@@ -145,13 +164,23 @@ function ProductsTab() {
           </Button>
           <Dialog>
             <DialogTrigger asChild>
-              <Button
-                variant="destructive"
-                size="sm"
-                disabled={!row.original.is_active}
-              >
-                Mark as Sold
-              </Button>
+              {row.original.is_active ? (
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  disabled={!row.original.is_active}
+                >
+                  Mark as Sold
+                </Button>
+              ) : (
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  disabled={row.original.is_active}
+                >
+                  Undo Sold
+                </Button>
+              )}
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
@@ -167,9 +196,9 @@ function ProductsTab() {
                 </DialogTrigger>
                 <Button
                   variant="destructive"
-                  onClick={() => handleMarkAsSold(row.original.id)}
+                  onClick={() => handleProductClick(row.original.id)}
                 >
-                  Mark as Sold
+                  {row.original.is_active ? "Mark as Sold" : "Undo Sold"}
                 </Button>
               </div>
             </DialogContent>
@@ -311,101 +340,103 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block mb-1 font-semibold text-sm">
+        <Label className="block mb-1 font-semibold text-sm">
           {i18n.t("pages.dashboard.formLabels.name")}
-        </label>
-        <input
+        </Label>
+        <Input
           type="text"
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          className="w-full border border-border bg-background text-foreground px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-ring"
           required
         />
       </div>
 
       <div>
-        <label className="block mb-1 font-semibold text-sm">SKU *</label>
-        <input
+        <Label className="block mb-1 font-semibold text-sm">SKU *</Label>
+        <Input
           type="text"
           value={formData.sku}
           onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
-          className="w-full border border-border bg-background text-foreground px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-ring"
           required
         />
       </div>
 
       <div className="grid grid-cols-3 gap-4">
         <div>
-          <label className="block mb-1 font-semibold text-sm">
+          <Label className="block mb-1 font-semibold text-sm">
             {i18n.t("pages.dashboard.formLabels.price")}
-          </label>
-          <input
+          </Label>
+          <Input
             type="number"
             step="0.01"
             value={formData.price}
             onChange={(e) =>
               setFormData({ ...formData, price: e.target.value })
             }
-            className="w-full border border-border bg-background text-foreground px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-ring"
             required
           />
         </div>
         <div>
-          <label className="block mb-1 font-semibold text-sm">
-            Discount (€)
-          </label>
-          <input
+          <Label className="block mb-1 font-semibold text-sm">
+            {i18n.t("common.discount")} (€)
+          </Label>
+          <Input
             type="number"
             step="0.01"
             value={formData.discount}
             onChange={(e) =>
               setFormData({ ...formData, discount: e.target.value })
             }
-            className="w-full border border-border bg-background text-foreground px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-ring"
           />
         </div>
         <div>
-          <label className="block mb-1 font-semibold text-sm">Tax (€) *</label>
-          <input
+          <Label className="block mb-1 font-semibold text-sm">Tax (€) *</Label>
+          <Input
             type="number"
             step="0.01"
             value={formData.tax}
             onChange={(e) => setFormData({ ...formData, tax: e.target.value })}
-            className="w-full border border-border bg-background text-foreground px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-ring"
             required
           />
         </div>
+
+        <Label className="col-span-3 text-right font-bold text-lg mt-2">
+          {i18n.t("common.total")}: €
+          {(
+            parseFloat(formData.price || "0") -
+            parseFloat(formData.discount || "0") +
+            parseFloat(formData.tax || "0")
+          ).toFixed(2)}
+        </Label>
       </div>
 
       <div>
-        <label className="block mb-1 font-semibold text-sm">
+        <Label className="block mb-1 font-semibold text-sm">
           {i18n.t("pages.dashboard.formLabels.description")}
-        </label>
-        <textarea
+        </Label>
+        <Textarea
           value={formData.description}
           onChange={(e) =>
             setFormData({ ...formData, description: e.target.value })
           }
-          className="w-full border border-border bg-background text-foreground px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-ring"
           rows={3}
           required
         />
       </div>
 
       <div>
-        <label className="flex items-center gap-2 cursor-pointer">
-          <input
-            type="checkbox"
+        <Label className="flex items-center gap-2 cursor-pointer">
+          <Checkbox
             checked={formData.is_active}
-            onChange={(e) =>
-              setFormData({ ...formData, is_active: e.target.checked })
+            className="pointer-events-none w-5 h-5 rounded border-border"
+            onClick={() =>
+              setFormData({ ...formData, is_active: !formData.is_active })
             }
-            className="w-4 h-4 rounded border-border"
           />
-          <span className="font-semibold text-sm">
+          <Label className="font-semibold text-sm">
             {i18n.t("pages.dashboard.formLabels.active")}
-          </span>
-        </label>
+          </Label>
+        </Label>
       </div>
 
       {/* Image Manager */}

@@ -18,6 +18,7 @@ import { Header } from "@/components/Header";
 import HomePage from "./pages/HomePage";
 import CartPage from "./pages/CartPage";
 import ProductsPage from "./pages/ProductsPage";
+import ContactPage from "./pages/Contact";
 
 function App() {
   // Initialize CSRF token on app startup
@@ -36,6 +37,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="cart" element={<CartPage />} />
           <Route path="products" element={<ProductsPage />} />
+          <Route path="contact" element={<ContactPage />} />
           <Route
             path="login"
             element={
@@ -72,6 +74,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="cart" element={<CartPage />} />
           <Route path="products" element={<ProductsPage />} />
+          <Route path="contact" element={<ContactPage />} />
           <Route
             path="login"
             element={
