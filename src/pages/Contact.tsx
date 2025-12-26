@@ -27,6 +27,7 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import i18n from "@/i18n";
 import { useState } from "react";
+import { env } from "@/lib/env";
 
 interface ContactFormState {
   name: string;
@@ -70,8 +71,31 @@ const ContactPage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", form);
+
+    const to = env.shopOwnerEmail;
+
+    const subject =
+      form.subject === "generalInquiry"
+        ? "General Inquiry"
+        : "Custom Order Request";
+
+    let body = `
+  Naam: ${form.name}
+  Email: ${form.email}
+  Onderwerp: ${subject}
+  Bericht:
+  ${form.message}
+  `;
+
+    if (form.subject === "customOrder" && form.deadlineDate) {
+      body += `\nDeadline: ${format(form.deadlineDate, "PPP")}`;
+    }
+
+    const mailtoLink = `mailto:${to}?subject=${encodeURIComponent(
+      subject,
+    )}&body=${encodeURIComponent(body)}`;
+
+    window.location.href = mailtoLink;
   };
 
   return (

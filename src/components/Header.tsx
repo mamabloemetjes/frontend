@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { cartCountAtom } from "@/store/cart";
 import { useAuthStatus, useLogout } from "@/hooks/useAuth";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-import { ModeToggle } from "@/components/themeToggle";
+import { ModeToggle } from "@/components/ThemeToggle";
 import {
   ShoppingCart,
   User,
