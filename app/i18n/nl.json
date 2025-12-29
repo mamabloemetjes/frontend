@@ -157,6 +157,7 @@
       "productColors": "Kleuren",
       "productDescription": "Beschrijving",
       "active": "Actief",
+      "sold": "Verkocht",
       "inactive": "Inactief",
       "inStock": "Op voorraad",
       "outOfStock": "Uitverkocht",
