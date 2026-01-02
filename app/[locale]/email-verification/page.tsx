@@ -1,12 +1,12 @@
 "use client";
 
 import { CheckSquare, XCircle, Clock } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 
-const EmailVerificationPage = () => {
+function EmailVerificationContent() {
   const t = useTranslations("auth.emailVerification");
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -68,6 +68,24 @@ const EmailVerificationPage = () => {
         </p>
       </div>
     </div>
+  );
+}
+
+const EmailVerificationPage = () => {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-background px-4">
+          <div className="text-center">
+            <Clock className="w-16 h-16 mx-auto mb-4 animate-pulse" />
+            <h1 className="text-2xl font-bold mb-2">Verifying...</h1>
+            <p className="text-muted-foreground">Please wait</p>
+          </div>
+        </div>
+      }
+    >
+      <EmailVerificationContent />
+    </Suspense>
   );
 };
 

@@ -1,30 +1,38 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLogin } from "@/hooks/useAuth";
-import type { LoginCredentials } from "@/types/auth";
-import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { LanguageAwareLink } from "@/components/LanguageAwareLink";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { FormInput } from "@/components/ui/form-input";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema, type LoginFormData } from "@/lib/validation/schemas";
+import { showError, handleApiError } from "@/lib/validation/utils";
+import { toast } from "sonner";
 
 const LoginPage = () => {
   const t = useTranslations("auth.login");
   const navigate = useRouter();
   const login = useLogin();
-  const [credentials, setCredentials] = useState<LoginCredentials>({
-    email: "",
-    password: "",
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    mode: "onBlur",
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const onSubmit = async (data: LoginFormData) => {
     try {
-      await login.mutateAsync(credentials);
+      await login.mutateAsync(data);
+      toast.success(t("success"), {
+        description: t("welcomeBack"),
+      });
+
       // Redirect to the language-aware home page
       const currentLanguage = window.location.pathname.startsWith("/en")
         ? "en"
@@ -45,12 +53,10 @@ const LoginPage = () => {
         typeof error.response.data.message === "string" &&
         error.response.data.message.includes("verify your email")
       ) {
-        toast.error(t("emailNotVerified"), {
-          description: t("verifyEmailDescription"),
-          duration: 10000,
-        });
+        showError(t("emailNotVerified"), t("verifyEmailDescription"));
+      } else {
+        handleApiError(error, t("loginFailed"));
       }
-      // Other errors will be handled by the mutation error handler
     }
   };
 
@@ -63,49 +69,36 @@ const LoginPage = () => {
         </div>
 
         <div className="border rounded-lg p-8">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <Label htmlFor="email" className="block text-sm font-medium mb-2">
-                {t("email")}
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                required
-                value={credentials.email}
-                onChange={(e) =>
-                  setCredentials({ ...credentials, email: e.target.value })
-                }
-                placeholder="you@example.com"
-              />
-            </div>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <FormInput
+              label={t("email")}
+              type="email"
+              placeholder="you@example.com"
+              error={errors.email?.message}
+              required
+              {...register("email")}
+            />
 
-            <div>
-              <Label
-                htmlFor="password"
-                className="block text-sm font-medium mb-2"
-              >
-                {t("password")}
-              </Label>
-              <Input
-                id="password"
-                type="password"
-                required
-                value={credentials.password}
-                onChange={(e) =>
-                  setCredentials({ ...credentials, password: e.target.value })
-                }
-                placeholder="••••••••"
-              />
-            </div>
+            <FormInput
+              label={t("password")}
+              type="password"
+              placeholder="••••••••"
+              error={errors.password?.message}
+              required
+              {...register("password")}
+            />
 
-            <Button className="w-full" type="submit" disabled={login.isPending}>
-              {login.isPending ? t("signingIn") : t("signIn")}
+            <Button
+              className="w-full"
+              type="submit"
+              disabled={isSubmitting || login.isPending}
+            >
+              {isSubmitting || login.isPending ? t("signingIn") : t("signIn")}
             </Button>
           </form>
 
           <div className="mt-6 text-center">
-            <Label className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               {t("dontHaveAccount")}{" "}
               <LanguageAwareLink
                 href="/register"
@@ -113,7 +106,7 @@ const LoginPage = () => {
               >
                 {t("signUp")}
               </LanguageAwareLink>
-            </Label>
+            </p>
           </div>
 
           <div className="mt-4 text-center">

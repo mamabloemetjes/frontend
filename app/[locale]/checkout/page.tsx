@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -9,8 +8,15 @@ import { api, type OrderRequest } from "@/lib/api";
 import { LanguageAwareLink } from "@/components/LanguageAwareLink";
 import Image from "next/image";
 import { useSetAtom } from "jotai";
-import type { AxiosError } from "axios";
 import { formatPrice } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { FormInput } from "@/components/ui/form-input";
+import { FormTextarea } from "@/components/ui/form-textarea";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { checkoutSchema } from "@/lib/validation/schemas";
+import { showSuccess, showError, handleApiError } from "@/lib/validation/utils";
+import type { AxiosError } from "axios";
 
 export default function CheckoutPage() {
   const t = useTranslations();
@@ -19,73 +25,23 @@ export default function CheckoutPage() {
   const [cartTotal] = useAtom(cartTotalAtom);
   const clearCart = useSetAtom(clearCartAtom);
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    street: "",
-    house_no: "",
-    postal_code: "",
-    city: "",
-    country: "NL",
-    customer_note: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(checkoutSchema),
+    mode: "onBlur",
+    defaultValues: {
+      country: "NL",
+    },
   });
 
-  const [errors, setErrors] = useState<Record<string, string>>({});
-
-  const validateForm = (): boolean => {
-    const newErrors: Record<string, string> = {};
-
-    if (!formData.name.trim() || formData.name.length < 2) {
-      newErrors.name = t("order.checkout.validationError");
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!formData.email.trim() || !emailRegex.test(formData.email)) {
-      newErrors.email = t("order.checkout.validationError");
-    }
-
-    if (!formData.phone.trim() || formData.phone.length < 10) {
-      newErrors.phone = t("order.checkout.validationError");
-    }
-
-    if (!formData.street.trim() || formData.street.length < 2) {
-      newErrors.street = t("order.checkout.validationError");
-    }
-
-    if (!formData.house_no.trim()) {
-      newErrors.house_no = t("order.checkout.validationError");
-    }
-
-    if (!formData.postal_code.trim() || formData.postal_code.length < 4) {
-      newErrors.postal_code = t("order.checkout.validationError");
-    }
-
-    if (!formData.city.trim() || formData.city.length < 2) {
-      newErrors.city = t("order.checkout.validationError");
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-
-    if (!validateForm()) {
-      return;
-    }
-
+  const onSubmit = async (data: typeof checkoutSchema._output) => {
     if (cartItems.length === 0) {
-      setError(t("order.checkout.emptyCart"));
+      showError(t("order.checkout.emptyCart"));
       return;
     }
-
-    setIsSubmitting(true);
 
     try {
       // Convert cart items to products map
@@ -95,7 +51,7 @@ export default function CheckoutPage() {
       });
 
       const orderData: OrderRequest = {
-        ...formData,
+        ...data,
         products,
       };
 
@@ -107,6 +63,12 @@ export default function CheckoutPage() {
         console.log(
           "[Checkout] Order created successfully, clearing cart and redirecting",
         );
+
+        showSuccess(
+          t("order.checkout.orderSuccess"),
+          t("order.checkout.orderSuccessDescription"),
+        );
+
         // Clear cart
         clearCart();
 
@@ -119,7 +81,7 @@ export default function CheckoutPage() {
           "[Checkout] Order creation failed - success=false:",
           response,
         );
-        setError(response.message || t("order.checkout.orderFailed"));
+        showError(response.message || t("order.checkout.orderFailed"));
       }
     } catch (err) {
       const error = err as AxiosError<{
@@ -134,34 +96,13 @@ export default function CheckoutPage() {
       if (error.response?.status === 429) {
         const cooldownMinutes =
           error.response?.data?.data?.cooldown_minutes || 30;
-        setError(
+        showError(
           t("order.checkout.rateLimitError", { minutes: cooldownMinutes }) ||
             `Please wait ${cooldownMinutes} minutes before placing another order.`,
         );
       } else {
-        setError(
-          error.response?.data?.message ||
-            error.message ||
-            t("order.checkout.orderFailedDescription"),
-        );
+        handleApiError(error, t("order.checkout.orderFailedDescription"));
       }
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear error for this field when user starts typing
-    if (errors[name]) {
-      setErrors((prev) => {
-        const newErrors = { ...prev };
-        delete newErrors[name];
-        return newErrors;
-      });
     }
   };
 
@@ -188,16 +129,10 @@ export default function CheckoutPage() {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">{t("order.checkout.title")}</h1>
 
-      {error && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-800">
-          {error}
-        </div>
-      )}
-
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Order Form */}
         <div className="lg:col-span-2">
-          <form onSubmit={handleSubmit} className="space-y-8">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
             {/* Customer Information */}
             <div className="bg-card border rounded-lg p-6">
               <h2 className="text-xl font-semibold mb-4">
@@ -205,62 +140,32 @@ export default function CheckoutPage() {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium mb-2">
-                    {t("order.checkout.name")} *
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent ${
-                      errors.name ? "border-red-500" : "border-input"
-                    }`}
+                  <FormInput
+                    label={t("order.checkout.name")}
+                    placeholder="John Doe"
+                    error={errors.name?.message}
                     required
+                    {...register("name")}
                   />
-                  {errors.name && (
-                    <p className="text-red-500 text-sm mt-1">{errors.name}</p>
-                  )}
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    {t("order.checkout.email")} *
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent ${
-                      errors.email ? "border-red-500" : "border-input"
-                    }`}
-                    required
-                  />
-                  {errors.email && (
-                    <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-                  )}
-                </div>
+                <FormInput
+                  label={t("order.checkout.email")}
+                  type="email"
+                  placeholder="you@example.com"
+                  error={errors.email?.message}
+                  required
+                  {...register("email")}
+                />
 
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    {t("order.checkout.phone")} *
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    placeholder="+31 612345678"
-                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent ${
-                      errors.phone ? "border-red-500" : "border-input"
-                    }`}
-                    required
-                  />
-                  {errors.phone && (
-                    <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
-                  )}
-                </div>
+                <FormInput
+                  label={t("order.checkout.phone")}
+                  type="tel"
+                  placeholder="+31 612345678"
+                  error={errors.phone?.message}
+                  required
+                  {...register("phone")}
+                />
               </div>
             </div>
 
@@ -270,113 +175,59 @@ export default function CheckoutPage() {
                 {t("order.checkout.deliveryAddress")}
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    {t("order.checkout.street")} *
-                  </label>
-                  <input
-                    type="text"
-                    name="street"
-                    value={formData.street}
-                    onChange={handleInputChange}
-                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent ${
-                      errors.street ? "border-red-500" : "border-input"
-                    }`}
-                    required
-                  />
-                  {errors.street && (
-                    <p className="text-red-500 text-sm mt-1">{errors.street}</p>
-                  )}
-                </div>
+                <FormInput
+                  label={t("order.checkout.street")}
+                  placeholder="Kalverstraat"
+                  error={errors.street?.message}
+                  required
+                  {...register("street")}
+                />
 
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    {t("order.checkout.houseNumber")} *
-                  </label>
-                  <input
-                    type="text"
-                    name="house_no"
-                    value={formData.house_no}
-                    onChange={handleInputChange}
-                    placeholder="12A"
-                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent ${
-                      errors.house_no ? "border-red-500" : "border-input"
-                    }`}
-                    required
-                  />
-                  {errors.house_no && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.house_no}
-                    </p>
-                  )}
-                </div>
+                <FormInput
+                  label={t("order.checkout.houseNumber")}
+                  placeholder="12A"
+                  error={errors.house_no?.message}
+                  required
+                  {...register("house_no")}
+                />
 
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    {t("order.checkout.postalCode")} *
-                  </label>
-                  <input
-                    type="text"
-                    name="postal_code"
-                    value={formData.postal_code}
-                    onChange={handleInputChange}
-                    placeholder="1234 AB"
-                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent ${
-                      errors.postal_code ? "border-red-500" : "border-input"
-                    }`}
-                    required
-                  />
-                  {errors.postal_code && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.postal_code}
-                    </p>
-                  )}
-                </div>
+                <FormInput
+                  label={t("order.checkout.postalCode")}
+                  placeholder="1234 AB"
+                  error={errors.postal_code?.message}
+                  required
+                  {...register("postal_code")}
+                />
 
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    {t("order.checkout.city")} *
-                  </label>
-                  <input
-                    type="text"
-                    name="city"
-                    value={formData.city}
-                    onChange={handleInputChange}
-                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent ${
-                      errors.city ? "border-red-500" : "border-input"
-                    }`}
-                    required
-                  />
-                  {errors.city && (
-                    <p className="text-red-500 text-sm mt-1">{errors.city}</p>
-                  )}
-                </div>
+                <FormInput
+                  label={t("order.checkout.city")}
+                  placeholder="Amsterdam"
+                  error={errors.city?.message}
+                  required
+                  {...register("city")}
+                />
 
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium mb-2">
-                    {t("order.checkout.customerNote")}
-                  </label>
-                  <textarea
-                    name="customer_note"
-                    value={formData.customer_note}
-                    onChange={handleInputChange}
+                  <FormTextarea
+                    label={t("order.checkout.customerNote")}
                     placeholder={t("order.checkout.customerNotePlaceholder")}
                     rows={3}
-                    className="w-full px-4 py-2 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                    error={errors.customer_note?.message}
+                    {...register("customer_note")}
                   />
                 </div>
               </div>
             </div>
 
-            <button
+            <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-primary text-primary-foreground py-4 rounded-lg text-lg font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-6 text-lg font-semibold"
             >
               {isSubmitting
                 ? t("order.checkout.placingOrder")
                 : t("order.checkout.placeOrder")}
-            </button>
+            </Button>
           </form>
         </div>
 
@@ -420,7 +271,7 @@ export default function CheckoutPage() {
                 <span>{formatPrice(cartTotal)}</span>
               </div>
             </div>
-            <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800">
+            <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg text-sm text-blue-800 dark:text-blue-200">
               <p className="font-semibold mb-1">
                 💳 {t("order.confirmation.paymentInfo")}
               </p>

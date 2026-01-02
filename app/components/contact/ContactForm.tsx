@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import {
@@ -10,8 +12,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { FormInput } from "@/components/ui/form-input";
+import { FormTextarea } from "@/components/ui/form-textarea";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -29,70 +31,51 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { env } from "@/lib/env";
-import { useTranslations } from "next-intl";
-
-interface ContactFormState {
-  name: string;
-  email: string;
-  subject: "generalInquiry" | "customOrder";
-  message: string;
-  deadlineDate?: Date | undefined;
-}
+import {
+  contactFormSchema,
+  type ContactFormData,
+} from "@/lib/validation/schemas";
+import { showSuccess } from "@/lib/validation/utils";
 
 const ContactForm = () => {
-  const [form, setForm] = useState<ContactFormState>({
-    name: "",
-    email: "",
-    subject: "generalInquiry",
-    message: "",
-    deadlineDate: undefined,
-  });
   const t = useTranslations();
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { id, value } = e.target;
-    setForm((prevForm) => ({
-      ...prevForm,
-      [id]: value,
-    }));
-  };
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactFormSchema),
+    mode: "onBlur",
+    defaultValues: {
+      subject: "generalInquiry",
+    },
+  });
 
-  const handleSubjectSelect = (subject: ContactFormState["subject"]) => {
-    setForm((prevForm) => ({
-      ...prevForm,
-      subject,
-    }));
-  };
+  // eslint-disable-next-line react-hooks/incompatible-library
+  const selectedSubject = watch("subject");
+  const deadlineDate = watch("deadlineDate");
 
-  const handleDateSelect = (date: Date | undefined) => {
-    setForm((prevForm) => ({
-      ...prevForm,
-      deadlineDate: date || undefined,
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const onSubmit = (data: ContactFormData) => {
     const to = env.shopOwnerEmail;
 
     const subject =
-      form.subject === "generalInquiry"
+      data.subject === "generalInquiry"
         ? "General Inquiry"
         : "Custom Order Request";
 
     let body = `
-  Naam: ${form.name}
-  Email: ${form.email}
-  Onderwerp: ${subject}
-  Bericht:
-  ${form.message}
-  `;
+Naam: ${data.name}
+Email: ${data.email}
+Onderwerp: ${subject}
+Bericht:
+${data.message}
+`;
 
-    if (form.subject === "customOrder" && form.deadlineDate) {
-      body += `\nDeadline: ${format(form.deadlineDate, "PPP")}`;
+    if (data.subject === "customOrder" && data.deadlineDate) {
+      body += `\nDeadline: ${format(data.deadlineDate, "PPP")}`;
     }
 
     const mailtoLink = `mailto:${to}?subject=${encodeURIComponent(
@@ -100,6 +83,11 @@ const ContactForm = () => {
     )}&body=${encodeURIComponent(body)}`;
 
     window.location.href = mailtoLink;
+
+    showSuccess(
+      t("pages.contact.success"),
+      t("pages.contact.successDescription"),
+    );
   };
 
   return (
@@ -113,43 +101,53 @@ const ContactForm = () => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Name Field */}
-          <div className="space-y-2">
-            <Label htmlFor="name">{t("pages.contact.name")}</Label>
-            <Input
-              type="text"
-              id="name"
-              placeholder={t("pages.contact.yourName")}
-              value={form.name}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
+          <FormInput
+            label={t("pages.contact.name")}
+            type="text"
+            placeholder={t("pages.contact.yourName")}
+            error={errors.name?.message}
+            required
+            {...register("name")}
+          />
 
           {/* Email Field */}
-          <div className="space-y-2">
-            <Label htmlFor="email">{t("pages.contact.email")}</Label>
-            <Input
-              type="email"
-              id="email"
-              placeholder={t("pages.contact.yourEmail")}
-              value={form.email}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
+          <FormInput
+            label={t("pages.contact.email")}
+            type="email"
+            placeholder={t("pages.contact.yourEmail")}
+            error={errors.email?.message}
+            required
+            {...register("email")}
+          />
 
           {/* Subject Field */}
           <div className="space-y-2">
-            <Label htmlFor="subject">{t("pages.contact.subject")}</Label>
+            <Label
+              htmlFor="subject"
+              className={cn(
+                "block text-sm font-medium",
+                errors.subject && "text-red-500",
+              )}
+            >
+              {t("pages.contact.subject")}
+              <span className="text-red-500 ml-1">*</span>
+            </Label>
             <Select
-              value={form.subject}
+              value={selectedSubject}
               onValueChange={(value) =>
-                handleSubjectSelect(value as ContactFormState["subject"])
+                setValue("subject", value as "generalInquiry" | "customOrder", {
+                  shouldValidate: true,
+                })
               }
             >
-              <SelectTrigger id="subject">
+              <SelectTrigger
+                id="subject"
+                className={cn(
+                  errors.subject && "border-red-500 focus-visible:ring-red-500",
+                )}
+              >
                 <SelectValue placeholder={t("pages.contact.selectSubject")} />
               </SelectTrigger>
               <SelectContent>
@@ -161,41 +159,53 @@ const ContactForm = () => {
                 </SelectItem>
               </SelectContent>
             </Select>
+            {errors.subject && (
+              <p className="text-sm text-red-500 font-medium animate-in fade-in-50 duration-200">
+                {errors.subject.message}
+              </p>
+            )}
           </div>
 
           {/* Message Field */}
-          <div className="space-y-2">
-            <Label htmlFor="message">{t("pages.contact.message")}</Label>
-            <Textarea
-              id="message"
-              rows={5}
-              placeholder={t("pages.contact.yourMessage")}
-              value={form.message}
-              onChange={handleInputChange}
-              required
-              className="resize-none"
-            />
-          </div>
+          <FormTextarea
+            label={t("pages.contact.message")}
+            rows={5}
+            placeholder={t("pages.contact.yourMessage")}
+            error={errors.message?.message}
+            required
+            className="resize-none"
+            {...register("message")}
+          />
 
           {/* Deadline Date Field - only show if subject is custom order */}
-          {form.subject === "customOrder" && (
+          {selectedSubject === "customOrder" && (
             <div className="space-y-2">
-              <Label>{t("pages.contact.deadlineDateQuestion")}</Label>
+              <Label
+                className={cn(
+                  "block text-sm font-medium",
+                  errors.deadlineDate && "text-red-500",
+                )}
+              >
+                {t("pages.contact.deadlineDateQuestion")}
+              </Label>
               <Label className="text-sm text-muted-foreground block max-w-md">
                 {t("pages.contact.deadlineDateDescription")}
               </Label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
+                    type="button"
                     variant="outline"
                     className={cn(
                       "w-full justify-start text-left font-normal",
-                      !form.deadlineDate && "text-muted-foreground",
+                      !deadlineDate && "text-muted-foreground",
+                      errors.deadlineDate &&
+                        "border-red-500 focus-visible:ring-red-500",
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {form.deadlineDate ? (
-                      format(form.deadlineDate, "PPP")
+                    {deadlineDate ? (
+                      format(deadlineDate, "PPP")
                     ) : (
                       <span>{t("pages.contact.pickDate")}</span>
                     )}
@@ -204,9 +214,12 @@ const ContactForm = () => {
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={form.deadlineDate} // Date | undefined
-                    onSelect={(date) => handleDateSelect(date)}
-                    autoFocus={true} // should be boolean
+                    selected={deadlineDate}
+                    onSelect={(date) =>
+                      setValue("deadlineDate", date, {
+                        shouldValidate: true,
+                      })
+                    }
                     disabled={(date) => date < new Date()}
                     className="p-4"
                     classNames={{
@@ -223,12 +236,24 @@ const ContactForm = () => {
                   />
                 </PopoverContent>
               </Popover>
+              {errors.deadlineDate && (
+                <p className="text-sm text-red-500 font-medium animate-in fade-in-50 duration-200">
+                  {errors.deadlineDate.message}
+                </p>
+              )}
             </div>
           )}
 
           {/* Submit Button */}
-          <Button type="submit" className="w-full" size="lg">
-            {t("pages.contact.sendMessage")}
+          <Button
+            type="submit"
+            className="w-full"
+            size="lg"
+            disabled={isSubmitting}
+          >
+            {isSubmitting
+              ? t("pages.contact.sending")
+              : t("pages.contact.sendMessage")}
           </Button>
         </form>
       </CardContent>

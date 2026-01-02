@@ -1,45 +1,54 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useRegister } from "@/hooks/useAuth";
-import type { RegisterData } from "@/types/auth";
 import { LanguageAwareLink } from "@/components/LanguageAwareLink";
 import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
+import { FormInput } from "@/components/ui/form-input";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  registerSchema,
+  type RegisterFormData,
+} from "@/lib/validation/schemas";
+import { showSuccess, handleApiError } from "@/lib/validation/utils";
 
 const RegisterPage = () => {
   const t = useTranslations();
   const router = useRouter();
   const register = useRegister();
-  const [formData, setFormData] = useState<RegisterData>({
-    username: "",
-    email: "",
-    password: "",
+
+  const {
+    register: registerField,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
+    mode: "onBlur",
   });
-  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (formData.password !== confirmPassword) {
-      return;
-    }
-
+  const onSubmit = async (data: RegisterFormData) => {
     try {
-      await register.mutateAsync(formData);
-      // Success message is shown by the useRegister hook
+      // Remove confirmPassword before sending to API
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { confirmPassword, ...registerData } = data;
+
+      await register.mutateAsync(registerData);
+
+      showSuccess(
+        t("auth.register.success"),
+        t("auth.register.successDescription"),
+      );
+
       // Redirect to login page after successful registration
       setTimeout(() => {
         router.push("/login");
-      }, 2000); // Give time for user to see the success toast
+      }, 2000);
     } catch (error) {
-      // Error will be handled by the mutation error handler
-      console.error("Registration failed:", error);
+      handleApiError(error, t("auth.register.failed"));
     }
   };
-
-  const passwordsMatch =
-    formData.password === confirmPassword || confirmPassword === "";
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
@@ -50,96 +59,53 @@ const RegisterPage = () => {
         </div>
 
         <div className="border rounded-lg p-8">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium mb-2"
-              >
-                {t("auth.register.username")}
-              </label>
-              <input
-                id="username"
-                type="text"
-                required
-                value={formData.username}
-                onChange={(e) =>
-                  setFormData({ ...formData, username: e.target.value })
-                }
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="johndoe"
-              />
-            </div>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <FormInput
+              label={t("auth.register.username")}
+              type="text"
+              placeholder="johndoe"
+              error={errors.username?.message}
+              required
+              {...registerField("username")}
+            />
 
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium mb-2">
-                {t("auth.register.email")}
-              </label>
-              <input
-                id="email"
-                type="email"
-                required
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="you@example.com"
-              />
-            </div>
+            <FormInput
+              label={t("auth.register.email")}
+              type="email"
+              placeholder="you@example.com"
+              error={errors.email?.message}
+              required
+              {...registerField("email")}
+            />
 
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium mb-2"
-              >
-                {t("auth.register.password")}
-              </label>
-              <input
-                id="password"
-                type="password"
-                required
-                value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="••••••••"
-              />
-            </div>
+            <FormInput
+              label={t("auth.register.password")}
+              type="password"
+              placeholder="••••••••"
+              error={errors.password?.message}
+              helperText={t("auth.register.passwordHelper")}
+              required
+              {...registerField("password")}
+            />
 
-            <div>
-              <label
-                htmlFor="confirmPassword"
-                className="block text-sm font-medium mb-2"
-              >
-                {t("auth.register.confirmPassword")}
-              </label>
-              <input
-                id="confirmPassword"
-                type="password"
-                required
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="••••••••"
-              />
-              {!passwordsMatch && (
-                <p className="text-sm text-destructive mt-1">
-                  {t("auth.register.passwordsDoNotMatch")}
-                </p>
-              )}
-            </div>
+            <FormInput
+              label={t("auth.register.confirmPassword")}
+              type="password"
+              placeholder="••••••••"
+              error={errors.confirmPassword?.message}
+              required
+              {...registerField("confirmPassword")}
+            />
 
-            <button
+            <Button
               type="submit"
-              disabled={register.isPending || !passwordsMatch}
-              className="w-full bg-primary text-primary-foreground py-2 px-4 rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full"
+              disabled={isSubmitting || register.isPending}
             >
-              {register.isPending
+              {isSubmitting || register.isPending
                 ? t("auth.register.creatingAccount")
                 : t("auth.register.signUp")}
-            </button>
+            </Button>
           </form>
 
           <div className="mt-6 text-center">
