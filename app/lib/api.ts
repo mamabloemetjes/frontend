@@ -129,6 +129,99 @@ export interface ProductListFilters {
 }
 
 // ============================================================================
+// ORDER TYPES - Aligned with Go backend
+// ============================================================================
+
+export type OrderStatus =
+  | "pending"
+  | "paid"
+  | "processing"
+  | "shipped"
+  | "delivered"
+  | "cancelled"
+  | "refunded";
+
+export type PaymentStatus = "unpaid" | "paid";
+
+export interface OrderRequest {
+  name: string;
+  email: string;
+  phone: string;
+  customer_note?: string;
+  street: string;
+  house_no: string;
+  postal_code: string;
+  city: string;
+  country: string;
+  products: Record<string, number>; // productId -> quantity
+}
+
+export interface Address {
+  id: string;
+  user_id?: string;
+  street: string;
+  house_no: string;
+  postal_code: string;
+  city: string;
+  country: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Order {
+  id: string;
+  order_number: string;
+  name: string;
+  email: string;
+  phone: string;
+  note?: string;
+  address_id: string;
+  payment_link?: string;
+  payment_status: PaymentStatus;
+  status: OrderStatus;
+  created_at: string;
+  updated_at: string;
+  deleted_at?: string;
+}
+
+export interface OrderLine {
+  id: string;
+  order_id: string;
+  product_id: string;
+  quantity: number;
+  unit_price: number;
+  unit_discount: number;
+  unit_tax: number;
+  unit_subtotal: number;
+  line_total: number;
+  product_name: string;
+  product_sku: string;
+}
+
+export interface OrderDetails {
+  order: Order;
+  order_lines: OrderLine[];
+  address: Address;
+  total: number;
+}
+
+export interface OrderListResponse {
+  orders: Order[];
+  pagination: {
+    page: number;
+    page_size: number;
+    total: number;
+    total_pages: number;
+  };
+}
+
+export interface CreateOrderResponse {
+  order_number: string;
+  order_id: string;
+  status: OrderStatus;
+}
+
+// ============================================================================
 // AXIOS INSTANCE
 // ============================================================================
 
@@ -459,6 +552,28 @@ export const api = {
       return apiClient.get("/auth/me");
     },
   },
+  orders: {
+    /**
+     * POST /orders/create
+     * Create a new order (guest or authenticated user)
+     */
+    create: async (
+      orderData: OrderRequest,
+    ): Promise<ApiResponse<CreateOrderResponse>> => {
+      return apiClient.post("/orders/create", orderData);
+    },
+
+    /**
+     * GET /orders/my-orders
+     * Get all orders for authenticated user
+     * Requires authentication
+     */
+    getMyOrders: async (): Promise<
+      ApiResponse<{ orders: Order[]; count: number }>
+    > => {
+      return apiClient.get("/orders/my-orders");
+    },
+  },
   admin: {
     products: {
       /**
@@ -557,6 +672,84 @@ export const api = {
         });
       },
     },
+    orders: {
+      /**
+       * GET /admin/orders
+       * Get all orders with optional filtering
+       */
+      getAll: async (params?: {
+        page?: number;
+        page_size?: number;
+        status?: OrderStatus;
+        payment_status?: PaymentStatus;
+      }): Promise<ApiResponse<OrderListResponse>> => {
+        return apiClient.get("/admin/orders", { params });
+      },
+
+      /**
+       * GET /admin/orders/{id}
+       * Get detailed information about a specific order
+       */
+      getById: async (orderId: string): Promise<ApiResponse<OrderDetails>> => {
+        return apiClient.get(`/admin/orders/${orderId}`);
+      },
+
+      /**
+       * POST /admin/orders/{id}/payment-link
+       * Attach a Tikkie payment link to an order
+       */
+      attachPaymentLink: async (
+        orderId: string,
+        paymentLink: string,
+      ): Promise<ApiResponse<null>> => {
+        const formData = new FormData();
+        formData.append("payment_link", paymentLink);
+
+        return apiClient.post(
+          `/admin/orders/${orderId}/payment-link`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          },
+        );
+      },
+
+      /**
+       * POST /admin/orders/{id}/mark-paid
+       * Mark an order as paid
+       */
+      markAsPaid: async (orderId: string): Promise<ApiResponse<null>> => {
+        return apiClient.post(`/admin/orders/${orderId}/mark-paid`);
+      },
+
+      /**
+       * PUT /admin/orders/{id}/status
+       * Update the status of an order
+       */
+      updateStatus: async (
+        orderId: string,
+        status: OrderStatus,
+      ): Promise<ApiResponse<null>> => {
+        const formData = new FormData();
+        formData.append("status", status);
+
+        return apiClient.put(`/admin/orders/${orderId}/status`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      },
+
+      /**
+       * DELETE /admin/orders/{id}
+       * Soft delete an order
+       */
+      delete: async (orderId: string): Promise<ApiResponse<null>> => {
+        return apiClient.delete(`/admin/orders/${orderId}`);
+      },
+    },
   },
 };
 
@@ -586,6 +779,21 @@ export const queryKeys = {
       list: (filters?: ProductListFilters) =>
         [...queryKeys.admin.products.lists(), filters] as const,
     },
+    orders: {
+      all: ["admin", "orders"] as const,
+      lists: () => [...queryKeys.admin.orders.all, "list"] as const,
+      list: (filters?: {
+        status?: OrderStatus;
+        payment_status?: PaymentStatus;
+      }) => [...queryKeys.admin.orders.lists(), filters] as const,
+      details: () => [...queryKeys.admin.orders.all, "detail"] as const,
+      detail: (id: string) =>
+        [...queryKeys.admin.orders.details(), id] as const,
+    },
+  },
+  orders: {
+    all: ["orders"] as const,
+    myOrders: () => [...queryKeys.orders.all, "my-orders"] as const,
   },
 } as const;
 
@@ -618,6 +826,33 @@ export const queryClient = new QueryClient({
     },
   },
 });
+
+// ============================================================================
+// ORDER HELPER FUNCTIONS
+// ============================================================================
+
+export const formatOrderTotal = (total: number): string => {
+  return `€${(total / 100).toFixed(2)}`;
+};
+
+export const getOrderStatusColor = (status: OrderStatus): string => {
+  const colors: Record<OrderStatus, string> = {
+    pending: "bg-yellow-100 text-yellow-800",
+    paid: "bg-green-100 text-green-800",
+    processing: "bg-blue-100 text-blue-800",
+    shipped: "bg-purple-100 text-purple-800",
+    delivered: "bg-gray-100 text-gray-800",
+    cancelled: "bg-red-100 text-red-800",
+    refunded: "bg-orange-100 text-orange-800",
+  };
+  return colors[status] || "bg-gray-100 text-gray-800";
+};
+
+export const getPaymentStatusColor = (status: PaymentStatus): string => {
+  return status === "paid"
+    ? "bg-green-100 text-green-800"
+    : "bg-yellow-100 text-yellow-800";
+};
 
 // Export axios instance
 export { apiClient };

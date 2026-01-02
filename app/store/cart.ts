@@ -2,15 +2,10 @@
 
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
+import type { Product } from "@/lib/api";
 
-export interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  discount: number;
+export interface CartItem extends Product {
   quantity: number;
-  image?: string;
-  availableStock: number;
 }
 
 type CartToast =
@@ -33,10 +28,7 @@ export const cartToastAtom = atom<CartToast | null>(null);
 // Derived atom - calculate total price
 export const cartTotalAtom = atom((get) => {
   const items = get(cartItemsAtom);
-  return items.reduce(
-    (sum, item) => sum + (item.price - item.discount) * item.quantity,
-    0,
-  );
+  return items.reduce((sum, item) => sum + item.subtotal * item.quantity, 0);
 });
 
 // Derived atom - calculate total discount
@@ -52,42 +44,40 @@ export const cartCountAtom = atom((get) => {
 });
 
 // Action atom - add item to cart
-export const addToCartAtom = atom(
-  null,
-  (get, set, product: Omit<CartItem, "quantity">) => {
-    const items = get(cartItemsAtom);
-    const existingItem = items.find((item) => item.id === product.id);
+export const addToCartAtom = atom(null, (get, set, product: Product) => {
+  const items = get(cartItemsAtom);
+  const existingItem = items.find((item) => item.id === product.id);
 
-    if (existingItem) {
-      if (existingItem.quantity >= existingItem.availableStock) {
-        set(cartToastAtom, {
-          type: "error",
-          titleKey: "insufficientStock",
-          descriptionKey: "insufficientStockDescription",
-          params: { name: product.name },
-        });
-        return;
-      }
-
-      set(
-        cartItemsAtom,
-        items.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item,
-        ),
-      );
-    } else {
-      set(cartItemsAtom, [...items, { ...product, quantity: 1 }]);
+  if (existingItem) {
+    // Check stock if available (stock can be undefined)
+    if (product.stock !== undefined && existingItem.quantity >= product.stock) {
+      set(cartToastAtom, {
+        type: "error",
+        titleKey: "insufficientStock",
+        descriptionKey: "insufficientStockDescription",
+        params: { name: product.name },
+      });
+      return;
     }
 
-    set(cartToastAtom, {
-      type: "success",
-      titleKey: "addedToCart",
-      params: { name: product.name },
-    });
-  },
-);
+    set(
+      cartItemsAtom,
+      items.map((item) =>
+        item.id === product.id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item,
+      ),
+    );
+  } else {
+    set(cartItemsAtom, [...items, { ...product, quantity: 1 }]);
+  }
+
+  set(cartToastAtom, {
+    type: "success",
+    titleKey: "addedToCart",
+    params: { name: product.name },
+  });
+});
 
 // Action atom - remove item from cart
 export const removeFromCartAtom = atom(null, (get, set, productId: string) => {

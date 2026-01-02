@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   useAdminProducts,
   useCreateProduct,
@@ -25,6 +25,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
+import {
+  api,
+  type Order,
+  type OrderStatus,
+  type PaymentStatus,
+  getOrderStatusColor,
+  getPaymentStatusColor,
+} from "@/lib/api";
+import {
+  Package,
+  ChevronRight,
+  Filter,
+  Search,
+  Calendar,
+  User,
+} from "lucide-react";
 
 type Tab = "products" | "orders";
 
@@ -498,55 +515,332 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
 }
 
 function OrdersTab() {
+  const t = useTranslations();
+  const router = useRouter();
+
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalOrders, setTotalOrders] = useState(0);
+  const pageSize = 20;
+
+  // Filters
+  const [statusFilter, setStatusFilter] = useState<OrderStatus | "">("");
+  const [paymentFilter, setPaymentFilter] = useState<PaymentStatus | "">("");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    fetchOrders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, statusFilter, paymentFilter]);
+
+  const fetchOrders = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const params: {
+        page: number;
+        page_size: number;
+        status?: OrderStatus;
+        payment_status?: PaymentStatus;
+      } = {
+        page,
+        page_size: pageSize,
+      };
+
+      if (statusFilter) {
+        params.status = statusFilter;
+      }
+
+      if (paymentFilter) {
+        params.payment_status = paymentFilter;
+      }
+
+      const response = await api.admin.orders.getAll(params);
+
+      if (response.success) {
+        setOrders(response.data.orders);
+        setTotalPages(response.data.pagination.total_pages);
+        setTotalOrders(response.data.pagination.total);
+      } else {
+        setError(response.message);
+      }
+    } catch (err) {
+      console.error("Failed to fetch orders:", err);
+      const error = err as { response?: { status?: number }; message?: string };
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        router.push("/login?redirect=/dashboard");
+      } else {
+        setError(error.message || t("order.admin.dashboard.loading"));
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const formatDate = (dateString: string): string => {
+    if (!dateString) return "-";
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return "-";
+    return new Intl.DateTimeFormat("nl-NL", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(date);
+  };
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setPage(newPage);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const clearFilters = () => {
+    setStatusFilter("");
+    setPaymentFilter("");
+    setSearchQuery("");
+    setPage(1);
+  };
+
+  const filteredOrders = orders.filter((order) => {
+    if (!searchQuery) return true;
+    const query = searchQuery.toLowerCase();
+    return (
+      order.order_number.toLowerCase().includes(query) ||
+      order.name.toLowerCase().includes(query) ||
+      order.email.toLowerCase().includes(query)
+    );
+  });
+
+  if (loading && orders.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-4 py-16">
+        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+        <p className="text-muted-foreground">
+          {t("order.admin.dashboard.loading")}
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-6">Orders</h2>
-      <div className="border border-border rounded-lg p-8 text-center bg-muted/50">
-        <p className="text-lg text-muted-foreground">
-          Orders management coming soon...
-        </p>
-        <p className="mt-2 text-sm text-muted-foreground">
-          This section will include order viewing, processing, and status
-          updates.
-        </p>
-      </div>
-
-      {/* Placeholder structure for future implementation */}
-      <div className="mt-8 space-y-4 opacity-50 pointer-events-none">
-        <div className="border border-border rounded-lg p-4 bg-card">
-          <div className="flex justify-between items-center">
-            <div>
-              <div className="font-bold">Order #12345</div>
-              <div className="text-sm text-muted-foreground">
-                Customer: John Doe
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="font-bold">€45.99</div>
-              <div className="text-sm text-muted-foreground">
-                Status: Pending
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="border border-border rounded-lg p-4 bg-card">
-          <div className="flex justify-between items-center">
-            <div>
-              <div className="font-bold">Order #12344</div>
-              <div className="text-sm text-muted-foreground">
-                Customer: Jane Smith
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="font-bold">€78.50</div>
-              <div className="text-sm text-muted-foreground">
-                Status: Shipped
-              </div>
-            </div>
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div className="flex items-center gap-3">
+          <Package className="w-8 h-8 text-primary" />
+          <div>
+            <h2 className="text-2xl font-bold">
+              {t("order.admin.dashboard.title")}
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              {t("order.admin.dashboard.showingOrders", { count: totalOrders })}
+            </p>
           </div>
         </div>
       </div>
+
+      {/* Filters */}
+      <div className="bg-card border rounded-lg p-4 mb-6">
+        <div className="flex items-center gap-2 mb-4">
+          <Filter className="w-5 h-5 text-muted-foreground" />
+          <h3 className="font-semibold">Filters</h3>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Search */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Search by order number, name, email..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+            />
+          </div>
+
+          {/* Status Filter */}
+          <select
+            value={statusFilter}
+            onChange={(e) => {
+              setStatusFilter(e.target.value as OrderStatus | "");
+              setPage(1);
+            }}
+            className="px-4 py-2 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+          >
+            <option value="">
+              {t("order.admin.dashboard.filterByStatus")}
+            </option>
+            <option value="pending">{t("order.status.pending")}</option>
+            <option value="paid">{t("order.status.paid")}</option>
+            <option value="processing">{t("order.status.processing")}</option>
+            <option value="shipped">{t("order.status.shipped")}</option>
+            <option value="delivered">{t("order.status.delivered")}</option>
+            <option value="cancelled">{t("order.status.cancelled")}</option>
+            <option value="refunded">{t("order.status.refunded")}</option>
+          </select>
+
+          {/* Payment Filter */}
+          <select
+            value={paymentFilter}
+            onChange={(e) => {
+              setPaymentFilter(e.target.value as PaymentStatus | "");
+              setPage(1);
+            }}
+            className="px-4 py-2 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+          >
+            <option value="">
+              {t("order.admin.dashboard.filterByPayment")}
+            </option>
+            <option value="unpaid">Unpaid</option>
+            <option value="paid">Paid</option>
+          </select>
+        </div>
+
+        {(statusFilter || paymentFilter || searchQuery) && (
+          <button
+            onClick={clearFilters}
+            className="mt-4 text-sm text-primary hover:underline"
+          >
+            Clear all filters
+          </button>
+        )}
+      </div>
+
+      {/* Error State */}
+      {error && (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+          <p className="text-red-800 font-semibold">{error}</p>
+        </div>
+      )}
+
+      {/* Orders List */}
+      {filteredOrders.length === 0 ? (
+        <div className="text-center py-16 bg-card border rounded-lg">
+          <Package className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+          <h3 className="text-xl font-semibold mb-2">
+            {t("order.admin.dashboard.noOrders")}
+          </h3>
+          <p className="text-muted-foreground">
+            {searchQuery || statusFilter || paymentFilter
+              ? "Try adjusting your filters"
+              : "No orders have been placed yet"}
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {filteredOrders.map((order) => (
+            <div
+              key={order.id}
+              className="bg-card border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
+              onClick={() => router.push(`/dashboard/orders/${order.id}`)}
+            >
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="flex-1">
+                  {/* Order Number & Status */}
+                  <div className="flex items-center gap-3 mb-2">
+                    <h3 className="font-semibold text-lg">
+                      {order.order_number}
+                    </h3>
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-semibold ${getOrderStatusColor(order.status || "pending")}`}
+                    >
+                      {t(`order.status.${order.status || "pending"}`)}
+                    </span>
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-semibold ${getPaymentStatusColor(order.payment_status)}`}
+                    >
+                      {t(
+                        `order.paymentStatus.${order.payment_status || "unpaid"}`,
+                      )}
+                    </span>
+                  </div>
+
+                  {/* Customer & Date Info */}
+                  <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-2">
+                      <User className="w-4 h-4" />
+                      <span className="font-medium">{order.name}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Calendar className="w-4 h-4" />
+                      <span>{formatDate(order.created_at)}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* View Button */}
+                <button className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-semibold">
+                  View Details
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center gap-2 mt-8">
+          <button
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page === 1}
+            className="px-4 py-2 border border-input rounded-lg hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            Previous
+          </button>
+
+          <div className="flex items-center gap-2">
+            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+              let pageNum;
+              if (totalPages <= 5) {
+                pageNum = i + 1;
+              } else if (page <= 3) {
+                pageNum = i + 1;
+              } else if (page >= totalPages - 2) {
+                pageNum = totalPages - 4 + i;
+              } else {
+                pageNum = page - 2 + i;
+              }
+
+              return (
+                <button
+                  key={pageNum}
+                  onClick={() => handlePageChange(pageNum)}
+                  className={`w-10 h-10 rounded-lg font-semibold transition-colors ${
+                    page === pageNum
+                      ? "bg-primary text-primary-foreground"
+                      : "border border-input hover:bg-accent"
+                  }`}
+                >
+                  {pageNum}
+                </button>
+              );
+            })}
+          </div>
+
+          <button
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page === totalPages}
+            className="px-4 py-2 border border-input rounded-lg hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            Next
+          </button>
+        </div>
+      )}
+
+      {/* Page Info */}
+      <p className="text-center text-sm text-muted-foreground mt-4">
+        {t("order.admin.dashboard.page", { current: page, total: totalPages })}
+      </p>
     </div>
   );
 }

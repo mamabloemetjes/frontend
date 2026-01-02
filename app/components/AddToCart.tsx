@@ -13,19 +13,7 @@ interface AddToCartProps {
 const AddToCart = ({ product, title }: AddToCartProps) => {
   const addToCart = useSetAtom(addToCartAtom);
   return (
-    <Button
-      size="lg"
-      onClick={() =>
-        addToCart({
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          discount: product.discount || 0,
-          image: product.images?.[0]?.url,
-          availableStock: 1,
-        })
-      }
-    >
+    <Button size="lg" onClick={() => addToCart(product)}>
       {title}
     </Button>
   );

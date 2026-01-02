@@ -9,8 +9,9 @@ import {
   clearCartAtom,
 } from "@/store/cart";
 import { LanguageAwareLink } from "@/components/LanguageAwareLink";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { formatPrice } from "@/lib/utils";
+import ProductCard from "@/components/ProductCard";
 
 function CartPage() {
   const [cartItems] = useAtom(cartItemsAtom);
@@ -19,10 +20,6 @@ function CartPage() {
   const removeFromCart = useSetAtom(removeFromCartAtom);
   const clearCart = useSetAtom(clearCartAtom);
   const t = useTranslations();
-
-  const formatPrice = (priceInCents: number): string => {
-    return (priceInCents / 100).toFixed(2);
-  };
 
   if (cartItems.length === 0) {
     return (
@@ -53,61 +50,18 @@ function CartPage() {
       </div>
 
       <div className="space-y-4">
-        {cartItems.map((item) => (
-          <div
-            key={item.id}
-            className="border rounded-lg p-4 flex items-center justify-between hover:shadow-lg transition-shadow"
-          >
-            <div className="flex items-center gap-4">
-              <LanguageAwareLink href={`/products/${item.id}`}>
-                {item.image ? (
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    className="w-20 h-20 object-cover rounded"
-                    width={120}
-                    height={120}
-                    loading="eager"
-                  />
-                ) : (
-                  <div className="w-20 h-20 bg-muted rounded flex items-center justify-center text-2xl">
-                    🌸
-                  </div>
-                )}
-              </LanguageAwareLink>
-              <div>
-                <LanguageAwareLink
-                  href={`/products/${item.id}`}
-                  className="hover:underline"
-                >
-                  <h3 className="font-semibold">{item.name}</h3>
-                </LanguageAwareLink>
-                <div className="flex items-center gap-2 text-sm">
-                  <span className="text-muted-foreground">
-                    €{formatPrice(item.price - item.discount)}
-                  </span>
-                  {item.discount > 0 && (
-                    <span className="text-muted-foreground line-through">
-                      €{formatPrice(item.price)}
-                    </span>
-                  )}
-                  <span>× {item.quantity}</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <span className="font-bold text-lg">
-                €{formatPrice((item.price - item.discount) * item.quantity)}
-              </span>
-              <button
-                onClick={() => removeFromCart(item.id)}
-                className="text-destructive hover:underline text-sm"
-              >
-                {t("pages.cart.remove")}
-              </button>
-            </div>
-          </div>
-        ))}
+        {cartItems.map((item) => {
+          return (
+            <ProductCard
+              key={item.id}
+              product={item}
+              variant="compact"
+              quantity={item.quantity}
+              onRemove={() => removeFromCart(item.id)}
+              removeLabel={t("pages.cart.remove")}
+            />
+          );
+        })}
       </div>
 
       <div className="mt-8 border-t pt-4">
@@ -118,18 +72,21 @@ function CartPage() {
                 {t("pages.cart.totalDiscount")}
               </span>
               <span className="font-semibold text-green-600">
-                -€{formatPrice(totalDiscount)}
+                -{formatPrice(totalDiscount)}
               </span>
             </div>
           )}
           <div className="flex items-center justify-between text-2xl font-bold">
             <span>{t("pages.cart.total")}</span>
-            <span>€{formatPrice(cartTotal)}</span>
+            <span>{formatPrice(cartTotal)}</span>
           </div>
         </div>
-        <button className="w-full mt-4 bg-primary text-primary-foreground py-3 rounded-lg text-lg font-semibold hover:bg-primary/90 transition-colors">
+        <LanguageAwareLink
+          href="/checkout"
+          className="block w-full mt-4 bg-primary text-primary-foreground py-3 rounded-lg text-lg font-semibold hover:bg-primary/90 transition-colors text-center"
+        >
           {t("pages.cart.proceedToCheckout")}
-        </button>
+        </LanguageAwareLink>
       </div>
     </div>
   );

@@ -74,6 +74,14 @@ export default function Header() {
 
             {isAuthenticated ? (
               <>
+                <LanguageAwareLink
+                  href="/account"
+                  className="px-4 py-2 rounded-lg hover:bg-accent transition-all duration-200 flex items-center gap-2 group"
+                >
+                  <User className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                  <span>{t("navigation.account")}</span>
+                </LanguageAwareLink>
+
                 {user?.role === "admin" && (
                   <LanguageAwareLink
                     href="/dashboard"
@@ -161,6 +169,15 @@ export default function Header() {
 
             {isAuthenticated ? (
               <>
+                <LanguageAwareLink
+                  href="/account"
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <User className="w-5 h-5" />
+                  <span>{t("navigation.account")}</span>
+                </LanguageAwareLink>
+
                 {user?.role === "admin" && (
                   <LanguageAwareLink
                     href="/dashboard"
