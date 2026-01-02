@@ -136,6 +136,8 @@
         "attachPaymentLink": "Betaallink Toevoegen",
         "paymentLinkPlaceholder": "Plak hier de Tikkie betaallink",
         "sendPaymentLink": "Stuur Betaallink",
+        "currentPaymentLink": "Huidige Betaallink",
+        "attaching": "Betaallink Toevoegen...",
         "markAsPaid": "Markeer als Betaald",
         "updateStatus": "Status Bijwerken",
         "deleteOrder": "Bestelling Verwijderen",

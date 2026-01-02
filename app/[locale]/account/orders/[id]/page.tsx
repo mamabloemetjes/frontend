@@ -171,9 +171,6 @@ export default function AccountOrderDetailPage() {
                       <h3 className="font-semibold mb-1">
                         {line.product_name}
                       </h3>
-                      <p className="text-sm text-muted-foreground mb-2">
-                        SKU: {line.product_sku}
-                      </p>
                       <div className="flex items-center gap-4 text-sm">
                         <span className="text-muted-foreground">
                           {t("account.orderDetails.quantity")}: {line.quantity}

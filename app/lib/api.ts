@@ -702,18 +702,9 @@ export const api = {
         orderId: string,
         paymentLink: string,
       ): Promise<ApiResponse<null>> => {
-        const formData = new FormData();
-        formData.append("payment_link", paymentLink);
-
-        return apiClient.post(
-          `/admin/orders/${orderId}/payment-link`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          },
-        );
+        return apiClient.post(`/admin/orders/${orderId}/payment-link`, {
+          payment_link: paymentLink,
+        });
       },
 
       /**

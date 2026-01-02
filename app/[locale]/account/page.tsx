@@ -136,32 +136,22 @@ function ProfileTab({
           </div>
 
           {/* Role */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-muted-foreground">
-              {t("account.profile.role")}
-            </label>
-            <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
-              <Shield className="w-5 h-5 text-muted-foreground" />
-              <span className="font-medium capitalize">{user.role}</span>
-              {user.role === "admin" && (
-                <span className="ml-auto px-2 py-1 bg-primary/10 text-primary text-xs font-semibold rounded">
-                  {t("account.profile.adminBadge")}
-                </span>
-              )}
+          {user.role === "admin" && (
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-muted-foreground">
+                {t("account.profile.role")}
+              </label>
+              <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
+                <Shield className="w-5 h-5 text-muted-foreground" />
+                <span className="font-medium capitalize">{user.role}</span>
+                {user.role === "admin" && (
+                  <span className="ml-auto px-2 py-1 bg-primary/10 text-primary text-xs font-semibold rounded">
+                    {t("account.profile.adminBadge")}
+                  </span>
+                )}
+              </div>
             </div>
-          </div>
-
-          {/* User ID */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-muted-foreground">
-              {t("account.profile.userId")}
-            </label>
-            <div className="p-3 bg-muted rounded-lg">
-              <code className="text-xs text-muted-foreground break-all">
-                {user.id}
-              </code>
-            </div>
-          </div>
+          )}
 
           {/* Admin Dashboard Link */}
           {user.role === "admin" && (

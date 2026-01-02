@@ -320,9 +320,6 @@ export default function AdminOrderDetailPage() {
                   <div className="flex-1">
                     <h3 className="font-semibold">{line.product_name}</h3>
                     <p className="text-sm text-muted-foreground">
-                      SKU: {line.product_sku}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
                       {line.quantity} × {formatOrderTotal(line.unit_subtotal)}
                     </p>
                   </div>
