@@ -12,7 +12,7 @@ import {
   registerSchema,
   type RegisterFormData,
 } from "@/lib/validation/schemas";
-import { showSuccess, handleApiError } from "@/lib/validation/utils";
+import { showSuccess } from "@/lib/validation/utils";
 import { FeatureRoute } from "@/components";
 
 const RegisterPage = () => {
@@ -30,25 +30,21 @@ const RegisterPage = () => {
   });
 
   const onSubmit = async (data: RegisterFormData) => {
-    try {
-      // Remove confirmPassword before sending to API
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { confirmPassword, ...registerData } = data;
+    // Remove confirmPassword before sending to API
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { confirmPassword, ...registerData } = data;
 
-      await register.mutateAsync(registerData);
+    await register.mutateAsync(registerData);
 
-      showSuccess(
-        t("auth.register.success"),
-        t("auth.register.successDescription"),
-      );
+    showSuccess(
+      t("auth.register.success"),
+      t("auth.register.successDescription"),
+    );
 
-      // Redirect to login page after successful registration
-      setTimeout(() => {
-        router.push("/login");
-      }, 2000);
-    } catch (error) {
-      handleApiError(error, t("auth.register.failed"));
-    }
+    // Redirect to login page after successful registration
+    setTimeout(() => {
+      router.push("/login");
+    }, 2000);
   };
 
   return (

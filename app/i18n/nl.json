@@ -18,7 +18,8 @@
       "backToHome": "← Terug naar home",
       "accountCreated": "Account aangemaakt!",
       "pleaseVerifyEmail": "Controleer je e-mail om je account te verifiëren.",
-      "passwordHelper": "Wachtwoord moet minimaal 8 tekens bevatten, inclusief een hoofdletter, een kleine letter en een cijfer."
+      "passwordHelper": "Wachtwoord moet minimaal 8 tekens bevatten, inclusief een hoofdletter, een kleine letter en een cijfer.",
+      "failed": "Registreren mislukt. Probeer het opnieuw."
     },
     "login": {
       "title": "Inloggen",
@@ -627,7 +628,28 @@
       },
       "notFound": "Het gevraagde item is niet gevonden.",
       "conflict": "Dit item bestaat al.",
-      "generic": "Er is een fout opgetreden. Probeer het opnieuw."
+      "generic": "Er is een fout opgetreden. Probeer het opnieuw.",
+      "order": {
+        "invalidOrderId": "Ongeldige bestelling ID",
+        "invalidRequestBody": "Ongeldig verzoek",
+        "attachingPaymentLink": "Betaallink koppelen mislukt",
+        "creationFailed": "Bestelling aanmaken mislukt",
+        "deletingOrder": "Bestelling verwijderen mislukt",
+        "fetchingAddress": "Adres ophalen mislukt",
+        "fetchingOrderLines": "Bestelregels ophalen mislukt",
+        "fetchingOrders": "Bestellingen ophalen mislukt",
+        "invalidStatusTransition": "Ongeldige statusovergang",
+        "markingAsPaid": "Markeren als betaald mislukt",
+        "notFound": "Bestelling niet gevonden",
+        "productUnavailable": "Product is niet beschikbaar",
+        "statusRequired": "Status is verplicht",
+        "updatingStatus": "Bestellingstatus bijwerken mislukt"
+      },
+      "rateLimitExceeded": "Snelheidslimiet overschreden",
+      "rateLimitExceededStrict": "Snelheidslimiet overschreden (strikte modus)",
+      "cache": {
+        "clearFailed": "Cache wissen mislukt"
+      }
     },
     "success": {
       "products": {
@@ -647,6 +669,18 @@
       },
       "api": {
         "welcome": "Welkom bij de Mamabloemetjes API"
+      },
+      "order": {
+        "created": "Bestelling succesvol aangemaakt",
+        "deleted": "Bestelling succesvol verwijderd",
+        "markedAsPaid": "Bestelling gemarkeerd als betaald",
+        "orderDetailsFetched": "Bestellingsgegevens succesvol opgehaald",
+        "ordersFetched": "Bestellingen succesvol opgehaald",
+        "paymentLinkAttached": "Betaallink succesvol gekoppeld",
+        "statusUpdated": "Bestellingstatus succesvol bijgewerkt"
+      },
+      "cache": {
+        "cleared": "Cache succesvol gewist"
       }
     }
   }

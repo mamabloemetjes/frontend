@@ -18,7 +18,8 @@
       "backToHome": "← Back to home",
       "accountCreated": "Account created!",
       "pleaseVerifyEmail": "Please check your email to verify your account.",
-      "passwordHelper": "Password must be at least 8 characters long and include a mix of letters, numbers, and special characters."
+      "passwordHelper": "Password must be at least 8 characters long and include a mix of letters, numbers, and special characters.",
+      "failed": "Failed to create account. Please try again."
     },
     "login": {
       "title": "Sign in to your account",
@@ -627,7 +628,28 @@
       },
       "notFound": "The requested item was not found.",
       "conflict": "This item already exists.",
-      "generic": "An error occurred. Please try again."
+      "generic": "An error occurred. Please try again.",
+      "order": {
+        "invalidOrderId": "Invalid order ID",
+        "invalidRequestBody": "Invalid request body",
+        "attachingPaymentLink": "Failed to attach payment link",
+        "creationFailed": "Failed to create order",
+        "deletingOrder": "Failed to delete order",
+        "fetchingAddress": "Failed to fetch address",
+        "fetchingOrderLines": "Failed to fetch order lines",
+        "fetchingOrders": "Failed to fetch orders",
+        "invalidStatusTransition": "Invalid status transition",
+        "markingAsPaid": "Failed to mark order as paid",
+        "notFound": "Order not found",
+        "productUnavailable": "Product is unavailable",
+        "statusRequired": "Status is required",
+        "updatingStatus": "Failed to update order status"
+      },
+      "rateLimitExceeded": "Rate limit exceeded",
+      "rateLimitExceededStrict": "Rate limit exceeded (strict mode)",
+      "cache": {
+        "clearFailed": "Failed to clear cache"
+      }
     },
     "success": {
       "products": {
@@ -647,6 +669,18 @@
       },
       "api": {
         "welcome": "Welcome to the Mamabloemetjes API"
+      },
+      "order": {
+        "created": "Order created successfully",
+        "deleted": "Order deleted successfully",
+        "markedAsPaid": "Order marked as paid",
+        "orderDetailsFetched": "Order details fetched successfully",
+        "ordersFetched": "Orders fetched successfully",
+        "paymentLinkAttached": "Payment link attached successfully",
+        "statusUpdated": "Order status updated successfully"
+      },
+      "cache": {
+        "cleared": "Cache cleared successfully"
       }
     }
   }

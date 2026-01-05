@@ -7,6 +7,7 @@ import type { User, LoginCredentials, RegisterData } from "@/types/auth";
 import { useRouter } from "next/navigation";
 import { showApiError, showApiSuccess } from "@/lib/apiToast";
 import { useTranslations } from "next-intl";
+import { useCallback } from "react";
 
 /**
  * Track authentication state across app lifecycle
@@ -21,6 +22,15 @@ let lastAuthResult: boolean | null = null;
 export function useLogin() {
   const queryClient = useQueryClient();
   const t = useTranslations("auth.login");
+  const tGeneral = useTranslations();
+
+  const handleError = useCallback(
+    (error: unknown) => {
+      showApiError(error, tGeneral);
+    },
+    [tGeneral],
+  );
+
   return useMutation({
     mutationFn: async (credentials: LoginCredentials): Promise<User> => {
       // Check if login feature is enabled
@@ -29,12 +39,8 @@ export function useLogin() {
       }
 
       const response = await apiClient.auth.login(credentials);
-
-      if (!response.success || !response.data) {
-        throw new Error(response.message || "Login mislukt");
-      }
-
-      return response.data;
+      // API client will throw ApiError if response is not successful
+      return response.data!;
     },
     onSuccess: (user: User) => {
       // Reset auth tracking on successful login
@@ -51,7 +57,7 @@ export function useLogin() {
     onError: (error) => {
       // Clear any existing auth data on login failure
       queryClient.removeQueries({ queryKey: ["auth"] });
-      showApiError(error);
+      handleError(error);
     },
   });
 }
@@ -61,6 +67,15 @@ export function useLogin() {
  */
 export function useRegister() {
   const t = useTranslations("auth.register");
+  const tGeneral = useTranslations();
+
+  const handleError = useCallback(
+    (error: unknown) => {
+      showApiError(error, tGeneral);
+    },
+    [tGeneral],
+  );
+
   return useMutation({
     mutationFn: async (userData: RegisterData) => {
       // Check if registration feature is enabled
@@ -69,10 +84,8 @@ export function useRegister() {
       }
 
       const response = await apiClient.auth.register(userData);
-
-      if (!response.success) {
-        throw new Error(response.message || "Registratie mislukt");
-      }
+      // API client will throw ApiError if response is not successful
+      return response.data;
     },
     onSuccess: () => {
       // Don't log user in - they need to verify their email first
@@ -80,7 +93,7 @@ export function useRegister() {
       showApiSuccess(t("accountCreated"), t("pleaseVerifyEmail"));
     },
     onError: (error) => {
-      showApiError(error);
+      handleError(error);
     },
   });
 }
@@ -92,14 +105,19 @@ export function useLogout() {
   const navigate = useRouter();
   const queryClient = useQueryClient();
   const t = useTranslations("auth");
+  const tGeneral = useTranslations();
+
+  const handleError = useCallback(
+    (error: unknown) => {
+      showApiError(error, tGeneral);
+    },
+    [tGeneral],
+  );
 
   return useMutation({
     mutationFn: async (): Promise<void> => {
-      const success = await apiClient.auth.logout();
-
-      if (!success) {
-        throw new Error("Uitloggen mislukt");
-      }
+      await apiClient.auth.logout();
+      // API client will throw ApiError if logout fails
     },
     onSuccess: () => {
       // Reset auth tracking on logout
@@ -121,7 +139,7 @@ export function useLogout() {
       lastAuthResult = false;
       // Even if logout API fails, clear local data
       queryClient.clear();
-      showApiError(error);
+      handleError(error);
     },
   });
 }

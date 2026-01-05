@@ -9,7 +9,6 @@ import { FormInput } from "@/components/ui/form-input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginFormData } from "@/lib/validation/schemas";
-import { showError, handleApiError } from "@/lib/validation/utils";
 import { env } from "@/lib/env";
 import { FeatureRoute } from "@/components";
 
@@ -28,34 +27,13 @@ const LoginPage = () => {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    try {
-      await login.mutateAsync(data);
+    await login.mutateAsync(data);
 
-      // Redirect to the language-aware home page
-      const currentLanguage = window.location.pathname.startsWith("/en")
-        ? "en"
-        : "nl";
-      navigate.push(currentLanguage === "en" ? "/en" : "/");
-    } catch (error: unknown) {
-      // Check if the error is about email verification
-      if (
-        error &&
-        typeof error === "object" &&
-        "response" in error &&
-        error.response &&
-        typeof error.response === "object" &&
-        "data" in error.response &&
-        error.response.data &&
-        typeof error.response.data === "object" &&
-        "message" in error.response.data &&
-        typeof error.response.data.message === "string" &&
-        error.response.data.message.includes("verify your email")
-      ) {
-        showError(t("emailNotVerified"), t("verifyEmailDescription"));
-      } else {
-        handleApiError(error, t("loginFailed"));
-      }
-    }
+    // Redirect to the language-aware home page
+    const currentLanguage = window.location.pathname.startsWith("/en")
+      ? "en"
+      : "nl";
+    navigate.push(currentLanguage === "en" ? "/en" : "/");
   };
 
   return (

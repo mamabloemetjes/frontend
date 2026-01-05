@@ -7,6 +7,7 @@ import {
 } from "@/lib/api";
 import { showApiError, showApiSuccess } from "@/lib/apiToast";
 import { useTranslations } from "next-intl";
+import { useCallback } from "react";
 
 /**
  * Hook to fetch all products (admin only)
@@ -27,6 +28,14 @@ export function useAdminProducts(filters?: ProductListFilters) {
 export function useCreateProduct() {
   const queryClient = useQueryClient();
   const t = useTranslations("pages.dashboard");
+  const tGeneral = useTranslations();
+
+  const handleError = useCallback(
+    (error: unknown) => {
+      showApiError(error, tGeneral);
+    },
+    [tGeneral],
+  );
 
   return useMutation({
     mutationFn: async (product: ProductInput) => {
@@ -40,7 +49,7 @@ export function useCreateProduct() {
       showApiSuccess(t("productCreated"));
     },
     onError: (error) => {
-      showApiError(error);
+      handleError(error);
     },
   });
 }
@@ -51,6 +60,14 @@ export function useCreateProduct() {
 export function useUpdateProduct() {
   const queryClient = useQueryClient();
   const t = useTranslations("pages.dashboard");
+  const tGeneral = useTranslations();
+
+  const handleError = useCallback(
+    (error: unknown) => {
+      showApiError(error, tGeneral);
+    },
+    [tGeneral],
+  );
 
   return useMutation({
     mutationFn: async ({
@@ -70,7 +87,7 @@ export function useUpdateProduct() {
       showApiSuccess(t("productUpdated"));
     },
     onError: (error) => {
-      showApiError(error);
+      handleError(error);
     },
   });
 }

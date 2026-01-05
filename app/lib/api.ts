@@ -4,7 +4,6 @@ import { QueryClient } from "@tanstack/react-query";
 import type { User, RegisterData, LoginCredentials } from "@/types/auth";
 import { csrfService } from "@/lib/csrf";
 import { env } from "@/lib/env";
-import { showApiError } from "./apiToast";
 
 // ============================================================================
 // CONFIGURATION
@@ -811,9 +810,7 @@ export const queryClient = new QueryClient({
     },
     mutations: {
       retry: false,
-      onError: (error) => {
-        showApiError(error, error.message);
-      },
+      // handle errors in individual hooks
     },
   },
 });

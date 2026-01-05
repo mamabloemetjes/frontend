@@ -15,8 +15,8 @@ import { FormTextarea } from "@/components/ui/form-textarea";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { checkoutSchema } from "@/lib/validation/schemas";
-import { showSuccess, showError, handleApiError } from "@/lib/validation/utils";
-import type { AxiosError } from "axios";
+import { showSuccess, showError } from "@/lib/validation/utils";
+import { useApiError } from "@/hooks/useApiError";
 
 export default function CheckoutPage() {
   const t = useTranslations();
@@ -24,6 +24,7 @@ export default function CheckoutPage() {
   const [cartItems] = useAtom(cartItemsAtom);
   const [cartTotal] = useAtom(cartTotalAtom);
   const clearCart = useSetAtom(clearCartAtom);
+  const { handleError } = useApiError();
 
   const {
     register,
@@ -55,54 +56,23 @@ export default function CheckoutPage() {
         products,
       };
 
-      console.log("[Checkout] Creating order with data:", orderData);
       const response = await api.orders.create(orderData);
-      console.log("[Checkout] Received response:", response);
 
-      if (response.success) {
-        console.log(
-          "[Checkout] Order created successfully, clearing cart and redirecting",
-        );
+      showSuccess(
+        t("order.checkout.orderSuccess"),
+        t("order.checkout.orderSuccessDescription"),
+      );
 
-        showSuccess(
-          t("order.checkout.orderSuccess"),
-          t("order.checkout.orderSuccessDescription"),
-        );
+      // Clear cart
+      clearCart();
 
-        // Clear cart
-        clearCart();
-
-        // Redirect to confirmation page
-        router.push(
-          `/order-confirmation/${response.data.order_number}?orderPlaced=true`,
-        );
-      } else {
-        console.error(
-          "[Checkout] Order creation failed - success=false:",
-          response,
-        );
-        showError(response.message || t("order.checkout.orderFailed"));
-      }
-    } catch (err) {
-      const error = err as AxiosError<{
-        message?: string;
-        data?: { cooldown_minutes?: number };
-      }>;
-      console.error("[Checkout] Order creation exception:", error);
-      console.error("[Checkout] Error response:", error.response);
-      console.error("[Checkout] Error data:", error.response?.data);
-
-      // Check for rate limit error
-      if (error.response?.status === 429) {
-        const cooldownMinutes =
-          error.response?.data?.data?.cooldown_minutes || 30;
-        showError(
-          t("order.checkout.rateLimitError", { minutes: cooldownMinutes }) ||
-            `Please wait ${cooldownMinutes} minutes before placing another order.`,
-        );
-      } else {
-        handleApiError(error, t("order.checkout.orderFailedDescription"));
-      }
+      // Redirect to confirmation page
+      router.push(
+        `/order-confirmation/${response.data.order_number}?orderPlaced=true`,
+      );
+    } catch (error) {
+      // Handle error with translation
+      handleError(error);
     }
   };
 

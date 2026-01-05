@@ -29,6 +29,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 const CartToastListener = () => {
   const [toast, setToast] = useAtom(cartToastAtom);
   const t = useTranslations("toasts.cart");
+  const tGeneral = useTranslations();
 
   useEffect(() => {
     if (!toast) return;
@@ -36,6 +37,7 @@ const CartToastListener = () => {
     if (toast.type === "error") {
       showApiError(
         new Error(t(toast.titleKey)),
+        tGeneral,
         toast.descriptionKey
           ? t(toast.descriptionKey, toast.params)
           : undefined,
@@ -48,7 +50,7 @@ const CartToastListener = () => {
 
     // Clear the toast so it doesn't trigger again
     setToast(null);
-  }, [toast, t, setToast]);
+  }, [toast, t, tGeneral, setToast]);
 
   return null;
 };

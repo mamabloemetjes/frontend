@@ -3,55 +3,47 @@ import { ApiError } from "@/lib/api";
 
 /**
  * Show a toast notification for API errors
- * Prefers backend messages when available, falls back to user-friendly defaults
+ * Handles backend error codes and translates them using i18n
  */
-export async function showApiError(error: unknown, fallbackMessage?: string) {
-  const t = (key: string) => {
-    // Simple translation function placeholder
-    const translations: Record<string, string> = {
-      "toasts.apiErrors.requestFailed": "Request failed.",
-      "toasts.apiErrors.tooManyRequests": "Too Many Requests",
-      "toasts.apiErrors.rateLimitDescription":
-        "You have made too many requests in a short period. Please try again later.",
-      "toasts.apiErrors.sessionExpired": "Session Expired",
-      "toasts.apiErrors.sessionExpiredDescription":
-        "Your session has expired. Please refresh the page and try again.",
-      "toasts.apiErrors.authenticationRequired": "Authentication Required",
-      "toasts.apiErrors.authenticationRequiredDescription":
-        "You need to be logged in to perform this action.",
-      "toasts.apiErrors.accessDenied": "Access Denied",
-      "toasts.apiErrors.accessDeniedDescription":
-        "You do not have permission to access this resource.",
-      "toasts.apiErrors.invalidRequest": "Invalid Request",
-      "toasts.apiErrors.invalidRequestDescription":
-        "The request was invalid. Please check your input and try again.",
-      "toasts.apiErrors.notFound": "Not Found",
-      "toasts.apiErrors.notFoundDescription":
-        "The requested resource could not be found.",
-      "toasts.apiErrors.alreadyExists": "Already Exists",
-      "toasts.apiErrors.alreadyExistsDescription":
-        "The resource you are trying to create already exists.",
-      "toasts.apiErrors.serverError": "Server Error",
-      "toasts.apiErrors.serverErrorDescription":
-        "An error occurred on the server. Please try again later.",
-      "toasts.apiErrors.connectionProblem": "Connection Problem",
-      "toasts.apiErrors.connectionProblemDescription":
-        "There was a problem connecting to the server. Please check your internet connection and try again.",
-      "toasts.apiErrors.error": "An error occurred.",
-    };
-    return translations[key] || key;
-  };
+export async function showApiError(
+  error: unknown,
+  t: (key: string) => string,
+  fallbackMessage?: string,
+) {
   const requestFailed = fallbackMessage || t("toasts.apiErrors.requestFailed");
 
   if (error instanceof ApiError) {
-    // Always prefer the backend message if it exists and is user-friendly
+    // Get the backend message (which should be an error code like "error.auth.invalidCredentials")
     const backendMessage = error.message;
+
+    // Check if the backend message is an error code (starts with "error." or "success.")
+    const isErrorCode =
+      backendMessage.startsWith("error.") ||
+      backendMessage.startsWith("success.");
+
+    // If it's an error code, translate it using the backend namespace
+    // The backend sends codes like "error.uniqueViolation.email"
+    // We need to translate them as "backend.error.uniqueViolation.email"
+    let translatedMessage = backendMessage;
+
+    if (isErrorCode) {
+      try {
+        translatedMessage = t(`backend.${backendMessage}`);
+        // If translation returns the same key, it wasn't found - use the original message
+        if (translatedMessage === `backend.${backendMessage}`) {
+          translatedMessage = backendMessage;
+        }
+      } catch {
+        // Translation failed, use original message
+        translatedMessage = backendMessage;
+      }
+    }
 
     // Handle rate limiting specifically
     if (error.status === 429) {
       toast.error(t("toasts.apiErrors.tooManyRequests"), {
         description:
-          backendMessage || t("toasts.apiErrors.rateLimitDescription"),
+          translatedMessage || t("toasts.apiErrors.rateLimitDescription"),
         duration: 10000,
       });
       return;
@@ -70,7 +62,7 @@ export async function showApiError(error: unknown, fallbackMessage?: string) {
     if (error.status === 401) {
       toast.error(t("toasts.apiErrors.authenticationRequired"), {
         description:
-          backendMessage ||
+          translatedMessage ||
           t("toasts.apiErrors.authenticationRequiredDescription"),
         duration: 10000,
       });
@@ -81,7 +73,7 @@ export async function showApiError(error: unknown, fallbackMessage?: string) {
     if (error.status === 403) {
       toast.error(t("toasts.apiErrors.accessDenied"), {
         description:
-          backendMessage || t("toasts.apiErrors.accessDeniedDescription"),
+          translatedMessage || t("toasts.apiErrors.accessDeniedDescription"),
         duration: 10000,
       });
       return;
@@ -91,7 +83,7 @@ export async function showApiError(error: unknown, fallbackMessage?: string) {
     if (error.status === 400) {
       toast.error(t("toasts.apiErrors.invalidRequest"), {
         description:
-          backendMessage || t("toasts.apiErrors.invalidRequestDescription"),
+          translatedMessage || t("toasts.apiErrors.invalidRequestDescription"),
         duration: 10000,
       });
       return;
@@ -101,7 +93,7 @@ export async function showApiError(error: unknown, fallbackMessage?: string) {
     if (error.status === 404) {
       toast.error(t("toasts.apiErrors.notFound"), {
         description:
-          backendMessage || t("toasts.apiErrors.notFoundDescription"),
+          translatedMessage || t("toasts.apiErrors.notFoundDescription"),
         duration: 10000,
       });
       return;
@@ -111,7 +103,7 @@ export async function showApiError(error: unknown, fallbackMessage?: string) {
     if (error.status === 409) {
       toast.error(t("toasts.apiErrors.alreadyExists"), {
         description:
-          backendMessage || t("toasts.apiErrors.alreadyExistsDescription"),
+          translatedMessage || t("toasts.apiErrors.alreadyExistsDescription"),
         duration: 10000,
       });
       return;
@@ -121,7 +113,7 @@ export async function showApiError(error: unknown, fallbackMessage?: string) {
     if (error.status >= 500) {
       toast.error(t("toasts.apiErrors.serverError"), {
         description:
-          backendMessage || t("toasts.apiErrors.serverErrorDescription"),
+          translatedMessage || t("toasts.apiErrors.serverErrorDescription"),
         duration: 10000,
       });
       return;
@@ -129,7 +121,7 @@ export async function showApiError(error: unknown, fallbackMessage?: string) {
 
     // Generic API error with backend message
     toast.error(requestFailed, {
-      description: backendMessage || requestFailed,
+      description: translatedMessage || requestFailed,
       duration: 10000,
     });
     return;
