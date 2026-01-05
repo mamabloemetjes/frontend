@@ -17,7 +17,8 @@
       "signIn": "Sign in",
       "backToHome": "← Back to home",
       "accountCreated": "Account created!",
-      "pleaseVerifyEmail": "Please check your email to verify your account."
+      "pleaseVerifyEmail": "Please check your email to verify your account.",
+      "passwordHelper": "Password must be at least 8 characters long and include a mix of letters, numbers, and special characters."
     },
     "login": {
       "title": "Sign in to your account",
@@ -424,6 +425,99 @@
       "addedToCart": "{name} has been added to your cart.",
       "insufficientStockDescription": "{name} has insufficient stock.",
       "insufficientStock": "Insufficient stock"
+    }
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": {
+      "required": "Email is required",
+      "invalid": "Must be a valid email address"
+    },
+    "password": {
+      "minLength": "Password must be at least 8 characters",
+      "maxLength": "Password must be at most 100 characters"
+    },
+    "confirmPassword": {
+      "required": "Please confirm your password",
+      "noMatch": "Passwords do not match"
+    },
+    "username": {
+      "minLength": "Username must be at least 3 characters",
+      "maxLength": "Username must be at most 50 characters",
+      "invalid": "Username can only contain letters, numbers, hyphens, and underscores"
+    },
+    "name": {
+      "minLength": "Name must be at least 2 characters",
+      "maxLength": "Name must be at most 100 characters"
+    },
+    "phone": {
+      "minLength": "Phone number must be at least 10 characters",
+      "maxLength": "Phone number must be at most 20 characters",
+      "invalid": "Please enter a valid phone number"
+    },
+    "customerNote": {
+      "maxLength": "Note must be at most 500 characters"
+    },
+    "street": {
+      "minLength": "Street must be at least 2 characters",
+      "maxLength": "Street must be at most 200 characters"
+    },
+    "houseNumber": {
+      "required": "House number is required",
+      "maxLength": "House number must be at most 10 characters"
+    },
+    "postalCode": {
+      "minLength": "Postal code must be at least 4 characters",
+      "maxLength": "Postal code must be at most 10 characters",
+      "invalid": "Please enter a valid Dutch postal code (e.g., 1234 AB)"
+    },
+    "city": {
+      "minLength": "City must be at least 2 characters",
+      "maxLength": "City must be at most 100 characters"
+    },
+    "country": {
+      "invalid": "Country code must be exactly 2 characters"
+    },
+    "subject": {
+      "required": "Subject is required"
+    },
+    "message": {
+      "minLength": "Message must be at least 10 characters",
+      "maxLength": "Message must be at most 2000 characters"
+    },
+    "product": {
+      "name": {
+        "minLength": "Product name must be at least 2 characters",
+        "maxLength": "Product name must be at most 200 characters"
+      },
+      "price": {
+        "integer": "Price must be an integer",
+        "nonNegative": "Price must be non-negative"
+      },
+      "discount": {
+        "integer": "Discount must be an integer",
+        "nonNegative": "Discount must be non-negative"
+      },
+      "tax": {
+        "integer": "Tax must be an integer",
+        "nonNegative": "Tax must be non-negative"
+      },
+      "description": {
+        "minLength": "Description must be at least 10 characters",
+        "maxLength": "Description must be at most 2000 characters"
+      },
+      "image": {
+        "url": "Must be a valid URL",
+        "altText": {
+          "maxLength": "Alt text must be at most 200 characters"
+        }
+      }
+    },
+    "paymentLink": {
+      "url": "Must be a valid URL"
+    },
+    "orderStatus": {
+      "invalid": "Invalid order status"
     }
   },
   "common": {

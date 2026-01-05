@@ -4,9 +4,9 @@ import * as React from "react";
 import { Input } from "./input";
 import { Label } from "./label";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
-export interface FormInputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   error?: string;
   helperText?: string;
@@ -26,10 +26,11 @@ const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
       id,
       ...props
     },
-    ref
+    ref,
   ) => {
     const inputId = id || label.toLowerCase().replace(/\s+/g, "-");
     const hasError = !!error;
+    const t = useTranslations();
 
     return (
       <div className={cn("space-y-2", containerClassName)}>
@@ -37,7 +38,7 @@ const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
           htmlFor={inputId}
           className={cn(
             "block text-sm font-medium",
-            hasError && "text-red-500"
+            hasError && "text-red-500",
           )}
         >
           {label}
@@ -49,11 +50,15 @@ const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
           className={cn(
             hasError &&
               "border-red-500 focus-visible:ring-red-500 focus-visible:border-red-500",
-            className
+            className,
           )}
           aria-invalid={hasError}
           aria-describedby={
-            error ? `${inputId}-error` : helperText ? `${inputId}-helper` : undefined
+            error
+              ? `${inputId}-error`
+              : helperText
+                ? `${inputId}-helper`
+                : undefined
           }
           {...props}
         />
@@ -62,20 +67,17 @@ const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
             id={`${inputId}-error`}
             className="text-sm text-red-500 font-medium animate-in fade-in-50 duration-200"
           >
-            {error}
+            {t(error)}
           </p>
         )}
         {!error && helperText && (
-          <p
-            id={`${inputId}-helper`}
-            className="text-sm text-muted-foreground"
-          >
-            {helperText}
+          <p id={`${inputId}-helper`} className="text-sm text-muted-foreground">
+            {t(helperText)}
           </p>
         )}
       </div>
     );
-  }
+  },
 );
 
 FormInput.displayName = "FormInput";

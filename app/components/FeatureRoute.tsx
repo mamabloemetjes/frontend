@@ -1,4 +1,5 @@
 import { env } from "@/lib/env";
+import { notFound } from "next/navigation";
 
 interface FeatureRouteProps {
   children: React.ReactNode;
@@ -22,7 +23,7 @@ const FeatureRoute = ({ children, type }: FeatureRouteProps) => {
     return <>{children}</>;
   }
 
-  return null;
+  return notFound();
 };
 
 export default FeatureRoute;

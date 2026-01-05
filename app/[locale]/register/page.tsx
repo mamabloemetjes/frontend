@@ -13,6 +13,7 @@ import {
   type RegisterFormData,
 } from "@/lib/validation/schemas";
 import { showSuccess, handleApiError } from "@/lib/validation/utils";
+import { FeatureRoute } from "@/components";
 
 const RegisterPage = () => {
   const t = useTranslations();
@@ -83,7 +84,7 @@ const RegisterPage = () => {
               type="password"
               placeholder="••••••••"
               error={errors.password?.message}
-              helperText={t("auth.register.passwordHelper")}
+              helperText={"auth.register.passwordHelper"}
               required
               {...registerField("password")}
             />
@@ -134,4 +135,12 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+const RegisterPageWrapper = () => {
+  return (
+    <FeatureRoute type="register">
+      <RegisterPage />
+    </FeatureRoute>
+  );
+};
+
+export default RegisterPageWrapper;

@@ -10,7 +10,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginFormData } from "@/lib/validation/schemas";
 import { showError, handleApiError } from "@/lib/validation/utils";
-import { toast } from "sonner";
+import { env } from "@/lib/env";
+import { FeatureRoute } from "@/components";
 
 const LoginPage = () => {
   const t = useTranslations("auth.login");
@@ -29,9 +30,6 @@ const LoginPage = () => {
   const onSubmit = async (data: LoginFormData) => {
     try {
       await login.mutateAsync(data);
-      toast.success(t("success"), {
-        description: t("welcomeBack"),
-      });
 
       // Redirect to the language-aware home page
       const currentLanguage = window.location.pathname.startsWith("/en")
@@ -98,15 +96,17 @@ const LoginPage = () => {
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-sm text-muted-foreground">
-              {t("dontHaveAccount")}{" "}
-              <LanguageAwareLink
-                href="/register"
-                className="text-primary hover:underline"
-              >
-                {t("signUp")}
-              </LanguageAwareLink>
-            </p>
+            {env.features.enableRegister && (
+              <p className="text-sm text-muted-foreground">
+                {t("dontHaveAccount")}{" "}
+                <LanguageAwareLink
+                  href="/register"
+                  className="text-primary hover:underline"
+                >
+                  {t("signUp")}
+                </LanguageAwareLink>
+              </p>
+            )}
           </div>
 
           <div className="mt-4 text-center">
@@ -123,4 +123,12 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+const LoginPageWrapper = () => {
+  return (
+    <FeatureRoute type="login">
+      <LoginPage />
+    </FeatureRoute>
+  );
+};
+
+export default LoginPageWrapper;

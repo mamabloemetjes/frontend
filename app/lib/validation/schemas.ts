@@ -7,36 +7,33 @@ import { z } from "zod";
 export const loginSchema = z.object({
   email: z
     .string()
-    .min(1, "Email is required")
-    .email("Must be a valid email address"),
+    .min(1, "validation.email.required")
+    .email("validation.email.invalid"),
   password: z
     .string()
-    .min(8, "Password must be at least 8 characters")
-    .max(100, "Password must be at most 100 characters"),
+    .min(8, "validation.password.minLength")
+    .max(100, "validation.password.maxLength"),
 });
 
 export const registerSchema = z
   .object({
     username: z
       .string()
-      .min(3, "Username must be at least 3 characters")
-      .max(50, "Username must be at most 50 characters")
-      .regex(
-        /^[a-zA-Z0-9_-]+$/,
-        "Username can only contain letters, numbers, hyphens, and underscores",
-      ),
+      .min(3, "validation.username.minLength")
+      .max(50, "validation.username.maxLength")
+      .regex(/^[a-zA-Z0-9_-]+$/, "validation.username.invalid"),
     email: z
       .string()
-      .min(1, "Email is required")
-      .email("Must be a valid email address"),
+      .min(1, "validation.email.required")
+      .email("validation.email.invalid"),
     password: z
       .string()
-      .min(8, "Password must be at least 8 characters")
-      .max(100, "Password must be at most 100 characters"),
-    confirmPassword: z.string().min(1, "Please confirm your password"),
+      .min(8, "validation.password.minLength")
+      .max(100, "validation.password.maxLength"),
+    confirmPassword: z.string().min(1, "validation.confirmPassword.required"),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
+    message: "validation.confirmPassword.noMatch",
     path: ["confirmPassword"],
   });
 
@@ -49,51 +46,45 @@ export const checkoutSchema = z
     // Customer Data
     name: z
       .string()
-      .min(2, "Name must be at least 2 characters")
-      .max(100, "Name must be at most 100 characters"),
+      .min(2, "validation.name.minLength")
+      .max(100, "validation.name.maxLength"),
     email: z
       .string()
-      .min(1, "Email is required")
-      .email("Must be a valid email address"),
+      .min(1, "validation.email.required")
+      .email("validation.email.invalid"),
     phone: z
       .string()
-      .min(10, "Phone number must be at least 10 characters")
-      .max(20, "Phone number must be at most 20 characters")
+      .min(10, "validation.phone.minLength")
+      .max(20, "validation.phone.maxLength")
       .regex(
         /^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/,
-        "Please enter a valid phone number",
+        "validation.phone.invalid",
       ),
     customer_note: z
       .string()
-      .max(500, "Note must be at most 500 characters")
+      .max(500, "validation.customerNote.maxLength")
       .optional()
       .or(z.literal("")),
 
     // Address Data
     street: z
       .string()
-      .min(2, "Street must be at least 2 characters")
-      .max(200, "Street must be at most 200 characters"),
+      .min(2, "validation.street.minLength")
+      .max(200, "validation.street.maxLength"),
     house_no: z
       .string()
-      .min(1, "House number is required")
-      .max(10, "House number must be at most 10 characters"),
+      .min(1, "validation.houseNumber.required")
+      .max(10, "validation.houseNumber.maxLength"),
     postal_code: z
       .string()
-      .min(4, "Postal code must be at least 4 characters")
-      .max(10, "Postal code must be at most 10 characters")
-      .regex(
-        /^[0-9]{4}\s?[A-Z]{2}$/i,
-        "Please enter a valid Dutch postal code (e.g., 1234 AB)",
-      ),
+      .min(4, "validation.postalCode.minLength")
+      .max(10, "validation.postalCode.maxLength")
+      .regex(/^[0-9]{4}\s?[A-Z]{2}$/i, "validation.postalCode.invalid"),
     city: z
       .string()
-      .min(2, "City must be at least 2 characters")
-      .max(100, "City must be at most 100 characters"),
-    country: z
-      .string()
-      .length(2, "Country code must be exactly 2 characters")
-      .optional(),
+      .min(2, "validation.city.minLength")
+      .max(100, "validation.city.maxLength"),
+    country: z.string().length(2, "validation.country.invalid").optional(),
   })
   .transform((data) => ({
     ...data,
@@ -107,17 +98,19 @@ export const checkoutSchema = z
 export const contactFormSchema = z.object({
   name: z
     .string()
-    .min(2, "Name must be at least 2 characters")
-    .max(100, "Name must be at most 100 characters"),
+    .min(2, "validation.name.minLength")
+    .max(100, "validation.name.maxLength"),
   email: z
     .string()
-    .min(1, "Email is required")
-    .email("Must be a valid email address"),
-  subject: z.enum(["generalInquiry", "customOrder"]),
+    .min(1, "validation.email.required")
+    .email("validation.email.invalid"),
+  subject: z.enum(["generalInquiry", "customOrder"], {
+    message: "validation.subject.required",
+  }),
   message: z
     .string()
-    .min(10, "Message must be at least 10 characters")
-    .max(2000, "Message must be at most 2000 characters"),
+    .min(10, "validation.message.minLength")
+    .max(2000, "validation.message.maxLength"),
   deadlineDate: z.date().optional(),
 });
 
@@ -126,10 +119,10 @@ export const contactFormSchema = z.object({
 // ============================================================================
 
 export const productImageSchema = z.object({
-  url: z.string().url("Must be a valid URL"),
+  url: z.string().url("validation.product.image.url"),
   alt_text: z
     .string()
-    .max(200, "Alt text must be at most 200 characters")
+    .max(200, "validation.product.image.altText.maxLength")
     .optional()
     .or(z.literal("")),
   is_primary: z.boolean().default(false),
@@ -138,26 +131,26 @@ export const productImageSchema = z.object({
 export const productSchema = z.object({
   name: z
     .string()
-    .min(2, "Product name must be at least 2 characters")
-    .max(200, "Product name must be at most 200 characters"),
+    .min(2, "validation.product.name.minLength")
+    .max(200, "validation.product.name.maxLength"),
   price: z
     .number()
-    .int("Price must be an integer")
-    .nonnegative("Price must be non-negative"),
+    .int("validation.product.price.integer")
+    .nonnegative("validation.product.price.nonNegative"),
   discount: z
     .number()
-    .int("Discount must be an integer")
-    .nonnegative("Discount must be non-negative")
+    .int("validation.product.discount.integer")
+    .nonnegative("validation.product.discount.nonNegative")
     .optional()
     .or(z.literal(0)),
   tax: z
     .number()
-    .int("Tax must be an integer")
-    .nonnegative("Tax must be non-negative"),
+    .int("validation.product.tax.integer")
+    .nonnegative("validation.product.tax.nonNegative"),
   description: z
     .string()
-    .min(10, "Description must be at least 10 characters")
-    .max(2000, "Description must be at most 2000 characters"),
+    .min(10, "validation.product.description.minLength")
+    .max(2000, "validation.product.description.maxLength"),
   is_active: z.boolean().default(true),
   images: z.array(productImageSchema).optional(),
 });
@@ -165,28 +158,28 @@ export const productSchema = z.object({
 export const updateProductSchema = z.object({
   name: z
     .string()
-    .min(2, "Product name must be at least 2 characters")
-    .max(200, "Product name must be at most 200 characters")
+    .min(2, "validation.product.name.minLength")
+    .max(200, "validation.product.name.maxLength")
     .optional(),
   price: z
     .number()
-    .int("Price must be an integer")
-    .nonnegative("Price must be non-negative")
+    .int("validation.product.price.integer")
+    .nonnegative("validation.product.price.nonNegative")
     .optional(),
   discount: z
     .number()
-    .int("Discount must be an integer")
-    .nonnegative("Discount must be non-negative")
+    .int("validation.product.discount.integer")
+    .nonnegative("validation.product.discount.nonNegative")
     .optional(),
   tax: z
     .number()
-    .int("Tax must be an integer")
-    .nonnegative("Tax must be non-negative")
+    .int("validation.product.tax.integer")
+    .nonnegative("validation.product.tax.nonNegative")
     .optional(),
   description: z
     .string()
-    .min(10, "Description must be at least 10 characters")
-    .max(2000, "Description must be at most 2000 characters")
+    .min(10, "validation.product.description.minLength")
+    .max(2000, "validation.product.description.maxLength")
     .optional(),
   is_active: z.boolean().optional(),
   images: z.array(productImageSchema).optional(),
@@ -197,19 +190,24 @@ export const updateProductSchema = z.object({
 // ============================================================================
 
 export const attachPaymentLinkSchema = z.object({
-  payment_link: z.string().url("Must be a valid URL"),
+  payment_link: z.string().url("validation.paymentLink.url"),
 });
 
 export const updateOrderStatusSchema = z.object({
-  status: z.enum([
-    "pending",
-    "paid",
-    "processing",
-    "shipped",
-    "delivered",
-    "cancelled",
-    "refunded",
-  ]),
+  status: z.enum(
+    [
+      "pending",
+      "paid",
+      "processing",
+      "shipped",
+      "delivered",
+      "cancelled",
+      "refunded",
+    ],
+    {
+      message: "validation.orderStatus.invalid",
+    },
+  ),
 });
 
 // ============================================================================

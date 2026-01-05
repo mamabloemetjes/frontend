@@ -108,19 +108,10 @@ export default function Header() {
                 <FeatureComponent type="login">
                   <LanguageAwareLink
                     href="/login"
-                    className="px-4 py-2 rounded-lg hover:bg-accent transition-all duration-200 flex items-center gap-2 group"
+                    className="px-4 py-2 rounded-lg hover:bg-accent flex items-center gap-2 group bg-primary text-primary-foreground font-medium hover:brightness-110 transition-all duration-200"
                   >
                     <User className="w-4 h-4 group-hover:scale-110 transition-transform" />
                     <span>{t("navigation.login")}</span>
-                  </LanguageAwareLink>
-                </FeatureComponent>
-
-                <FeatureComponent type="register">
-                  <LanguageAwareLink
-                    href="/register"
-                    className="px-4 py-2 rounded-lg bg-primary text-primary-foreground font-medium hover:brightness-110 transition-all duration-200"
-                  >
-                    {t("navigation.signUp")}
                   </LanguageAwareLink>
                 </FeatureComponent>
               </>

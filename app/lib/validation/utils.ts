@@ -2,6 +2,28 @@ import { toast } from "sonner";
 import type { ZodError } from "zod";
 
 /**
+ * Translate validation error message if it's an i18n key
+ * @param message - The error message (could be an i18n key like "validation.email.required")
+ * @param t - Translation function from next-intl
+ * @returns Translated message or original message if not a translation key
+ */
+export function translateValidationError(
+  message: string,
+  t: (key: string) => string,
+): string {
+  // Check if the message looks like an i18n key (contains dots and starts with "validation")
+  if (message.startsWith("validation.")) {
+    try {
+      return t(message);
+    } catch {
+      // If translation fails, return the original message
+      return message;
+    }
+  }
+  return message;
+}
+
+/**
  * Format field name for display (converts snake_case to Title Case)
  */
 export function formatFieldName(field: string): string {
@@ -13,13 +35,19 @@ export function formatFieldName(field: string): string {
 
 /**
  * Get field errors from Zod validation error
+ * @param error - ZodError object
+ * @param t - Optional translation function to translate i18n keys
  */
-export function getFieldErrors(error: ZodError): Record<string, string> {
+export function getFieldErrors(
+  error: ZodError,
+  t?: (key: string) => string,
+): Record<string, string> {
   const fieldErrors: Record<string, string> = {};
 
   error.issues.forEach((err) => {
     const field = err.path.join(".");
-    fieldErrors[field] = err.message;
+    const message = t ? translateValidationError(err.message, t) : err.message;
+    fieldErrors[field] = message;
   });
 
   return fieldErrors;
@@ -27,12 +55,14 @@ export function getFieldErrors(error: ZodError): Record<string, string> {
 
 /**
  * Show validation errors using Sonner toast
+ * @param error - ZodError object
+ * @param options - Optional settings including translation function
  */
 export function showValidationErrors(
   error: ZodError,
-  options?: { duration?: number },
+  options?: { duration?: number; t?: (key: string) => string },
 ) {
-  const fieldErrors = getFieldErrors(error);
+  const fieldErrors = getFieldErrors(error, options?.t);
   const errorCount = Object.keys(fieldErrors).length;
 
   // Create a formatted error message
@@ -125,6 +155,9 @@ export function getLabelClassName(
 /**
  * Validate form data and show errors
  * Returns the validated data if successful, null otherwise
+ * @param schema - Zod schema to validate against
+ * @param data - Data to validate
+ * @param options - Optional settings including translation function
  */
 export function validateAndShowErrors<T>(
   schema: {
@@ -135,13 +168,20 @@ export function validateAndShowErrors<T>(
     };
   },
   data: unknown,
-  options?: { showToast?: boolean; duration?: number },
+  options?: {
+    showToast?: boolean;
+    duration?: number;
+    t?: (key: string) => string;
+  },
 ): T | null {
   const result = schema.safeParse(data);
 
   if (!result.success) {
     if (options?.showToast !== false && result.error) {
-      showValidationErrors(result.error, { duration: options?.duration });
+      showValidationErrors(result.error, {
+        duration: options?.duration,
+        t: options?.t,
+      });
     }
     return null;
   }
