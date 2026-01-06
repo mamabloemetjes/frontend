@@ -17,7 +17,7 @@ class CSRFService {
       const value = trimmed.substring(separatorIndex + 1);
 
       if (name === "csrf") {
-        return decodeURIComponent(value);
+        return value;
       }
     }
     return null;

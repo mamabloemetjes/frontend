@@ -19,6 +19,13 @@ import { useState } from "react";
 import FeatureComponent from "./FeatureComponent";
 import { Button } from "./ui/button";
 import { useTranslations } from "next-intl";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 export default function Header() {
   const t = useTranslations();
@@ -73,48 +80,64 @@ export default function Header() {
             </LanguageAwareLink>
 
             {isAuthenticated ? (
-              <>
-                <LanguageAwareLink
-                  href="/account"
-                  className="px-4 py-2 rounded-lg hover:bg-accent transition-all duration-200 flex items-center gap-2 group"
-                >
-                  <User className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                  <span>{t("navigation.account")}</span>
-                </LanguageAwareLink>
-
-                {user?.role === "admin" && (
-                  <LanguageAwareLink
-                    href="/dashboard"
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
                     className="px-4 py-2 rounded-lg hover:bg-accent transition-all duration-200 flex items-center gap-2 group"
                   >
-                    <LayoutDashboard className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                    <span>{t("navigation.dashboard")}</span>
-                  </LanguageAwareLink>
-                )}
-
-                <Button
-                  onClick={handleLogout}
-                  disabled={logout.isPending}
-                  variant="ghost"
-                >
-                  <LogOut className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                  <span>
-                    {logout.isPending ? t("auth.loggingOut") : t("auth.logout")}
-                  </span>
-                </Button>
-              </>
-            ) : (
-              <>
-                <FeatureComponent type="login">
-                  <LanguageAwareLink
-                    href="/login"
-                    className="px-4 py-2 rounded-lg hover:bg-accent flex items-center gap-2 group bg-primary text-primary-foreground font-medium hover:brightness-110 transition-all duration-200"
-                  >
                     <User className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                    <span>{t("navigation.login")}</span>
-                  </LanguageAwareLink>
-                </FeatureComponent>
-              </>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem asChild>
+                    <LanguageAwareLink
+                      href="/account"
+                      className="flex items-center gap-2 cursor-pointer"
+                    >
+                      <User className="w-4 h-4" />
+                      <span>{t("navigation.account")}</span>
+                    </LanguageAwareLink>
+                  </DropdownMenuItem>
+
+                  {user?.role === "admin" && (
+                    <DropdownMenuItem asChild>
+                      <LanguageAwareLink
+                        href="/dashboard"
+                        className="flex items-center gap-2 cursor-pointer"
+                      >
+                        <LayoutDashboard className="w-4 h-4" />
+                        <span>{t("navigation.dashboard")}</span>
+                      </LanguageAwareLink>
+                    </DropdownMenuItem>
+                  )}
+
+                  <DropdownMenuSeparator />
+
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    disabled={logout.isPending}
+                    className="cursor-pointer"
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    <span>
+                      {logout.isPending
+                        ? t("auth.loggingOut")
+                        : t("auth.logout")}
+                    </span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <FeatureComponent type="login">
+                <LanguageAwareLink
+                  href="/login"
+                  className="px-4 py-2 rounded-lg hover:bg-accent flex items-center gap-2 group bg-primary text-primary-foreground font-medium hover:brightness-110 transition-all duration-200"
+                >
+                  <User className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                  <span>{t("navigation.login")}</span>
+                </LanguageAwareLink>
+              </FeatureComponent>
             )}
 
             <div className="flex items-center gap-1 ml-2 pl-2 border-l border-border">
@@ -187,6 +210,7 @@ export default function Header() {
                   }}
                   disabled={logout.isPending}
                   variant="ghost"
+                  className="justify-start w-full"
                 >
                   <LogOut className="w-5 h-5" />
                   <span>
@@ -195,24 +219,14 @@ export default function Header() {
                 </Button>
               </>
             ) : (
-              <>
-                <LanguageAwareLink
-                  href="/login"
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <User className="w-5 h-5" />
-                  <span>{t("navigation.login")}</span>
-                </LanguageAwareLink>
-
-                <LanguageAwareLink
-                  href="/register"
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary text-primary-foreground font-medium"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {t("navigation.signUp")}
-                </LanguageAwareLink>
-              </>
+              <LanguageAwareLink
+                href="/login"
+                className="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:brightness-110 transition-all duration-200"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <User className="w-5 h-5" />
+                <span>{t("navigation.login")}</span>
+              </LanguageAwareLink>
             )}
 
             <div className="flex items-center gap-2 px-4 py-3 border-t border-border/40 mt-2 pt-4">

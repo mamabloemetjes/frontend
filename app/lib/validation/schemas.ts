@@ -178,9 +178,16 @@ export const updateProductSchema = z.object({
     .optional(),
   description: z
     .string()
-    .min(10, "validation.product.description.minLength")
-    .max(2000, "validation.product.description.maxLength")
-    .optional(),
+    .refine(
+      (val) => val.length === 0 || val.length >= 10,
+      "validation.product.description.minLength",
+    )
+    .refine(
+      (val) => val.length <= 2000,
+      "validation.product.description.maxLength",
+    )
+    .optional()
+    .or(z.literal("")),
   is_active: z.boolean().optional(),
   images: z.array(productImageSchema).optional(),
 });

@@ -74,7 +74,7 @@
       "goToProducts": "Browse Products",
       "validationError": "Please fill in all required fields correctly",
       "orderPlaced": "Order Placed!",
-      "orderPlacedDescription": "We've sent you a confirmation email. You'll receive a Tikkie payment link shortly.",
+      "orderPlacedDescription": "A confirmation email has been sent. You'll receive a Tikkie payment link shortly.",
       "orderFailed": "Order Failed",
       "orderFailedDescription": "Something went wrong. Please try again.",
       "productUnavailable": "Some products are no longer available"
@@ -84,10 +84,10 @@
       "thankYou": "Thank you for your order!",
       "orderNumber": "Order Number",
       "orderPlaced": "Your order has been placed successfully",
-      "emailSent": "We've sent a confirmation email to",
+      "emailSent": "A confirmation email has been sent to",
       "paymentInfo": "Payment Information",
       "tikkiePayment": "You will receive a Tikkie payment link via email shortly",
-      "waitingForPayment": "Once we receive your payment, we'll start preparing your order",
+      "waitingForPayment": "Once the payment is recieved, I'll start preparing your order",
       "orderDetails": "Order Details",
       "deliveryAddress": "Delivery Address",
       "backToHome": "Back to Home",
@@ -206,13 +206,13 @@
       },
       "custom": {
         "title": "Custom Bouquets",
-        "description": "Have a special request? We can create a custom bouquet for any occasion.",
+        "description": "Have a special request? I can create a custom bouquet!",
         "cta": "Request a custom bouquet"
       }
     },
     "contact": {
       "title": "Contact Us",
-      "description": "Fill out the form below and we'll get back to you as soon as possible.",
+      "description": "Fill out the form below and I'll get back to you as soon as possible.",
       "name": "Name",
       "yourName": "Enter your name",
       "email": "Email",

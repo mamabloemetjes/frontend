@@ -42,6 +42,7 @@ import {
   Calendar,
   User,
 } from "lucide-react";
+import { updateProductSchema } from "@/lib/validation/schemas";
 
 type Tab = "products" | "orders";
 
@@ -331,6 +332,8 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
     })),
   );
 
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -343,10 +346,6 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
       price: Math.round(parseFloat(formData.price) * 100),
       discount: Math.round(parseFloat(formData.discount) * 100),
       tax,
-      subtotal:
-        Math.round(parseFloat(formData.price) * 100) -
-        Math.round(parseFloat(formData.discount) * 100) +
-        tax,
       description: formData.description,
       is_active: formData.is_active,
       images:
@@ -360,9 +359,33 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
     };
 
     if (isEditing) {
+      // Validate the update data with Zod schema
+      const validationResult = updateProductSchema.safeParse(productData);
+
+      if (!validationResult.success) {
+        // Extract errors and set them in state
+        const fieldErrors: Record<string, string> = {};
+        validationResult.error.issues.forEach((issue) => {
+          const field = issue.path[0] as string;
+          fieldErrors[field] = t(issue.message);
+        });
+        setErrors(fieldErrors);
+        return;
+      }
+
+      // Clear errors on successful validation
+      setErrors({});
+
+      // Remove undefined values and empty strings before sending
+      const cleanedData = Object.fromEntries(
+        Object.entries(validationResult.data).filter(
+          ([, v]) => v !== undefined && v !== "",
+        ),
+      );
+
       await updateProduct.mutateAsync({
         id: product.id,
-        updates: productData,
+        updates: cleanedData,
       });
     } else {
       await createProduct.mutateAsync(productData);
@@ -380,9 +403,20 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
         <Input
           type="text"
           value={formData.name}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          onChange={(e) => {
+            setFormData({ ...formData, name: e.target.value });
+            if (errors.name) {
+              setErrors({ ...errors, name: "" });
+            }
+          }}
+          className={
+            errors.name ? "border-red-500 focus-visible:ring-red-500" : ""
+          }
           required
         />
+        {errors.name && (
+          <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+        )}
       </div>
 
       <div className="grid grid-cols-3 gap-4">
@@ -396,11 +430,20 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
             max="9999.99"
             min="0.00"
             value={formData.price}
-            onChange={(e) =>
-              setFormData({ ...formData, price: e.target.value })
+            onChange={(e) => {
+              setFormData({ ...formData, price: e.target.value });
+              if (errors.price) {
+                setErrors({ ...errors, price: "" });
+              }
+            }}
+            className={
+              errors.price ? "border-red-500 focus-visible:ring-red-500" : ""
             }
             required
           />
+          {errors.price && (
+            <p className="text-red-500 text-sm mt-1">{errors.price}</p>
+          )}
         </div>
         <div>
           <Label className="block mb-1 font-semibold text-sm">
@@ -412,21 +455,37 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
             max="9999.99"
             min="0.00"
             value={formData.discount}
-            onChange={(e) =>
-              setFormData({ ...formData, discount: e.target.value })
+            onChange={(e) => {
+              setFormData({ ...formData, discount: e.target.value });
+              if (errors.discount) {
+                setErrors({ ...errors, discount: "" });
+              }
+            }}
+            className={
+              errors.discount ? "border-red-500 focus-visible:ring-red-500" : ""
             }
           />
+          {errors.discount && (
+            <p className="text-red-500 text-sm mt-1">{errors.discount}</p>
+          )}
         </div>
 
         <div>
           <Label className="block mb-1 font-semibold text-sm">Tax (€) *</Label>
           {/* Assuming a fixed tax rate of 21% for simplicity */}
-          <Label className="block p-3 bg-muted rounded">
+          <Label
+            className={`block p-3 bg-muted rounded ${
+              errors.tax ? "border border-red-500" : ""
+            }`}
+          >
             €
             {formData.enableTax
               ? (parseFloat(formData.price || "0") * 0.21).toFixed(2)
               : "0.00"}
           </Label>
+          {errors.tax && (
+            <p className="text-red-500 text-sm mt-1">{errors.tax}</p>
+          )}
         </div>
 
         <Label className="col-span-3 text-right font-bold text-lg mt-2">
@@ -458,12 +517,23 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
         </Label>
         <Textarea
           value={formData.description}
-          onChange={(e) =>
-            setFormData({ ...formData, description: e.target.value })
+          onChange={(e) => {
+            setFormData({ ...formData, description: e.target.value });
+            if (errors.description) {
+              setErrors({ ...errors, description: "" });
+            }
+          }}
+          className={
+            errors.description
+              ? "border-red-500 focus-visible:ring-red-500"
+              : ""
           }
           rows={3}
           required
         />
+        {errors.description && (
+          <p className="text-red-500 text-sm mt-1">{errors.description}</p>
+        )}
       </div>
 
       <div>
@@ -488,6 +558,9 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
           onChange={setImages}
           product_name={formData.name}
         />
+        {errors.images && (
+          <p className="text-red-500 text-sm mt-1">{errors.images}</p>
+        )}
       </div>
 
       <div className="flex gap-2 justify-end pt-4 border-t border-border">

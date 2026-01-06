@@ -1,5 +1,6 @@
 import { toast } from "sonner";
 import { ApiError } from "@/lib/api";
+import { type ZodError } from "zod";
 
 /**
  * Show a toast notification for API errors
@@ -193,4 +194,43 @@ export function updateToast(
       duration: 10000,
     });
   }
+}
+
+/**
+ * Show validation errors from Zod
+ */
+export function showValidationError(
+  error: ZodError,
+  t: (key: string) => string,
+) {
+  // Handle Zod errors
+  if (error?.issues && Array.isArray(error.issues)) {
+    const firstIssue = error.issues[0];
+    const field = firstIssue.path.join(".");
+    const message = firstIssue.message;
+
+    // Try to translate the validation message
+    let translatedMessage = message;
+    try {
+      translatedMessage = t(message);
+      // If translation returns the same key, use the original
+      if (translatedMessage === message) {
+        translatedMessage = message;
+      }
+    } catch {
+      translatedMessage = message;
+    }
+
+    toast.error(t("toasts.apiErrors.invalidRequest"), {
+      description: `${field}: ${translatedMessage}`,
+      duration: 10000,
+    });
+    return;
+  }
+
+  // Fallback
+  toast.error(t("toasts.apiErrors.invalidRequest"), {
+    description: t("toasts.apiErrors.invalidRequestDescription"),
+    duration: 10000,
+  });
 }

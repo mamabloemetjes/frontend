@@ -74,7 +74,7 @@
       "goToProducts": "Bekijk Producten",
       "validationError": "Vul alle vereiste velden correct in",
       "orderPlaced": "Bestelling Geplaatst!",
-      "orderPlacedDescription": "We hebben je een bevestigingsmail gestuurd. Je ontvangt binnenkort een Tikkie betaallink.",
+      "orderPlacedDescription": "Er is een bevestegings email gestuurd. Je ontvangt binnenkort een Tikkie betaallink.",
       "orderFailed": "Bestelling Mislukt",
       "orderFailedDescription": "Er ging iets mis. Probeer het opnieuw.",
       "productUnavailable": "Sommige producten zijn niet meer beschikbaar"
@@ -84,10 +84,10 @@
       "thankYou": "Bedankt voor je bestelling!",
       "orderNumber": "Bestelnummer",
       "orderPlaced": "Je bestelling is succesvol geplaatst",
-      "emailSent": "We hebben een bevestigingsmail gestuurd naar",
+      "emailSent": "Er is een bevestigingsmail gestuurd naar",
       "paymentInfo": "Betaalinformatie",
       "tikkiePayment": "Je ontvangt binnenkort een Tikkie betaallink via e-mail",
-      "waitingForPayment": "Zodra we je betaling hebben ontvangen, gaan we aan de slag met je bestelling",
+      "waitingForPayment": "Zodra de betaling is ontvangen, ga ik aan de slag met je bestelling",
       "orderDetails": "Besteldetails",
       "deliveryAddress": "Bezorgadres",
       "backToHome": "Terug naar Home",
@@ -206,13 +206,13 @@
       },
       "custom": {
         "title": "Boeketten op maat",
-        "description": "Heeft u een speciaal verzoek? Wij kunnen een boeket op maat maken voor elke gelegenheid.",
+        "description": "Heeft u een speciaal verzoek? Ik kan een boeket op maat maken!",
         "cta": "Vraag een boeket op maat aan"
       }
     },
     "contact": {
       "title": "Neem Contact Op",
-      "description": "Vul het onderstaande formulier in en we nemen zo snel mogelijk contact met je op.",
+      "description": "Vul het onderstaande formulier in en ik neem zo snel mogelijk contact met je op.",
       "name": "Naam",
       "yourName": "Voer je naam in",
       "email": "E-mail",
