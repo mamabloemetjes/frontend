@@ -8,12 +8,13 @@ import { useSetAtom } from "jotai";
 interface AddToCartProps {
   product: Product;
   title: string | React.ReactNode;
+  className?: string;
 }
 
-const AddToCart = ({ product, title }: AddToCartProps) => {
+const AddToCart = ({ product, title, className }: AddToCartProps) => {
   const addToCart = useSetAtom(addToCartAtom);
   return (
-    <Button size="lg" onClick={() => addToCart(product)}>
+    <Button size="lg" onClick={() => addToCart(product)} className={className}>
       {title}
     </Button>
   );

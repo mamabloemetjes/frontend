@@ -572,6 +572,17 @@ export const api = {
     > => {
       return apiClient.get("/orders/my-orders");
     },
+
+    /**
+     * GET /orders/my-orders/{id}
+     * Get detailed information about a specific order for authenticated user
+     * Requires authentication
+     */
+    getMyOrderById: async (
+      orderId: string,
+    ): Promise<ApiResponse<OrderDetails>> => {
+      return apiClient.get(`/orders/my-orders/${orderId}`);
+    },
   },
   admin: {
     products: {

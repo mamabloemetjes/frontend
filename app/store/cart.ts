@@ -16,6 +16,12 @@ type CartToast =
       params: { name: string };
     }
   | {
+      type: "error";
+      titleKey: "alreadyInCart";
+      descriptionKey: "alreadyInCartDescription";
+      params: { name: string };
+    }
+  | {
       type: "success";
       titleKey: "addedToCart";
       params: { name: string };
@@ -49,28 +55,18 @@ export const addToCartAtom = atom(null, (get, set, product: Product) => {
   const existingItem = items.find((item) => item.id === product.id);
 
   if (existingItem) {
-    // Check stock if available (stock can be undefined)
-    if (product.stock !== undefined && existingItem.quantity >= product.stock) {
-      set(cartToastAtom, {
-        type: "error",
-        titleKey: "insufficientStock",
-        descriptionKey: "insufficientStockDescription",
-        params: { name: product.name },
-      });
-      return;
-    }
-
-    set(
-      cartItemsAtom,
-      items.map((item) =>
-        item.id === product.id
-          ? { ...item, quantity: item.quantity + 1 }
-          : item,
-      ),
-    );
-  } else {
-    set(cartItemsAtom, [...items, { ...product, quantity: 1 }]);
+    // Product already exists in cart - show warning toast
+    set(cartToastAtom, {
+      type: "error",
+      titleKey: "alreadyInCart",
+      descriptionKey: "alreadyInCartDescription",
+      params: { name: product.name },
+    });
+    return;
   }
+
+  // Add new product to cart
+  set(cartItemsAtom, [...items, { ...product, quantity: 1 }]);
 
   set(cartToastAtom, {
     type: "success",

@@ -77,9 +77,9 @@ export const checkoutSchema = z
       .max(10, "validation.houseNumber.maxLength"),
     postal_code: z
       .string()
-      .min(4, "validation.postalCode.minLength")
-      .max(10, "validation.postalCode.maxLength")
-      .regex(/^[0-9]{4}\s?[A-Z]{2}$/i, "validation.postalCode.invalid"),
+      .min(7, "validation.postalCode.minLength")
+      .max(7, "validation.postalCode.maxLength")
+      .regex(/^[0-9]{4}\s[A-Z]{2}$/i, "validation.postalCode.invalid"),
     city: z
       .string()
       .min(2, "validation.city.minLength")

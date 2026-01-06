@@ -30,6 +30,7 @@ export default function CheckoutPage() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    setValue,
   } = useForm({
     resolver: zodResolver(checkoutSchema),
     mode: "onBlur",
@@ -37,6 +38,18 @@ export default function CheckoutPage() {
       country: "NL",
     },
   });
+
+  // Auto-format postal code to add space if needed
+  const handlePostalCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value.toUpperCase().replace(/\s/g, ""); // Remove all spaces and convert to uppercase
+
+    // If user has typed 6+ characters, auto-format with space
+    if (value.length >= 6) {
+      value = value.slice(0, 4) + " " + value.slice(4, 6);
+    }
+
+    setValue("postal_code", value, { shouldValidate: true });
+  };
 
   const onSubmit = async (data: typeof checkoutSchema._output) => {
     if (cartItems.length === 0) {
@@ -166,7 +179,9 @@ export default function CheckoutPage() {
                   placeholder="1234 AB"
                   error={errors.postal_code?.message}
                   required
-                  {...register("postal_code")}
+                  {...register("postal_code", {
+                    onChange: handlePostalCodeChange,
+                  })}
                 />
 
                 <FormInput

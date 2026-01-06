@@ -73,6 +73,8 @@
       "emptyCart": "Je winkelwagen is leeg",
       "goToProducts": "Bekijk Producten",
       "validationError": "Vul alle vereiste velden correct in",
+      "orderSuccess": "Bestelling Succesvol Geplaatst!",
+      "orderSuccessDescription": "Je bestelling is ontvangen. Je ontvangt binnenkort een bevestigingsmail met een Tikkie betaallink.",
       "orderPlaced": "Bestelling Geplaatst!",
       "orderPlacedDescription": "Er is een bevestegings email gestuurd. Je ontvangt binnenkort een Tikkie betaallink.",
       "orderFailed": "Bestelling Mislukt",
@@ -84,14 +86,35 @@
       "thankYou": "Bedankt voor je bestelling!",
       "orderNumber": "Bestelnummer",
       "orderPlaced": "Je bestelling is succesvol geplaatst",
-      "emailSent": "Er is een bevestigingsmail gestuurd naar",
+      "emailSent": "Er is een bevestigingsmail gestuurd naar je e-mailadres",
       "paymentInfo": "Betaalinformatie",
       "tikkiePayment": "Je ontvangt binnenkort een Tikkie betaallink via e-mail",
       "waitingForPayment": "Zodra de betaling is ontvangen, ga ik aan de slag met je bestelling",
-      "orderDetails": "Besteldetails",
+      "orderDetails": "Wat Gebeurt Er Nu",
       "deliveryAddress": "Bezorgadres",
       "backToHome": "Terug naar Home",
-      "viewOrders": "Bekijk Mijn Bestellingen"
+      "viewOrders": "Bekijk Mijn Bestellingen",
+      "quickActions": "Snelle Acties",
+      "continueShopping": "Verder Winkelen",
+      "handmadeWithLove": "Met Liefde Handgemaakt",
+      "handmadeWithLoveDescription": "Elk stuk wordt met zorg en aandacht voor detail gemaakt. Je bestelling wordt speciaal voor jou liefdevol voorbereid!",
+      "needHelp": "Hulp Nodig?",
+      "needHelpDescription": "Als je vragen hebt over je bestelling, aarzel dan niet om contact op te nemen!",
+      "contactUs": "Neem Contact Op →",
+      "whatToExpect": "Wat te Verwachten",
+      "steps": {
+        "checkEmail": "Controleer Je E-mail",
+        "payViaTikkie": "Betaal via Tikkie",
+        "wePrepare": "Wij Bereiden Je Bestelling Voor",
+        "delivery": "Bezorging",
+        "deliveryDescription": "Je prachtige handgemaakte creatie wordt zorgvuldig bij je thuis afgeleverd!"
+      },
+      "timeline": {
+        "paymentLink": "Betaallink binnen 24 uur",
+        "preparation": "Bestelling voorbereiden na bevestiging betaling",
+        "packaging": "Zorgvuldige verpakking en kwaliteitscontrole",
+        "tracking": "Informatie voor het volgen van de bezorging"
+      }
     },
     "myOrders": {
       "title": "Mijn Bestellingen",
@@ -182,6 +205,7 @@
     "dashboard": "Dashboard",
     "orders": "Bestellingen",
     "home": "Home",
+    "checkout": "Afrekenen",
     "footer": {
       "aboutUs": "Over ons",
       "contact": "Contact",
@@ -236,7 +260,11 @@
       "remove": "Verwijderen",
       "totalDiscount": "Totale korting:",
       "total": "Totaal:",
-      "proceedToCheckout": "Doorgaan naar afrekenen"
+      "proceedToCheckout": "Doorgaan naar afrekenen",
+      "alreadyInCart": "Al in winkelwagen",
+      "alreadyInCartDescription": "{name} zit al in je winkelwagen. Er is slechts één exemplaar van elk product beschikbaar.",
+      "insufficientStock": "Onvoldoende voorraad",
+      "insufficientStockDescription": "Er is niet genoeg voorraad beschikbaar voor {name}."
     },
     "product": {
       "loading": "Productgegevens laden...",
@@ -253,7 +281,28 @@
       "selectSize": "Kies een maat",
       "quantity": "Aantal",
       "relatedProducts": "Gerelateerde producten",
-      "noImage": "Geen afbeeldingen beschikbaar"
+      "noImage": "Geen afbeeldingen beschikbaar",
+      "save": "Bespaar",
+      "taxIncluded": "Inclusief BTW",
+      "addToWishlist": "Toevoegen aan verlanglijstje",
+      "freeShipping": "Gratis verzending",
+      "freeShippingDesc": "Op alle bestellingen boven de €{threshold}",
+      "securePayment": "Veilig betalen",
+      "securePaymentDesc": "Betalingen via Tikkie",
+      "easyContact": "Gemakkelijk contact",
+      "easyContactDesc": "Bereik mij via email!",
+      "aboutThisProduct": "Over dit product",
+      "handmadeWithLove": "Handgemaakt met liefde",
+      "handmadeWithLoveDesc": "Elk boeket wordt met zorg en aandacht handgemaakt door Mama Bloemetjes. Ieder stuk is uniek en speciaal voor jou gemaakt.",
+      "freshFlowers": "Verse bloemen",
+      "freshFlowersDesc": "Wij gebruiken alleen de meest verse en hoogwaardige bloemen om ervoor te zorgen dat jouw boeket lang mooi blijft.",
+      "uniqueDesign": "Uniek ontwerp",
+      "uniqueDesignDesc": "Geen twee boeketten zijn hetzelfde. Elk arrangement heeft zijn eigen karakter en schoonheid.",
+      "carefullyPackaged": "Zorgvuldig verpakt",
+      "carefullyPackagedDesc": "Je boeket wordt vakkundig verpakt zodat het veilig bij je aankomt en je het direct kunt geven of neerzetten.",
+      "productNotFound": "Product niet gevonden",
+      "errorFetchingProduct": "Fout bij ophalen van product",
+      "pleaseTryAgainLater": "Probeer het later opnieuw"
     },
     "products": {
       "title": "Producten",
@@ -468,9 +517,9 @@
       "maxLength": "Huisnummer mag maximaal 10 tekens lang zijn"
     },
     "postalCode": {
-      "minLength": "Postcode moet minimaal 4 tekens lang zijn",
-      "maxLength": "Postcode mag maximaal 10 tekens lang zijn",
-      "invalid": "Voer een geldige Nederlandse postcode in (bijv. 1234 AB)"
+      "minLength": "Postcode moet precies 7 tekens lang zijn (1234 AB)",
+      "maxLength": "Postcode moet precies 7 tekens lang zijn (1234 AB)",
+      "invalid": "Postcode moet in het formaat: 1234 AB (4 cijfers, spatie, 2 letters)"
     },
     "city": {
       "minLength": "Plaats moet minimaal 2 tekens lang zijn",
@@ -562,7 +611,7 @@
         "checkLoginInformation": "Controleer uw inloggegevens en probeer het opnieuw",
         "emailAndPasswordRequired": "E-mail en wachtwoord zijn verplicht",
         "invalidCredentials": "Ongeldige inloggegevens",
-        "verifyEmail": "Verifieer uw e-mailadres (%s) voordat u inlogt",
+        "verifyEmail": "Verifieer uw e-mailadres voordat u inlogt",
         "unableToCompleteLogin": "Inloggen mislukt. Probeer het opnieuw",
         "missingTokenOrUserId": "Token of gebruikers-ID ontbreekt",
         "invalidUserIdFormat": "Ongeldig gebruikers-ID-formaat",

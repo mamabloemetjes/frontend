@@ -42,7 +42,7 @@ export default function AccountOrderDetailPage() {
       setError(null);
 
       try {
-        const response = await api.admin.orders.getById(orderId);
+        const response = await api.orders.getMyOrderById(orderId);
 
         if (response.success) {
           setOrderDetails(response.data);

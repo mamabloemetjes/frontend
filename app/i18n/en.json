@@ -73,6 +73,8 @@
       "emptyCart": "Your cart is empty",
       "goToProducts": "Browse Products",
       "validationError": "Please fill in all required fields correctly",
+      "orderSuccess": "Order Placed Successfully!",
+      "orderSuccessDescription": "Your order has been received. You will receive a confirmation email with a Tikkie payment link shortly.",
       "orderPlaced": "Order Placed!",
       "orderPlacedDescription": "A confirmation email has been sent. You'll receive a Tikkie payment link shortly.",
       "orderFailed": "Order Failed",
@@ -84,14 +86,35 @@
       "thankYou": "Thank you for your order!",
       "orderNumber": "Order Number",
       "orderPlaced": "Your order has been placed successfully",
-      "emailSent": "A confirmation email has been sent to",
+      "emailSent": "A confirmation email has been sent to your email address",
       "paymentInfo": "Payment Information",
       "tikkiePayment": "You will receive a Tikkie payment link via email shortly",
-      "waitingForPayment": "Once the payment is recieved, I'll start preparing your order",
-      "orderDetails": "Order Details",
+      "waitingForPayment": "Once the payment is received, I'll start preparing your order",
+      "orderDetails": "What Happens Next",
       "deliveryAddress": "Delivery Address",
       "backToHome": "Back to Home",
-      "viewOrders": "View My Orders"
+      "viewOrders": "View My Orders",
+      "quickActions": "Quick Actions",
+      "continueShopping": "Continue Shopping",
+      "handmadeWithLove": "Handmade with Love",
+      "handmadeWithLoveDescription": "Each piece is crafted with care and attention to detail. Your order will be lovingly prepared just for you!",
+      "needHelp": "Need Help?",
+      "needHelpDescription": "If you have any questions about your order, don't hesitate to reach out!",
+      "contactUs": "Contact Us →",
+      "whatToExpect": "What to Expect",
+      "steps": {
+        "checkEmail": "Check Your Email",
+        "payViaTikkie": "Pay via Tikkie",
+        "wePrepare": "We Prepare Your Order",
+        "delivery": "Delivery",
+        "deliveryDescription": "Your beautiful handmade creation will be carefully delivered to your door!"
+      },
+      "timeline": {
+        "paymentLink": "Payment link within 24 hours",
+        "preparation": "Order preparation after payment confirmation",
+        "packaging": "Careful packaging and quality check",
+        "tracking": "Delivery tracking information"
+      }
     },
     "myOrders": {
       "title": "My Orders",
@@ -182,6 +205,7 @@
     "dashboard": "Dashboard",
     "orders": "Orders",
     "home": "Home",
+    "checkout": "Checkout",
     "footer": {
       "about": "About Us",
       "contact": "Contact",
@@ -237,7 +261,10 @@
       "totalDiscount": "Total Discount:",
       "total": "Total",
       "proceedToCheckout": "Proceed to Checkout",
-      "addedToCart": "{name has been added to your cart.",
+      "addedToCart": "{name} has been added to your cart.",
+      "alreadyInCart": "Already in cart",
+      "alreadyInCartDescription": "{name} is already in your cart. There is no more stock available for this item.",
+      "insufficientStock": "Insufficient stock",
       "insufficientStockDescription": "Some items in your cart exceed available stock. Please adjust quantities before proceeding to checkout."
     },
     "product": {
@@ -254,7 +281,28 @@
       "selectSize": "Select Size",
       "quantity": "Quantity",
       "selectQuantity": "Select Quantity",
-      "noImage": "No images available"
+      "noImage": "No images available",
+      "save": "Save",
+      "taxIncluded": "Tax included",
+      "addToWishlist": "Add to Wishlist",
+      "freeShipping": "Free Shipping",
+      "freeShippingDesc": "On orders over €{threshold}",
+      "securePayment": "Secure Payment",
+      "securePaymentDesc": "Payments via Tikkie",
+      "easyContact": "Easy Contact",
+      "easyContactDesc": "Reach out anytime to me via email!",
+      "aboutThisProduct": "About This Product",
+      "handmadeWithLove": "Handmade with Love",
+      "handmadeWithLoveDesc": "Each bouquet is carefully handcrafted by Mama Bloemetjes with love and attention to detail. Every piece is unique and specially made for you.",
+      "freshFlowers": "Fresh Flowers",
+      "freshFlowersDesc": "We use only the freshest and highest quality flowers to ensure your bouquet stays beautiful for as long as possible.",
+      "uniqueDesign": "Unique Design",
+      "uniqueDesignDesc": "No two bouquets are the same. Each arrangement has its own character and beauty that makes it truly special.",
+      "carefullyPackaged": "Carefully Packaged",
+      "carefullyPackagedDesc": "Your bouquet is expertly packaged to arrive safely so you can immediately gift it or display it with pride.",
+      "productNotFound": "Product not found",
+      "errorFetchingProduct": "Error fetching product",
+      "pleaseTryAgainLater": "Please try again later"
     },
     "products": {
       "title": "Products",
@@ -468,9 +516,9 @@
       "maxLength": "House number must be at most 10 characters"
     },
     "postalCode": {
-      "minLength": "Postal code must be at least 4 characters",
-      "maxLength": "Postal code must be at most 10 characters",
-      "invalid": "Please enter a valid Dutch postal code (e.g., 1234 AB)"
+      "minLength": "Postal code must be exactly 7 characters (1234 AB)",
+      "maxLength": "Postal code must be exactly 7 characters (1234 AB)",
+      "invalid": "Postal code must be in format: 1234 AB (4 digits, space, 2 letters)"
     },
     "city": {
       "minLength": "City must be at least 2 characters",
@@ -562,7 +610,7 @@
         "checkLoginInformation": "Please check your login information and try again",
         "emailAndPasswordRequired": "Email and password are required",
         "invalidCredentials": "Invalid credentials",
-        "verifyEmail": "Please verify your email address (%s) before logging in",
+        "verifyEmail": "Please verify your email address before logging in",
         "unableToCompleteLogin": "Unable to complete login. Please try again",
         "missingTokenOrUserId": "Missing token or user_id",
         "invalidUserIdFormat": "Invalid user_id format",

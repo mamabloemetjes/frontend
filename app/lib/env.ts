@@ -49,6 +49,12 @@ export const env = {
 
   shopOwnerEmail: process.env.NEXT_PUBLIC_SHOP_OWNER_EMAIL || "",
 
+  baseUrl: process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000",
+
+  freeShippingThreshold: parseFloat(
+    process.env.NEXT_PUBLIC_FREE_SHIPPING_THRESHOLD || "50",
+  ),
+
   /** Feature flags */
   features: {
     enableLogin: parseBooleanEnv(process.env.NEXT_PUBLIC_ENABLE_LOGIN, true),

@@ -36,11 +36,6 @@ const RegisterPage = () => {
 
     await register.mutateAsync(registerData);
 
-    showSuccess(
-      t("auth.register.success"),
-      t("auth.register.successDescription"),
-    );
-
     // Redirect to login page after successful registration
     setTimeout(() => {
       router.push("/login");
