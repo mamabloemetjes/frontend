@@ -1,7 +1,7 @@
 {
   "app": {
-    "title": "🌸 Mama Bloemetjes",
-    "brand": "Mama Bloemetjes"
+    "title": "🌸 Roos van Sharon",
+    "brand": "Roos van Sharon"
   },
   "auth": {
     "register": {
@@ -220,7 +220,7 @@
       "loading": "Producten laden...",
       "noProducts": "Geen producten gevonden.",
       "hero": {
-        "title": "Welkom bij Mama Bloemetjes",
+        "title": "Welkom bij Roos van Sharon",
         "subtitle": "Handgemaakte boeketten met liefde"
       },
       "premade": {
@@ -293,7 +293,7 @@
       "easyContactDesc": "Bereik mij via email!",
       "aboutThisProduct": "Over dit product",
       "handmadeWithLove": "Handgemaakt met liefde",
-      "handmadeWithLoveDesc": "Elk boeket wordt met zorg en aandacht handgemaakt door Mama Bloemetjes. Ieder stuk is uniek en speciaal voor jou gemaakt.",
+      "handmadeWithLoveDesc": "Elk boeket wordt met zorg en aandacht handgemaakt. Ieder stuk is uniek en speciaal voor jou gemaakt.",
       "freshFlowers": "Verse bloemen",
       "freshFlowersDesc": "Wij gebruiken alleen de meest verse en hoogwaardige bloemen om ervoor te zorgen dat jouw boeket lang mooi blijft.",
       "uniqueDesign": "Uniek ontwerp",

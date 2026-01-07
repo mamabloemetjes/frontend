@@ -50,7 +50,7 @@ export default function Header() {
           <LanguageAwareLink href="/" className="flex items-center gap-3">
             <span className="text-3xl lg:text-4xl inline-block">🌸</span>
             <span className="text-xl lg:text-2xl font-bold">
-              Mama Bloemetjes
+              Roos van Sharon
             </span>
           </LanguageAwareLink>
 

@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const productUrl = `${baseUrl}/${locale}/products/${product.id}`;
 
   return {
-    title: `${product.name} - €${priceInEuros} | Mama Bloemetjes`,
+    title: `${product.name} - €${priceInEuros} | Roos van Sharon`,
     description: metaDescription,
     keywords: [
       product.name,
@@ -59,14 +59,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       "flowers",
       "bloemen",
       "boeket",
-      "Mama Bloemetjes",
+      "Roos van Sharon",
       "handgemaakt",
       "fresh flowers",
       "verse bloemen",
     ],
-    authors: [{ name: "Mama Bloemetjes" }],
-    creator: "Mama Bloemetjes",
-    publisher: "Mama Bloemetjes",
+    authors: [{ name: "Roos van Sharon" }],
+    creator: "Roos van Sharon",
+    publisher: "Roos van Sharon",
     alternates: {
       canonical: productUrl,
       languages: {
@@ -75,10 +75,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       },
     },
     openGraph: {
-      title: `${product.name} - Mama Bloemetjes`,
+      title: `${product.name} - Roos van Sharon`,
       description: product.description,
       url: productUrl,
-      siteName: "Mama Bloemetjes",
+      siteName: "Roos van Sharon",
       locale: locale === "nl" ? "nl_NL" : "en_US",
       type: "website",
       images: mainImage
@@ -94,7 +94,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: `${product.name} - Mama Bloemetjes`,
+      title: `${product.name} - Roos van Sharon`,
       description: metaDescription,
       images: mainImage ? [mainImage.url] : [],
     },
@@ -175,7 +175,7 @@ const ProductDetailPage = async ({ params }: Props) => {
     sku: product.sku,
     brand: {
       "@type": "Brand",
-      name: "Mama Bloemetjes",
+      name: "Roos van Sharon",
     },
     offers: {
       "@type": "Offer",
@@ -193,7 +193,7 @@ const ProductDetailPage = async ({ params }: Props) => {
       itemCondition: "https://schema.org/NewCondition",
       seller: {
         "@type": "Organization",
-        name: "Mama Bloemetjes",
+        name: "Roos van Sharon",
       },
     },
     aggregateRating: product.is_active

@@ -40,7 +40,7 @@ const LoginPage = () => {
     <div className="min-h-screen flex items-center justify-center bg-background px-4 overflow-hidden">
       <div className="w-full max-w-md">
         <div className="text-center mb-2">
-          <h1 className="text-4xl font-bold mb-2">🌸 Mama Bloemetjes</h1>
+          <h1 className="text-4xl font-bold mb-2">🌸 Roos van Sharon</h1>
           <p className="text-muted-foreground">{t("title")}</p>
         </div>
 

@@ -12,7 +12,6 @@ import {
   registerSchema,
   type RegisterFormData,
 } from "@/lib/validation/schemas";
-import { showSuccess } from "@/lib/validation/utils";
 import { FeatureRoute } from "@/components";
 
 const RegisterPage = () => {
@@ -46,7 +45,7 @@ const RegisterPage = () => {
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-2">🌸 Mama Bloemetjes</h1>
+          <h1 className="text-4xl font-bold mb-2">🌸 Roos van Sharon</h1>
           <p className="text-muted-foreground">{t("auth.register.title")}</p>
         </div>
 
