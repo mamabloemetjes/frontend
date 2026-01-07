@@ -302,7 +302,9 @@
       "carefullyPackagedDesc": "Je boeket wordt vakkundig verpakt zodat het veilig bij je aankomt en je het direct kunt geven of neerzetten.",
       "productNotFound": "Product niet gevonden",
       "errorFetchingProduct": "Fout bij ophalen van product",
-      "pleaseTryAgainLater": "Probeer het later opnieuw"
+      "pleaseTryAgainLater": "Probeer het later opnieuw",
+      "priceExplanationTitle": "Waarom kost het wat het kost?",
+      "priceExplanationDesc": "Uitleg..."
     },
     "products": {
       "title": "Producten",

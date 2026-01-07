@@ -19,6 +19,7 @@ import {
 import { LanguageAwareLink } from "@/components/LanguageAwareLink";
 import type { Metadata } from "next";
 import { env } from "@/lib/env";
+import PriceExplanation from "@/components/PriceExplanation";
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -421,6 +422,8 @@ const ProductDetailPage = async ({ params }: Props) => {
                 </p>
               </section>
             </div>
+
+            <PriceExplanation t={t} />
 
             {/* Card 4: Handmade with Love */}
             <div className="break-inside-avoid mb-6">
