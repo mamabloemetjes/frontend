@@ -231,6 +231,8 @@ const ProductDetailPage = async ({ params }: Props) => {
     ],
   };
 
+  console.log(env.freeShippingThreshold);
+
   return (
     <>
       {/* JSON-LD Structured Data */}

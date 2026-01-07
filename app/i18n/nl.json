@@ -264,7 +264,8 @@
       "alreadyInCart": "Al in winkelwagen",
       "alreadyInCartDescription": "{name} zit al in je winkelwagen. Er is slechts één exemplaar van elk product beschikbaar.",
       "insufficientStock": "Onvoldoende voorraad",
-      "insufficientStockDescription": "Er is niet genoeg voorraad beschikbaar voor {name}."
+      "insufficientStockDescription": "Er is niet genoeg voorraad beschikbaar voor {name}.",
+      "addedToCart": "{name} is toegevoegd aan je winkelwagen."
     },
     "product": {
       "loading": "Productgegevens laden...",
@@ -472,11 +473,6 @@
       "emailVerifiedDescription": "Je kunt nu inloggen op je account.",
       "verificationInfo": "E-mailverificatie",
       "verificationInfoDescription": "Verificatie status controleren..."
-    },
-    "cart": {
-      "addedToCart": "{name} is toegevoegd aan je winkelwagen.",
-      "insufficientStockDescription": "{name} heeft onvoldoende voorraad.",
-      "insufficientStock": "Niet genoeg voorraad"
     }
   },
   "validation": {
