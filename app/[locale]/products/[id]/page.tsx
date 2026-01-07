@@ -9,14 +9,12 @@ import { formatPrice } from "@/lib/utils";
 import {
   Truck,
   ShieldCheck,
-  ChevronRight,
   Mail,
   Palette,
   Box,
   Flower2,
   ClipboardEditIcon,
 } from "lucide-react";
-import { LanguageAwareLink } from "@/components/LanguageAwareLink";
 import type { Metadata } from "next";
 import { env } from "@/lib/env";
 import PriceExplanation from "@/components/PriceExplanation";
@@ -253,58 +251,6 @@ const ProductDetailPage = async ({ params }: Props) => {
           itemType="https://schema.org/Product"
           className="container mx-auto px-4 py-8 max-w-7xl"
         >
-          {/* Breadcrumb Navigation */}
-          <nav aria-label="Breadcrumb" className="mb-6">
-            <ol
-              className="flex items-center gap-2 text-sm text-muted-foreground"
-              itemScope
-              itemType="https://schema.org/BreadcrumbList"
-            >
-              <li
-                itemProp="itemListElement"
-                itemScope
-                itemType="https://schema.org/ListItem"
-              >
-                <LanguageAwareLink
-                  href="/"
-                  className="hover:text-foreground transition-colors"
-                >
-                  <span itemProp="name">Home</span>
-                </LanguageAwareLink>
-                <meta itemProp="position" content="1" />
-              </li>
-              <ChevronRight className="w-4 h-4" />
-              <li
-                itemProp="itemListElement"
-                itemScope
-                itemType="https://schema.org/ListItem"
-              >
-                <LanguageAwareLink
-                  href="/products"
-                  className="hover:text-foreground transition-colors"
-                >
-                  <span itemProp="name">Products</span>
-                </LanguageAwareLink>
-                <meta itemProp="position" content="2" />
-              </li>
-              <ChevronRight className="w-4 h-4" />
-              <li
-                itemProp="itemListElement"
-                itemScope
-                itemType="https://schema.org/ListItem"
-              >
-                <span
-                  className="text-foreground font-medium"
-                  itemProp="name"
-                  aria-current="page"
-                >
-                  {product.name}
-                </span>
-                <meta itemProp="position" content="3" />
-              </li>
-            </ol>
-          </nav>
-
           {/* Pinterest-style masonry layout using CSS columns */}
           <div
             className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6"
