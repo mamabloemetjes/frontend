@@ -8,6 +8,7 @@ import {
 import { showApiError, showApiSuccess } from "@/lib/apiToast";
 import { useTranslations } from "next-intl";
 import { useCallback } from "react";
+import { revalidateProducts, revalidateProduct } from "@/lib/revalidation";
 
 /**
  * Hook to fetch all products (admin only)
@@ -42,10 +43,14 @@ export function useCreateProduct() {
       const response = await api.admin.products.create(product);
       return response.data;
     },
-    onSuccess: () => {
-      // Invalidate all product queries
+    onSuccess: async () => {
+      // Invalidate React Query cache (client-side)
       queryClient.invalidateQueries({ queryKey: queryKeys.admin.products.all });
       queryClient.invalidateQueries({ queryKey: queryKeys.products.all });
+
+      // Invalidate Next.js cache (server-side)
+      await revalidateProducts();
+
       showApiSuccess(t("productCreated"));
     },
     onError: (error) => {
@@ -80,10 +85,15 @@ export function useUpdateProduct() {
       const response = await api.admin.products.update(id, updates);
       return response.data;
     },
-    onSuccess: () => {
-      // Invalidate all product queries
+    onSuccess: async (_data, variables) => {
+      // Invalidate React Query cache (client-side)
       queryClient.invalidateQueries({ queryKey: queryKeys.admin.products.all });
       queryClient.invalidateQueries({ queryKey: queryKeys.products.all });
+
+      // Invalidate Next.js cache (server-side)
+      await revalidateProducts();
+      await revalidateProduct(variables.id);
+
       showApiSuccess(t("productUpdated"));
     },
     onError: (error) => {
