@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  distDir: "dist",
 };
 
 const withNextIntl = createNextIntlPlugin("./i18n.ts");
