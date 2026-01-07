@@ -9,6 +9,7 @@ import { notFound } from "next/navigation";
 import { Providers } from "@/providers";
 import { cn } from "@/lib/utils";
 import { Footer, Header } from "@/components";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,9 +27,67 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
 
   const t = await getTranslations({ locale, namespace: "app" });
+  const seo = await getTranslations({ locale, namespace: "seo.home" });
+
+  const baseUrl =
+    process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl";
 
   return {
-    title: t("title"),
+    metadataBase: new URL(baseUrl),
+    title: {
+      default: t("title"),
+      template: `%s | ${t("title")}`,
+    },
+    description: t("description"),
+    keywords: seo("keywords"),
+    authors: [{ name: "Francis van Wieringen" }],
+    creator: "Francis van Wieringen",
+    publisher: "Roos van Sharon",
+    formatDetection: {
+      email: false,
+      address: false,
+      telephone: false,
+    },
+    icons: {
+      icon: "/favicon.ico",
+      shortcut: "/favicon.ico",
+      apple: "/favicon.ico",
+    },
+    openGraph: {
+      type: "website",
+      locale: locale === "nl" ? "nl_NL" : "en_US",
+      siteName: t("title"),
+      title: t("title"),
+      description: t("description"),
+      images: [
+        {
+          url: `${baseUrl}/favicon.ico`,
+          width: 32,
+          height: 32,
+          alt: t("title"),
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("title"),
+      description: t("description"),
+      images: [`${baseUrl}/favicon.ico`],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
+    verification: {
+      google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION,
+    },
   };
 }
 
@@ -46,8 +105,42 @@ export default async function LocaleLayout({ children, params }: Props) {
     console.error(error);
   }
 
+  const baseUrl =
+    process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl";
+
+  // Organization structured data
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: "Roos van Sharon",
+    description:
+      "Handgemaakte vilt bloemen voor rouwstukken en bruidsboeketten",
+    url: `${baseUrl}/${locale}`,
+    logo: `${baseUrl}/favicon.ico`,
+    image: `${baseUrl}/flower.webp`,
+    founder: {
+      "@type": "Person",
+      name: "Francis van Wieringen",
+    },
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "NL",
+    },
+    areaServed: "Nederland",
+    priceRange: "€€",
+    sameAs: [],
+  };
+
   return (
     <html lang={locale} suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema),
+          }}
+        />
+      </head>
       <body
         className={cn(
           inter.className,
@@ -57,6 +150,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Providers>
             <Header />
+            <Breadcrumbs />
             <main className="min-h-screen">{children}</main>
             <Footer locale={locale} />
           </Providers>

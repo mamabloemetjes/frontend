@@ -1,95 +1,50 @@
-"use client";
+"use server";
 
-import { useAtom, useSetAtom } from "jotai";
-import {
-  cartItemsAtom,
-  cartTotalAtom,
-  cartDiscountAtom,
-  removeFromCartAtom,
-  clearCartAtom,
-} from "@/store/cart";
-import { LanguageAwareLink } from "@/components/LanguageAwareLink";
-import { useTranslations } from "next-intl";
-import { formatPrice } from "@/lib/utils";
-import ProductCard from "@/components/ProductCard";
+import CartContent from "@/components/cart/CartContent";
+import { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 
-function CartPage() {
-  const [cartItems] = useAtom(cartItemsAtom);
-  const [cartTotal] = useAtom(cartTotalAtom);
-  const [totalDiscount] = useAtom(cartDiscountAtom);
-  const removeFromCart = useSetAtom(removeFromCartAtom);
-  const clearCart = useSetAtom(clearCartAtom);
-  const t = useTranslations();
-
-  if (cartItems.length === 0) {
-    return (
-      <div className="container mx-auto px-4 py-16 text-center">
-        <p className="text-muted-foreground text-xl mb-4">
-          {t("pages.cart.emptyCart")}
-        </p>
-        <LanguageAwareLink
-          href="/"
-          className="inline-block bg-primary text-primary-foreground px-6 py-3 rounded hover:bg-primary/90 transition-colors"
-        >
-          {t("pages.cart.continueShopping")}
-        </LanguageAwareLink>
-      </div>
-    );
-  }
-
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold">{t("pages.cart.title")}</h1>
-        <button
-          onClick={() => clearCart()}
-          className="text-destructive hover:underline"
-        >
-          {t("pages.cart.clearCart")}
-        </button>
-      </div>
-
-      <div className="space-y-4">
-        {cartItems.map((item) => {
-          return (
-            <ProductCard
-              key={item.id}
-              product={item}
-              variant="compact"
-              quantity={item.quantity}
-              onRemove={() => removeFromCart(item.id)}
-              removeLabel={t("pages.cart.remove")}
-            />
-          );
-        })}
-      </div>
-
-      <div className="mt-8 border-t pt-4">
-        <div className="space-y-2">
-          {totalDiscount > 0 && (
-            <div className="flex items-center justify-between text-lg">
-              <span className="text-muted-foreground">
-                {t("pages.cart.totalDiscount")}
-              </span>
-              <span className="font-semibold text-green-600">
-                -{formatPrice(totalDiscount)}
-              </span>
-            </div>
-          )}
-          <div className="flex items-center justify-between text-2xl font-bold">
-            <span>{t("pages.cart.total")}</span>
-            <span>{formatPrice(cartTotal)}</span>
-          </div>
-        </div>
-        <LanguageAwareLink
-          href="/checkout"
-          className="block w-full mt-4 bg-primary text-primary-foreground py-3 rounded-lg text-lg font-semibold hover:bg-primary/90 transition-colors text-center"
-        >
-          {t("pages.cart.proceedToCheckout")}
-        </LanguageAwareLink>
-      </div>
-    </div>
-  );
+interface Props {
+  params: Promise<{ locale: string }>;
 }
 
-export default CartPage;
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "seo.cart" });
+  const common = await getTranslations({ locale, namespace: "seo.common" });
+
+  const baseUrl =
+    process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl";
+  const pageUrl = `${baseUrl}/${locale}/cart`;
+
+  return {
+    title: t("title"),
+    description: t("description"),
+    authors: [{ name: "Francis van Wieringen" }],
+    creator: "Francis van Wieringen",
+    publisher: "Roos van Sharon",
+    alternates: {
+      canonical: pageUrl,
+      languages: {
+        nl: `${baseUrl}/nl/cart`,
+        en: `${baseUrl}/en/cart`,
+      },
+    },
+    openGraph: {
+      title: t("title"),
+      description: t("description"),
+      url: pageUrl,
+      siteName: common("siteName"),
+      locale: common("locale"),
+      type: "website",
+    },
+    robots: {
+      index: false, // Don't index cart pages
+      follow: true,
+    },
+  };
+}
+
+export default async function CartPage() {
+  return <CartContent />;
+}
