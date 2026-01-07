@@ -1,0 +1,737 @@
+{
+  "app": {
+    "title": "🌸 Roos van Sharon",
+    "brand": "Roos van Sharon"
+  },
+  "auth": {
+    "register": {
+      "title": "Create your account",
+      "username": "Username",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "signUp": "Sign Up",
+      "creatingAccount": "Creating account...",
+      "alreadyHaveAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "backToHome": "← Back to home",
+      "accountCreated": "Account created!",
+      "pleaseVerifyEmail": "Please check your email to verify your account.",
+      "passwordHelper": "Password must be at least 8 characters long and include a mix of letters, numbers, and special characters.",
+      "failed": "Failed to create account. Please try again."
+    },
+    "login": {
+      "title": "Sign in to your account",
+      "email": "Email",
+      "password": "Password",
+      "signIn": "Sign In",
+      "signingIn": "Signing in...",
+      "dontHaveAccount": "Don't have an account?",
+      "signUp": "Sign up",
+      "backToHome": "← Back to home",
+      "welcomeBack": "Welcome back!",
+      "loginSuccess": "You have successfully logged in.",
+      "loggedInAs": "Logged in as {username}",
+      "emailNotVerified": "Email not verified",
+      "verifyEmailDescription": "Please check your inbox and verify your email address before logging in."
+    },
+    "emailVerification": {
+      "successTitle": "Email Verified!",
+      "successDescription": "You can now log in to your account.",
+      "failureTitle": "Verification Failed",
+      "failureDescription": "The verification link is invalid or has expired. Please try again or request a new verification email.",
+      "checkingStatus": "Checking your verification status...",
+      "verifying": "Verifying...",
+      "redirectingToLogin": "Redirecting to login page...",
+      "redirectingToHome": "Redirecting to home page..."
+    },
+    "logout": "Logout",
+    "loggingOut": "Logging out...",
+    "success": "Logged out",
+    "seeYouNextTime": "See you next time!"
+  },
+  "order": {
+    "checkout": {
+      "title": "Checkout",
+      "customerInfo": "Customer Information",
+      "deliveryAddress": "Delivery Address",
+      "orderSummary": "Order Summary",
+      "name": "Full Name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "street": "Street",
+      "houseNumber": "House Number",
+      "postalCode": "Postal Code",
+      "city": "City",
+      "country": "Country",
+      "customerNote": "Order Notes (Optional)",
+      "customerNotePlaceholder": "Any special requests or delivery instructions?",
+      "placeOrder": "Place Order",
+      "placingOrder": "Placing Order...",
+      "total": "Total",
+      "emptyCart": "Your cart is empty",
+      "goToProducts": "Browse Products",
+      "validationError": "Please fill in all required fields correctly",
+      "orderSuccess": "Order Placed Successfully!",
+      "orderSuccessDescription": "Your order has been received. You will receive a confirmation email with a Tikkie payment link shortly.",
+      "orderPlaced": "Order Placed!",
+      "orderPlacedDescription": "A confirmation email has been sent. You'll receive a Tikkie payment link shortly.",
+      "orderFailed": "Order Failed",
+      "orderFailedDescription": "Something went wrong. Please try again.",
+      "productUnavailable": "Some products are no longer available"
+    },
+    "confirmation": {
+      "title": "Order Confirmation",
+      "thankYou": "Thank you for your order!",
+      "orderNumber": "Order Number",
+      "orderPlaced": "Your order has been placed successfully",
+      "emailSent": "A confirmation email has been sent to your email address",
+      "paymentInfo": "Payment Information",
+      "tikkiePayment": "You will receive a Tikkie payment link via email shortly",
+      "waitingForPayment": "Once the payment is received, I'll start preparing your order",
+      "orderDetails": "What Happens Next",
+      "deliveryAddress": "Delivery Address",
+      "backToHome": "Back to Home",
+      "viewOrders": "View My Orders",
+      "quickActions": "Quick Actions",
+      "continueShopping": "Continue Shopping",
+      "handmadeWithLove": "Handmade with Love",
+      "handmadeWithLoveDescription": "Each piece is crafted with care and attention to detail. Your order will be lovingly prepared just for you!",
+      "needHelp": "Need Help?",
+      "needHelpDescription": "If you have any questions about your order, don't hesitate to reach out!",
+      "contactUs": "Contact Us →",
+      "whatToExpect": "What to Expect",
+      "steps": {
+        "checkEmail": "Check Your Email",
+        "payViaTikkie": "Pay via Tikkie",
+        "wePrepare": "We Prepare Your Order",
+        "delivery": "Delivery",
+        "deliveryDescription": "Your beautiful handmade creation will be carefully delivered to your door!"
+      },
+      "timeline": {
+        "paymentLink": "Payment link within 24 hours",
+        "preparation": "Order preparation after payment confirmation",
+        "packaging": "Careful packaging and quality check",
+        "tracking": "Delivery tracking information"
+      }
+    },
+    "myOrders": {
+      "title": "My Orders",
+      "noOrders": "You haven't placed any orders yet",
+      "orderNumber": "Order #",
+      "date": "Date",
+      "status": "Status",
+      "total": "Total",
+      "viewDetails": "View Details",
+      "loading": "Loading orders...",
+      "error": "Failed to load orders"
+    },
+    "status": {
+      "pending": "Pending Payment",
+      "paid": "Paid",
+      "processing": "Processing",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled",
+      "refunded": "Refunded"
+    },
+    "paymentStatus": {
+      "paid": "Paid",
+      "unpaid": "Unpaid"
+    },
+    "admin": {
+      "dashboard": {
+        "title": "Order Management",
+        "allOrders": "All Orders",
+        "filterByStatus": "Filter by Status",
+        "filterByPayment": "Filter by Payment",
+        "noOrders": "No orders found",
+        "loading": "Loading orders...",
+        "showingOrders": "Showing {count} orders",
+        "page": "Page {current} of {total}"
+      },
+      "details": {
+        "title": "Order Details",
+        "orderInfo": "Order Information",
+        "customerInfo": "Customer Information",
+        "deliveryAddress": "Delivery Address",
+        "orderItems": "Order Items",
+        "actions": "Actions",
+        "attachPaymentLink": "Attach Payment Link",
+        "paymentLinkPlaceholder": "Paste Tikkie payment link here",
+        "sendPaymentLink": "Send Payment Link",
+        "currentPaymentLink": "Current Payment Link",
+        "markAsPaid": "Mark as Paid",
+        "updateStatus": "Update Status",
+        "deleteOrder": "Delete Order",
+        "confirmDelete": "Are you sure you want to delete this order?",
+        "paymentLinkAttached": "Payment link sent to customer",
+        "paymentLinkRequired": "Payment link is required",
+        "orderMarkedPaid": "Order marked as paid",
+        "statusUpdated": "Status updated successfully",
+        "orderDeleted": "Order deleted",
+        "actionFailed": "Action failed",
+        "attaching": "Attaching payment link...",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "paymentStatus": "Payment Status",
+        "paymentLink": "Payment Link",
+        "product": "Product",
+        "quantity": "Quantity",
+        "price": "Price",
+        "subtotal": "Subtotal",
+        "total": "Total",
+        "delete": "Delete",
+        "customer": "Customer",
+        "customerNote": "Customer Note",
+        "payment": "Payment",
+        "items": "Items",
+        "orderDate": "Order Date",
+        "status": "Status",
+        "orderInformation": "Order Information",
+        "orderDetails": "Order Details",
+        "loading": "Loading order details..."
+      }
+    }
+  },
+  "navigation": {
+    "products": "Products",
+    "cart": "Cart",
+    "login": "Login",
+    "signUp": "Sign Up",
+    "account": "Account",
+    "dashboard": "Dashboard",
+    "orders": "Orders",
+    "home": "Home",
+    "checkout": "Checkout",
+    "footer": {
+      "about": "About Us",
+      "contact": "Contact",
+      "privacyPolicy": "Privacy Policy",
+      "termsOfService": "Terms of Service",
+      "allRightsReserved": "All rights reserved."
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "Products",
+      "loading": "Loading products...",
+      "noProducts": "No products found.",
+      "hero": {
+        "title": "Welcome to Roos van Sharon",
+        "subtitle": "Handmade bouquets with love"
+      },
+      "premade": {
+        "title": "Premade Bouquets",
+        "description": "Ready-to-order bouquets, handmade with love and ready to be shipped.",
+        "cta": "Browse products"
+      },
+      "custom": {
+        "title": "Custom Bouquets",
+        "description": "Have a special request? I can create a custom bouquet!",
+        "cta": "Request a custom bouquet"
+      }
+    },
+    "contact": {
+      "title": "Contact Us",
+      "description": "Fill out the form below and I'll get back to you as soon as possible.",
+      "name": "Name",
+      "yourName": "Enter your name",
+      "email": "Email",
+      "yourEmail": "your.email@example.com",
+      "subject": "Subject",
+      "selectSubject": "Select a subject",
+      "generalInquiry": "General Inquiry",
+      "customOrder": "Custom Order",
+      "message": "Message",
+      "yourMessage": "Tell us more about your inquiry...",
+      "deadlineDateQuestion": "Do you have a deadline?",
+      "deadlineDateDescription": "Do note that a bouquet takes 3-6 months to make",
+      "pickDate": "Pick a date",
+      "sendMessage": "Send Message"
+    },
+    "cart": {
+      "title": "Shopping Cart",
+      "emptyCart": "Your cart is empty",
+      "continueShopping": "Continue Shopping",
+      "clearCart": "Clear Cart",
+      "remove": "Remove",
+      "totalDiscount": "Total Discount:",
+      "total": "Total",
+      "proceedToCheckout": "Proceed to Checkout",
+      "addedToCart": "{name} has been added to your cart.",
+      "alreadyInCart": "Already in cart",
+      "alreadyInCartDescription": "{name} is already in your cart. There is no more stock available for this item.",
+      "insufficientStock": "Insufficient stock",
+      "insufficientStockDescription": "Some items in your cart exceed available stock. Please adjust quantities before proceeding to checkout."
+    },
+    "product": {
+      "loading": "Loading product details...",
+      "addToCart": "Add to Cart",
+      "addingToCart": "Adding to Cart...",
+      "outOfStock": "Out of Stock",
+      "inStock": "In Stock",
+      "onlyLeftInStock": "Only {count} left in stock!",
+      "description": "Description",
+      "colors": "Colors",
+      "sizes": "Sizes",
+      "selectColor": "Select Color",
+      "selectSize": "Select Size",
+      "quantity": "Quantity",
+      "selectQuantity": "Select Quantity",
+      "noImage": "No images available",
+      "save": "Save",
+      "taxIncluded": "Tax included",
+      "addToWishlist": "Add to Wishlist",
+      "freeShipping": "Free Shipping",
+      "freeShippingDesc": "On orders over €{threshold}",
+      "securePayment": "Secure Payment",
+      "securePaymentDesc": "Payments via Tikkie",
+      "easyContact": "Easy Contact",
+      "easyContactDesc": "Reach out anytime to me via email!",
+      "aboutThisProduct": "About This Product",
+      "handmadeWithLove": "Handmade with Love",
+      "handmadeWithLoveDesc": "Each bouquet is carefully handcrafted with love and attention to detail. Every piece is unique and specially made for you.",
+      "freshFlowers": "Fresh Flowers",
+      "freshFlowersDesc": "We use only the freshest and highest quality flowers to ensure your bouquet stays beautiful for as long as possible.",
+      "uniqueDesign": "Unique Design",
+      "uniqueDesignDesc": "No two bouquets are the same. Each arrangement has its own character and beauty that makes it truly special.",
+      "carefullyPackaged": "Carefully Packaged",
+      "carefullyPackagedDesc": "Your bouquet is expertly packaged to arrive safely so you can immediately gift it or display it with pride.",
+      "productNotFound": "Product not found",
+      "errorFetchingProduct": "Error fetching product",
+      "pleaseTryAgainLater": "Please try again later",
+      "priceExplanationTitle": "Why does it cost what it costs?",
+      "priceExplanationDesc": "Explanation..."
+    },
+    "products": {
+      "title": "Products",
+      "loading": "Loading products...",
+      "noProducts": "No products found.",
+      "errorFetchingProduct": "Error fetching product details",
+      "pleaseTryAgainLater": "Please try again later or contact support."
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "products": "Products",
+      "orders": "Orders",
+      "addProduct": "Add Product",
+      "editProduct": "Edit",
+      "deleteProduct": "Delete",
+      "confirmDelete": "Are you sure you want to delete this product?",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "noProducts": "No products found.",
+      "productDetails": "Product Details",
+      "productName": "Name",
+      "productSku": "SKU",
+      "productPrice": "Price",
+      "productStock": "Stock",
+      "productStatus": "Status",
+      "productType": "Type",
+      "productColors": "Colors",
+      "productDescription": "Description",
+      "active": "Active",
+      "sold": "Sold",
+      "inStock": "In Stock",
+      "outOfStock": "Out of Stock",
+      "saveChanges": "Save Changes",
+      "createProduct": "Create Product",
+      "updateProduct": "Update Product",
+      "productCreated": "Product successfully created!",
+      "productUpdated": "Product successfully updated!",
+      "productDeleted": "Product successfully deleted!",
+      "stockUpdated": "Stock successfully updated!",
+      "imagesUploaded": "Images uploaded successfully!",
+      "errorLoadingProducts": "Error loading products",
+      "tryAgainLater": "Please try again later or contact support.",
+      "markAsSold": "Mark as Sold",
+      "confirmMarkAsSoldTitle": "Are you sure you want to mark this product as sold?",
+      "confirmUndoSoldTitle": "Are you sure you want to undo the sold status for this product?",
+      "confirmMarkAsSoldDescription": "This will set the product status to sold and make it unavailable for purchase.",
+      "confirmUndoSoldDescription": "This will set the product status back to active and make it available for purchase.",
+      "undoSold": "Undo Sold",
+      "formLabels": {
+        "name": "Name *",
+        "price": "Price (€) *",
+        "description": "Description *",
+        "stock": "Stock",
+        "colors": "Colors",
+        "sizes": "Sizes",
+        "productType": "Product Type",
+        "active": "Active",
+        "images": "Images",
+        "sku": "SKU",
+        "enableTax": "Enable Tax"
+      },
+      "imageManager": {
+        "title": "Product Images",
+        "uploadImages": "Upload Images",
+        "primary": "Primary",
+        "setAsPrimary": "Set as Primary",
+        "dropZone": "Drag and drop images here",
+        "orClickToUpload": "or click \"Add Images\" Above",
+        "uploading": "Uploading...",
+        "pleaseWait": "Please wait...",
+        "noImagesUploaded": "No images uploaded yet."
+      }
+    },
+    "404": {
+      "title": "404 - Page Not Found",
+      "description": "The page you are looking for does not exist.",
+      "goToHome": "Go to Home"
+    }
+  },
+  "account": {
+    "title": "My Account",
+    "tabs": {
+      "profile": "Profile",
+      "orders": "Orders"
+    },
+    "profile": {
+      "title": "Profile Information",
+      "username": "Username",
+      "email": "Email Address",
+      "role": "Account Type",
+      "userId": "User ID",
+      "adminBadge": "Admin",
+      "goToDashboard": "Go to Dashboard",
+      "updateNote": "To update your profile information, please contact support."
+    },
+    "orders": {
+      "loading": "Loading your orders...",
+      "error": "Failed to load orders",
+      "noOrders": "No orders yet",
+      "noOrdersDescription": "Start shopping to see your orders here",
+      "startShopping": "Browse Products",
+      "totalOrders": "Total orders: {count}",
+      "orderNumber": "Order #",
+      "paid": "Paid",
+      "pendingPayment": "Pending Payment",
+      "note": "Note",
+      "viewDetails": "View Details"
+    },
+    "orderDetails": {
+      "title": "Order",
+      "loading": "Loading order details...",
+      "error": "Failed to load order details",
+      "notFound": "Order not found",
+      "backToAccount": "Back to Account",
+      "placedOn": "Placed on",
+      "items": "Order Items",
+      "quantity": "Quantity",
+      "each": "each",
+      "discount": "Discount",
+      "total": "Total",
+      "customerNote": "Customer Note",
+      "payment": "Payment",
+      "paymentStatus": "Payment Status",
+      "paid": "Paid",
+      "unpaid": "Unpaid",
+      "paymentLink": "Payment Link",
+      "payNow": "Pay Now",
+      "customerInfo": "Customer Information",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "deliveryAddress": "Delivery Address",
+      "timeline": "Order Timeline",
+      "orderPlaced": "Order Placed",
+      "lastUpdated": "Last Updated"
+    }
+  },
+  "toasts": {
+    "apiErrors": {
+      "tooManyRequests": "Too many requests",
+      "rateLimitDescription": "You're making too many requests. Please wait a moment and try again.",
+      "sessionExpired": "Session expired",
+      "sessionExpiredDescription": "Please refresh the page and try again.",
+      "authenticationRequired": "Authentication required",
+      "authenticationRequiredDescription": "Please log in to continue.",
+      "accessDenied": "Access denied",
+      "accessDeniedDescription": "You don't have permission to perform this action.",
+      "invalidRequest": "Invalid request",
+      "invalidRequestDescription": "Please check your input and try again.",
+      "notFound": "Not found",
+      "notFoundDescription": "The requested item could not be found.",
+      "alreadyExists": "Already exists",
+      "alreadyExistsDescription": "This item already exists.",
+      "serverError": "Server error",
+      "serverErrorDescription": "Something went wrong on our end. Please try again in a moment.",
+      "requestFailed": "Request failed",
+      "connectionProblem": "Connection problem",
+      "connectionProblemDescription": "Unable to reach the server. Please check your internet connection.",
+      "error": "Error",
+      "unknownError": "Unknown error"
+    },
+    "success": {
+      "emailVerified": "Email verified successfully!",
+      "emailVerifiedDescription": "You can now log in to your account.",
+      "verificationInfo": "Email verification",
+      "verificationInfoDescription": "Checking your verification status..."
+    },
+    "cart": {
+      "addedToCart": "{name} has been added to your cart.",
+      "insufficientStockDescription": "{name} has insufficient stock.",
+      "insufficientStock": "Insufficient stock"
+    }
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": {
+      "required": "Email is required",
+      "invalid": "Must be a valid email address"
+    },
+    "password": {
+      "minLength": "Password must be at least 8 characters",
+      "maxLength": "Password must be at most 100 characters"
+    },
+    "confirmPassword": {
+      "required": "Please confirm your password",
+      "noMatch": "Passwords do not match"
+    },
+    "username": {
+      "minLength": "Username must be at least 3 characters",
+      "maxLength": "Username must be at most 50 characters",
+      "invalid": "Username can only contain letters, numbers, hyphens, and underscores"
+    },
+    "name": {
+      "minLength": "Name must be at least 2 characters",
+      "maxLength": "Name must be at most 100 characters"
+    },
+    "phone": {
+      "minLength": "Phone number must be at least 10 characters",
+      "maxLength": "Phone number must be at most 20 characters",
+      "invalid": "Please enter a valid phone number"
+    },
+    "customerNote": {
+      "maxLength": "Note must be at most 500 characters"
+    },
+    "street": {
+      "minLength": "Street must be at least 2 characters",
+      "maxLength": "Street must be at most 200 characters"
+    },
+    "houseNumber": {
+      "required": "House number is required",
+      "maxLength": "House number must be at most 10 characters"
+    },
+    "postalCode": {
+      "minLength": "Postal code must be exactly 7 characters (1234 AB)",
+      "maxLength": "Postal code must be exactly 7 characters (1234 AB)",
+      "invalid": "Postal code must be in format: 1234 AB (4 digits, space, 2 letters)"
+    },
+    "city": {
+      "minLength": "City must be at least 2 characters",
+      "maxLength": "City must be at most 100 characters"
+    },
+    "country": {
+      "invalid": "Country code must be exactly 2 characters"
+    },
+    "subject": {
+      "required": "Subject is required"
+    },
+    "message": {
+      "minLength": "Message must be at least 10 characters",
+      "maxLength": "Message must be at most 2000 characters"
+    },
+    "product": {
+      "name": {
+        "minLength": "Product name must be at least 2 characters",
+        "maxLength": "Product name must be at most 200 characters"
+      },
+      "price": {
+        "integer": "Price must be an integer",
+        "nonNegative": "Price must be non-negative"
+      },
+      "discount": {
+        "integer": "Discount must be an integer",
+        "nonNegative": "Discount must be non-negative"
+      },
+      "tax": {
+        "integer": "Tax must be an integer",
+        "nonNegative": "Tax must be non-negative"
+      },
+      "description": {
+        "minLength": "Description must be at least 10 characters",
+        "maxLength": "Description must be at most 2000 characters"
+      },
+      "image": {
+        "url": "Must be a valid URL",
+        "altText": {
+          "maxLength": "Alt text must be at most 200 characters"
+        }
+      }
+    },
+    "paymentLink": {
+      "url": "Must be a valid URL"
+    },
+    "orderStatus": {
+      "invalid": "Invalid order status"
+    }
+  },
+  "common": {
+    "currency": "€",
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "info": "Info",
+    "warning": "Warning",
+    "actions": "Actions",
+    "saving": "Saving...",
+    "update": "Update",
+    "create": "Create",
+    "total": "Total",
+    "discount": "Discount",
+    "name": "Name",
+    "price": "Price",
+    "status": "Status"
+  },
+  "backend": {
+    "error": {
+      "auth": {
+        "invalidOrMissingAccessToken": "Invalid or missing access token",
+        "accessTokenRevoked": "Access token has been revoked",
+        "accessDenied": "Access denied",
+        "adminAccessRequired": "Admin access required",
+        "checkRegistrationInformation": "Please check your registration information and try again",
+        "missingRequiredFields": "Email, username, and password are required",
+        "noAccessToken": "No access token",
+        "sessionExpired": "Session expired",
+        "invalidAccessToken": "Invalid access token",
+        "noAccessTokenFound": "No access token found",
+        "failedToLogout": "Failed to logout",
+        "checkLoginInformation": "Please check your login information and try again",
+        "emailAndPasswordRequired": "Email and password are required",
+        "invalidCredentials": "Invalid credentials",
+        "verifyEmail": "Please verify your email address before logging in",
+        "unableToCompleteLogin": "Unable to complete login. Please try again",
+        "missingTokenOrUserId": "Missing token or user_id",
+        "invalidUserIdFormat": "Invalid user_id format",
+        "invalidToken": "Invalid or expired token.",
+        "expiredToken": "This link has expired. Please request a new one."
+      },
+      "internalServerError": "Internal server error",
+      "serviceUnavailable": "Service temporarily unavailable",
+      "database": {
+        "healthCheckFailed": "Database health check failed",
+        "connectionError": "Database connection error. Please try again.",
+        "serializationFailure": "Database operation conflict. Please try again.",
+        "tooManyConnections": "Service is currently busy. Please try again in a moment.",
+        "unknown": "A database error occurred. Please try again."
+      },
+      "invalidQueryParameters": "Invalid query parameters",
+      "products": {
+        "failedToList": "Failed to list products",
+        "selectProductToDelete": "Please select a product to delete",
+        "unableToDelete": "Unable to delete product. Please try again",
+        "notFound": "Product not found",
+        "checkProductInformation": "Please check the product information and try again",
+        "unableToCreate": "Unable to create product. Please try again",
+        "someFailedToUpdate": "Some products failed to update",
+        "checkStockInformation": "Please check the stock information and try again",
+        "someStockFailedToUpdate": "Some product stocks failed to update",
+        "invalidIdFormat": "Invalid product ID format",
+        "failedToFetch": "Failed to fetch products",
+        "productIdRequired": "Product ID is required",
+        "failedToFetchOne": "Failed to fetch product",
+        "failedToFetchActive": "Failed to fetch active products",
+        "failedToCount": "Failed to count products"
+      },
+      "csrf": {
+        "failedToGenerate": "Failed to generate CSRF token"
+      },
+      "foreignKeyViolation": {
+        "delete": "Cannot delete this item because it is being used elsewhere.",
+        "notExists": "The referenced item does not exist.",
+        "default": "Database relationship constraint violated."
+      },
+      "notNullViolation": {
+        "default": "Required field '%s' cannot be empty."
+      },
+      "checkViolation": {
+        "emailFormat": "Please provide a valid email address.",
+        "usernameLength": "Username must be between 3 and 50 characters.",
+        "positiveValue": "Price or amount must be a positive value.",
+        "stockQuantity": "Stock quantity must be zero or greater.",
+        "futureDate": "Expiration date must be in the future.",
+        "default": "The provided value does not meet the required constraints."
+      },
+      "uniqueViolation": {
+        "email": "An account with this email address already exists.",
+        "username": "This username is already taken. Please choose a different one.",
+        "sku": "A product with this SKU already exists.",
+        "token": "This token has already been used.",
+        "phone": "This phone number is already registered.",
+        "url": "This URL is already in use.",
+        "productName": "A product with this name already exists.",
+        "itemName": "An item with this name already exists.",
+        "default": "This %s already exists. Please use a different value."
+      },
+      "notFound": "The requested item was not found.",
+      "conflict": "This item already exists.",
+      "generic": "An error occurred. Please try again.",
+      "order": {
+        "invalidOrderId": "Invalid order ID",
+        "invalidRequestBody": "Invalid request body",
+        "attachingPaymentLink": "Failed to attach payment link",
+        "creationFailed": "Failed to create order",
+        "deletingOrder": "Failed to delete order",
+        "fetchingAddress": "Failed to fetch address",
+        "fetchingOrderLines": "Failed to fetch order lines",
+        "fetchingOrders": "Failed to fetch orders",
+        "invalidStatusTransition": "Invalid status transition",
+        "markingAsPaid": "Failed to mark order as paid",
+        "notFound": "Order not found",
+        "productUnavailable": "Product is unavailable",
+        "statusRequired": "Status is required",
+        "updatingStatus": "Failed to update order status"
+      },
+      "rateLimitExceeded": "Rate limit exceeded",
+      "rateLimitExceededStrict": "Rate limit exceeded (strict mode)",
+      "cache": {
+        "clearFailed": "Failed to clear cache"
+      }
+    },
+    "success": {
+      "products": {
+        "retrieved": "Products retrieved successfully",
+        "deleted": "Product deleted successfully",
+        "created": "Product created successfully",
+        "updated": "Products updated successfully",
+        "stockUpdated": "Product stocks updated successfully"
+      },
+      "csrf": {
+        "generated": "CSRF token generated"
+      },
+      "auth": {
+        "userRegistered": "User registered successfully",
+        "loggedOut": "Logged out successfully",
+        "login": "Login successful"
+      },
+      "api": {
+        "welcome": "Welcome to the Mamabloemetjes API"
+      },
+      "order": {
+        "created": "Order created successfully",
+        "deleted": "Order deleted successfully",
+        "markedAsPaid": "Order marked as paid",
+        "orderDetailsFetched": "Order details fetched successfully",
+        "ordersFetched": "Orders fetched successfully",
+        "paymentLinkAttached": "Payment link attached successfully",
+        "statusUpdated": "Order status updated successfully"
+      },
+      "cache": {
+        "cleared": "Cache cleared successfully"
+      }
+    }
+  }
+}

@@ -1,0 +1,734 @@
+{
+  "app": {
+    "title": "🌸 Roos van Sharon",
+    "brand": "Roos van Sharon"
+  },
+  "auth": {
+    "register": {
+      "title": "Account aanmaken",
+      "username": "Gebruikersnaam",
+      "email": "E-mail",
+      "password": "Wachtwoord",
+      "confirmPassword": "Bevestig wachtwoord",
+      "passwordsDoNotMatch": "Wachtwoorden komen niet overeen",
+      "signUp": "Registreren",
+      "creatingAccount": "Account aanmaken...",
+      "alreadyHaveAccount": "Heb je al een account?",
+      "signIn": "Inloggen",
+      "backToHome": "← Terug naar home",
+      "accountCreated": "Account aangemaakt!",
+      "pleaseVerifyEmail": "Controleer je e-mail om je account te verifiëren.",
+      "passwordHelper": "Wachtwoord moet minimaal 8 tekens bevatten, inclusief een hoofdletter, een kleine letter en een cijfer.",
+      "failed": "Registreren mislukt. Probeer het opnieuw."
+    },
+    "login": {
+      "title": "Inloggen",
+      "email": "E-mail",
+      "password": "Wachtwoord",
+      "signIn": "Inloggen",
+      "signingIn": "Inloggen...",
+      "dontHaveAccount": "Nog geen account?",
+      "signUp": "Registreren",
+      "backToHome": "← Terug naar home",
+      "welcomeBack": "Welkom terug!",
+      "loginSuccess": "Je bent succesvol ingelogd.",
+      "loggedInAs": "Ingelogd als {username}",
+      "emailNotVerified": "E-mail niet geverifieerd",
+      "verifyEmailDescription": "Controleer je inbox en verifieer je e-mailadres voordat je inlogt."
+    },
+    "emailVerification": {
+      "successTitle": "E-mail geverifieerd!",
+      "successDescription": "Je kunt nu inloggen op je account.",
+      "failureTitle": "Verificatie mislukt",
+      "failureDescription": "De verificatielink is ongeldig of verlopen. Probeer het opnieuw of vraag een nieuwe verificatiemail aan.",
+      "checkingStatus": "Verificatie status controleren...",
+      "verifying": "Verifiëren...",
+      "redirectingToLogin": "Doorsturen naar inlogpagina...",
+      "redirectingToHome": "Doorsturen naar homepagina..."
+    },
+    "logout": "Uitloggen",
+    "loggingOut": "Uitloggen...",
+    "success": "Uitgelogd",
+    "seeYouNextTime": "Tot de volgende keer!"
+  },
+  "order": {
+    "checkout": {
+      "title": "Afrekenen",
+      "customerInfo": "Klantgegevens",
+      "deliveryAddress": "Bezorgadres",
+      "orderSummary": "Overzicht Bestelling",
+      "name": "Volledige Naam",
+      "email": "E-mail",
+      "phone": "Telefoonnummer",
+      "street": "Straat",
+      "houseNumber": "Huisnummer",
+      "postalCode": "Postcode",
+      "city": "Plaats",
+      "country": "Land",
+      "customerNote": "Opmerkingen (Optioneel)",
+      "customerNotePlaceholder": "Speciale wensen of bezorginstructies?",
+      "placeOrder": "Bestelling Plaatsen",
+      "placingOrder": "Bestelling Plaatsen...",
+      "total": "Totaal",
+      "emptyCart": "Je winkelwagen is leeg",
+      "goToProducts": "Bekijk Producten",
+      "validationError": "Vul alle vereiste velden correct in",
+      "orderSuccess": "Bestelling Succesvol Geplaatst!",
+      "orderSuccessDescription": "Je bestelling is ontvangen. Je ontvangt binnenkort een bevestigingsmail met een Tikkie betaallink.",
+      "orderPlaced": "Bestelling Geplaatst!",
+      "orderPlacedDescription": "Er is een bevestegings email gestuurd. Je ontvangt binnenkort een Tikkie betaallink.",
+      "orderFailed": "Bestelling Mislukt",
+      "orderFailedDescription": "Er ging iets mis. Probeer het opnieuw.",
+      "productUnavailable": "Sommige producten zijn niet meer beschikbaar"
+    },
+    "confirmation": {
+      "title": "Bestelbevestiging",
+      "thankYou": "Bedankt voor je bestelling!",
+      "orderNumber": "Bestelnummer",
+      "orderPlaced": "Je bestelling is succesvol geplaatst",
+      "emailSent": "Er is een bevestigingsmail gestuurd naar je e-mailadres",
+      "paymentInfo": "Betaalinformatie",
+      "tikkiePayment": "Je ontvangt binnenkort een Tikkie betaallink via e-mail",
+      "waitingForPayment": "Zodra de betaling is ontvangen, ga ik aan de slag met je bestelling",
+      "orderDetails": "Wat Gebeurt Er Nu",
+      "deliveryAddress": "Bezorgadres",
+      "backToHome": "Terug naar Home",
+      "viewOrders": "Bekijk Mijn Bestellingen",
+      "quickActions": "Snelle Acties",
+      "continueShopping": "Verder Winkelen",
+      "handmadeWithLove": "Met Liefde Handgemaakt",
+      "handmadeWithLoveDescription": "Elk stuk wordt met zorg en aandacht voor detail gemaakt. Je bestelling wordt speciaal voor jou liefdevol voorbereid!",
+      "needHelp": "Hulp Nodig?",
+      "needHelpDescription": "Als je vragen hebt over je bestelling, aarzel dan niet om contact op te nemen!",
+      "contactUs": "Neem Contact Op →",
+      "whatToExpect": "Wat te Verwachten",
+      "steps": {
+        "checkEmail": "Controleer Je E-mail",
+        "payViaTikkie": "Betaal via Tikkie",
+        "wePrepare": "Wij Bereiden Je Bestelling Voor",
+        "delivery": "Bezorging",
+        "deliveryDescription": "Je prachtige handgemaakte creatie wordt zorgvuldig bij je thuis afgeleverd!"
+      },
+      "timeline": {
+        "paymentLink": "Betaallink binnen 24 uur",
+        "preparation": "Bestelling voorbereiden na bevestiging betaling",
+        "packaging": "Zorgvuldige verpakking en kwaliteitscontrole",
+        "tracking": "Informatie voor het volgen van de bezorging"
+      }
+    },
+    "myOrders": {
+      "title": "Mijn Bestellingen",
+      "noOrders": "Je hebt nog geen bestellingen geplaatst",
+      "orderNumber": "Bestelling #",
+      "date": "Datum",
+      "status": "Status",
+      "total": "Totaal",
+      "viewDetails": "Bekijk Details",
+      "loading": "Bestellingen laden...",
+      "error": "Kan bestellingen niet laden"
+    },
+    "status": {
+      "pending": "In afwachting",
+      "paid": "Betaald",
+      "processing": "In Behandeling",
+      "shipped": "Verzonden",
+      "delivered": "Bezorgd",
+      "cancelled": "Geannuleerd",
+      "refunded": "Terugbetaald"
+    },
+    "paymentStatus": {
+      "paid": "Betaald",
+      "unpaid": "Niet Betaald"
+    },
+    "admin": {
+      "dashboard": {
+        "title": "Bestellingen Beheren",
+        "allOrders": "Alle Bestellingen",
+        "filterByStatus": "Filter op Status",
+        "filterByPayment": "Filter op Betaling",
+        "noOrders": "Geen bestellingen gevonden",
+        "loading": "Bestellingen laden...",
+        "showingOrders": "{count} bestellingen weergegeven",
+        "page": "Pagina {current} van {total}"
+      },
+      "details": {
+        "title": "Besteldetails",
+        "orderInfo": "Bestelinformatie",
+        "customerInfo": "Klantgegevens",
+        "deliveryAddress": "Bezorgadres",
+        "orderItems": "Bestelde Artikelen",
+        "actions": "Acties",
+        "attachPaymentLink": "Betaallink Toevoegen",
+        "paymentLinkPlaceholder": "Plak hier de Tikkie betaallink",
+        "sendPaymentLink": "Stuur Betaallink",
+        "currentPaymentLink": "Huidige Betaallink",
+        "attaching": "Betaallink Toevoegen...",
+        "markAsPaid": "Markeer als Betaald",
+        "updateStatus": "Status Bijwerken",
+        "deleteOrder": "Bestelling Verwijderen",
+        "confirmDelete": "Weet je zeker dat je deze bestelling wilt verwijderen?",
+        "paymentLinkAttached": "Betaallink verstuurd naar klant",
+        "paymentLinkRequired": "Betaallink is vereist",
+        "orderMarkedPaid": "Bestelling gemarkeerd als betaald",
+        "statusUpdated": "Status succesvol bijgewerkt",
+        "orderDeleted": "Bestelling verwijderd",
+        "actionFailed": "Actie mislukt",
+        "name": "Naam",
+        "email": "E-mail",
+        "phone": "Telefoon",
+        "paymentStatus": "Betaalstatus",
+        "paymentLink": "Betaallink",
+        "product": "Product",
+        "quantity": "Aantal",
+        "price": "Prijs",
+        "subtotal": "Subtotaal",
+        "total": "Totaal",
+        "delete": "Verwijderen",
+        "customer": "Klant",
+        "customerNote": "Opmerking Klant",
+        "payment": "Betaling",
+        "items": "Artikelen",
+        "orderDate": "Besteldatum",
+        "status": "Status",
+        "orderInformation": "Bestel Informatie",
+        "orderDetails": "Bestel Details",
+        "loading": "Bestelling laden..."
+      }
+    }
+  },
+  "navigation": {
+    "products": "Producten",
+    "cart": "Winkelwagen",
+    "login": "Inloggen",
+    "signUp": "Registreren",
+    "account": "Account",
+    "dashboard": "Dashboard",
+    "orders": "Bestellingen",
+    "home": "Home",
+    "checkout": "Afrekenen",
+    "footer": {
+      "aboutUs": "Over ons",
+      "contact": "Contact",
+      "privacyPolicy": "Privacybeleid",
+      "termsOfService": "Gebruiksvoorwaarden",
+      "allRightsReserved": "Alle rechten voorbehouden"
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "Producten",
+      "loading": "Producten laden...",
+      "noProducts": "Geen producten gevonden.",
+      "hero": {
+        "title": "Welkom bij Roos van Sharon",
+        "subtitle": "Handgemaakte boeketten met liefde"
+      },
+      "premade": {
+        "title": "Kant-en-klare boeketten",
+        "description": "Boeketten die klaar zijn om te bestellen, handgemaakt met liefde en klaar om verzonden te worden.",
+        "cta": "Bekijk alle producten"
+      },
+      "custom": {
+        "title": "Boeketten op maat",
+        "description": "Heeft u een speciaal verzoek? Ik kan een boeket op maat maken!",
+        "cta": "Vraag een boeket op maat aan"
+      }
+    },
+    "contact": {
+      "title": "Neem Contact Op",
+      "description": "Vul het onderstaande formulier in en ik neem zo snel mogelijk contact met je op.",
+      "name": "Naam",
+      "yourName": "Voer je naam in",
+      "email": "E-mail",
+      "yourEmail": "jouw.email@voorbeeld.nl",
+      "subject": "Onderwerp",
+      "selectSubject": "Selecteer een onderwerp",
+      "generalInquiry": "Algemene Vraag",
+      "customOrder": "Boeket aanvraag",
+      "message": "Bericht",
+      "yourMessage": "Vertel ons meer over je vraag...",
+      "deadlineDateQuestion": "Heb je een deadline?",
+      "deadlineDateDescription": "Houd er rekening mee dat een bouquet 3-6 maanden voorbereidingstijd nodig heeft.",
+      "pickDate": "Kies een datum",
+      "sendMessage": "Verstuur Bericht"
+    },
+    "cart": {
+      "title": "Winkelwagen",
+      "emptyCart": "Je winkelwagen is leeg",
+      "continueShopping": "Verder winkelen",
+      "clearCart": "Winkelwagen legen",
+      "remove": "Verwijderen",
+      "totalDiscount": "Totale korting:",
+      "total": "Totaal:",
+      "proceedToCheckout": "Doorgaan naar afrekenen",
+      "alreadyInCart": "Al in winkelwagen",
+      "alreadyInCartDescription": "{name} zit al in je winkelwagen. Er is slechts één exemplaar van elk product beschikbaar.",
+      "insufficientStock": "Onvoldoende voorraad",
+      "insufficientStockDescription": "Er is niet genoeg voorraad beschikbaar voor {name}.",
+      "addedToCart": "{name} is toegevoegd aan je winkelwagen."
+    },
+    "product": {
+      "loading": "Productgegevens laden...",
+      "addToCart": "Aan winkelwagen toevoegen",
+      "addedToCart": "Toegevoegd aan winkelwagen",
+      "description": "Beschrijving",
+      "price": "Prijs",
+      "stock": "Voorraad",
+      "inStock": "Op voorraad",
+      "outOfStock": "Uitverkocht",
+      "colors": "Beschikbare kleuren",
+      "sizes": "Beschikbare maten",
+      "selectColor": "Kies een kleur",
+      "selectSize": "Kies een maat",
+      "quantity": "Aantal",
+      "relatedProducts": "Gerelateerde producten",
+      "noImage": "Geen afbeeldingen beschikbaar",
+      "save": "Bespaar",
+      "taxIncluded": "Inclusief BTW",
+      "addToWishlist": "Toevoegen aan verlanglijstje",
+      "freeShipping": "Gratis verzending",
+      "freeShippingDesc": "Op alle bestellingen boven de €{threshold}",
+      "securePayment": "Veilig betalen",
+      "securePaymentDesc": "Betalingen via Tikkie",
+      "easyContact": "Gemakkelijk contact",
+      "easyContactDesc": "Bereik mij via email!",
+      "aboutThisProduct": "Over dit product",
+      "handmadeWithLove": "Handgemaakt met liefde",
+      "handmadeWithLoveDesc": "Elk boeket wordt met zorg en aandacht handgemaakt. Ieder stuk is uniek en speciaal voor jou gemaakt.",
+      "freshFlowers": "Verse bloemen",
+      "freshFlowersDesc": "Wij gebruiken alleen de meest verse en hoogwaardige bloemen om ervoor te zorgen dat jouw boeket lang mooi blijft.",
+      "uniqueDesign": "Uniek ontwerp",
+      "uniqueDesignDesc": "Geen twee boeketten zijn hetzelfde. Elk arrangement heeft zijn eigen karakter en schoonheid.",
+      "carefullyPackaged": "Zorgvuldig verpakt",
+      "carefullyPackagedDesc": "Je boeket wordt vakkundig verpakt zodat het veilig bij je aankomt en je het direct kunt geven of neerzetten.",
+      "productNotFound": "Product niet gevonden",
+      "errorFetchingProduct": "Fout bij ophalen van product",
+      "pleaseTryAgainLater": "Probeer het later opnieuw",
+      "priceExplanationTitle": "Waarom kost het wat het kost?",
+      "priceExplanationDesc": "Uitleg..."
+    },
+    "products": {
+      "title": "Producten",
+      "loading": "Producten laden...",
+      "noProducts": "Geen producten gevonden.",
+      "errorFetchingProduct": "Fout bij ophalen van productgegevens.",
+      "pleaseTryAgainLater": "Probeer het later opnieuw of neem contact op met support."
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "products": "Producten",
+      "orders": "Bestellingen",
+      "addProduct": "Product toevoegen",
+      "editProduct": "Bewerken",
+      "deleteProduct": "Verwijderen",
+      "delete": "Verwijderen",
+      "cancel": "Annuleren",
+      "noProducts": "Geen producten gevonden.",
+      "productDetails": "Productdetails",
+      "productName": "Naam",
+      "productSku": "SKU",
+      "productPrice": "Prijs",
+      "productStock": "Voorraad",
+      "productStatus": "Status",
+      "productType": "Type",
+      "productColors": "Kleuren",
+      "productDescription": "Beschrijving",
+      "active": "Actief",
+      "sold": "Verkocht",
+      "inactive": "Inactief",
+      "inStock": "Op voorraad",
+      "outOfStock": "Uitverkocht",
+      "saveChanges": "Wijzigingen opslaan",
+      "createProduct": "Product aanmaken",
+      "updateProduct": "Product bijwerken",
+      "productCreated": "Product succesvol aangemaakt!",
+      "productUpdated": "Product succesvol bijgewerkt!",
+      "productDeleted": "Product succesvol verwijderd!",
+      "stockUpdated": "Voorraad succesvol bijgewerkt!",
+      "imagesUploaded": "Afbeeldingen succesvol geüpload!",
+      "errorLoadingProducts": "Fout bij laden van producten",
+      "tryAgainLater": "Probeer het later opnieuw of neem contact op met support.",
+      "markAsSold": "Markeren als verkocht",
+      "undoSold": "Verkoop ongedaan maken",
+      "confirmMarkAsSoldTitle": "Weet je zeker dat je dit product als verkocht wilt markeren?",
+      "confirmUndoSoldTitle": "Weet je zeker dat je de verkoop van dit product ongedaan wilt maken?",
+      "confirmMarkAsSoldDescription": "Dit zal de voorraad op 0 zetten en het product als uitverkocht markeren.",
+      "confirmUndoSoldDescription": "Dit zal de voorraad terugzetten naar 1 en het product als op voorraad markeren.",
+      "formLabels": {
+        "name": "Naam *",
+        "price": "Prijs (€) *",
+        "description": "Beschrijving *",
+        "stock": "Voorraad",
+        "colors": "Kleuren",
+        "sizes": "Maten",
+        "productType": "Product Type",
+        "active": "Actief",
+        "images": "Afbeeldingen",
+        "sku": "SKU",
+        "enableTax": "Belasting inschakelen"
+      },
+      "imageManager": {
+        "title": "Productafbeeldingen",
+        "uploadImages": "Afbeeldingen uploaden",
+        "primary": "Primair",
+        "setAsPrimary": "Als primair instellen",
+        "dropZone": "Sleep hier afbeeldingen naartoe",
+        "orClickToUpload": "of klik op \"Afbeeldingen toevoegen\" hierboven",
+        "uploading": "Uploaden...",
+        "pleaseWait": "Even geduld aub...",
+        "noImagesUploaded": "Nog geen afbeeldingen geüpload."
+      },
+      "confirmDelete": "Weet je zeker dat je dit product wilt verwijderen?"
+    },
+    "404": {
+      "title": "404 - Pagina niet gevonden",
+      "description": "Deze pagina bestaat niet.",
+      "goToHome": "Terug naar home"
+    }
+  },
+  "account": {
+    "title": "Mijn Account",
+    "tabs": {
+      "profile": "Profiel",
+      "orders": "Bestellingen"
+    },
+    "profile": {
+      "title": "Profielinformatie",
+      "username": "Gebruikersnaam",
+      "email": "E-mailadres",
+      "role": "Accounttype",
+      "userId": "Gebruikers-ID",
+      "adminBadge": "Beheerder",
+      "goToDashboard": "Naar Dashboard",
+      "updateNote": "Om je profielinformatie bij te werken, neem contact op met de support."
+    },
+    "orders": {
+      "loading": "Bestellingen laden...",
+      "error": "Kan bestellingen niet laden",
+      "noOrders": "Nog geen bestellingen",
+      "noOrdersDescription": "Begin met winkelen om je bestellingen hier te zien",
+      "startShopping": "Bekijk Producten",
+      "totalOrders": "Totaal aantal bestellingen: {count}",
+      "orderNumber": "Bestelling #",
+      "paid": "Betaald",
+      "pendingPayment": "Betaling in behandeling",
+      "note": "Opmerking",
+      "viewDetails": "Bekijk Details"
+    },
+    "orderDetails": {
+      "title": "Bestelling",
+      "loading": "Bestelling laden...",
+      "error": "Kan bestelling niet laden",
+      "notFound": "Bestelling niet gevonden",
+      "backToAccount": "Terug naar Account",
+      "placedOn": "Geplaatst op",
+      "items": "Bestelde Items",
+      "quantity": "Aantal",
+      "each": "per stuk",
+      "discount": "Korting",
+      "total": "Totaal",
+      "customerNote": "Opmerking Klant",
+      "payment": "Betaling",
+      "paymentStatus": "Betalingsstatus",
+      "paid": "Betaald",
+      "unpaid": "Niet betaald",
+      "paymentLink": "Betaallink",
+      "payNow": "Nu Betalen",
+      "customerInfo": "Klantinformatie",
+      "name": "Naam",
+      "email": "E-mail",
+      "phone": "Telefoon",
+      "deliveryAddress": "Bezorgadres",
+      "timeline": "Bestelling Tijdlijn",
+      "orderPlaced": "Bestelling Geplaatst",
+      "lastUpdated": "Laatst Bijgewerkt"
+    }
+  },
+  "toasts": {
+    "apiErrors": {
+      "tooManyRequests": "Te veel verzoeken",
+      "rateLimitDescription": "Je doet te veel verzoeken. Wacht even en probeer het opnieuw.",
+      "sessionExpired": "Sessie verlopen",
+      "sessionExpiredDescription": "Vernieuw de pagina en probeer het opnieuw.",
+      "authenticationRequired": "Authenticatie vereist",
+      "authenticationRequiredDescription": "Log in om door te gaan.",
+      "accessDenied": "Toegang geweigerd",
+      "accessDeniedDescription": "Je hebt geen toestemming voor deze actie.",
+      "invalidRequest": "Ongeldig verzoek",
+      "invalidRequestDescription": "Controleer je invoer en probeer het opnieuw.",
+      "notFound": "Niet gevonden",
+      "notFoundDescription": "Het gevraagde item kon niet worden gevonden.",
+      "alreadyExists": "Bestaat al",
+      "alreadyExistsDescription": "Dit item bestaat al.",
+      "serverError": "Serverfout",
+      "serverErrorDescription": "Er is iets misgegaan aan onze kant. Probeer het later opnieuw.",
+      "requestFailed": "Verzoek mislukt",
+      "connectionProblem": "Verbindingsprobleem",
+      "connectionProblemDescription": "Kan geen verbinding maken met de server. Controleer je internetverbinding.",
+      "error": "Fout",
+      "unknownError": "Onbekende fout"
+    },
+    "success": {
+      "emailVerified": "E-mail succesvol geverifieerd!",
+      "emailVerifiedDescription": "Je kunt nu inloggen op je account.",
+      "verificationInfo": "E-mailverificatie",
+      "verificationInfoDescription": "Verificatie status controleren..."
+    }
+  },
+  "validation": {
+    "required": "Dit veld is verplicht",
+    "email": {
+      "required": "E-mail is verplicht",
+      "invalid": "Moet een geldig e-mailadres zijn"
+    },
+    "password": {
+      "minLength": "Wachtwoord moet minimaal 8 tekens lang zijn",
+      "maxLength": "Wachtwoord mag maximaal 100 tekens lang zijn"
+    },
+    "confirmPassword": {
+      "required": "Bevestig uw wachtwoord",
+      "noMatch": "Wachtwoorden komen niet overeen"
+    },
+    "username": {
+      "minLength": "Gebruikersnaam moet minimaal 3 tekens lang zijn",
+      "maxLength": "Gebruikersnaam mag maximaal 50 tekens lang zijn",
+      "invalid": "Gebruikersnaam mag alleen letters, cijfers, koppeltekens en underscores bevatten"
+    },
+    "name": {
+      "minLength": "Naam moet minimaal 2 tekens lang zijn",
+      "maxLength": "Naam mag maximaal 100 tekens lang zijn"
+    },
+    "phone": {
+      "minLength": "Telefoonnummer moet minimaal 10 tekens lang zijn",
+      "maxLength": "Telefoonnummer mag maximaal 20 tekens lang zijn",
+      "invalid": "Voer een geldig telefoonnummer in"
+    },
+    "customerNote": {
+      "maxLength": "Opmerking mag maximaal 500 tekens lang zijn"
+    },
+    "street": {
+      "minLength": "Straat moet minimaal 2 tekens lang zijn",
+      "maxLength": "Straat mag maximaal 200 tekens lang zijn"
+    },
+    "houseNumber": {
+      "required": "Huisnummer is verplicht",
+      "maxLength": "Huisnummer mag maximaal 10 tekens lang zijn"
+    },
+    "postalCode": {
+      "minLength": "Postcode moet precies 7 tekens lang zijn (1234 AB)",
+      "maxLength": "Postcode moet precies 7 tekens lang zijn (1234 AB)",
+      "invalid": "Postcode moet in het formaat: 1234 AB (4 cijfers, spatie, 2 letters)"
+    },
+    "city": {
+      "minLength": "Plaats moet minimaal 2 tekens lang zijn",
+      "maxLength": "Plaats mag maximaal 100 tekens lang zijn"
+    },
+    "country": {
+      "invalid": "Landcode moet precies 2 tekens lang zijn"
+    },
+    "subject": {
+      "required": "Onderwerp is verplicht"
+    },
+    "message": {
+      "minLength": "Bericht moet minimaal 10 tekens lang zijn",
+      "maxLength": "Bericht mag maximaal 2000 tekens lang zijn"
+    },
+    "product": {
+      "name": {
+        "minLength": "Productnaam moet minimaal 2 tekens lang zijn",
+        "maxLength": "Productnaam mag maximaal 200 tekens lang zijn"
+      },
+      "price": {
+        "integer": "Prijs moet een geheel getal zijn",
+        "nonNegative": "Prijs mag niet negatief zijn"
+      },
+      "discount": {
+        "integer": "Korting moet een geheel getal zijn",
+        "nonNegative": "Korting mag niet negatief zijn"
+      },
+      "tax": {
+        "integer": "BTW moet een geheel getal zijn",
+        "nonNegative": "BTW mag niet negatief zijn"
+      },
+      "description": {
+        "minLength": "Beschrijving moet minimaal 10 tekens lang zijn",
+        "maxLength": "Beschrijving mag maximaal 2000 tekens lang zijn"
+      },
+      "image": {
+        "url": "Moet een geldige URL zijn",
+        "altText": {
+          "maxLength": "Alt-tekst mag maximaal 200 tekens lang zijn"
+        }
+      }
+    },
+    "paymentLink": {
+      "url": "Moet een geldige URL zijn"
+    },
+    "orderStatus": {
+      "invalid": "Ongeldige orderstatus"
+    }
+  },
+  "common": {
+    "currency": "€",
+    "yes": "Ja",
+    "no": "Nee",
+    "ok": "OK",
+    "cancel": "Annuleren",
+    "save": "Opslaan",
+    "delete": "Verwijderen",
+    "edit": "Bewerken",
+    "loading": "Laden...",
+    "error": "Fout",
+    "success": "Succes",
+    "info": "Informatie",
+    "warning": "Waarschuwing",
+    "actions": "Acties",
+    "saving": "Opslaan...",
+    "update": "Bijwerken",
+    "create": "Aanmaken",
+    "total": "Totaal",
+    "discount": "Korting",
+    "name": "Naam",
+    "price": "Prijs",
+    "status": "Status"
+  },
+  "backend": {
+    "error": {
+      "auth": {
+        "invalidOrMissingAccessToken": "Ongeldige of ontbrekende toegangstoken",
+        "accessTokenRevoked": "Toegangstoken is ingetrokken",
+        "accessDenied": "Toegang geweigerd",
+        "adminAccessRequired": "Admin-toegang vereist",
+        "checkRegistrationInformation": "Controleer uw registratiegegevens en probeer het opnieuw",
+        "missingRequiredFields": "E-mail, gebruikersnaam en wachtwoord zijn verplicht",
+        "noAccessToken": "Geen toegangstoken",
+        "sessionExpired": "Sessie verlopen",
+        "invalidAccessToken": "Ongeldig toegangstoken",
+        "noAccessTokenFound": "Geen toegangstoken gevonden",
+        "failedToLogout": "Uitloggen mislukt",
+        "checkLoginInformation": "Controleer uw inloggegevens en probeer het opnieuw",
+        "emailAndPasswordRequired": "E-mail en wachtwoord zijn verplicht",
+        "invalidCredentials": "Ongeldige inloggegevens",
+        "verifyEmail": "Verifieer uw e-mailadres voordat u inlogt",
+        "unableToCompleteLogin": "Inloggen mislukt. Probeer het opnieuw",
+        "missingTokenOrUserId": "Token of gebruikers-ID ontbreekt",
+        "invalidUserIdFormat": "Ongeldig gebruikers-ID-formaat",
+        "invalidToken": "Ongeldige of verlopen token.",
+        "expiredToken": "Deze link is verlopen. Vraag een nieuwe aan."
+      },
+      "internalServerError": "Interne serverfout",
+      "serviceUnavailable": "Dienst tijdelijk niet beschikbaar",
+      "database": {
+        "healthCheckFailed": "Database gezondheidscontrole mislukt",
+        "connectionError": "Databaseverbindingsfout. Probeer het opnieuw.",
+        "serializationFailure": "Databasebewerkingsconflict. Probeer het opnieuw.",
+        "tooManyConnections": "De service is momenteel bezet. Probeer het over een ogenblik opnieuw.",
+        "unknown": "Er is een databasefout opgetreden. Probeer het opnieuw."
+      },
+      "invalidQueryParameters": "Ongeldige queryparameters",
+      "products": {
+        "failedToList": "Lijst met producten ophalen mislukt",
+        "selectProductToDelete": "Selecteer een product om te verwijderen",
+        "unableToDelete": "Product verwijderen mislukt. Probeer het opnieuw",
+        "notFound": "Product niet gevonden",
+        "checkProductInformation": "Controleer de productinformatie en probeer het opnieuw",
+        "unableToCreate": "Product aanmaken mislukt. Probeer het opnieuw",
+        "someFailedToUpdate": "Sommige producten zijn niet bijgewerkt",
+        "checkStockInformation": "Controleer de voorraadinformatie en probeer het opnieuw",
+        "someStockFailedToUpdate": "Voorraad van sommige producten is niet bijgewerkt",
+        "invalidIdFormat": "Ongeldig product-ID-formaat",
+        "failedToFetch": "Producten ophalen mislukt",
+        "productIdRequired": "Product-ID is vereist",
+        "failedToFetchOne": "Product ophalen mislukt",
+        "failedToFetchActive": "Actieve producten ophalen mislukt",
+        "failedToCount": "Producten tellen mislukt"
+      },
+      "csrf": {
+        "failedToGenerate": "CSRF-token genereren mislukt"
+      },
+      "foreignKeyViolation": {
+        "delete": "Dit item kan niet worden verwijderd omdat het elders in gebruik is.",
+        "notExists": "Het item waarnaar verwezen wordt, bestaat niet.",
+        "default": "Database relatiebeperking geschonden."
+      },
+      "notNullViolation": {
+        "default": "Vereist veld '%s' mag niet leeg zijn."
+      },
+      "checkViolation": {
+        "emailFormat": "Geef een geldig e-mailadres op.",
+        "usernameLength": "Gebruikersnaam moet tussen 3 en 50 tekens lang zijn.",
+        "positiveValue": "Prijs of bedrag moet een positieve waarde hebben.",
+        "stockQuantity": "Voorraadhoeveelheid moet nul of groter zijn.",
+        "futureDate": "Vervaldatum moet in de toekomst liggen.",
+        "default": "De opgegeven waarde voldoet niet aan de vereiste beperkingen."
+      },
+      "uniqueViolation": {
+        "email": "Er bestaat al een account met dit e-mailadres.",
+        "username": "Deze gebruikersnaam is al in gebruik. Kies een andere.",
+        "sku": "Er bestaat al een product met deze SKU.",
+        "token": "Deze token is al gebruikt.",
+        "phone": "Dit telefoonnummer is al geregistreerd.",
+        "url": "Deze URL is al in gebruik.",
+        "productName": "Er bestaat al een product met deze naam.",
+        "itemName": "Er bestaat al een item met deze naam.",
+        "default": "Deze %s bestaat al. Gebruik een andere waarde."
+      },
+      "notFound": "Het gevraagde item is niet gevonden.",
+      "conflict": "Dit item bestaat al.",
+      "generic": "Er is een fout opgetreden. Probeer het opnieuw.",
+      "order": {
+        "invalidOrderId": "Ongeldige bestelling ID",
+        "invalidRequestBody": "Ongeldig verzoek",
+        "attachingPaymentLink": "Betaallink koppelen mislukt",
+        "creationFailed": "Bestelling aanmaken mislukt",
+        "deletingOrder": "Bestelling verwijderen mislukt",
+        "fetchingAddress": "Adres ophalen mislukt",
+        "fetchingOrderLines": "Bestelregels ophalen mislukt",
+        "fetchingOrders": "Bestellingen ophalen mislukt",
+        "invalidStatusTransition": "Ongeldige statusovergang",
+        "markingAsPaid": "Markeren als betaald mislukt",
+        "notFound": "Bestelling niet gevonden",
+        "productUnavailable": "Product is niet beschikbaar",
+        "statusRequired": "Status is verplicht",
+        "updatingStatus": "Bestellingstatus bijwerken mislukt"
+      },
+      "rateLimitExceeded": "Snelheidslimiet overschreden",
+      "rateLimitExceededStrict": "Snelheidslimiet overschreden (strikte modus)",
+      "cache": {
+        "clearFailed": "Cache wissen mislukt"
+      }
+    },
+    "success": {
+      "products": {
+        "retrieved": "Producten succesvol opgehaald",
+        "deleted": "Product succesvol verwijderd",
+        "created": "Product succesvol aangemaakt",
+        "updated": "Producten succesvol bijgewerkt",
+        "stockUpdated": "Voorraad van producten succesvol bijgewerkt"
+      },
+      "csrf": {
+        "generated": "CSRF-token gegenereerd"
+      },
+      "auth": {
+        "userRegistered": "Gebruiker succesvol geregistreerd",
+        "loggedOut": "Succesvol uitgelogd",
+        "login": "Inloggen succesvol"
+      },
+      "api": {
+        "welcome": "Welkom bij de Mamabloemetjes API"
+      },
+      "order": {
+        "created": "Bestelling succesvol aangemaakt",
+        "deleted": "Bestelling succesvol verwijderd",
+        "markedAsPaid": "Bestelling gemarkeerd als betaald",
+        "orderDetailsFetched": "Bestellingsgegevens succesvol opgehaald",
+        "ordersFetched": "Bestellingen succesvol opgehaald",
+        "paymentLinkAttached": "Betaallink succesvol gekoppeld",
+        "statusUpdated": "Bestellingstatus succesvol bijgewerkt"
+      },
+      "cache": {
+        "cleared": "Cache succesvol gewist"
+      }
+    }
+  }
+}
