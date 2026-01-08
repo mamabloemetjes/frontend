@@ -185,7 +185,7 @@ const HomePage = async ({ params }: Props) => {
         name: "Hoe bestel ik vilt bloemen?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "U kunt producten bekijken in onze webshop en direct bestellen. Voor maatwerk of vragen kunt u contact opnemen via de contactpagina. We bieden persoonlijk advies voor uw specifieke wensen.",
+          text: "U kunt producten bekijken in mijn webshop en direct bestellen. Voor maatwerk of vragen kunt u contact opnemen via de contactpagina. We bieden persoonlijk advies voor uw specifieke wensen.",
         },
       },
     ],
