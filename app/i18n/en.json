@@ -97,6 +97,7 @@
     }
   },
   "about": {
+    "title": "About me and Roos van Sharon",
     "heroTitle": "Roos van Sharon",
     "heroDesc1": "I chose the name Roos van Sharon because it encompasses everything; mourning, love and joy.",
     "heroDesc2": "It symbolizes beauty, love, but also healing of the soul.",
@@ -264,7 +265,10 @@
       "orderPlacedDescription": "A confirmation email has been sent. You'll receive a Tikkie payment link shortly.",
       "orderFailed": "Order Failed",
       "orderFailedDescription": "Something went wrong. Please try again.",
-      "productUnavailable": "Some products are no longer available"
+      "productUnavailable": "Some products are no longer available",
+      "autofillNotice": "Your information has been pre-filled from your account",
+      "savedAddresses": "Select a saved address",
+      "selectAddress": "Enter new address"
     },
     "confirmation": {
       "title": "Order Confirmation",
@@ -848,6 +852,12 @@
       "csrf": {
         "failedToGenerate": "Failed to generate CSRF token"
       },
+      "addresses": {
+        "fetchFailed": "Failed to fetch addresses"
+      },
+      "user": {
+        "fetchFailed": "Failed to fetch user information"
+      },
       "foreignKeyViolation": {
         "delete": "Cannot delete this item because it is being used elsewhere.",
         "notExists": "The referenced item does not exist.",
@@ -901,6 +911,9 @@
       }
     },
     "success": {
+      "addresses": {
+        "fetched": "Addresses fetched successfully"
+      },
       "products": {
         "retrieved": "Products retrieved successfully",
         "deleted": "Product deleted successfully",

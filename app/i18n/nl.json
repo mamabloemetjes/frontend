@@ -97,6 +97,7 @@
     }
   },
   "about": {
+    "title": "Over mij en Roos van Sharon",
     "heroTitle": "Roos van Sharon",
     "heroDesc1": "De naam Roos van Sharon heb ik gekozen omdat het alles omvat; rouw, liefde en blijdschap.",
     "heroDesc2": "Het symboliseert schoonheid, liefde, maar ook genezing van de ziel.",
@@ -264,7 +265,10 @@
       "orderPlacedDescription": "Er is een bevestegings email gestuurd. Je ontvangt binnenkort een Tikkie betaallink.",
       "orderFailed": "Bestelling Mislukt",
       "orderFailedDescription": "Er ging iets mis. Probeer het opnieuw.",
-      "productUnavailable": "Sommige producten zijn niet meer beschikbaar"
+      "productUnavailable": "Sommige producten zijn niet meer beschikbaar",
+      "autofillNotice": "Je gegevens zijn automatisch ingevuld vanuit je account",
+      "savedAddresses": "Selecteer een opgeslagen adres",
+      "selectAddress": "Voer nieuw adres in"
     },
     "confirmation": {
       "title": "Bestelbevestiging",
@@ -845,6 +849,12 @@
       "csrf": {
         "failedToGenerate": "CSRF-token genereren mislukt"
       },
+      "addresses": {
+        "fetchFailed": "Adressen ophalen mislukt"
+      },
+      "user": {
+        "fetchFailed": "Gebruikersinformatie ophalen mislukt"
+      },
       "foreignKeyViolation": {
         "delete": "Dit item kan niet worden verwijderd omdat het elders in gebruik is.",
         "notExists": "Het item waarnaar verwezen wordt, bestaat niet.",
@@ -898,6 +908,9 @@
       }
     },
     "success": {
+      "addresses": {
+        "fetched": "Adressen succesvol opgehaald"
+      },
       "products": {
         "retrieved": "Producten succesvol opgehaald",
         "deleted": "Product succesvol verwijderd",
