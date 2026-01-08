@@ -22,17 +22,23 @@ import {
   createProductSchema,
   createBreadcrumbSchema,
 } from "@/lib/structured-data";
+import { notFound } from "next/navigation";
+
+const testId = (id: string): boolean => {
+  const regex =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  return regex.test(id);
+};
 
 // Generate static params for all products (for SEO pre-rendering)
 export async function generateStaticParams() {
   const locales = ["nl", "en"];
   const params = [];
+  const { data, success } = await fetchProducts(1, 1000, false);
 
   for (const locale of locales) {
     try {
       // Fetch all active products
-      const { data, success } = await fetchProducts(1, 1000, false);
-
       if (success && data?.products) {
         for (const product of data.products) {
           params.push({
@@ -52,18 +58,22 @@ export async function generateStaticParams() {
 // Generate metadata for SEO
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id, locale } = await params;
-  if (!id) {
+  const t = await getTranslations({ locale, namespace: "seo.productDetail" });
+  const common = await getTranslations({ locale, namespace: "seo.common" });
+
+  if (!id || !testId(id)) {
     return {
-      title: "Product Not Found",
-      description: "The requested product could not be found.",
+      title: t("notFoundTitle"),
+      description: t("notFoundDescription"),
     };
   }
+
   const { data, success } = await fetchProductById(id, true);
 
   if (!success || !data?.product) {
     return {
-      title: "Product Not Found",
-      description: "The requested product could not be found.",
+      title: t("notFoundTitle"),
+      description: t("notFoundDescription"),
     };
   }
 
@@ -73,36 +83,53 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const priceInEuros = (product.subtotal / 100).toFixed(2);
 
   // Create an SEO-optimized meta description with product name, price, and USP
-  const metaDescription = `${product.name} - €${priceInEuros} | Handgemaakte vilt bloem voor bijzondere momenten. ${product.description.substring(0, 100).trim()}... | Roos van Sharon`;
+  const descriptionSnippet = product.description.substring(0, 100).trim();
+  const metaDescription = t("metaDescriptionTemplate", {
+    productName: product.name,
+    price: priceInEuros,
+    descriptionSnippet,
+  });
 
   const baseUrl = env.baseUrl || "https://mamabloemetjes.nl";
   const productUrl = `${baseUrl}/${locale}/products/${product.id}`;
 
+  // Build keywords array dynamically
+  const keywords = [
+    product.name,
+    product.name.toLowerCase(),
+    `${product.name} ${t("keywords.buy")}`,
+    `${product.name} ${t("keywords.order")}`,
+    t("keywords.handmadeBouquet"),
+    t("keywords.flowers"),
+    t("keywords.bouquet"),
+    common("siteName"),
+    t("keywords.handmade"),
+    t("keywords.feltFlowers"),
+    t("keywords.felt"),
+  ];
+
+  // Add conditional keywords based on product description
+  const descLower = product.description.toLowerCase();
+  if (descLower.includes("rouw")) {
+    keywords.push(t("keywords.mourning"));
+  }
+  if (descLower.includes("bruid") || descLower.includes("wedding")) {
+    keywords.push(t("keywords.bridal"));
+  }
+  if (descLower.includes("memorial")) {
+    keywords.push(t("keywords.memorial"));
+  }
+
   return {
-    title: `${product.name} - €${priceInEuros} | Roos van Sharon`,
+    title: t("titleTemplate", {
+      productName: product.name,
+      price: priceInEuros,
+    }),
     description: metaDescription,
-    keywords: [
-      product.name,
-      product.name.toLowerCase(),
-      `${product.name} kopen`,
-      `${product.name} bestellen`,
-      "handmade bouquet",
-      "flowers",
-      "bloemen",
-      "boeket",
-      "Roos van Sharon",
-      "handgemaakt",
-      "viltbloemen",
-      "vilt",
-      "bloemen",
-      "felt flowers",
-      product.description.includes("rouw") ? "rouwstukken" : "",
-      product.description.includes("bruid") ? "bruidsboeket" : "",
-      product.description.includes("memorial") ? "memorial bloemen" : "",
-    ].filter(Boolean),
-    authors: [{ name: "Roos van Sharon" }],
-    creator: "Roos van Sharon",
-    publisher: "Roos van Sharon",
+    keywords: keywords.filter(Boolean),
+    authors: [{ name: common("siteName") }],
+    creator: common("siteName"),
+    publisher: common("siteName"),
     alternates: {
       canonical: productUrl,
       languages: {
@@ -111,11 +138,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       },
     },
     openGraph: {
-      title: `${product.name} - Roos van Sharon`,
+      title: `${product.name} - ${common("siteName")}`,
       description: product.description,
       url: productUrl,
-      siteName: "Roos van Sharon",
-      locale: locale === "nl" ? "nl_NL" : "en_US",
+      siteName: common("siteName"),
+      locale: common("locale"),
       type: "website",
       images: mainImage
         ? [
@@ -130,7 +157,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: `${product.name} - Roos van Sharon`,
+      title: `${product.name} - ${common("siteName")}`,
       description: metaDescription,
       images: mainImage ? [mainImage.url] : [],
     },
@@ -153,13 +180,11 @@ const ProductDetailPage = async ({ params }: Props) => {
   const t = await getTranslations({ locale, namespace: "pages.product" });
 
   if (!id) {
-    return (
-      <div className="container mx-auto px-4 py-8 text-center">
-        <h1 className="text-2xl font-bold text-red-500">
-          {t("productNotFound")}
-        </h1>
-      </div>
-    );
+    return notFound();
+  }
+
+  if (!testId(id)) {
+    return notFound();
   }
 
   const { data, success } = await fetchProductById(id, true);
