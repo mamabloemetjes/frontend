@@ -5,7 +5,7 @@
     "description": "Handgemaakte vilt bloemen voor bijzondere momenten in uw leven.",
     "heroText": "Welkom bij Roos van Sharon. Ik ben Francis!",
     "readMore": "Lees Meer",
-    "madeBy": "Gemaakt door",
+    "madeBy": "Website gemaakt door",
     "hero": {
       "title": "Waarom bloemen van vilt?",
       "description": "Welkom op deze website , wat leuk dat u geïnteresseerd bent! Door alle berichten in de media over misstanden in de bloemen industrie en de gevolgen voor het milieu en de gezondheid ben ik gaan nadenken over alternatieven. Dat is de reden dat ik ben begonnen met het maken van vilt bloemen. Bloemen zijn namelijk onmisbaar bij vrolijke maar ook bij verdrietige gebeurtenissen in een mensenleven. Om te voorkomen dat er toch ellende kleeft aan de bloemen die ik maak werk ik uitsluitend met vilt dat onder goede arbeidsomstandigheden is gemaakt en op de diervriendelijke manier is verkregen. Voor mij is het belangrijk om goed met de wereld en de mensen dichtbij en ver weg om te gaan daarom vind ik heel mooi om 10% van uw aankoopbedrag te doneren aan Artsen zonder grenzen. Zo kunnen meer mensen profijt hebben van uw aankoop."
@@ -389,7 +389,8 @@
       "contact": "Contact",
       "privacyPolicy": "Privacybeleid",
       "termsOfService": "Gebruiksvoorwaarden",
-      "allRightsReserved": "Alle rechten voorbehouden"
+      "allRightsReserved": "Alle rechten voorbehouden",
+      "legal": "Juridisch"
     }
   },
   "pages": {
