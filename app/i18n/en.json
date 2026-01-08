@@ -46,6 +46,25 @@
       "title": "Shopping Cart - Roos van Sharon",
       "description": "Your shopping cart with selected felt flower products."
     },
+    "productDetail": {
+      "notFoundTitle": "Product Not Found",
+      "notFoundDescription": "The requested product could not be found.",
+      "metaDescriptionTemplate": "{productName} - €{price} | Handmade felt flower for special moments. {descriptionSnippet}... | Roos van Sharon",
+      "titleTemplate": "{productName} - €{price} | Roos van Sharon",
+      "keywords": {
+        "handmadeBouquet": "handmade bouquet",
+        "flowers": "flowers",
+        "bouquet": "bouquet",
+        "handmade": "handmade",
+        "feltFlowers": "felt flowers",
+        "felt": "felt",
+        "buy": "buy",
+        "order": "order",
+        "mourning": "mourning pieces",
+        "bridal": "bridal bouquet",
+        "memorial": "memorial flowers"
+      }
+    },
     "privacy": {
       "title": "Privacy Policy - Roos van Sharon",
       "description": "How we collect, use and protect your personal information.",

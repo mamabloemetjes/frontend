@@ -46,6 +46,25 @@
       "title": "Winkelwagen - Roos van Sharon",
       "description": "Uw winkelwagen met geselecteerde viltbloemen producten."
     },
+    "productDetail": {
+      "notFoundTitle": "Product Niet Gevonden",
+      "notFoundDescription": "Het gevraagde product kon niet worden gevonden.",
+      "metaDescriptionTemplate": "{productName} - €{price} | Handgemaakte vilt bloem voor bijzondere momenten. {descriptionSnippet}... | Roos van Sharon",
+      "titleTemplate": "{productName} - €{price} | Roos van Sharon",
+      "keywords": {
+        "handmadeBouquet": "handgemaakt boeket",
+        "flowers": "bloemen",
+        "bouquet": "boeket",
+        "handmade": "handgemaakt",
+        "feltFlowers": "viltbloemen",
+        "felt": "vilt",
+        "buy": "kopen",
+        "order": "bestellen",
+        "mourning": "rouwstukken",
+        "bridal": "bruidsboeket",
+        "memorial": "memorial bloemen"
+      }
+    },
     "privacy": {
       "title": "Privacybeleid - Roos van Sharon",
       "description": "Hoe wij uw persoonlijke gegevens verzamelen, gebruiken en beschermen.",
