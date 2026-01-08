@@ -8,6 +8,11 @@ import Image from "next/image";
 import { Metadata } from "next";
 import { fetchNewestProducts } from "@/hooks/useProducts";
 import { ProductCard } from "@/components";
+import {
+  createLocalBusinessSchema,
+  createBasicProductSchema,
+  MERCHANT_RETURN_POLICY_SCHEMA,
+} from "@/lib/structured-data";
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -88,33 +93,12 @@ const HomePage = async ({ params }: Props) => {
     namespace: "pages.home",
   });
 
-  const { data } = await fetchNewestProducts(6, true);
+  const { data } = await fetchNewestProducts(3, true);
   const featuredProducts = data?.products || [];
-
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl";
 
   // Structured Data for Homepage
   const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: "Roos van Sharon",
-    description:
-      "Handgemaakte vilt bloemen voor rouwstukken en bruidsboeketten",
-    url: `${baseUrl}/${locale}`,
-    logo: `${baseUrl}/flower.webp`,
-    image: `${baseUrl}/flower.webp`,
-    founder: {
-      "@type": "Person",
-      name: "Francis van Wieringen",
-    },
-    address: {
-      "@type": "PostalAddress",
-      addressCountry: "NL",
-    },
-    areaServed: "Nederland",
-    priceRange: "€€",
-    paymentAccepted: "Tikkie, Bank Transfer",
+    ...createLocalBusinessSchema(locale),
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Vilt Bloemen Producten",
@@ -122,38 +106,36 @@ const HomePage = async ({ params }: Props) => {
         {
           "@type": "Offer",
           itemOffered: {
-            "@type": "Product",
-            name: "Rouwstukken",
-            description: "Handgemaakte vilt rouwstukken en memorial altaren",
-            image: `${baseUrl}/flower.webp`,
-            brand: {
-              "@type": "Brand",
-              name: "Roos van Sharon",
-            },
+            ...createBasicProductSchema(
+              "Rouwstukken",
+              "Handgemaakte vilt rouwstukken en memorial altaren",
+              "100.00",
+            ),
             offers: {
-              "@type": "Offer",
-              price: "100.00",
-              priceCurrency: "EUR",
-              availability: "https://schema.org/InStock",
+              ...createBasicProductSchema(
+                "Rouwstukken",
+                "Handgemaakte vilt rouwstukken en memorial altaren",
+                "100.00",
+              ).offers,
+              hasMerchantReturnPolicy: MERCHANT_RETURN_POLICY_SCHEMA,
             },
           },
         },
         {
           "@type": "Offer",
           itemOffered: {
-            "@type": "Product",
-            name: "Bruidsboeketen",
-            description: "Unieke handgemaakte vilt bruidsboeketten",
-            image: `${baseUrl}/flower.webp`,
-            brand: {
-              "@type": "Brand",
-              name: "Roos van Sharon",
-            },
+            ...createBasicProductSchema(
+              "Bruidsboeketen",
+              "Unieke handgemaakte vilt bruidsboeketten",
+              "300.00",
+            ),
             offers: {
-              "@type": "Offer",
-              price: "300.00",
-              priceCurrency: "EUR",
-              availability: "https://schema.org/InStock",
+              ...createBasicProductSchema(
+                "Bruidsboeketen",
+                "Unieke handgemaakte vilt bruidsboeketten",
+                "300.00",
+              ).offers,
+              hasMerchantReturnPolicy: MERCHANT_RETURN_POLICY_SCHEMA,
             },
           },
         },

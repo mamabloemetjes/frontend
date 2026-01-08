@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { Flower2, Heart, Mail } from "lucide-react";
 import { Metadata } from "next";
+import { createAboutPageSchema } from "@/lib/structured-data";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -69,25 +70,8 @@ const About = async ({ params }: Props) => {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "about" });
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl";
-
   // Structured Data for About Page
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "AboutPage",
-    mainEntity: {
-      "@type": "Person",
-      name: "Francis van Wieringen",
-      jobTitle: "Felt Flower Artist",
-      worksFor: {
-        "@type": "Organization",
-        name: "Roos van Sharon",
-        url: `${baseUrl}/${locale}`,
-      },
-      description: t("aboutMeDesc2"),
-    },
-  };
+  const structuredData = createAboutPageSchema(locale, t("aboutMeDesc2"));
 
   return (
     <>

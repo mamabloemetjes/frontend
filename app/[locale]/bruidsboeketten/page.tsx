@@ -2,7 +2,7 @@
 
 import { LanguageAwareLink } from "@/components/LanguageAwareLink";
 import { Button } from "@/components/ui/button";
-import { Mail } from "lucide-react";
+import { Mail, ShoppingCart } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Metadata } from "next";
 
@@ -113,11 +113,17 @@ const BruidsboeketenPage = async ({ params }: Props) => {
             </p>
           </div>
 
-          <div className="pt-6">
+          <div className="pt-6 flex flex-col sm:flex-row gap-4 sm:gap-6">
             <Button asChild size="lg">
               <LanguageAwareLink href="/contact">
                 <Mail className="mr-2 h-5 w-5" />
-                Neem Contact Op
+                {paragraphsT("wedding.weddingContactButton")}
+              </LanguageAwareLink>
+            </Button>
+            <Button asChild size="lg">
+              <LanguageAwareLink href="/contact">
+                <ShoppingCart className="mr-2 h-5 w-5" />
+                {paragraphsT("wedding.weddingBrowseButton")}
               </LanguageAwareLink>
             </Button>
           </div>

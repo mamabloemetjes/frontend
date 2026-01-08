@@ -5,6 +5,7 @@ import { ProductCard } from "@/components";
 import { getTranslations } from "next-intl/server";
 import { Props } from "@/types";
 import { Metadata } from "next";
+import { createProductListingSchema } from "@/lib/structured-data";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -68,8 +69,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 const ProductsPage = async ({ params }: Props) => {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "pages.products" });
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl";
 
   // Fetch active products with images
   const { data, success } = await fetchProducts(1, 20, true);
@@ -98,32 +97,7 @@ const ProductsPage = async ({ params }: Props) => {
   }
 
   // Structured Data for Product Listing
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    itemListElement: products.map((product, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      item: {
-        "@type": "Product",
-        "@id": `${baseUrl}/${locale}/products/${product.id}`,
-        url: `${baseUrl}/${locale}/products/${product.id}`,
-        name: product.name,
-        description: product.description,
-        image: product.images?.[0]?.url || `${baseUrl}/flower.webp`,
-        sku: product.sku,
-        offers: {
-          "@type": "Offer",
-          url: `${baseUrl}/${locale}/products/${product.id}`,
-          price: (product.subtotal / 100).toFixed(2),
-          priceCurrency: "EUR",
-          availability: product.is_active
-            ? "https://schema.org/InStock"
-            : "https://schema.org/OutOfStock",
-        },
-      },
-    })),
-  };
+  const structuredData = createProductListingSchema(products, locale);
 
   return (
     <>
