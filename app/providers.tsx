@@ -11,6 +11,7 @@ import { Provider as JotaiProvider } from "jotai";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
+import { Analytics } from "@vercel/analytics/next";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -18,6 +19,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider>
           <Toaster />
+          <Analytics />
           <AuthProvider>
             {children}
             <CartToastListener />
