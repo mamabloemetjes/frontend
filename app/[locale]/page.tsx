@@ -238,7 +238,11 @@ const HomePage = async ({ params }: Props) => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
               {featuredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  variant="default"
+                />
               ))}
             </div>
             <div className="text-center">
