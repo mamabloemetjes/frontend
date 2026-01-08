@@ -1,6 +1,6 @@
 "use server";
 
-import { fetchProductById } from "@/hooks/useProducts";
+import { fetchProductById, fetchProducts } from "@/hooks/useProducts";
 import Image from "next/image";
 import AddToCart from "@/components/AddToCart";
 import { Props } from "@/types";
@@ -18,6 +18,32 @@ import {
 import type { Metadata } from "next";
 import { env } from "@/lib/env";
 import PriceExplanation from "@/components/PriceExplanation";
+
+// Generate static params for all products (for SEO pre-rendering)
+export async function generateStaticParams() {
+  const locales = ["nl", "en"];
+  const params = [];
+
+  for (const locale of locales) {
+    try {
+      // Fetch all active products
+      const { data, success } = await fetchProducts(1, 1000, false);
+
+      if (success && data?.products) {
+        for (const product of data.products) {
+          params.push({
+            locale,
+            id: product.id,
+          });
+        }
+      }
+    } catch (error) {
+      console.error(`Error fetching products for locale ${locale}:`, error);
+    }
+  }
+
+  return params;
+}
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -42,8 +68,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const mainImage = primaryImage || product.images?.[0];
   const priceInEuros = (product.subtotal / 100).toFixed(2);
 
-  // Create a clean description (first 155 characters for meta description)
-  const metaDescription = product.description.substring(0, 155).trim() + "...";
+  // Create an SEO-optimized meta description with product name, price, and USP
+  const metaDescription = `${product.name} - €${priceInEuros} | Handgemaakte vilt bloem voor bijzondere momenten. ${product.description.substring(0, 100).trim()}... | Roos van Sharon`;
 
   const baseUrl = env.baseUrl || "https://mamabloemetjes.nl";
   const productUrl = `${baseUrl}/${locale}/products/${product.id}`;
@@ -53,15 +79,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: metaDescription,
     keywords: [
       product.name,
+      product.name.toLowerCase(),
+      `${product.name} kopen`,
+      `${product.name} bestellen`,
       "handmade bouquet",
       "flowers",
       "bloemen",
       "boeket",
       "Roos van Sharon",
       "handgemaakt",
-      "fresh flowers",
-      "verse bloemen",
-    ],
+      "vilt bloemen",
+      "felt flowers",
+      product.description.includes("rouw") ? "rouwstukken" : "",
+      product.description.includes("bruid") ? "bruidsboeket" : "",
+      product.description.includes("memorial") ? "memorial bloemen" : "",
+    ].filter(Boolean),
     authors: [{ name: "Roos van Sharon" }],
     creator: "Roos van Sharon",
     publisher: "Roos van Sharon",
@@ -171,10 +203,16 @@ const ProductDetailPage = async ({ params }: Props) => {
     description: product.description,
     image: allImages.map((img) => img.url),
     sku: product.sku,
+    mpn: product.sku,
     brand: {
       "@type": "Brand",
       name: "Roos van Sharon",
     },
+    manufacturer: {
+      "@type": "Organization",
+      name: "Roos van Sharon",
+    },
+    category: "Handmade Felt Flowers",
     offers: {
       "@type": "Offer",
       url: productUrl,
@@ -192,6 +230,13 @@ const ProductDetailPage = async ({ params }: Props) => {
       seller: {
         "@type": "Organization",
         name: "Roos van Sharon",
+      },
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingDestination: {
+          "@type": "DefinedRegion",
+          addressCountry: "NL",
+        },
       },
     },
     aggregateRating: product.is_active

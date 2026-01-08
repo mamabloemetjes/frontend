@@ -2,7 +2,9 @@
   "app": {
     "title": "Roos van Sharon",
     "brand": "Roos van Sharon",
-    "description": "Handmade felt flowers for special moments in your life."
+    "description": "Handmade felt flowers for special moments in your life.",
+    "heroText": "Welcome to Roos van Sharon. I'm Francis!",
+    "readMore": "Read More"
   },
   "seo": {
     "home": {
@@ -42,7 +44,8 @@
     "common": {
       "siteName": "Roos van Sharon",
       "locale": "en_US",
-      "imageAlt": "Roos van Sharon - Handmade Felt Flowers"
+      "imageAlt": "Roos van Sharon - Handmade Felt Flowers",
+      "heroImageAlt": "Handmade felt flowers for memorial pieces and wedding bouquets - Roos van Sharon"
     }
   },
   "paragraphs": {
@@ -359,7 +362,7 @@
     "home": "Home",
     "checkout": "Checkout",
     "footer": {
-      "about": "About Us",
+      "about": "About me",
       "contact": "Contact",
       "privacyPolicy": "Privacy Policy",
       "termsOfService": "Terms of Service",
@@ -369,6 +372,9 @@
   "pages": {
     "home": {
       "title": "Products",
+      "featuredProducts": "Our Newest Creations",
+      "featuredProductsDescription": "Discover our newest handmade felt flowers, specially crafted for special moments.",
+      "viewAllProducts": "View All Products",
       "loading": "Loading products...",
       "noProducts": "No products found.",
       "hero": {
@@ -463,11 +469,13 @@
       "loading": "Loading products...",
       "noProducts": "No products found.",
       "errorFetchingProduct": "Error fetching product details",
-      "pleaseTryAgainLater": "Please try again later or contact support."
+      "pleaseTryAgainLater": "Please try again later or contact support.",
+      "introTitle": "Handmade Felt Flowers for Special Moments",
+      "introDescription": "Discover our unique collection of handmade felt flowers. Each piece is crafted with love and care, perfect for memorial pieces, wedding bouquets, and lasting memories. Sustainable, personal, and with attention to every detail."
     },
     "dashboard": {
       "title": "Dashboard",
-      "products": "Products",
+      "products": "All Products",
       "orders": "Orders",
       "addProduct": "Add Product",
       "editProduct": "Edit",

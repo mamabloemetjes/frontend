@@ -106,11 +106,15 @@ const ProductsPage = async ({ params }: Props) => {
       position: index + 1,
       item: {
         "@type": "Product",
+        "@id": `${baseUrl}/${locale}/products/${product.id}`,
+        url: `${baseUrl}/${locale}/products/${product.id}`,
         name: product.name,
         description: product.description,
         image: product.images?.[0]?.url || `${baseUrl}/flower.webp`,
+        sku: product.sku,
         offers: {
           "@type": "Offer",
+          url: `${baseUrl}/${locale}/products/${product.id}`,
           price: (product.subtotal / 100).toFixed(2),
           priceCurrency: "EUR",
           availability: product.is_active
@@ -128,8 +132,16 @@ const ProductsPage = async ({ params }: Props) => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <div className="container mx-auto px-4 py-8">
-        <header className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold">{t("title")}</h1>
+        <header className="mb-8">
+          <h1 className="text-3xl font-bold mb-4">{t("title")}</h1>
+          <div className="max-w-3xl">
+            <h2 className="text-xl font-semibold mb-2 text-muted-foreground">
+              {t("introTitle")}
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
+              {t("introDescription")}
+            </p>
+          </div>
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">

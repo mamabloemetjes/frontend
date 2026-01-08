@@ -502,6 +502,20 @@ export const api = {
       });
     },
 
+    getNewest: async (
+      pageSize: number = 10,
+      includeImages: boolean = false,
+    ): Promise<ApiResponse<ProductListResponse>> => {
+      return apiClient.get("/products/active", {
+        params: {
+          page_size: pageSize,
+          include_images: includeImages,
+          sort_by: "created_at",
+          sort_direction: "DESC",
+        },
+      });
+    },
+
     /**
      * GET /products/count
      * Get total count of products with optional filters

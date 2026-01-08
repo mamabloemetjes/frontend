@@ -31,7 +31,7 @@ const Footer = async ({ locale }: { locale: string }) => {
                 href="/about"
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
-                {t("aboutUs")}
+                {t("about")}
               </LanguageAwareLink>
               <LanguageAwareLink
                 href="/contact"
