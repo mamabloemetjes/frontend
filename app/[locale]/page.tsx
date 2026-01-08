@@ -89,7 +89,7 @@ const HomePage = async ({ params }: Props) => {
     ...createLocalBusinessSchema(locale),
     hasOfferCatalog: {
       "@type": "OfferCatalog",
-      name: "Vilt Bloemen Producten",
+      name: "Viltbloemen Producten",
       itemListElement: [
         {
           "@type": "Offer",
@@ -113,13 +113,13 @@ const HomePage = async ({ params }: Props) => {
           "@type": "Offer",
           itemOffered: {
             ...createBasicProductSchema(
-              "Bruidsboeketen",
+              "Bruidsboekteten",
               "Unieke handgemaakte vilt bruidsboeketten",
               "300.00",
             ),
             offers: {
               ...createBasicProductSchema(
-                "Bruidsboeketen",
+                "Bruidsboeketten",
                 "Unieke handgemaakte vilt bruidsboeketten",
                 "300.00",
               ).offers,
@@ -138,39 +138,39 @@ const HomePage = async ({ params }: Props) => {
     mainEntity: [
       {
         "@type": "Question",
-        name: "Wat zijn vilt bloemen van Roos van Sharon?",
+        name: "Wat zijn viltbloemen van Roos van Sharon?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Vilt bloemen van Roos van Sharon zijn handgemaakte, duurzame bloemen gemaakt van hoogwaardig vilt. Perfect voor rouwstukken en bruidsboeketten, bieden ze een blijvende herinnering aan bijzondere momenten.",
+          text: "Viltbloemen van Roos van Sharon zijn handgemaakte, duurzame bloemen gemaakt van hoogwaardig vilt. Perfect voor rouwstukken en bruidsboeketten, bieden ze een blijvende herinnering aan bijzondere momenten.",
         },
       },
       {
         "@type": "Question",
-        name: "Hoe lang duren vilt bloemen?",
+        name: "Hoe lang duren viltbloemen?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Vilt bloemen zijn extreem duurzaam en kunnen jarenlang meegaan zonder te verwelken. Ze zijn een perfecte keuze voor blijvende herinneringen aan rouwstukken of als een blijvend bruidsboeket.",
+          text: "Viltbloemen zijn extreem duurzaam en kunnen jarenlang meegaan zonder te verwelken. Ze zijn een perfecte keuze voor blijvende herinneringen aan rouwstukken of als een blijvend bruidsboeket.",
         },
       },
       {
         "@type": "Question",
-        name: "Kunnen vilt bloemen gepersonaliseerd worden?",
+        name: "Kunnen viltbloemen gepersonaliseerd worden?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Ja, alle vilt bloemen worden met persoonlijke aandacht gemaakt. U kunt contact opnemen voor maatwerk in kleuren, vormen en arrangementen die perfect passen bij uw wensen.",
+          text: "Ja, alle viltbloemen worden met persoonlijke aandacht gemaakt. U kunt contact opnemen voor maatwerk in kleuren, vormen en arrangementen die perfect passen bij uw wensen.",
         },
       },
       {
         "@type": "Question",
-        name: "Voor welke gelegenheden zijn vilt bloemen geschikt?",
+        name: "Voor welke gelegenheden zijn viltbloemen geschikt?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Vilt bloemen zijn vooral geschikt voor rouwstukken, memorial altaren en bruidsboeketten. Ze bieden een duurzaam alternatief voor verse bloemen en kunnen een blijvende herinnering vormen.",
+          text: "Viltbloemen zijn vooral geschikt voor rouwstukken, memorial altaren en bruidsboeketten. Ze bieden een duurzaam alternatief voor verse bloemen en kunnen een blijvende herinnering vormen.",
         },
       },
       {
         "@type": "Question",
-        name: "Hoe bestel ik vilt bloemen?",
+        name: "Hoe bestel ik viltbloemen?",
         acceptedAnswer: {
           "@type": "Answer",
           text: "U kunt producten bekijken in mijn webshop en direct bestellen. Voor maatwerk of vragen kunt u contact opnemen via de contactpagina. We bieden persoonlijk advies voor uw specifieke wensen.",

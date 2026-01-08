@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       canonical: pageUrl,
       languages: {
         nl: `${baseUrl}/nl/bruidsboeketten`,
-        en: `${baseUrl}/en/bruidsboeketen`,
+        en: `${baseUrl}/en/bruidsboeketten`,
       },
     },
     openGraph: {
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const BruidsboeketenPage = async ({ params }: Props) => {
+const BruidsboekettenPage = async ({ params }: Props) => {
   const { locale } = await params;
   const paragraphsT = await getTranslations({
     locale,
@@ -121,7 +121,7 @@ const BruidsboeketenPage = async ({ params }: Props) => {
               </LanguageAwareLink>
             </Button>
             <Button asChild size="lg">
-              <LanguageAwareLink href="/contact">
+              <LanguageAwareLink href="/products">
                 <ShoppingCart className="mr-2 h-5 w-5" />
                 {paragraphsT("wedding.weddingBrowseButton")}
               </LanguageAwareLink>
@@ -133,4 +133,4 @@ const BruidsboeketenPage = async ({ params }: Props) => {
   );
 };
 
-export default BruidsboeketenPage;
+export default BruidsboekettenPage;
