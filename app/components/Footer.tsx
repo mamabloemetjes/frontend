@@ -2,9 +2,11 @@
 
 import { getTranslations } from "next-intl/server";
 import { LanguageAwareLink } from "./LanguageAwareLink";
+import Link from "next/link";
 
 const Footer = async ({ locale }: { locale: string }) => {
   const t = await getTranslations({ locale, namespace: "navigation.footer" });
+  const tApp = await getTranslations({ locale, namespace: "app" });
   return (
     <footer className="mt-16 border-t bg-muted/30 dark:bg-muted/10">
       <div className="container mx-auto px-4 py-12">
@@ -17,7 +19,17 @@ const Footer = async ({ locale }: { locale: string }) => {
               <span className="text-xl font-bold">Roos van Sharon</span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Handgemaakte vilt bloemen voor bijzondere momenten in uw leven.
+              {tApp("description")}
+            </p>
+
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              {tApp("madeBy")}{" "}
+              <Link
+                href="https://github.com/MonkyMars"
+                className="text-primary underline"
+              >
+                Levi Noppers
+              </Link>
             </p>
           </div>
 
@@ -31,7 +43,7 @@ const Footer = async ({ locale }: { locale: string }) => {
                 href="/about"
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
-                {t("aboutUs")}
+                {t("about")}
               </LanguageAwareLink>
               <LanguageAwareLink
                 href="/contact"

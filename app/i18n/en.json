@@ -2,7 +2,10 @@
   "app": {
     "title": "Roos van Sharon",
     "brand": "Roos van Sharon",
-    "description": "Handmade felt flowers for special moments in your life."
+    "description": "Handmade felt flowers for special moments in your life.",
+    "heroText": "Welcome to Roos van Sharon. I'm Francis!",
+    "readMore": "Read More",
+    "madeBy": "Made by"
   },
   "seo": {
     "home": {
@@ -17,12 +20,12 @@
     },
     "contact": {
       "title": "Contact - Roos van Sharon | Get in Touch For Questions",
-      "description": "Do you have questions about our felt flowers, mourning pieces or bridal bouquets? Feel free to contact us. Personal advice and a listening ear for your wishes.",
+      "description": "Do you have questions about the felt flowers, mourning pieces or bridal bouquets? Feel free to contact us. Personal advice and a listening ear for your wishes.",
       "keywords": "contact, questions, personal advice, custom made, make appointment"
     },
     "products": {
       "title": "Products - Handmade Felt Flowers | Roos van Sharon",
-      "description": "Discover our collection of handmade felt flowers. Mourning pieces, bridal bouquets and more. Each piece made with love and care for lasting memories.",
+      "description": "Discover the collection of handmade felt flowers. Mourning pieces, bridal bouquets and more. Each piece made with love and care for lasting memories.",
       "keywords": "felt flowers collection, products, buy mourning pieces, order bridal bouquet, handmade"
     },
     "cart": {
@@ -42,7 +45,8 @@
     "common": {
       "siteName": "Roos van Sharon",
       "locale": "en_US",
-      "imageAlt": "Roos van Sharon - Handmade Felt Flowers"
+      "imageAlt": "Roos van Sharon - Handmade Felt Flowers",
+      "heroImageAlt": "Handmade felt flowers for memorial pieces and wedding bouquets - Roos van Sharon"
     }
   },
   "paragraphs": {
@@ -359,7 +363,7 @@
     "home": "Home",
     "checkout": "Checkout",
     "footer": {
-      "about": "About Us",
+      "about": "About me",
       "contact": "Contact",
       "privacyPolicy": "Privacy Policy",
       "termsOfService": "Terms of Service",
@@ -369,6 +373,9 @@
   "pages": {
     "home": {
       "title": "Products",
+      "featuredProducts": "The Newest Creations",
+      "featuredProductsDescription": "Discover the newest handmade felt flowers, specially crafted for special moments.",
+      "viewAllProducts": "View All Products",
       "loading": "Loading products...",
       "noProducts": "No products found.",
       "hero": {
@@ -463,11 +470,13 @@
       "loading": "Loading products...",
       "noProducts": "No products found.",
       "errorFetchingProduct": "Error fetching product details",
-      "pleaseTryAgainLater": "Please try again later or contact support."
+      "pleaseTryAgainLater": "Please try again later or contact support.",
+      "introTitle": "Handmade Felt Flowers for Special Moments",
+      "introDescription": "Discover my unique collection of handmade felt flowers. Each piece is crafted with love and care, perfect for memorial pieces, wedding bouquets, and lasting memories. Sustainable, personal, and with attention to every detail."
     },
     "dashboard": {
       "title": "Dashboard",
-      "products": "Products",
+      "products": "All Products",
       "orders": "Orders",
       "addProduct": "Add Product",
       "editProduct": "Edit",

@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
+import { fetchProducts } from "@/hooks/useProducts";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl =
     process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl";
   const locales = ["nl", "en"];
@@ -17,7 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const sitemap: MetadataRoute.Sitemap = [];
 
-  // Add all routes for both locales
+  // Add all static routes for both locales
   locales.forEach((locale) => {
     routes.forEach((route) => {
       sitemap.push({
@@ -34,6 +35,38 @@ export default function sitemap(): MetadataRoute.Sitemap {
       });
     });
   });
+
+  // Fetch all active products and add them to sitemap
+  try {
+    const { data, success } = await fetchProducts(1, 1000, false);
+
+    if (success && data?.products) {
+      for (const product of data.products) {
+        // Only add active products to sitemap
+        if (product.is_active) {
+          locales.forEach((locale) => {
+            sitemap.push({
+              url: `${baseUrl}/${locale}/products/${product.id}`,
+              lastModified: product.updated_at
+                ? new Date(product.updated_at)
+                : new Date(),
+              changeFrequency: "weekly",
+              priority: 0.9, // High priority for product pages
+              alternates: {
+                languages: {
+                  nl: `${baseUrl}/nl/products/${product.id}`,
+                  en: `${baseUrl}/en/products/${product.id}`,
+                },
+              },
+            });
+          });
+        }
+      }
+    }
+  } catch (error) {
+    console.error("Error fetching products for sitemap:", error);
+    // Continue generating sitemap even if products fetch fails
+  }
 
   return sitemap;
 }

@@ -2,10 +2,12 @@
 
 import { LanguageAwareLink } from "@/components/LanguageAwareLink";
 import { Button } from "@/components/ui/button";
-import { Mail, ShoppingBag, Info, Heart } from "lucide-react";
+import { Mail, ShoppingBag, Info, Heart, ArrowRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { Metadata } from "next";
+import { fetchNewestProducts } from "@/hooks/useProducts";
+import { ProductCard } from "@/components";
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -81,6 +83,17 @@ const HomePage = async ({ params }: Props) => {
     locale,
     namespace: "navigation.footer",
   });
+  const seoCommon = await getTranslations({
+    locale,
+    namespace: "seo.common",
+  });
+  const homeT = await getTranslations({
+    locale,
+    namespace: "pages.home",
+  });
+
+  const { data } = await fetchNewestProducts(6, true);
+  const featuredProducts = data?.products || [];
 
   const baseUrl =
     process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl";
@@ -122,12 +135,60 @@ const HomePage = async ({ params }: Props) => {
           "@type": "Offer",
           itemOffered: {
             "@type": "Product",
-            name: "Bruidsboeketten",
+            name: "Bruidsboeketen",
             description: "Unieke handgemaakte vilt bruidsboeketten",
           },
         },
       ],
     },
+  };
+
+  // FAQ Structured Data for Rich Snippets
+  const faqStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "Wat zijn vilt bloemen van Roos van Sharon?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Vilt bloemen van Roos van Sharon zijn handgemaakte, duurzame bloemen gemaakt van hoogwaardig vilt. Perfect voor rouwstukken en bruidsboeketten, bieden ze een blijvende herinnering aan bijzondere momenten.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Hoe lang duren vilt bloemen?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Vilt bloemen zijn extreem duurzaam en kunnen jarenlang meegaan zonder te verwelken. Ze zijn een perfecte keuze voor blijvende herinneringen aan rouwstukken of als een blijvend bruidsboeket.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Kunnen vilt bloemen gepersonaliseerd worden?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Ja, alle vilt bloemen worden met persoonlijke aandacht gemaakt. U kunt contact opnemen voor maatwerk in kleuren, vormen en arrangementen die perfect passen bij uw wensen.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Voor welke gelegenheden zijn vilt bloemen geschikt?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Vilt bloemen zijn vooral geschikt voor rouwstukken, memorial altaren en bruidsboeketten. Ze bieden een duurzaam alternatief voor verse bloemen en kunnen een blijvende herinnering vormen.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Hoe bestel ik vilt bloemen?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "U kunt producten bekijken in mijn webshop en direct bestellen. Voor maatwerk of vragen kunt u contact opnemen via de contactpagina. We bieden persoonlijk advies voor uw specifieke wensen.",
+        },
+      },
+    ],
   };
 
   return (
@@ -136,30 +197,77 @@ const HomePage = async ({ params }: Props) => {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
+      />
       <div className="container mx-auto px-4 py-12">
-        {/* Hero Section with Image */}
+        {/* Hero Section with Image and Text */}
         <section className="mb-16">
           <h1 className="text-4xl font-bold text-center mb-8">
             {appT("title")}
           </h1>
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 items-center">
+            {/* Hero Image */}
             <div className="relative overflow-hidden rounded-3xl shadow-2xl">
               <Image
                 src="/flower.webp"
-                alt={appT("title")}
+                alt={seoCommon("heroImageAlt")}
                 className="w-full h-auto object-cover"
                 width={1200}
                 height={600}
                 priority
               />
             </div>
+
+            {/* Hero Text */}
+            <div className="space-y-6">
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                {appT("heroText")}
+              </p>
+              <div>
+                <a
+                  href="#rouwstukken"
+                  className="inline-flex items-center text-primary hover:underline font-semibold text-lg"
+                >
+                  {appT("readMore")} →
+                </a>
+              </div>
+            </div>
           </div>
         </section>
+
+        {/* Featured Products Section */}
+        {featuredProducts.length > 0 && (
+          <section className="mb-16">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold mb-3">
+                {homeT("featuredProducts")}
+              </h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                {homeT("featuredProductsDescription")}
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              {featuredProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+            <div className="text-center">
+              <Button asChild size="lg" variant="outline">
+                <LanguageAwareLink href="/products">
+                  {homeT("viewAllProducts")}
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </LanguageAwareLink>
+              </Button>
+            </div>
+          </section>
+        )}
 
         {/* Two Column Layout */}
         <section className="grid lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
           {/* Mourning Pieces Column */}
-          <div className="space-y-6">
+          <div id="rouwstukken" className="space-y-6 scroll-mt-20">
             <div className="sticky top-4">
               <h2 className="text-3xl font-bold mb-6 pb-3 border-b-4 border-muted-foreground/30">
                 {paragraphsT("mourning.mournPiecesTitle")}
@@ -319,7 +427,7 @@ const HomePage = async ({ params }: Props) => {
               <Button asChild size="lg" variant="outline" className="w-full">
                 <LanguageAwareLink href="/about">
                   <Heart className="mr-2 h-5 w-5" />
-                  {navT("aboutUs")}
+                  {navT("about")}
                 </LanguageAwareLink>
               </Button>
               <Button asChild size="lg" className="w-full">

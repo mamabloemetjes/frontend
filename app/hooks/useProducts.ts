@@ -38,6 +38,14 @@ export const fetchProducts = async (
   return res;
 };
 
+export const fetchNewestProducts = async (
+  pageSize = 5,
+  includeImages = false,
+) => {
+  const res = await api.products.getNewest(pageSize, includeImages);
+  return res;
+};
+
 export function useProduct(id: string, includeImages: boolean = false) {
   return useQuery<ProductDetailResponse, ApiError>({
     queryKey: queryKeys.products.detail(id),

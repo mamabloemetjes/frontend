@@ -2,7 +2,10 @@
   "app": {
     "title": "Roos van Sharon",
     "brand": "Roos van Sharon",
-    "description": "Handgemaakte vilt bloemen voor bijzondere momenten in uw leven."
+    "description": "Handgemaakte vilt bloemen voor bijzondere momenten in uw leven.",
+    "heroText": "Welkom bij Roos van Sharon. Ik ben Francis!",
+    "readMore": "Lees Meer",
+    "madeBy": "Gemaakt door"
   },
   "seo": {
     "home": {
@@ -17,12 +20,12 @@
     },
     "contact": {
       "title": "Contact - Roos van Sharon | Neem Contact Op Voor Vragen",
-      "description": "Heeft u vragen over onze vilt bloemen, rouwstukken of bruidsboeketten? Neem gerust contact op. Persoonlijk advies en luisterend oor voor uw wensen.",
+      "description": "Heeft u vragen over de vilt bloemen, rouwstukken of bruidsboeketten? Neem gerust contact op. Persoonlijk advies en luisterend oor voor uw wensen.",
       "keywords": "contact, vragen, persoonlijk advies, op maat, afspraak maken"
     },
     "products": {
       "title": "Producten - Handgemaakte Vilt Bloemen | Roos van Sharon",
-      "description": "Ontdek onze collectie handgemaakte vilt bloemen. Rouwstukken, bruidsboeketten en meer. Elk stuk met liefde en zorg gemaakt voor blijvende herinneringen.",
+      "description": "Ontdek de collectie handgemaakte vilt bloemen. Rouwstukken, bruidsboeketten en meer. Elk stuk met liefde en zorg gemaakt voor blijvende herinneringen.",
       "keywords": "vilt bloemen collectie, producten, rouwstukken kopen, bruidsboeket bestellen, handgemaakt"
     },
     "cart": {
@@ -42,7 +45,8 @@
     "common": {
       "siteName": "Roos van Sharon",
       "locale": "nl_NL",
-      "imageAlt": "Roos van Sharon - Handgemaakte Vilt Bloemen"
+      "imageAlt": "Roos van Sharon - Handgemaakte Vilt Bloemen",
+      "heroImageAlt": "Handgemaakte vilt bloemen voor rouwstukken en bruidsboeketten - Roos van Sharon"
     }
   },
   "paragraphs": {
@@ -359,7 +363,7 @@
     "home": "Home",
     "checkout": "Afrekenen",
     "footer": {
-      "aboutUs": "Over ons",
+      "about": "Over mij",
       "contact": "Contact",
       "privacyPolicy": "Privacybeleid",
       "termsOfService": "Gebruiksvoorwaarden",
@@ -369,6 +373,9 @@
   "pages": {
     "home": {
       "title": "Producten",
+      "featuredProducts": "De Nieuwste Creaties",
+      "featuredProductsDescription": "Ontdek de nieuwste handgemaakte vilt bloemen, speciaal voor bijzondere momenten.",
+      "viewAllProducts": "Bekijk Alle Producten",
       "loading": "Producten laden...",
       "noProducts": "Geen producten gevonden.",
       "hero": {
@@ -464,11 +471,13 @@
       "loading": "Producten laden...",
       "noProducts": "Geen producten gevonden.",
       "errorFetchingProduct": "Fout bij ophalen van productgegevens.",
-      "pleaseTryAgainLater": "Probeer het later opnieuw of neem contact op met support."
+      "pleaseTryAgainLater": "Probeer het later opnieuw of neem contact op met support.",
+      "introTitle": "Handgemaakte Vilt Bloemen voor Bijzondere Momenten",
+      "introDescription": "Ontdek de unieke collectie handgemaakte vilt bloemen. Elk stuk wordt met liefde en zorg gemaakt, perfect voor rouwstukken, bruidsboeketten en blijvende herinneringen. Duurzaam, persoonlijk en met aandacht voor elk detail."
     },
     "dashboard": {
       "title": "Dashboard",
-      "products": "Producten",
+      "products": "Alle Producten",
       "orders": "Bestellingen",
       "addProduct": "Product toevoegen",
       "editProduct": "Bewerken",
