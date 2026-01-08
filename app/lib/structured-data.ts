@@ -275,3 +275,43 @@ export const createAboutPageSchema = (locale: string, description: string) => ({
     description,
   },
 });
+
+/**
+ * Create Open Graph metadata for a page
+ */
+export const createOpenGraphMetadata = (
+  locale: string,
+  title: string,
+  description: string,
+  path: string = "",
+  imageAlt?: string,
+) => ({
+  title,
+  description,
+  url: getFullUrl(locale, path),
+  siteName: BUSINESS_INFO.name,
+  locale: locale === "nl" ? "nl_NL" : "en_US",
+  type: "website" as const,
+  images: [
+    {
+      url: `${BASE_URL}/flower.webp`,
+      width: 1200,
+      height: 630,
+      alt: imageAlt || `${BUSINESS_INFO.name} - ${title}`,
+    },
+  ],
+});
+
+/**
+ * Create Twitter card metadata for a page
+ */
+export const createTwitterMetadata = (
+  title: string,
+  description: string,
+  imageUrl?: string,
+) => ({
+  card: "summary_large_image" as const,
+  title,
+  description,
+  images: [imageUrl || `${BASE_URL}/flower.webp`],
+});

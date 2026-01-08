@@ -12,6 +12,8 @@ import {
   createLocalBusinessSchema,
   createBasicProductSchema,
   MERCHANT_RETURN_POLICY_SCHEMA,
+  createOpenGraphMetadata,
+  createTwitterMetadata,
 } from "@/lib/structured-data";
 
 interface Props {
@@ -41,28 +43,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         en: `${baseUrl}/en`,
       },
     },
-    openGraph: {
-      title: t("title"),
-      description: t("description"),
-      url: pageUrl,
-      siteName: common("siteName"),
-      locale: common("locale"),
-      type: "website",
-      images: [
-        {
-          url: `${baseUrl}/flower.webp`,
-          width: 1200,
-          height: 630,
-          alt: common("imageAlt"),
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: t("title"),
-      description: t("description"),
-      images: [`${baseUrl}/flower.webp`],
-    },
+    openGraph: createOpenGraphMetadata(
+      locale,
+      t("title"),
+      t("description"),
+      "",
+      common("imageAlt"),
+    ),
+    twitter: createTwitterMetadata(t("title"), t("description")),
     robots: {
       index: true,
       follow: true,
