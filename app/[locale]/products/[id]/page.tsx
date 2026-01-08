@@ -18,6 +18,10 @@ import {
 import type { Metadata } from "next";
 import { env } from "@/lib/env";
 import PriceExplanation from "@/components/PriceExplanation";
+import {
+  createProductSchema,
+  createBreadcrumbSchema,
+} from "@/lib/structured-data";
 
 // Generate static params for all products (for SEO pre-rendering)
 export async function generateStaticParams() {
@@ -196,85 +200,14 @@ const ProductDetailPage = async ({ params }: Props) => {
     process.env.NEXT_PUBLIC_BASE_URL || "https://mamabloemetjes.nl";
   const productUrl = `${baseUrl}/${locale}/products/${product.id}`;
 
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: product.name,
-    description: product.description,
-    image: allImages.map((img) => img.url),
-    sku: product.sku,
-    mpn: product.sku,
-    brand: {
-      "@type": "Brand",
-      name: "Roos van Sharon",
-    },
-    manufacturer: {
-      "@type": "Organization",
-      name: "Roos van Sharon",
-    },
-    category: "Handmade Felt Flowers",
-    offers: {
-      "@type": "Offer",
-      url: productUrl,
-      priceCurrency: "EUR",
-      price: (product.subtotal / 100).toFixed(2),
-      priceValidUntil: new Date(
-        new Date().setFullYear(new Date().getFullYear() + 1),
-      )
-        .toISOString()
-        .split("T")[0],
-      availability: product.is_active
-        ? "https://schema.org/InStock"
-        : "https://schema.org/OutOfStock",
-      itemCondition: "https://schema.org/NewCondition",
-      seller: {
-        "@type": "Organization",
-        name: "Roos van Sharon",
-      },
-      shippingDetails: {
-        "@type": "OfferShippingDetails",
-        shippingDestination: {
-          "@type": "DefinedRegion",
-          addressCountry: "NL",
-        },
-      },
-    },
-    aggregateRating: product.is_active
-      ? {
-          "@type": "AggregateRating",
-          ratingValue: "5",
-          reviewCount: "1",
-        }
-      : undefined,
-  };
+  const structuredData = createProductSchema(product, locale);
 
   // Breadcrumb structured data
-  const breadcrumbStructuredData = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: `${baseUrl}/${locale}`,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Products",
-        item: `${baseUrl}/${locale}/products`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: product.name,
-        item: productUrl,
-      },
-    ],
-  };
-
-  console.log(env.freeShippingThreshold);
+  const breadcrumbStructuredData = createBreadcrumbSchema([
+    { name: "Home", url: `${baseUrl}/${locale}` },
+    { name: "Products", url: `${baseUrl}/${locale}/products` },
+    { name: product.name, url: productUrl },
+  ]);
 
   return (
     <>

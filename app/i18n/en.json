@@ -91,7 +91,9 @@
       "weddingTitle5": "Creating Together",
       "weddingDesc5": "When I have about half of the bouquet ready, it's nice to meet again. We can then see if you want to change anything or if you are completely satisfied. Because the flowers always stay beautiful, you can have them at home well in advance. This saves you hassle on the day itself.",
       "weddingTitle6": "Get in Touch",
-      "weddingDesc6": "Are you interested? Feel free to make an appointment. I'd love to hear from you!"
+      "weddingDesc6": "Are you interested? Feel free to make an appointment. I'd love to hear from you!",
+      "weddingContactButton": "Contact Me",
+      "weddingBrowseButton": "Browse Products"
     }
   },
   "about": {

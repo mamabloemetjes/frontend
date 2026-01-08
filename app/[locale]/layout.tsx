@@ -10,6 +10,7 @@ import { Providers } from "@/providers";
 import { cn } from "@/lib/utils";
 import { Footer, Header } from "@/components";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import { createLocalBusinessSchema } from "@/lib/structured-data";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -105,31 +106,8 @@ export default async function LocaleLayout({ children, params }: Props) {
     console.error(error);
   }
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl";
-
   // Organization structured data
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: "Roos van Sharon",
-    description:
-      "Handgemaakte vilt bloemen voor rouwstukken en bruidsboeketten",
-    url: `${baseUrl}/${locale}`,
-    logo: `${baseUrl}/favicon.ico`,
-    image: `${baseUrl}/flower.webp`,
-    founder: {
-      "@type": "Person",
-      name: "Francis van Wieringen",
-    },
-    address: {
-      "@type": "PostalAddress",
-      addressCountry: "NL",
-    },
-    areaServed: "Nederland",
-    priceRange: "€€",
-    sameAs: [],
-  };
+  const organizationSchema = createLocalBusinessSchema(locale);
 
   return (
     <html lang={locale} suppressHydrationWarning>
