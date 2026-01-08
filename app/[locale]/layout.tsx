@@ -62,9 +62,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: t("description"),
       images: [
         {
-          url: `${baseUrl}/favicon.ico`,
-          width: 32,
-          height: 32,
+          url: `${baseUrl}/flower.webp`,
+          width: 1200,
+          height: 630,
           alt: t("title"),
         },
       ],
