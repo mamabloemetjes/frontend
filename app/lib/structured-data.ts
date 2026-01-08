@@ -295,8 +295,8 @@ export const createOpenGraphMetadata = (
   images: [
     {
       url: `${BASE_URL}/flower.webp`,
-      width: 1200,
-      height: 630,
+      width: 1371,
+      height: 1600,
       alt: imageAlt || `${BUSINESS_INFO.name} - ${title}`,
     },
   ],

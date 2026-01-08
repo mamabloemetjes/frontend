@@ -63,8 +63,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: [
         {
           url: `${baseUrl}/flower.webp`,
-          width: 1200,
-          height: 630,
+          width: 1371,
+          height: 1600,
           alt: t("title"),
         },
       ],
