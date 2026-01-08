@@ -11,6 +11,8 @@ import {
   UserCog,
   User,
   Mail,
+  Copyright,
+  Shield,
 } from "lucide-react";
 import { Metadata } from "next";
 
@@ -151,6 +153,35 @@ const TermsPage = async ({ params }: Props) => {
             <li>{t("responsibilityList2")}</li>
             <li>{t("responsibilityList3")}</li>
           </ul>
+        </section>
+
+        {/* Copyright and Intellectual Property */}
+        <section className="bg-amber-50/50 dark:bg-amber-950/20 rounded-2xl p-6 border border-amber-200 dark:border-amber-800">
+          <div className="flex items-start gap-3 mb-4">
+            <Copyright className="w-8 h-8 shrink-0 text-amber-600 dark:text-amber-400 mt-1" />
+            <h2 className="text-2xl font-bold m-0">{t("copyrightTitle")}</h2>
+          </div>
+          <p className="mb-4">{t("copyrightDesc")}</p>
+          <ul className="space-y-2 list-disc list-inside mb-4">
+            <li>{t("copyrightList1")}</li>
+            <li>{t("copyrightList2")}</li>
+            <li>{t("copyrightList3")}</li>
+            <li>{t("copyrightList4")}</li>
+            <li>{t("copyrightList5")}</li>
+          </ul>
+          <p className="mb-4 font-semibold">{t("copyrightProtection")}</p>
+          <ul className="space-y-2 list-disc list-inside mb-4">
+            <li>{t("copyrightProhibit1")}</li>
+            <li>{t("copyrightProhibit2")}</li>
+            <li>{t("copyrightProhibit3")}</li>
+            <li>{t("copyrightProhibit4")}</li>
+          </ul>
+          <div className="bg-green-50 dark:bg-green-950/20 rounded-lg p-4 border border-green-200 dark:border-green-800">
+            <div className="flex items-start gap-2">
+              <Shield className="w-5 h-5 shrink-0 text-green-600 dark:text-green-400 mt-0.5" />
+              <p className="text-sm m-0">{t("copyrightPersonalUse")}</p>
+            </div>
+          </div>
         </section>
 
         {/* Changes */}
