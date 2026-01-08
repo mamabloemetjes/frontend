@@ -15,7 +15,7 @@ const BASE_URL = env.baseUrl || "https://roosvansharon.nl";
 
 export const BUSINESS_INFO = {
   name: "Roos van Sharon",
-  description: "Handgemaakte vilt bloemen voor rouwstukken en bruidsboeketten",
+  description: "Handgemaakte viltbloemen voor rouwstukken en bruidsboeketten",
   logo: `${BASE_URL}/favicon.ico`,
   image: `${BASE_URL}/flower.webp`,
   founderName: "Francis van Wieringen",
