@@ -97,6 +97,7 @@
     }
   },
   "about": {
+    "title": "Over mij en Roos van Sharon",
     "heroTitle": "Roos van Sharon",
     "heroDesc1": "De naam Roos van Sharon heb ik gekozen omdat het alles omvat; rouw, liefde en blijdschap.",
     "heroDesc2": "Het symboliseert schoonheid, liefde, maar ook genezing van de ziel.",
@@ -170,6 +171,19 @@
     "responsibilityList1": "Geef correcte contactgegevens en bezorgadres op",
     "responsibilityList2": "Gebruik het platform op een eerlijke manier",
     "responsibilityList3": "Bewaar uw accountgegevens veilig (indien van toepassing)",
+    "copyrightTitle": "Auteursrechten en Intellectueel Eigendom",
+    "copyrightDesc": "Alle inhoud op deze website, inclusief maar niet beperkt tot:",
+    "copyrightList1": "Productfoto's en afbeeldingen",
+    "copyrightList2": "Productontwerpen en creaties",
+    "copyrightList3": "Teksten en beschrijvingen",
+    "copyrightList4": "Logo's en merkidentiteit",
+    "copyrightList5": "Website design en layout",
+    "copyrightProtection": "zijn eigendom van Roos van Sharon en beschermd door auteursrecht. Het is niet toegestaan om zonder schriftelijke toestemming:",
+    "copyrightProhibit1": "Afbeeldingen te kopiëren, downloaden of reproduceren voor commercieel gebruik",
+    "copyrightProhibit2": "Ontwerpen te kopiëren of na te maken",
+    "copyrightProhibit3": "Materiaal te gebruiken voor eigen commerciële doeleinden",
+    "copyrightProhibit4": "Inhoud te delen op sociale media zonder bronvermelding",
+    "copyrightPersonalUse": "Klanten die producten hebben gekocht, mogen foto's van hun aankoop delen op sociale media met vermelding van @roosvansharon.",
     "changesTitle": "Wijzigingen",
     "changesDesc": "Wij behouden ons het recht voor om deze voorwaarden te wijzigen. Wijzigingen worden op deze pagina gepubliceerd.",
     "contactTitle": "Contact",
@@ -251,7 +265,10 @@
       "orderPlacedDescription": "Er is een bevestegings email gestuurd. Je ontvangt binnenkort een Tikkie betaallink.",
       "orderFailed": "Bestelling Mislukt",
       "orderFailedDescription": "Er ging iets mis. Probeer het opnieuw.",
-      "productUnavailable": "Sommige producten zijn niet meer beschikbaar"
+      "productUnavailable": "Sommige producten zijn niet meer beschikbaar",
+      "autofillNotice": "Je gegevens zijn automatisch ingevuld vanuit je account",
+      "savedAddresses": "Selecteer een opgeslagen adres",
+      "selectAddress": "Voer nieuw adres in"
     },
     "confirmation": {
       "title": "Bestelbevestiging",
@@ -488,8 +505,8 @@
       "productNotFound": "Product niet gevonden",
       "errorFetchingProduct": "Fout bij ophalen van product",
       "pleaseTryAgainLater": "Probeer het later opnieuw",
-      "priceExplanationTitle": "Waarom kost het wat het kost?",
-      "priceExplanationDesc": "Uitleg..."
+      "priceExplanationTitle": "Prijs verantwoording",
+      "priceExplanationDesc": "Viltbloemen en gewone bloemen kan je niet met elkaar vergelijken. Ze verschillen in prijs, duurzaamheid en houdbaarheid. Viltbloemen zijn arbeidsintensief om te maken.  Per bloem ben ik gemiddeld een uur aan het werk. Ook zijn er materiaalkosten aan verbonden. Dit is de reden dat viltbloemen duurder zijn dan gewone bloemen. Daar tegenover staat dat viltbloemen altijd mooi blijven, geen onderhoud nodig hebben en niet milieubelastend zijn. U zult er er heel lang van kunnen genieten!"
     },
     "products": {
       "title": "Producten",
@@ -832,6 +849,12 @@
       "csrf": {
         "failedToGenerate": "CSRF-token genereren mislukt"
       },
+      "addresses": {
+        "fetchFailed": "Adressen ophalen mislukt"
+      },
+      "user": {
+        "fetchFailed": "Gebruikersinformatie ophalen mislukt"
+      },
       "foreignKeyViolation": {
         "delete": "Dit item kan niet worden verwijderd omdat het elders in gebruik is.",
         "notExists": "Het item waarnaar verwezen wordt, bestaat niet.",
@@ -885,6 +908,9 @@
       }
     },
     "success": {
+      "addresses": {
+        "fetched": "Adressen succesvol opgehaald"
+      },
       "products": {
         "retrieved": "Producten succesvol opgehaald",
         "deleted": "Product succesvol verwijderd",

@@ -97,6 +97,7 @@
     }
   },
   "about": {
+    "title": "About me and Roos van Sharon",
     "heroTitle": "Roos van Sharon",
     "heroDesc1": "I chose the name Roos van Sharon because it encompasses everything; mourning, love and joy.",
     "heroDesc2": "It symbolizes beauty, love, but also healing of the soul.",
@@ -170,6 +171,19 @@
     "responsibilityList1": "Provide correct contact details and delivery address",
     "responsibilityList2": "Use the platform in an honest manner",
     "responsibilityList3": "Keep your account details safe (if applicable)",
+    "copyrightTitle": "Copyright and Intellectual Property",
+    "copyrightDesc": "All content on this website, including but not limited to:",
+    "copyrightList1": "Product photos and images",
+    "copyrightList2": "Product designs and creations",
+    "copyrightList3": "Text and descriptions",
+    "copyrightList4": "Logos and brand identity",
+    "copyrightList5": "Website design and layout",
+    "copyrightProtection": "are the property of Roos van Sharon and protected by copyright. Without written permission, it is not allowed to:",
+    "copyrightProhibit1": "Copy, download or reproduce images for commercial use",
+    "copyrightProhibit2": "Copy or replicate designs",
+    "copyrightProhibit3": "Use materials for your own commercial purposes",
+    "copyrightProhibit4": "Share content on social media without attribution",
+    "copyrightPersonalUse": "Customers who have purchased products may share photos of their purchase on social media with mention of @roosvansharon.",
     "changesTitle": "Changes",
     "changesDesc": "We reserve the right to change these terms. Changes will be published on this page.",
     "contactTitle": "Contact",
@@ -251,7 +265,10 @@
       "orderPlacedDescription": "A confirmation email has been sent. You'll receive a Tikkie payment link shortly.",
       "orderFailed": "Order Failed",
       "orderFailedDescription": "Something went wrong. Please try again.",
-      "productUnavailable": "Some products are no longer available"
+      "productUnavailable": "Some products are no longer available",
+      "autofillNotice": "Your information has been pre-filled from your account",
+      "savedAddresses": "Select a saved address",
+      "selectAddress": "Enter new address"
     },
     "confirmation": {
       "title": "Order Confirmation",
@@ -487,8 +504,8 @@
       "productNotFound": "Product not found",
       "errorFetchingProduct": "Error fetching product",
       "pleaseTryAgainLater": "Please try again later",
-      "priceExplanationTitle": "Why does it cost what it costs?",
-      "priceExplanationDesc": "Explanation..."
+      "priceExplanationTitle": "Price justification",
+      "priceExplanationDesc": "Felt flowers and regular flowers cannot be compared to each other. They differ in price, durability, and longevity. Felt flowers are labor-intensive to make—on average, I spend about an hour working on each flower. There are also material costs involved. This is why felt flowers are more expensive than regular flowers. On the other hand, felt flowers always remain beautiful, require no maintenance, and are environmentally friendly. You will be able to enjoy them for a very long time!"
     },
     "products": {
       "title": "Products",
@@ -835,6 +852,12 @@
       "csrf": {
         "failedToGenerate": "Failed to generate CSRF token"
       },
+      "addresses": {
+        "fetchFailed": "Failed to fetch addresses"
+      },
+      "user": {
+        "fetchFailed": "Failed to fetch user information"
+      },
       "foreignKeyViolation": {
         "delete": "Cannot delete this item because it is being used elsewhere.",
         "notExists": "The referenced item does not exist.",
@@ -888,6 +911,9 @@
       }
     },
     "success": {
+      "addresses": {
+        "fetched": "Addresses fetched successfully"
+      },
       "products": {
         "retrieved": "Products retrieved successfully",
         "deleted": "Product deleted successfully",

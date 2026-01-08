@@ -167,6 +167,19 @@ export interface Address {
   updated_at: string;
 }
 
+export interface UserAddressesResponse {
+  user: {
+    id: string;
+    username: string;
+    email: string;
+    role: string;
+    email_verified: boolean;
+    last_login: string;
+    created_at: string;
+  };
+  addresses: Address[];
+}
+
 export interface Order {
   id: string;
   order_number: string;
@@ -564,6 +577,9 @@ export const api = {
     getCurrentUser: async (): Promise<ApiResponse<User>> => {
       return apiClient.get("/auth/me");
     },
+    getUserAddresses: async (): Promise<ApiResponse<UserAddressesResponse>> => {
+      return apiClient.get("/auth/addresses");
+    },
   },
   orders: {
     /**
@@ -786,6 +802,7 @@ export const queryKeys = {
   },
   auth: {
     currentUser: ["auth", "user"] as const,
+    addresses: ["auth", "addresses"] as const,
   },
   admin: {
     products: {

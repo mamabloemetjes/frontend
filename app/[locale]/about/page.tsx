@@ -80,9 +80,7 @@ const About = async ({ params }: Props) => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <div className="container mx-auto px-4 py-12">
-        <h1 className="text-4xl font-bold text-center mb-12">
-          {t("heroTitle")}
-        </h1>
+        <h1 className="text-4xl font-bold text-center mb-12">{t("title")}</h1>
 
         {/* Pinterest-style masonry layout */}
         <div

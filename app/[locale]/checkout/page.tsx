@@ -4,7 +4,7 @@ import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { cartItemsAtom, cartTotalAtom, clearCartAtom } from "@/store/cart";
-import { api, type OrderRequest } from "@/lib/api";
+import { api, type OrderRequest, type Address } from "@/lib/api";
 import { LanguageAwareLink } from "@/components/LanguageAwareLink";
 import Image from "next/image";
 import { useSetAtom } from "jotai";
@@ -17,6 +17,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { checkoutSchema } from "@/lib/validation/schemas";
 import { showSuccess, showError } from "@/lib/validation/utils";
 import { useApiError } from "@/hooks/useApiError";
+import { useUserAddresses } from "@/hooks/useUserAddresses";
+import { useState, useCallback, useEffect, useRef } from "react";
 
 export default function CheckoutPage() {
   const t = useTranslations();
@@ -25,12 +27,20 @@ export default function CheckoutPage() {
   const [cartTotal] = useAtom(cartTotalAtom);
   const clearCart = useSetAtom(clearCartAtom);
   const { handleError } = useApiError();
+  const { data: userAddressesData } = useUserAddresses();
+  const hasAutofilledRef = useRef(false);
+
+  // Initialize selected address from user data
+  const initialAddressId = userAddressesData?.addresses[0]?.id || "";
+  const [selectedAddressId, setSelectedAddressId] =
+    useState<string>(initialAddressId);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     setValue,
+    reset,
   } = useForm({
     resolver: zodResolver(checkoutSchema),
     mode: "onBlur",
@@ -38,6 +48,71 @@ export default function CheckoutPage() {
       country: "NL",
     },
   });
+
+  // Autofill form with user data when available
+  useEffect(() => {
+    if (userAddressesData && !hasAutofilledRef.current) {
+      hasAutofilledRef.current = true;
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const formData: any = {
+        country: "NL",
+      };
+
+      // Pre-fill name and email from user data
+      if (userAddressesData.user.username) {
+        formData.name = userAddressesData.user.username;
+      }
+      if (userAddressesData.user.email) {
+        formData.email = userAddressesData.user.email;
+      }
+
+      // Pre-fill with most recent address if available
+      if (userAddressesData.addresses.length > 0) {
+        const mostRecentAddress = userAddressesData.addresses[0];
+        formData.street = mostRecentAddress.street;
+        formData.house_no = mostRecentAddress.house_no;
+        formData.postal_code = mostRecentAddress.postal_code;
+        formData.city = mostRecentAddress.city;
+        formData.country = mostRecentAddress.country;
+      }
+
+      // Use reset to update all form values at once
+      reset(formData, { keepDefaultValues: false });
+    }
+  }, [userAddressesData, reset]);
+
+  // Function to fill address form fields
+  const fillAddressForm = useCallback(
+    (address: Address) => {
+      setValue("street", address.street, { shouldValidate: true });
+      setValue("house_no", address.house_no, { shouldValidate: true });
+      setValue("postal_code", address.postal_code, { shouldValidate: true });
+      setValue("city", address.city, { shouldValidate: true });
+      setValue("country", address.country, { shouldValidate: true });
+    },
+    [setValue],
+  );
+
+  // Handle address selection change
+  const handleAddressSelect = (addressId: string) => {
+    setSelectedAddressId(addressId);
+    if (addressId === "") {
+      // Clear address fields
+      setValue("street", "");
+      setValue("house_no", "");
+      setValue("postal_code", "");
+      setValue("city", "");
+      setValue("country", "NL");
+    } else {
+      const selectedAddress = userAddressesData?.addresses.find(
+        (addr) => addr.id === addressId,
+      );
+      if (selectedAddress) {
+        fillAddressForm(selectedAddress);
+      }
+    }
+  };
 
   // Auto-format postal code to add space if needed
   const handlePostalCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -121,12 +196,17 @@ export default function CheckoutPage() {
               <h2 className="text-xl font-semibold mb-4">
                 {t("order.checkout.customerInfo")}
               </h2>
+              {userAddressesData && (
+                <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded text-sm text-blue-800 dark:text-blue-200">
+                  ✨ {t("order.checkout.autofillNotice")}
+                </div>
+              )}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
                   <FormInput
                     label={t("order.checkout.name")}
                     placeholder="John Doe"
-                    error={errors.name?.message}
+                    error={errors.name?.message as string}
                     required
                     {...register("name")}
                   />
@@ -136,7 +216,7 @@ export default function CheckoutPage() {
                   label={t("order.checkout.email")}
                   type="email"
                   placeholder="you@example.com"
-                  error={errors.email?.message}
+                  error={errors.email?.message as string}
                   required
                   {...register("email")}
                 />
@@ -145,7 +225,7 @@ export default function CheckoutPage() {
                   label={t("order.checkout.phone")}
                   type="tel"
                   placeholder="+31 612345678"
-                  error={errors.phone?.message}
+                  error={errors.phone?.message as string}
                   required
                   {...register("phone")}
                 />
@@ -157,11 +237,36 @@ export default function CheckoutPage() {
               <h2 className="text-xl font-semibold mb-4">
                 {t("order.checkout.deliveryAddress")}
               </h2>
+
+              {/* Saved Addresses Selector */}
+              {userAddressesData && userAddressesData.addresses.length > 0 && (
+                <div className="mb-4">
+                  <label className="block text-sm font-medium mb-2">
+                    {t("order.checkout.savedAddresses")}
+                  </label>
+                  <select
+                    value={selectedAddressId}
+                    onChange={(e) => handleAddressSelect(e.target.value)}
+                    className="w-full px-3 py-2 border rounded-md bg-background"
+                  >
+                    <option value="">
+                      {t("order.checkout.selectAddress")}
+                    </option>
+                    {userAddressesData.addresses.map((address) => (
+                      <option key={address.id} value={address.id}>
+                        {address.street} {address.house_no},{" "}
+                        {address.postal_code} {address.city}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormInput
                   label={t("order.checkout.street")}
                   placeholder="Kalverstraat"
-                  error={errors.street?.message}
+                  error={errors.street?.message as string}
                   required
                   {...register("street")}
                 />
@@ -169,7 +274,7 @@ export default function CheckoutPage() {
                 <FormInput
                   label={t("order.checkout.houseNumber")}
                   placeholder="12A"
-                  error={errors.house_no?.message}
+                  error={errors.house_no?.message as string}
                   required
                   {...register("house_no")}
                 />
@@ -177,7 +282,7 @@ export default function CheckoutPage() {
                 <FormInput
                   label={t("order.checkout.postalCode")}
                   placeholder="1234 AB"
-                  error={errors.postal_code?.message}
+                  error={errors.postal_code?.message as string}
                   required
                   {...register("postal_code", {
                     onChange: handlePostalCodeChange,
@@ -187,7 +292,7 @@ export default function CheckoutPage() {
                 <FormInput
                   label={t("order.checkout.city")}
                   placeholder="Amsterdam"
-                  error={errors.city?.message}
+                  error={errors.city?.message as string}
                   required
                   {...register("city")}
                 />
@@ -197,7 +302,7 @@ export default function CheckoutPage() {
                     label={t("order.checkout.customerNote")}
                     placeholder={t("order.checkout.customerNotePlaceholder")}
                     rows={3}
-                    error={errors.customer_note?.message}
+                    error={errors.customer_note?.message as string}
                     {...register("customer_note")}
                   />
                 </div>
