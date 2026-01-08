@@ -42,7 +42,7 @@ import {
   Calendar,
   User,
 } from "lucide-react";
-import { updateProductSchema } from "@/lib/validation/schemas";
+import { productSchema, updateProductSchema } from "@/lib/validation/schemas";
 
 type Tab = "products" | "orders";
 
@@ -388,7 +388,30 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
         updates: cleanedData,
       });
     } else {
-      await createProduct.mutateAsync(productData);
+      // Validate the create data with Zod schema
+      const validationResult = productSchema.safeParse(productData);
+
+      if (!validationResult.success) {
+        // Extract errors and set them in state
+        const fieldErrors: Record<string, string> = {};
+        validationResult.error.issues.forEach((issue) => {
+          const field = issue.path[0] as string;
+          fieldErrors[field] = t(issue.message);
+        });
+        setErrors(fieldErrors);
+        return;
+      }
+
+      // Clear errors on successful validation
+      setErrors({});
+
+      // Ensure discount is always a number (default to 0)
+      const createData = {
+        ...validationResult.data,
+        discount: validationResult.data.discount ?? 0,
+      };
+
+      await createProduct.mutateAsync(createData);
     }
 
     onSuccess();
