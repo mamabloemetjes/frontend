@@ -5,7 +5,7 @@
     "description": "Handmade felt flowers for special moments in your life.",
     "heroText": "Welcome to Roos van Sharon. I'm Francis!",
     "readMore": "Read More",
-    "madeBy": "Made by",
+    "madeBy": "Website made by",
     "hero": {
       "title": "Why flowers made of felt?",
       "description": "Welcome to this website, how nice that you are interested! Due to all the reports in the media about abuses in the flower industry and the consequences for the environment and health, I started thinking about alternatives. That is the reason I started making felt flowers. Flowers are indispensable for happy but also sad events in a person's life. To prevent misery from being attached to the flowers I make, I work exclusively with felt that is made under good working conditions and obtained in an animal-friendly way. For me, it is important to treat the world and people near and far well, so I think it is very nice to donate 10% of your purchase amount to Doctors Without Borders. This way, more people can benefit from your purchase."
@@ -389,7 +389,8 @@
       "contact": "Contact",
       "privacyPolicy": "Privacy Policy",
       "termsOfService": "Terms of Service",
-      "allRightsReserved": "All rights reserved."
+      "allRightsReserved": "All rights reserved.",
+      "legal": "Legal"
     }
   },
   "pages": {

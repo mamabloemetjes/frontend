@@ -69,7 +69,7 @@ const Footer = async ({ locale }: { locale: string }) => {
           {/* Legal Links */}
           <div className="space-y-3">
             <h3 className="font-semibold text-sm uppercase tracking-wider">
-              Juridisch
+              {t("legal")}
             </h3>
             <nav className="flex flex-col space-y-2 text-sm">
               <LanguageAwareLink
