@@ -32,6 +32,16 @@
       "description": "Discover the collection of handmade felt flowers. Mourning pieces, bridal bouquets and more. Each piece made with love and care for lasting memories.",
       "keywords": "felt flowers collection, products, buy mourning pieces, order bridal bouquet, handmade"
     },
+    "rouwstukken": {
+      "title": "Mourning Pieces - Handmade Felt Memorial Flowers | Roos van Sharon",
+      "description": "Handmade felt mourning pieces and memorial altars. Lasting memories of your loved one. Made with care and attention.",
+      "keywords": "mourning pieces, memorial flowers, memorial altar, remembrance pieces, felt flowers, funeral flowers"
+    },
+    "bruidsboeketten": {
+      "title": "Bridal Bouquets - Handmade Felt Wedding Bouquets | Roos van Sharon",
+      "description": "Unique handmade felt bridal bouquets that never wilt. Forever a beautiful memory of your special day.",
+      "keywords": "bridal bouquets, wedding flowers, felt bouquet, wedding bouquet, marriage, wedding flowers"
+    },
     "cart": {
       "title": "Shopping Cart - Roos van Sharon",
       "description": "Your shopping cart with selected felt flower products."
@@ -357,6 +367,10 @@
     }
   },
   "navigation": {
+    "rouwstukken": "Mourning Pieces",
+    "bruidsboeketten": "Bridal Bouquets",
+    "about": "About me",
+    "contact": "Contact",
     "products": "Products",
     "cart": "Cart",
     "login": "Login",
@@ -367,6 +381,8 @@
     "home": "Home",
     "checkout": "Checkout",
     "footer": {
+      "rouwstukken": "Mourning Pieces",
+      "bruidsboeketten": "Bridal Bouquets",
       "about": "About me",
       "contact": "Contact",
       "privacyPolicy": "Privacy Policy",
@@ -380,6 +396,8 @@
       "featuredProducts": "The Newest Creations",
       "featuredProductsDescription": "Discover the newest handmade felt flowers, specially crafted for special moments.",
       "viewAllProducts": "View All Products",
+      "exploreTitle": "Discover More",
+      "exploreDescription": "Browse our collections and learn more about Roos van Sharon",
       "loading": "Loading products...",
       "noProducts": "No products found.",
       "hero": {
