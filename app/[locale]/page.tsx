@@ -125,12 +125,14 @@ const HomePage = async ({ params }: Props) => {
             "@type": "Product",
             name: "Rouwstukken",
             description: "Handgemaakte vilt rouwstukken en memorial altaren",
+            image: `${baseUrl}/flower.webp`,
             brand: {
               "@type": "Brand",
               name: "Roos van Sharon",
             },
             offers: {
               "@type": "Offer",
+              price: "100.00",
               priceCurrency: "EUR",
               availability: "https://schema.org/InStock",
             },
@@ -142,12 +144,14 @@ const HomePage = async ({ params }: Props) => {
             "@type": "Product",
             name: "Bruidsboeketen",
             description: "Unieke handgemaakte vilt bruidsboeketten",
+            image: `${baseUrl}/flower.webp`,
             brand: {
               "@type": "Brand",
               name: "Roos van Sharon",
             },
             offers: {
               "@type": "Offer",
+              price: "300.00",
               priceCurrency: "EUR",
               availability: "https://schema.org/InStock",
             },
