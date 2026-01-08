@@ -37,8 +37,8 @@ const ProductCard = ({
                 src={imageUrl}
                 alt={primaryImage?.alt_text || product.name}
                 className="w-20 h-20 object-cover rounded"
-                width={120}
-                height={120}
+                width={80}
+                height={142}
                 loading="eager"
               />
             ) : (
@@ -95,9 +95,9 @@ const ProductCard = ({
           <Image
             src={imageUrl}
             alt={primaryImage?.alt_text || product.name}
-            className="w-full h-48 object-cover rounded mb-4"
-            width={400}
+            className="w-full h-96 object-cover rounded mb-4"
             height={400}
+            width={300}
             loading="eager"
           />
         ) : (
