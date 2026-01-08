@@ -222,8 +222,9 @@ const HomePage = async ({ params }: Props) => {
 
             {/* Hero Text */}
             <div className="space-y-6">
+              <h2 className="text-3xl font-bold">{appT("hero.title")}</h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                {appT("heroText")}
+                {appT("hero.description")}
               </p>
               <div>
                 <a
