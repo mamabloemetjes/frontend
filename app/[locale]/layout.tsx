@@ -50,10 +50,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       telephone: false,
     },
     icons: {
-      icon: "/favicon.ico",
-      shortcut: "/favicon.ico",
-      apple: "/favicon.ico",
+      icon: [
+        { url: "/favicon.ico", sizes: "any" },
+        { url: "/favicon.ico", sizes: "16x16", type: "image/x-icon" },
+        { url: "/favicon.ico", sizes: "32x32", type: "image/x-icon" },
+      ],
+      shortcut: [{ url: "/favicon.ico" }],
+      apple: [{ url: "/favicon.ico", sizes: "180x180", type: "image/x-icon" }],
+      other: [
+        {
+          rel: "icon",
+          url: "/favicon.ico",
+        },
+      ],
     },
+    manifest: "/manifest.json",
     openGraph: {
       type: "website",
       locale: locale === "nl" ? "nl_NL" : "en_US",
@@ -112,6 +123,12 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/favicon.ico" />
+        <meta name="theme-color" content="#ffffff" />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

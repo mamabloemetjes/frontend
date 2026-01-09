@@ -6,6 +6,8 @@ import { getTranslations } from "next-intl/server";
 import { Props } from "@/types";
 import { Metadata } from "next";
 import { createProductListingSchema } from "@/lib/structured-data";
+import { LanguageAwareLink } from "@/components/LanguageAwareLink";
+import { ArrowRight } from "lucide-react";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -122,6 +124,29 @@ const ProductsPage = async ({ params }: Props) => {
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
+        </div>
+
+        {/* Browse by Category Links */}
+        <div className="mt-12 pt-8 border-t border-muted-foreground/20">
+          <p className="text-sm text-muted-foreground mb-4">
+            {t("browseByCategory")}
+          </p>
+          <div className="flex flex-wrap gap-4">
+            <LanguageAwareLink
+              href="/funeral-flowers/shop"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
+            >
+              {t("funeralFlowers")}
+              <ArrowRight className="h-4 w-4" />
+            </LanguageAwareLink>
+            <LanguageAwareLink
+              href="/wedding-bouquets/shop"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
+            >
+              {t("weddingBouquets")}
+              <ArrowRight className="h-4 w-4" />
+            </LanguageAwareLink>
+          </div>
         </div>
       </div>
     </>

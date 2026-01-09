@@ -29,7 +29,7 @@ export interface WrappedProducts {
 
 // Product types (from structs/products.go)
 export type Size = "small" | "medium" | "large";
-export type ProductType = "flower" | "bouquet";
+export type ProductType = "funeral" | "wedding";
 export type Color =
   | "red"
   | "blue"
@@ -64,8 +64,6 @@ export interface Product {
   is_active: boolean;
   created_at: string;
   updated_at: string;
-  size?: Size;
-  colors?: Color[];
   product_type?: ProductType;
   stock?: number;
   images?: ProductImage[];
@@ -525,6 +523,22 @@ export const api = {
           include_images: includeImages,
           sort_by: "created_at",
           sort_direction: "DESC",
+        },
+      });
+    },
+
+    getByType: async (
+      type: string,
+      page: number = 1,
+      pageSize: number = 20,
+      includeImages: boolean = false,
+    ): Promise<ApiResponse<ProductListResponse>> => {
+      return apiClient.get("/products/active", {
+        params: {
+          product_type: type,
+          page,
+          page_size: pageSize,
+          include_images: includeImages,
         },
       });
     },

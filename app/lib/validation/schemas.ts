@@ -151,6 +151,9 @@ export const productSchema = z.object({
     .string()
     .min(10, "validation.product.description.minLength")
     .max(2000, "validation.product.description.maxLength"),
+  product_type: z.enum(["funeral", "wedding"], {
+    message: "validation.product.productType.invalid",
+  }),
   is_active: z.boolean().default(true),
   images: z.array(productImageSchema).optional(),
 });
@@ -188,6 +191,11 @@ export const updateProductSchema = z.object({
     )
     .optional()
     .or(z.literal("")),
+  product_type: z
+    .enum(["funeral", "wedding"], {
+      message: "validation.product.productType.invalid",
+    })
+    .optional(),
   is_active: z.boolean().optional(),
   images: z.array(productImageSchema).optional(),
 });

@@ -21,6 +21,7 @@ import PriceExplanation from "@/components/PriceExplanation";
 import {
   createProductSchema,
   createBreadcrumbSchema,
+  getPriceValidUntil,
 } from "@/lib/structured-data";
 import { notFound } from "next/navigation";
 
@@ -321,6 +322,10 @@ const ProductDetailPage = async ({ params }: Props) => {
                   <meta
                     itemProp="price"
                     content={(product.subtotal / 100).toFixed(2)}
+                  />
+                  <meta
+                    itemProp="priceValidUntil"
+                    content={getPriceValidUntil()}
                   />
                   <meta itemProp="url" content={productUrl} />
                   <meta

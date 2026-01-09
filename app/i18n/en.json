@@ -38,7 +38,7 @@
       "keywords": "mourning pieces, memorial flowers, memorial altar, remembrance pieces, felt flowers, funeral flowers"
     },
     "bruidsboeketten": {
-      "title": "Bridal Bouquets - Handmade Felt Wedding Bouquets | Roos van Sharon",
+      "title": "Bridal Bouquets - Handmade Felt Wedding Bouquets",
       "description": "Unique handmade felt bridal bouquets that never wilt. Forever a beautiful memory of your special day.",
       "keywords": "bridal bouquets, wedding flowers, felt bouquet, wedding bouquet, marriage, wedding flowers"
     },
@@ -94,7 +94,9 @@
       "mournPiecesTitle4": "Custom Memorial Altars",
       "mournPiecesDesc4": "I can also make the memorial altars on commission if you would like. To know exactly what your wishes are, I find it important to have contact (by phone) beforehand. Perhaps your loved one was fond of certain types of flowers. I can then incorporate those into the altar piece. I also find it important to have a picture of your loved one. So that I can work on your memorial altar with that image in mind. For me, it is important to work with care and love.",
       "mournPiecesTitle5": "Ready-Made Collection",
-      "mournPiecesDesc5": "Because flowers for funerals are often needed within a short time, it is often not possible to make them on commission. Making mourning pieces deserves time and attention that is not always available in the short term. That's why I have created a collection of mourning pieces that can be shipped within a few days."
+      "mournPiecesDesc5": "Because flowers for funerals are often needed within a short time, it is often not possible to make them on commission. Making mourning pieces deserves time and attention that is not always available in the short term. That's why I have created a collection of mourning pieces that can be shipped within a few days.",
+      "mournPiecesShopButton": "Browse Mourning Pieces",
+      "backToAllProducts": "← Back to All Products"
     },
     "wedding": {
       "weddingTitle": "Wedding Bouquets",
@@ -112,7 +114,8 @@
       "weddingTitle6": "Get in Touch",
       "weddingDesc6": "Are you interested? Feel free to make an appointment. I'd love to hear from you!",
       "weddingContactButton": "Contact Me",
-      "weddingBrowseButton": "Browse Products"
+      "weddingBrowseButton": "Browse Products",
+      "backToAllProducts": "← Back to All Products"
     }
   },
   "about": {
@@ -418,6 +421,11 @@
     "orders": "Orders",
     "home": "Home",
     "checkout": "Checkout",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "funeral-flowers": "Mourning Pieces",
+    "wedding-bouquets": "Bridal Bouquets",
+    "shop": "Shop",
     "footer": {
       "rouwstukken": "Mourning Pieces",
       "bruidsboeketten": "Bridal Bouquets",
@@ -452,6 +460,18 @@
         "title": "Custom Bouquets",
         "description": "Have a special request? I can create a custom bouquet!",
         "cta": "Request a custom bouquet"
+      }
+    },
+    "funeral": {
+      "shop": {
+        "errorFetchingProducts": "Error fetching mourning pieces",
+        "noProductsFound": "No mourning pieces found."
+      }
+    },
+    "wedding": {
+      "shop": {
+        "errorFetchingProducts": "Error fetching mourning pieces",
+        "noProductsFound": "No bridal bouquets found."
       }
     },
     "contact": {
@@ -533,7 +553,10 @@
       "errorFetchingProduct": "Error fetching product details",
       "pleaseTryAgainLater": "Please try again later or contact support.",
       "introTitle": "Handmade Felt Flowers for Special Moments",
-      "introDescription": "Discover my unique collection of handmade felt flowers. Each piece is crafted with love and care, perfect for memorial pieces, wedding bouquets, and lasting memories. Sustainable, personal, and with attention to every detail."
+      "introDescription": "Discover my unique collection of handmade felt flowers. Each piece is crafted with love and care, perfect for memorial pieces, wedding bouquets, and lasting memories. Sustainable, personal, and with attention to every detail.",
+      "browseByCategory": "Browse by category:",
+      "funeralFlowers": "Funeral Flowers",
+      "weddingBouquets": "Wedding Bouquets"
     },
     "dashboard": {
       "title": "Dashboard",
@@ -586,7 +609,12 @@
         "active": "Active",
         "images": "Images",
         "sku": "SKU",
-        "enableTax": "Enable Tax"
+        "enableTax": "Enable Tax",
+        "selectProductType": "Select a product type"
+      },
+      "productTypes": {
+        "funeral": "Funeral Piece",
+        "wedding": "Wedding Bouquet"
       },
       "imageManager": {
         "title": "Product Images",

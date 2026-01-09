@@ -143,6 +143,7 @@ export const createBasicProductSchema = (
   description: string,
   price: string,
   imageUrl?: string,
+  productUrl?: string,
 ) => ({
   "@type": "Product",
   name,
@@ -151,10 +152,14 @@ export const createBasicProductSchema = (
   brand: BRAND_SCHEMA,
   offers: {
     "@type": "Offer",
+    url: productUrl,
     price,
     priceCurrency: "EUR",
     priceValidUntil: getPriceValidUntil(),
     availability: "https://schema.org/InStock",
+    itemCondition: "https://schema.org/NewCondition",
+    seller: ORGANIZATION_SCHEMA,
+    shippingDetails: SHIPPING_DETAILS_SCHEMA,
     hasMerchantReturnPolicy: MERCHANT_RETURN_POLICY_SCHEMA,
   },
 });

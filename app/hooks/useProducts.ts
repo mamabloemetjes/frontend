@@ -38,6 +38,16 @@ export const fetchProducts = async (
   return res;
 };
 
+export const fetchProductsByType = async (
+  type: string,
+  page = 1,
+  pageSize = 20,
+  includeImages = false,
+) => {
+  const res = await api.products.getByType(type, page, pageSize, includeImages);
+  return res;
+};
+
 export const fetchNewestProducts = async (
   pageSize = 5,
   includeImages = false,

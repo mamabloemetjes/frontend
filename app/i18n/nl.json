@@ -38,7 +38,7 @@
       "keywords": "rouwstukken, rouwbloemen, herinneringsaltaar, gedenkstukken, viltbloemen, uitvaart bloemen"
     },
     "bruidsboeketten": {
-      "title": "Bruidsboeketten - Handgemaakte Vilt Bruidsboeketten | Roos van Sharon",
+      "title": "Bruidsboeketten - Handgemaakte Vilt Bruidsboeketten",
       "description": "Unieke handgemaakte vilt bruidsboeketten die nooit verwelken. Voor altijd een mooie herinnering aan uw bijzondere dag.",
       "keywords": "bruidsboeketten, bruiloft bloemen, vilt boeket, bruidsboeket, trouwen, wedding flowers"
     },
@@ -94,7 +94,9 @@
       "mournPiecesTitle4": "Altaren op Maat",
       "mournPiecesDesc4": "De herinneringsaltaartjes kan ik ook in opdracht maken als u dat zou willen. Om precies te weten wat uw wensen zijn vind ik het belangrijk om van te voren (telefonisch) contact te hebben.  Misschien hield uw geliefde van bepaalde soorten bloemen.  Die kan ik dan verwerken in het altaarstuk. Ook vind ik het belangrijk om een beeld te hebben bij uw geliefde. Zodat ik met dat beeld in gedachten kan gaan werken aan uw herinnerings altaar. Voor mij is het belangrijk om met zorg en liefde te werk te gaan.",
       "mournPiecesTitle5": "Voorraad Collectie",
-      "mournPiecesDesc5": "Omdat bloemen bij de uitvaart vaak binnen een korte tijd nodig zijn is het vaak niet mogelijk om dit in opdracht te maken. Het maken van rouwstukken verdient tijd en aandacht die niet altijd voorhanden is op de korte termijn. Daarom heb ik een collectie van rouwstukken gemaakt die binnen een aantal dagen verzonden kunnen worden."
+      "mournPiecesDesc5": "Omdat bloemen bij de uitvaart vaak binnen een korte tijd nodig zijn is het vaak niet mogelijk om dit in opdracht te maken. Het maken van rouwstukken verdient tijd en aandacht die niet altijd voorhanden is op de korte termijn. Daarom heb ik een collectie van rouwstukken gemaakt die binnen een aantal dagen verzonden kunnen worden.",
+      "mournPiecesShopButton": "Bekijk rouwstukken",
+      "backToAllProducts": "← Terug naar Alle Producten"
     },
     "wedding": {
       "weddingTitle": "Bruidsboeketten",
@@ -112,7 +114,8 @@
       "weddingTitle6": "Neem Contact Op",
       "weddingDesc6": "Bent u geïnteresseerd? Maak gerust een afspraak. Ik hoor het graag!",
       "weddingContactButton": "Neem contact op",
-      "weddingBrowseButton": "Bekijk producten"
+      "weddingBrowseButton": "Bekijk producten",
+      "backToAllProducts": "← Terug naar Alle Producten"
     }
   },
   "about": {
@@ -418,6 +421,11 @@
     "orders": "Bestellingen",
     "home": "Home",
     "checkout": "Afrekenen",
+    "privacy": "Privacybeleid",
+    "terms": "Algemene Voorwaarden",
+    "funeral-flowers": "Rouwstukken",
+    "wedding-bouquets": "Bruidsboeketten",
+    "shop": "Winkel",
     "footer": {
       "rouwstukken": "Rouwstukken",
       "bruidsboeketten": "Bruidsboeketten",
@@ -452,6 +460,18 @@
         "title": "Boeketten op maat",
         "description": "Heeft u een speciaal verzoek? Ik kan een boeket op maat maken!",
         "cta": "Vraag een boeket op maat aan"
+      }
+    },
+    "funeral": {
+      "shop": {
+        "errorFetchingProducts": "Fout bij het ophalen van rouwstukken",
+        "noProductsFound": "Geen rouwstukken gevonden"
+      }
+    },
+    "wedding": {
+      "shop": {
+        "errorFetchingProducts": "Fout bij het ophalen van bruidsboeketten",
+        "noProductsFound": "Geen bruidsboeketten gevonden"
       }
     },
     "contact": {
@@ -534,7 +554,10 @@
       "errorFetchingProduct": "Fout bij ophalen van productgegevens.",
       "pleaseTryAgainLater": "Probeer het later opnieuw of neem contact op met support.",
       "introTitle": "Handgemaakte Viltbloemen voor Bijzondere Momenten",
-      "introDescription": "Ontdek de unieke collectie handgemaakte viltbloemen. Elk stuk wordt met liefde en zorg gemaakt, perfect voor rouwstukken, bruidsboeketten en blijvende herinneringen. Duurzaam, persoonlijk en met aandacht voor elk detail."
+      "introDescription": "Ontdek de unieke collectie handgemaakte viltbloemen. Elk stuk wordt met liefde en zorg gemaakt, perfect voor rouwstukken, bruidsboeketten en blijvende herinneringen. Duurzaam, persoonlijk en met aandacht voor elk detail.",
+      "browseByCategory": "Blader per categorie:",
+      "funeralFlowers": "Rouwstukken",
+      "weddingBouquets": "Bruidsboeketten"
     },
     "dashboard": {
       "title": "Dashboard",
@@ -587,7 +610,12 @@
         "active": "Actief",
         "images": "Afbeeldingen",
         "sku": "SKU",
-        "enableTax": "Belasting inschakelen"
+        "enableTax": "Belasting inschakelen",
+        "selectProductType": "Selecteer een producttype"
+      },
+      "productTypes": {
+        "funeral": "Rouwstuk",
+        "wedding": "Bruidsbloemen"
       },
       "imageManager": {
         "title": "Productafbeeldingen",
