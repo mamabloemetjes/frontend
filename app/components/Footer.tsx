@@ -40,13 +40,13 @@ const Footer = async ({ locale }: { locale: string }) => {
             </h3>
             <nav className="flex flex-col space-y-2 text-sm">
               <LanguageAwareLink
-                href="/rouwstukken"
+                href="/funeral-flowers"
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 {t("rouwstukken")}
               </LanguageAwareLink>
               <LanguageAwareLink
-                href="/bruidsboeketten"
+                href="/wedding-bouquets"
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 {t("bruidsboeketten")}

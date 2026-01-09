@@ -77,15 +77,18 @@ export default function Breadcrumbs() {
     // Use translations for known routes
     const translationMap: Record<string, string> = {
       products: t("products"),
+      "funeral-flowers": t("funeral-flowers"),
+      "wedding-bouquets": t("wedding-bouquets"),
       cart: t("cart"),
-      contact: "Contact",
-      about: "Over ons",
+      shop: t("shop"),
+      contact: t("contact"),
+      about: t("about"),
       checkout: t("checkout"),
       account: t("account"),
       dashboard: t("dashboard"),
       orders: t("orders"),
-      privacy: "Privacy",
-      terms: "Voorwaarden",
+      privacy: t("privacy"),
+      terms: t("terms"),
     };
 
     if (translationMap[segment]) {

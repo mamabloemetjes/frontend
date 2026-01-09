@@ -11,7 +11,6 @@ import { ProductCard } from "@/components";
 import {
   createLocalBusinessSchema,
   createBasicProductSchema,
-  MERCHANT_RETURN_POLICY_SCHEMA,
   createOpenGraphMetadata,
   createTwitterMetadata,
 } from "@/lib/structured-data";
@@ -93,39 +92,23 @@ const HomePage = async ({ params }: Props) => {
       itemListElement: [
         {
           "@type": "Offer",
-          itemOffered: {
-            ...createBasicProductSchema(
-              "Rouwstukken",
-              "Handgemaakte vilt rouwstukken en memorial altaren",
-              "100.00",
-            ),
-            offers: {
-              ...createBasicProductSchema(
-                "Rouwstukken",
-                "Handgemaakte vilt rouwstukken en memorial altaren",
-                "100.00",
-              ).offers,
-              hasMerchantReturnPolicy: MERCHANT_RETURN_POLICY_SCHEMA,
-            },
-          },
+          itemOffered: createBasicProductSchema(
+            "Rouwstukken",
+            "Handgemaakte vilt rouwstukken en memorial altaren",
+            "100.00",
+            `${process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl"}/flower.webp`,
+            `${process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl"}/${locale}/funeral-flowers/shop`,
+          ),
         },
         {
           "@type": "Offer",
-          itemOffered: {
-            ...createBasicProductSchema(
-              "Bruidsboekteten",
-              "Unieke handgemaakte vilt bruidsboeketten",
-              "300.00",
-            ),
-            offers: {
-              ...createBasicProductSchema(
-                "Bruidsboeketten",
-                "Unieke handgemaakte vilt bruidsboeketten",
-                "300.00",
-              ).offers,
-              hasMerchantReturnPolicy: MERCHANT_RETURN_POLICY_SCHEMA,
-            },
-          },
+          itemOffered: createBasicProductSchema(
+            "Bruidsboeketten",
+            "Unieke handgemaakte vilt bruidsboeketten",
+            "300.00",
+            `${process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl"}/flower.webp`,
+            `${process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl"}/${locale}/wedding-bouquets/shop`,
+          ),
         },
       ],
     },
@@ -236,7 +219,7 @@ const HomePage = async ({ params }: Props) => {
                 {homeT("featuredProductsDescription")}
               </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
               {featuredProducts.map((product) => (
                 <ProductCard
                   key={product.id}
@@ -267,7 +250,7 @@ const HomePage = async ({ params }: Props) => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <Button asChild size="lg" variant="outline" className="h-auto py-6">
               <LanguageAwareLink
-                href="/rouwstukken"
+                href="/funeral-flowers"
                 className="flex flex-col items-center gap-2"
               >
                 <span className="text-2xl">🕯️</span>
@@ -276,7 +259,7 @@ const HomePage = async ({ params }: Props) => {
             </Button>
             <Button asChild size="lg" variant="outline" className="h-auto py-6">
               <LanguageAwareLink
-                href="/bruidsboeketten"
+                href="/wedding-bouquets"
                 className="flex flex-col items-center gap-2"
               >
                 <span className="text-2xl">💐</span>

@@ -43,6 +43,13 @@ import {
   User,
 } from "lucide-react";
 import { productSchema, updateProductSchema } from "@/lib/validation/schemas";
+import {
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select";
 
 type Tab = "products" | "orders";
 
@@ -322,6 +329,7 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
     enableTax: product ? product.tax > 0 : true,
     description: product?.description || "",
     is_active: product?.is_active ?? true,
+    product_type: product?.product_type || "",
   });
 
   const [images, setImages] = useState(
@@ -348,6 +356,7 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
       tax,
       description: formData.description,
       is_active: formData.is_active,
+      product_type: formData.product_type || "",
       images:
         images.length > 0
           ? images.map((img) => ({
@@ -556,6 +565,40 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
         />
         {errors.description && (
           <p className="text-red-500 text-sm mt-1">{errors.description}</p>
+        )}
+      </div>
+
+      {/* Product Type */}
+      <div>
+        <Label className="block mb-1 font-semibold text-sm">
+          {t("pages.dashboard.formLabels.productType")}
+        </Label>
+        <Select
+          value={formData.product_type || undefined}
+          onValueChange={(value) => {
+            setFormData({ ...formData, product_type: value });
+            if (errors.product_type) {
+              setErrors({ ...errors, product_type: "" });
+            }
+          }}
+          required
+        >
+          <SelectTrigger>
+            <SelectValue
+              placeholder={t("pages.dashboard.formLabels.selectProductType")}
+            />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="funeral">
+              {t("pages.dashboard.productTypes.funeral")}
+            </SelectItem>
+            <SelectItem value="wedding">
+              {t("pages.dashboard.productTypes.wedding")}
+            </SelectItem>
+          </SelectContent>
+        </Select>
+        {errors.product_type && (
+          <p className="text-red-500 text-sm mt-1">{errors.product_type}</p>
         )}
       </div>
 

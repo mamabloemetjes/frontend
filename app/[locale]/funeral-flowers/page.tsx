@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const baseUrl =
     process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl";
-  const pageUrl = `${baseUrl}/${locale}/rouwstukken`;
+  const pageUrl = `${baseUrl}/${locale}/funeral-flowers`;
 
   return {
     title: t("title"),
@@ -25,8 +25,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: {
       canonical: pageUrl,
       languages: {
-        nl: `${baseUrl}/nl/rouwstukken`,
-        en: `${baseUrl}/en/rouwstukken`,
+        nl: `${baseUrl}/nl/funeral-flowers`,
+        en: `${baseUrl}/en/funeral-flowers`,
       },
     },
     openGraph: {
@@ -100,9 +100,12 @@ const RouwstukkenPage = async ({ params }: Props) => {
 
           <div className="pt-6">
             <Button asChild size="lg">
-              <LanguageAwareLink href="/products">
+              <LanguageAwareLink
+                href="/funeral-flowers/shop"
+                className="flex items-center"
+              >
                 <ShoppingBag className="mr-2 h-5 w-5" />
-                Bekijk Rouwstukken
+                {paragraphsT("mourning.mournPiecesShopButton")}
               </LanguageAwareLink>
             </Button>
           </div>
