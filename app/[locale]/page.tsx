@@ -6,7 +6,7 @@ import { Mail, Heart, ArrowRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { Metadata } from "next";
-import { fetchNewestProducts } from "@/hooks/useProducts";
+import { fetchProductsByType } from "@/hooks/useProducts";
 import { ProductCard } from "@/components";
 import {
   createLocalBusinessSchema,
@@ -80,8 +80,12 @@ const HomePage = async ({ params }: Props) => {
     namespace: "pages.home",
   });
 
-  const { data } = await fetchNewestProducts(3, true);
-  const featuredProducts = data?.products || [];
+  // Fetch one funeral and one wedding product
+  const funeralResponse = await fetchProductsByType("funeral", 1, 1, true);
+  const weddingResponse = await fetchProductsByType("wedding", 1, 1, true);
+
+  const funeralProduct = funeralResponse.data?.products?.[0];
+  const weddingProduct = weddingResponse.data?.products?.[0];
 
   // Structured Data for Homepage
   const structuredData = {
@@ -208,33 +212,75 @@ const HomePage = async ({ params }: Props) => {
           </div>
         </section>
 
-        {/* Featured Products Section */}
-        {featuredProducts.length > 0 && (
+        {/* Featured Products Section - Funeral & Wedding */}
+        {(funeralProduct || weddingProduct) && (
           <section className="mb-16">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold mb-3">
-                {homeT("featuredProducts")}
-              </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                {homeT("featuredProductsDescription")}
-              </p>
-            </div>
-            <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              {featuredProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  variant="default"
-                />
-              ))}
-            </div>
-            <div className="text-center">
-              <Button asChild size="lg" variant="outline">
-                <LanguageAwareLink href="/products">
-                  {homeT("viewAllProducts")}
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </LanguageAwareLink>
-              </Button>
+            <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8">
+              {/* Funeral Flowers Section */}
+              {funeralProduct && (
+                <div className="space-y-6">
+                  <div className="text-center mb-6">
+                    <h2 className="text-3xl font-bold mb-3">
+                      {homeT("funeralSection.title")}
+                    </h2>
+                    <p className="text-muted-foreground">
+                      {homeT("funeralSection.description")}
+                    </p>
+                  </div>
+                  <div className="mb-6">
+                    <ProductCard product={funeralProduct} variant="default" />
+                  </div>
+                  <div className="text-center">
+                    <p className="text-muted-foreground mb-3">
+                      {homeT("funeralSection.seeMore")}
+                    </p>
+                    <Button
+                      asChild
+                      size="lg"
+                      variant="outline"
+                      className="w-full"
+                    >
+                      <LanguageAwareLink href="/funeral-flowers">
+                        {homeT("funeralSection.viewAll")}
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </LanguageAwareLink>
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {/* Wedding Bouquets Section */}
+              {weddingProduct && (
+                <div className="space-y-6">
+                  <div className="text-center mb-6">
+                    <h2 className="text-3xl font-bold mb-3">
+                      {homeT("weddingSection.title")}
+                    </h2>
+                    <p className="text-muted-foreground">
+                      {homeT("weddingSection.description")}
+                    </p>
+                  </div>
+                  <div className="mb-6">
+                    <ProductCard product={weddingProduct} variant="default" />
+                  </div>
+                  <div className="text-center">
+                    <p className="text-muted-foreground mb-3">
+                      {homeT("weddingSection.seeMore")}
+                    </p>
+                    <Button
+                      asChild
+                      size="lg"
+                      variant="outline"
+                      className="w-full"
+                    >
+                      <LanguageAwareLink href="/wedding-bouquets">
+                        {homeT("weddingSection.viewAll")}
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </LanguageAwareLink>
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           </section>
         )}

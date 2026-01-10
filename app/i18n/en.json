@@ -444,9 +444,21 @@
       "featuredProductsDescription": "Discover the newest handmade felt flowers, specially crafted for special moments.",
       "viewAllProducts": "View All Products",
       "exploreTitle": "Discover More",
-      "exploreDescription": "Browse our collections and learn more about Roos van Sharon",
+      "exploreDescription": "Browse the collections and learn more about Roos van Sharon",
       "loading": "Loading products...",
       "noProducts": "No products found.",
+      "funeralSection": {
+        "title": "Funeral Flowers",
+        "description": "Handmade felt memorial pieces that last forever",
+        "seeMore": "Want to see more funeral flowers?",
+        "viewAll": "View All Funeral Flowers"
+      },
+      "weddingSection": {
+        "title": "Wedding Bouquets",
+        "description": "Unique bridal bouquets crafted with love",
+        "seeMore": "Want to see more wedding bouquets?",
+        "viewAll": "View All Wedding Bouquets"
+      },
       "hero": {
         "title": "Welcome to Roos van Sharon",
         "subtitle": "Handmade bouquets with love"

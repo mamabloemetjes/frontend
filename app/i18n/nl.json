@@ -444,9 +444,21 @@
       "featuredProductsDescription": "Ontdek de nieuwste handgemaakte viltbloemen, speciaal voor bijzondere momenten.",
       "viewAllProducts": "Bekijk Alle Producten",
       "exploreTitle": "Ontdek Meer",
-      "exploreDescription": "Bekijk onze collecties en leer meer over Roos van Sharon",
+      "exploreDescription": "Bekijk de collecties en leer meer over Roos van Sharon",
       "loading": "Producten laden...",
       "noProducts": "Geen producten gevonden.",
+      "funeralSection": {
+        "title": "Rouwstukken",
+        "description": "Handgemaakte vilt memorial stukken die voor altijd meegaan",
+        "seeMore": "Wil je meer rouwstukken zien?",
+        "viewAll": "Bekijk Alle Rouwstukken"
+      },
+      "weddingSection": {
+        "title": "Bruidsboeketten",
+        "description": "Unieke bruidsboeketten gemaakt met liefde",
+        "seeMore": "Wil je meer bruidsboeketten zien?",
+        "viewAll": "Bekijk Alle Bruidsboeketten"
+      },
       "hero": {
         "title": "Welkom bij Roos van Sharon",
         "subtitle": "Handgemaakte boeketten met liefde"
