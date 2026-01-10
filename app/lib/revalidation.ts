@@ -99,7 +99,17 @@ export async function revalidateTag(tag: string): Promise<boolean> {
  * Useful after creating, updating, or deleting products
  */
 export async function revalidateProducts(): Promise<boolean> {
-  return await revalidatePaths(["/products", "/en/products", "/nl/products"]);
+  return await revalidatePaths([
+    "/products",
+    "/en/products",
+    "/nl/products",
+    "/nl/funeral-flowers/shop",
+    "/funeral-flowers/shop",
+    "/en/funeral-flowers/shop",
+    "/nl/wedding-bouquets/shop",
+    "/wedding-bouquets/shop",
+    "/en/wedding-bouquets/shop",
+  ]);
 }
 
 /**
@@ -122,6 +132,12 @@ export async function revalidateProduct(productId: string): Promise<boolean> {
     `/products/${productId}`,
     `/en/products/${productId}`,
     `/nl/products/${productId}`,
+    "/nl/wedding-bouquets/shop",
+    "/wedding-bouquets/shop",
+    "/en/wedding-bouquets/shop",
+    "/nl/funeral-flowers/shop",
+    "/funeral-flowers/shop",
+    "/en/funeral-flowers/shop",
   ]);
 }
 
