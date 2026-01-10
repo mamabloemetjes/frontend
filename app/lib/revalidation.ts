@@ -100,15 +100,21 @@ export async function revalidateTag(tag: string): Promise<boolean> {
  */
 export async function revalidateProducts(): Promise<boolean> {
   return await revalidatePaths([
+    // Main product listing pages
     "/products",
     "/en/products",
     "/nl/products",
+    // Also revalidate category pages
     "/nl/funeral-flowers/shop",
     "/funeral-flowers/shop",
     "/en/funeral-flowers/shop",
     "/nl/wedding-bouquets/shop",
     "/wedding-bouquets/shop",
     "/en/wedding-bouquets/shop",
+    // Also revalidate homepage as it does show some products
+    "/en",
+    "/nl",
+    "/",
   ]);
 }
 
