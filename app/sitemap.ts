@@ -11,7 +11,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/about",
     "/contact",
     "/products",
-    "/cart",
     "/privacy",
     "/terms",
     "/wedding-bouquets/shop",
@@ -34,6 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           languages: {
             nl: `${baseUrl}/nl${route}`,
             en: `${baseUrl}/en${route}`,
+            "x-default": `${baseUrl}/nl${route}`,
           },
         },
       });
@@ -60,6 +60,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
                 languages: {
                   nl: `${baseUrl}/nl/products/${product.id}`,
                   en: `${baseUrl}/en/products/${product.id}`,
+                  "x-default": `${baseUrl}/nl/products/${product.id}`,
                 },
               },
             });
