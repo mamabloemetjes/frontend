@@ -43,6 +43,7 @@
   ],
   "categories": ["shopping", "lifestyle"],
   "lang": "nl-NL",
+  "languages": ["nl-NL", "en-US"],
   "dir": "ltr",
   "scope": "/",
   "related_applications": [],
