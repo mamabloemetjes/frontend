@@ -434,7 +434,9 @@
       "privacyPolicy": "Privacybeleid",
       "termsOfService": "Gebruiksvoorwaarden",
       "allRightsReserved": "Alle rechten voorbehouden",
-      "legal": "Juridisch"
+      "legal": "Juridisch",
+      "support": "Support",
+      "contactSupport": "Krijg hulp"
     }
   },
   "pages": {
@@ -497,6 +499,8 @@
       "selectSubject": "Selecteer een onderwerp",
       "generalInquiry": "Algemene Vraag",
       "customOrder": "Boeket aanvraag",
+      "accountAction": "Account actie",
+      "other": "Anders",
       "message": "Bericht",
       "yourMessage": "Vertel ons meer over je vraag...",
       "deadlineDateQuestion": "Heb je een deadline?",

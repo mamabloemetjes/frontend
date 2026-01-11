@@ -157,6 +157,12 @@ ${data.message}
                 <SelectItem value="customOrder">
                   {t("pages.contact.customOrder")}
                 </SelectItem>
+                <SelectItem value="accountAction">
+                  {t("pages.contact.accountAction")}
+                </SelectItem>
+                <SelectItem value="other">
+                  {t("pages.contact.other")}
+                </SelectItem>
               </SelectContent>
             </Select>
             {errors.subject && (

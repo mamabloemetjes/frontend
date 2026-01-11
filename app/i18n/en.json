@@ -434,7 +434,9 @@
       "privacyPolicy": "Privacy Policy",
       "termsOfService": "Terms of Service",
       "allRightsReserved": "All rights reserved.",
-      "legal": "Legal"
+      "legal": "Legal",
+      "support": "Support",
+      "contactSupport": "Contact Support"
     }
   },
   "pages": {
@@ -497,6 +499,8 @@
       "selectSubject": "Select a subject",
       "generalInquiry": "General Inquiry",
       "customOrder": "Custom Order",
+      "accountAction": "Account Inquiry",
+      "other": "Other",
       "message": "Message",
       "yourMessage": "Tell us more about your inquiry...",
       "deadlineDateQuestion": "Do you have a deadline?",
