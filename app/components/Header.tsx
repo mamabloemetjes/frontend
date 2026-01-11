@@ -14,6 +14,7 @@ import {
   Package,
   Menu,
   X,
+  IdCardIcon,
 } from "lucide-react";
 import { useState } from "react";
 import FeatureComponent from "./FeatureComponent";
@@ -179,6 +180,15 @@ export default function Header() {
             >
               <Package className="w-5 h-5" />
               <span>{t("navigation.products")}</span>
+            </LanguageAwareLink>
+
+            <LanguageAwareLink
+              href="/about"
+              className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <IdCardIcon className="w-5 h-5" />
+              <span>{t("navigation.about")}</span>
             </LanguageAwareLink>
 
             {isAuthenticated ? (

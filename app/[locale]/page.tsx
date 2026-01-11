@@ -14,10 +14,7 @@ import {
   createOpenGraphMetadata,
   createTwitterMetadata,
 } from "@/lib/structured-data";
-
-interface Props {
-  params: Promise<{ locale: string }>;
-}
+import { Props } from "@/types";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -240,7 +237,7 @@ const HomePage = async ({ params }: Props) => {
                       variant="outline"
                       className="w-full"
                     >
-                      <LanguageAwareLink href="/funeral-flowers">
+                      <LanguageAwareLink href="/funeral-flowers/shop">
                         {homeT("funeralSection.viewAll")}
                         <ArrowRight className="ml-2 h-5 w-5" />
                       </LanguageAwareLink>
@@ -273,7 +270,7 @@ const HomePage = async ({ params }: Props) => {
                       variant="outline"
                       className="w-full"
                     >
-                      <LanguageAwareLink href="/wedding-bouquets">
+                      <LanguageAwareLink href="/wedding-bouquets/shop">
                         {homeT("weddingSection.viewAll")}
                         <ArrowRight className="ml-2 h-5 w-5" />
                       </LanguageAwareLink>

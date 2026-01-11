@@ -2,42 +2,106 @@
 
 User-agent: *
 Allow: /
+Allow: /nl/
+Allow: /en/
+Allow: /nl/about
+Allow: /en/about
+Allow: /nl/contact
+Allow: /en/contact
+Allow: /nl/privacy
+Allow: /en/privacy
+Allow: /nl/terms
+Allow: /en/terms
 Allow: /nl/products/
 Allow: /en/products/
+Allow: /nl/funeral-flowers/
+Allow: /en/funeral-flowers/
+Allow: /nl/funeral-flowers/shop
+Allow: /en/funeral-flowers/shop
+Allow: /nl/wedding-bouquets/
+Allow: /en/wedding-bouquets/
+Allow: /nl/wedding-bouquets/shop
+Allow: /en/wedding-bouquets/shop
+
 Disallow: /api/
-Disallow: /dashboard/
-Disallow: /account/
-Disallow: /login
-Disallow: /register
-Disallow: /email-verified
-Disallow: /checkout
-Disallow: /cart
-Disallow: /order-confirmation
+Disallow: /en/dashboard/
+Disallow: /nl/dashboard/
+Disallow: /en/account/
+Disallow: /nl/account/
+Disallow: /en/login
+Disallow: /nl/login
+Disallow: /en/register
+Disallow: /nl/register
+Disallow: /en/email-verified
+Disallow: /nl/email-verified
+Disallow: /en/checkout
+Disallow: /nl/checkout
+Disallow: /en/cart
+Disallow: /nl/cart
+Disallow: /en/order-confirmation
+Disallow: /nl/order-confirmation
 
 # Sitemap
 Sitemap: https://roosvansharon.nl/sitemap.xml
 
-# Crawl-delay (optional, can help with server load)
-Crawl-delay: 0.5
-
-# Allow Google bots full access to products
+# Allow Google bots full access to public pages
 User-agent: Googlebot
 Allow: /
+Allow: /nl/
+Allow: /en/
+Allow: /nl/about
+Allow: /en/about
+Allow: /nl/contact
+Allow: /en/contact
+Allow: /nl/privacy
+Allow: /en/privacy
+Allow: /nl/terms
+Allow: /en/terms
 Allow: /nl/products/
 Allow: /en/products/
+Allow: /nl/funeral-flowers/
+Allow: /en/funeral-flowers/
+Allow: /nl/funeral-flowers/shop
+Allow: /en/funeral-flowers/shop
+Allow: /nl/wedding-bouquets/
+Allow: /en/wedding-bouquets/
+Allow: /nl/wedding-bouquets/shop
+Allow: /en/wedding-bouquets/shop
+
 Disallow: /api/
 Disallow: /dashboard/
 Disallow: /account/
 Disallow: /checkout
 Disallow: /cart
+Disallow: /order-confirmation
 
-# Allow Bingbot full access to products
+# Allow Bingbot full access to public pages
 User-agent: Bingbot
 Allow: /
+Allow: /nl/
+Allow: /en/
+Allow: /nl/about
+Allow: /en/about
+Allow: /nl/contact
+Allow: /en/contact
+Allow: /nl/privacy
+Allow: /en/privacy
+Allow: /nl/terms
+Allow: /en/terms
 Allow: /nl/products/
 Allow: /en/products/
+Allow: /nl/funeral-flowers/
+Allow: /en/funeral-flowers/
+Allow: /nl/funeral-flowers/shop
+Allow: /en/funeral-flowers/shop
+Allow: /nl/wedding-bouquets/
+Allow: /en/wedding-bouquets/
+Allow: /nl/wedding-bouquets/shop
+Allow: /en/wedding-bouquets/shop
+
 Disallow: /api/
 Disallow: /dashboard/
 Disallow: /account/
 Disallow: /checkout
 Disallow: /cart
+Disallow: /order-confirmation
