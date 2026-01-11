@@ -143,6 +143,19 @@ const About = async ({ params }: Props) => {
             </section>
           </div>
 
+          {/* Image card */}
+          <div className="break-inside-avoid mb-6">
+            <div className="relative group overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300">
+              <Image
+                src="/about.webp"
+                alt={t("aboutMeTitle")}
+                className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+                width={600}
+                height={400}
+              />
+            </div>
+          </div>
+
           {/* Closing Card */}
           <div className="break-inside-avoid mb-6">
             <section className="bg-muted/50 dark:bg-muted/20 rounded-2xl p-6 shadow-lg border border-muted-foreground/20 hover:shadow-xl transition-shadow">

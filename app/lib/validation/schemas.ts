@@ -19,9 +19,8 @@ export const registerSchema = z
   .object({
     username: z
       .string()
-      .min(3, "validation.username.minLength")
-      .max(50, "validation.username.maxLength")
-      .regex(/^[a-zA-Z0-9_-]+$/, "validation.username.invalid"),
+      .min(2, "validation.username.minLength")
+      .max(100, "validation.username.maxLength"),
     email: z
       .string()
       .min(1, "validation.email.required")

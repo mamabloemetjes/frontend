@@ -140,7 +140,7 @@
     "dataCollectionList1": "Your name, email address and phone number",
     "dataCollectionList2": "Delivery address (street, house number, postal code, city)",
     "dataCollectionList3": "Order information and any comments",
-    "dataCollectionList4": "Account details (username, password) if you create an account",
+    "dataCollectionList4": "Account details (full name, password) if you create an account",
     "dataUsageTitle": "How Do We Use Your Data?",
     "dataUsageDesc": "We use your data to:",
     "dataUsageList1": "Process and deliver your order",
@@ -214,7 +214,7 @@
   "auth": {
     "register": {
       "title": "Create your account",
-      "username": "Username",
+      "username": "Full Name",
       "email": "Email",
       "password": "Password",
       "confirmPassword": "Confirm Password",
@@ -227,7 +227,8 @@
       "accountCreated": "Account created!",
       "pleaseVerifyEmail": "Please check your email to verify your account.",
       "passwordHelper": "Password must be at least 8 characters long and include a mix of letters, numbers, and special characters.",
-      "failed": "Failed to create account. Please try again."
+      "failed": "Failed to create account. Please try again.",
+      "logoutError": "Error logging out after registration. Please try again later."
     },
     "login": {
       "title": "Sign in to your account",
@@ -252,7 +253,22 @@
       "checkingStatus": "Checking your verification status...",
       "verifying": "Verifying...",
       "redirectingToLogin": "Redirecting to login page...",
-      "redirectingToHome": "Redirecting to home page..."
+      "redirectingToHome": "Redirecting to home page...",
+      "goToLogin": "Go to Login",
+      "goToHome": "Go to Home",
+      "verificationInfo": "Email Verification",
+      "verificationInfoDescription": "Please check your email for the verification link.",
+      "resendEmail": "Resend Verification Email",
+      "resendingEmail": "Sending...",
+      "resendSuccess": "Verification email sent!",
+      "resendSuccessDescription": "Please check your inbox for the new verification email.",
+      "resendError": "Failed to send email",
+      "resendErrorDescription": "Please try again later or contact support.",
+      "rateLimitError": "Please wait before requesting another email",
+      "enterEmailPrompt": "Enter your email address to receive a new verification link:",
+      "emailPlaceholder": "your.email@example.com",
+      "alreadyVerified": "Email already verified",
+      "alreadyVerifiedDescription": "Your email has already been verified. You can log in now."
     },
     "logout": "Logout",
     "loggingOut": "Logging out...",
@@ -426,6 +442,9 @@
     "funeral-flowers": "Mourning Pieces",
     "wedding-bouquets": "Bridal Bouquets",
     "shop": "Shop",
+    "settings": "Settings",
+    "language": "Language",
+    "theme": "Theme",
     "footer": {
       "rouwstukken": "Mourning Pieces",
       "bruidsboeketten": "Bridal Bouquets",
@@ -658,13 +677,14 @@
     },
     "profile": {
       "title": "Profile Information",
-      "username": "Username",
+      "username": "Full Name",
       "email": "Email Address",
       "role": "Account Type",
-      "userId": "User ID",
       "adminBadge": "Admin",
       "goToDashboard": "Go to Dashboard",
-      "updateNote": "To update your profile information, please contact support."
+      "updateTitle": "Need to update your information?",
+      "updateNote": "To change your name or email address, please contact our support team. We're here to help!",
+      "contactSupport": "Contact Support"
     },
     "orders": {
       "loading": "Loading your orders...",
@@ -759,9 +779,9 @@
       "noMatch": "Passwords do not match"
     },
     "username": {
-      "minLength": "Username must be at least 3 characters",
-      "maxLength": "Username must be at most 50 characters",
-      "invalid": "Username can only contain letters, numbers, hyphens, and underscores"
+      "minLength": "Name must be at least 2 characters",
+      "maxLength": "Name must be at most 100 characters",
+      "invalid": "Please enter a valid name"
     },
     "name": {
       "minLength": "Name must be at least 2 characters",
@@ -859,7 +879,9 @@
     "discount": "Discount",
     "name": "Name",
     "price": "Price",
-    "status": "Status"
+    "status": "Status",
+    "email": "Email",
+    "backToHome": "Back to home"
   },
   "backend": {
     "error": {
@@ -881,6 +903,7 @@
         "verifyEmail": "Please verify your email address before logging in",
         "unableToCompleteLogin": "Unable to complete login. Please try again",
         "missingTokenOrUserId": "Missing token or user_id",
+        "missingUserId": "Missing user_id",
         "invalidUserIdFormat": "Invalid user_id format",
         "invalidToken": "Invalid or expired token.",
         "expiredToken": "This link has expired. Please request a new one."
@@ -931,7 +954,7 @@
       },
       "checkViolation": {
         "emailFormat": "Please provide a valid email address.",
-        "usernameLength": "Username must be between 3 and 50 characters.",
+        "usernameLength": "Name must be between 2 and 100 characters.",
         "positiveValue": "Price or amount must be a positive value.",
         "stockQuantity": "Stock quantity must be zero or greater.",
         "futureDate": "Expiration date must be in the future.",
@@ -939,7 +962,6 @@
       },
       "uniqueViolation": {
         "email": "An account with this email address already exists.",
-        "username": "This username is already taken. Please choose a different one.",
         "sku": "A product with this SKU already exists.",
         "token": "This token has already been used.",
         "phone": "This phone number is already registered.",
@@ -990,7 +1012,9 @@
       "auth": {
         "userRegistered": "User registered successfully",
         "loggedOut": "Logged out successfully",
-        "login": "Login successful"
+        "login": "Login successful",
+        "verificationEmailSent": "Verification email sent successfully",
+        "emailAlreadyVerified": "Email is already verified"
       },
       "api": {
         "welcome": "Welcome to the Mamabloemetjes API"

@@ -54,7 +54,7 @@ const RegisterPage = () => {
             <FormInput
               label={t("auth.register.username")}
               type="text"
-              placeholder="johndoe"
+              placeholder="John Doe"
               error={errors.username?.message}
               required
               {...registerField("username")}

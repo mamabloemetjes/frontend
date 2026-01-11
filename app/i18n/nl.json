@@ -137,10 +137,10 @@
     "intro": "Bij Roos van Sharon respecteren wij uw privacy. Deze pagina legt uit welke gegevens wij verzamelen en hoe wij deze gebruiken.",
     "dataCollectionTitle": "Welke Gegevens Verzamelen Wij?",
     "dataCollectionDesc": "Wanneer u een bestelling plaatst of een account aanmaakt, verzamelen wij:",
-    "dataCollectionList1": "Uw naam, e-mailadres en telefoonnummer",
+    "dataCollectionList1": "Je naam, e-mailadres en telefoonnummer",
     "dataCollectionList2": "Bezorgadres (straat, huisnummer, postcode, plaats)",
     "dataCollectionList3": "Bestelinformatie en eventuele opmerkingen",
-    "dataCollectionList4": "Account gegevens (gebruikersnaam, wachtwoord) indien u een account aanmaakt",
+    "dataCollectionList4": "Accountgegevens (volledige naam, wachtwoord) als je een account aanmaakt",
     "dataUsageTitle": "Hoe Gebruiken Wij Uw Gegevens?",
     "dataUsageDesc": "Wij gebruiken uw gegevens om:",
     "dataUsageList1": "Uw bestelling te verwerken en te bezorgen",
@@ -214,7 +214,7 @@
   "auth": {
     "register": {
       "title": "Account aanmaken",
-      "username": "Gebruikersnaam",
+      "username": "Volledige Naam",
       "email": "E-mail",
       "password": "Wachtwoord",
       "confirmPassword": "Bevestig wachtwoord",
@@ -227,7 +227,8 @@
       "accountCreated": "Account aangemaakt!",
       "pleaseVerifyEmail": "Controleer je e-mail om je account te verifiëren.",
       "passwordHelper": "Wachtwoord moet minimaal 8 tekens bevatten, inclusief een hoofdletter, een kleine letter en een cijfer.",
-      "failed": "Registreren mislukt. Probeer het opnieuw."
+      "failed": "Registreren mislukt. Probeer het opnieuw.",
+      "logoutError": "Uitloggen mislukt. Probeer het later opnieuw."
     },
     "login": {
       "title": "Inloggen",
@@ -252,7 +253,22 @@
       "checkingStatus": "Verificatie status controleren...",
       "verifying": "Verifiëren...",
       "redirectingToLogin": "Doorsturen naar inlogpagina...",
-      "redirectingToHome": "Doorsturen naar homepagina..."
+      "redirectingToHome": "Doorsturen naar homepagina...",
+      "goToLogin": "Ga naar inloggen",
+      "goToHome": "Ga naar home",
+      "verificationInfo": "E-mail verificatie",
+      "verificationInfoDescription": "Controleer je e-mail voor de verificatielink.",
+      "resendEmail": "Verificatie e-mail opnieuw verzenden",
+      "resendingEmail": "Verzenden...",
+      "resendSuccess": "Verificatie e-mail verzonden!",
+      "resendSuccessDescription": "Controleer je inbox voor de nieuwe verificatie e-mail.",
+      "resendError": "Verzenden mislukt",
+      "resendErrorDescription": "Probeer het later opnieuw of neem contact op met support.",
+      "rateLimitError": "Wacht even voordat je een nieuwe e-mail aanvraagt",
+      "enterEmailPrompt": "Voer je e-mailadres in om een nieuwe verificatielink te ontvangen:",
+      "emailPlaceholder": "jouw.email@voorbeeld.nl",
+      "alreadyVerified": "E-mail al geverifieerd",
+      "alreadyVerifiedDescription": "Je e-mailadres is al geverifieerd. Je kunt nu inloggen."
     },
     "logout": "Uitloggen",
     "loggingOut": "Uitloggen...",
@@ -426,6 +442,9 @@
     "funeral-flowers": "Rouwstukken",
     "wedding-bouquets": "Bruidsboeketten",
     "shop": "Winkel",
+    "settings": "Instellingen",
+    "language": "Taal",
+    "theme": "Thema",
     "footer": {
       "rouwstukken": "Rouwstukken",
       "bruidsboeketten": "Bruidsboeketten",
@@ -660,13 +679,14 @@
     },
     "profile": {
       "title": "Profielinformatie",
-      "username": "Gebruikersnaam",
+      "username": "Volledige Naam",
       "email": "E-mailadres",
       "role": "Accounttype",
-      "userId": "Gebruikers-ID",
-      "adminBadge": "Beheerder",
+      "adminBadge": "Admin",
       "goToDashboard": "Naar Dashboard",
-      "updateNote": "Om je profielinformatie bij te werken, neem contact op met de support."
+      "updateTitle": "Wil je je gegevens aanpassen?",
+      "updateNote": "Om je naam of e-mailadres te wijzigen, neem contact op met ons support team. We helpen je graag!",
+      "contactSupport": "Contact opnemen"
     },
     "orders": {
       "loading": "Bestellingen laden...",
@@ -756,9 +776,9 @@
       "noMatch": "Wachtwoorden komen niet overeen"
     },
     "username": {
-      "minLength": "Gebruikersnaam moet minimaal 3 tekens lang zijn",
-      "maxLength": "Gebruikersnaam mag maximaal 50 tekens lang zijn",
-      "invalid": "Gebruikersnaam mag alleen letters, cijfers, koppeltekens en underscores bevatten"
+      "minLength": "Naam moet minimaal 2 tekens lang zijn",
+      "maxLength": "Naam mag maximaal 100 tekens lang zijn",
+      "invalid": "Voer een geldige naam in"
     },
     "name": {
       "minLength": "Naam moet minimaal 2 tekens lang zijn",
@@ -856,7 +876,9 @@
     "discount": "Korting",
     "name": "Naam",
     "price": "Prijs",
-    "status": "Status"
+    "status": "Status",
+    "email": "E-mail",
+    "backToHome": "Terug naar home"
   },
   "backend": {
     "error": {
@@ -866,7 +888,7 @@
         "accessDenied": "Toegang geweigerd",
         "adminAccessRequired": "Admin-toegang vereist",
         "checkRegistrationInformation": "Controleer uw registratiegegevens en probeer het opnieuw",
-        "missingRequiredFields": "E-mail, gebruikersnaam en wachtwoord zijn verplicht",
+        "missingRequiredFields": "E-mail, volledige naam en wachtwoord zijn verplicht",
         "noAccessToken": "Geen toegangstoken",
         "sessionExpired": "Sessie verlopen",
         "invalidAccessToken": "Ongeldig toegangstoken",
@@ -878,6 +900,7 @@
         "verifyEmail": "Verifieer uw e-mailadres voordat u inlogt",
         "unableToCompleteLogin": "Inloggen mislukt. Probeer het opnieuw",
         "missingTokenOrUserId": "Token of gebruikers-ID ontbreekt",
+        "missingUserId": "Gebruikers-ID ontbreekt",
         "invalidUserIdFormat": "Ongeldig gebruikers-ID-formaat",
         "invalidToken": "Ongeldige of verlopen token.",
         "expiredToken": "Deze link is verlopen. Vraag een nieuwe aan."
@@ -928,7 +951,7 @@
       },
       "checkViolation": {
         "emailFormat": "Geef een geldig e-mailadres op.",
-        "usernameLength": "Gebruikersnaam moet tussen 3 en 50 tekens lang zijn.",
+        "usernameLength": "Naam moet tussen 2 en 100 tekens lang zijn.",
         "positiveValue": "Prijs of bedrag moet een positieve waarde hebben.",
         "stockQuantity": "Voorraadhoeveelheid moet nul of groter zijn.",
         "futureDate": "Vervaldatum moet in de toekomst liggen.",
@@ -936,7 +959,6 @@
       },
       "uniqueViolation": {
         "email": "Er bestaat al een account met dit e-mailadres.",
-        "username": "Deze gebruikersnaam is al in gebruik. Kies een andere.",
         "sku": "Er bestaat al een product met deze SKU.",
         "token": "Deze token is al gebruikt.",
         "phone": "Dit telefoonnummer is al geregistreerd.",
@@ -987,7 +1009,9 @@
       "auth": {
         "userRegistered": "Gebruiker succesvol geregistreerd",
         "loggedOut": "Succesvol uitgelogd",
-        "login": "Inloggen succesvol"
+        "login": "Inloggen succesvol",
+        "verificationEmailSent": "Verificatie e-mail succesvol verzonden",
+        "emailAlreadyVerified": "E-mail is al geverifieerd"
       },
       "api": {
         "welcome": "Welkom bij de Mamabloemetjes API"
