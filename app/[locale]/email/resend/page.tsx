@@ -1,7 +1,7 @@
 "use client";
 
-import { Mail, ArrowLeft, CheckCircle2 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Mail, ArrowLeft, CheckCircle2, Clock } from "lucide-react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useResendVerification, useCheckVerification } from "@/hooks/useAuth";
@@ -17,7 +17,7 @@ import {
 import Link from "next/link";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-export default function ResendVerificationPage() {
+const ResendVerification = () => {
   const t = useTranslations("auth.emailVerification");
   const tCommon = useTranslations("common");
   const searchParams = useSearchParams();
@@ -130,4 +130,24 @@ export default function ResendVerificationPage() {
       </Card>
     </div>
   );
-}
+};
+
+const Page = () => {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-background px-4">
+          <div className="text-center">
+            <Clock className="w-16 h-16 mx-auto mb-4 animate-pulse" />
+            <h1 className="text-2xl font-bold mb-2">Loading...</h1>
+            <p className="text-muted-foreground">Please wait</p>
+          </div>
+        </div>
+      }
+    >
+      <ResendVerification />
+    </Suspense>
+  );
+};
+
+export default Page;
