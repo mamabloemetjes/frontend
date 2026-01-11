@@ -33,18 +33,14 @@ export const fetchProducts = async (
   page = 1,
   pageSize = 20,
   includeImages = false,
+  productType?: string,
 ) => {
-  const res = await api.products.getActive(page, pageSize, includeImages);
-  return res;
-};
-
-export const fetchProductsByType = async (
-  type: string,
-  page = 1,
-  pageSize = 20,
-  includeImages = false,
-) => {
-  const res = await api.products.getByType(type, page, pageSize, includeImages);
+  const res = await api.products.getActive(
+    page,
+    pageSize,
+    includeImages,
+    productType,
+  );
   return res;
 };
 

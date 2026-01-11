@@ -6,7 +6,6 @@ import { Mail, Heart, ArrowRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { Metadata } from "next";
-import { fetchProductsByType } from "@/hooks/useProducts";
 import { ProductCard } from "@/components";
 import {
   createLocalBusinessSchema,
@@ -15,6 +14,7 @@ import {
   createTwitterMetadata,
 } from "@/lib/structured-data";
 import { Props } from "@/types";
+import { fetchProducts } from "@/hooks/useProducts";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -78,8 +78,8 @@ const HomePage = async ({ params }: Props) => {
   });
 
   // Fetch one funeral and one wedding product
-  const funeralResponse = await fetchProductsByType("funeral", 1, 1, true);
-  const weddingResponse = await fetchProductsByType("wedding", 1, 1, true);
+  const funeralResponse = await fetchProducts(1, 1, true, "funeral");
+  const weddingResponse = await fetchProducts(1, 1, true, "wedding");
 
   const funeralProduct = funeralResponse.data?.products?.[0];
   const weddingProduct = weddingResponse.data?.products?.[0];
