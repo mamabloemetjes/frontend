@@ -15,6 +15,7 @@ import {
   Menu,
   X,
   IdCardIcon,
+  Mail,
 } from "lucide-react";
 import { useState } from "react";
 import FeatureComponent from "./FeatureComponent";
@@ -27,9 +28,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { showApiError } from "@/lib/apiToast";
+import { Separator } from "./ui/separator";
 
 export default function Header() {
   const t = useTranslations();
+  const tApp = useTranslations("app");
   const [cartCount] = useAtom(cartCountAtom);
   const { user, isAuthenticated } = useAuthStatus();
   const logout = useLogout();
@@ -39,7 +43,7 @@ export default function Header() {
     try {
       await logout.mutateAsync();
     } catch (error) {
-      console.error("Logout failed:", error);
+      showApiError(error, t, "auth.logoutError");
     }
   };
 
@@ -51,7 +55,7 @@ export default function Header() {
           <LanguageAwareLink href="/" className="flex items-center gap-3">
             <span className="text-3xl lg:text-4xl inline-block">🌸</span>
             <span className="text-xl lg:text-2xl font-bold">
-              Roos van Sharon
+              {tApp("title")}
             </span>
           </LanguageAwareLink>
 
@@ -112,6 +116,16 @@ export default function Header() {
                       </LanguageAwareLink>
                     </DropdownMenuItem>
                   )}
+
+                  <DropdownMenuItem asChild>
+                    <LanguageAwareLink
+                      href="/contact"
+                      className="flex items-center gap-2 cursor-pointer"
+                    >
+                      <Mail className="w-4 h-4" />
+                      <span>{t("navigation.contact")}</span>
+                    </LanguageAwareLink>
+                  </DropdownMenuItem>
 
                   <DropdownMenuSeparator />
 
@@ -190,6 +204,18 @@ export default function Header() {
               <IdCardIcon className="w-5 h-5" />
               <span>{t("navigation.about")}</span>
             </LanguageAwareLink>
+
+            <LanguageAwareLink
+              href="/contact"
+              className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <Mail className="w-5 h-5" />
+              <span>{t("navigation.contact")}</span>
+            </LanguageAwareLink>
+
+            {/* Separator */}
+            <Separator />
 
             {isAuthenticated ? (
               <>

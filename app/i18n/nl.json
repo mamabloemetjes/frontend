@@ -227,7 +227,8 @@
       "accountCreated": "Account aangemaakt!",
       "pleaseVerifyEmail": "Controleer je e-mail om je account te verifiëren.",
       "passwordHelper": "Wachtwoord moet minimaal 8 tekens bevatten, inclusief een hoofdletter, een kleine letter en een cijfer.",
-      "failed": "Registreren mislukt. Probeer het opnieuw."
+      "failed": "Registreren mislukt. Probeer het opnieuw.",
+      "logoutError": "Uitloggen mislukt. Probeer het later opnieuw."
     },
     "login": {
       "title": "Inloggen",

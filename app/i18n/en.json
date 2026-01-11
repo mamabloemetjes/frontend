@@ -227,7 +227,8 @@
       "accountCreated": "Account created!",
       "pleaseVerifyEmail": "Please check your email to verify your account.",
       "passwordHelper": "Password must be at least 8 characters long and include a mix of letters, numbers, and special characters.",
-      "failed": "Failed to create account. Please try again."
+      "failed": "Failed to create account. Please try again.",
+      "logoutError": "Error logging out after registration. Please try again later."
     },
     "login": {
       "title": "Sign in to your account",
