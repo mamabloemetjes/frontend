@@ -14,6 +14,8 @@ import {
   ShoppingBag,
   Mail,
   Shield,
+  AlertCircle,
+  MessageCircle,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -51,11 +53,7 @@ export default function AccountPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Header */}
-      <div className="flex items-center gap-3 mb-8">
-        <User className="w-8 h-8 text-primary" />
-        <h1 className="text-3xl font-bold">{t("account.title")}</h1>
-      </div>
+      <h1 className="text-3xl font-bold mb-8">{t("account.title")}</h1>
 
       {/* Tab Navigation */}
       <div className="border-b border-border mb-6">
@@ -104,7 +102,7 @@ function ProfileTab({
   const t = useTranslations();
 
   return (
-    <div className="max-w-2xl">
+    <div className="max-w-2xl space-y-6">
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -112,8 +110,8 @@ function ProfileTab({
             {t("account.profile.title")}
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-6">
-          {/* Username */}
+        <CardContent className="space-y-4">
+          {/* Full Name */}
           <div className="space-y-2">
             <label className="text-sm font-medium text-muted-foreground">
               {t("account.profile.username")}
@@ -144,11 +142,9 @@ function ProfileTab({
               <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
                 <Shield className="w-5 h-5 text-muted-foreground" />
                 <span className="font-medium capitalize">{user.role}</span>
-                {user.role === "admin" && (
-                  <span className="ml-auto px-2 py-1 bg-primary/10 text-primary text-xs font-semibold rounded">
-                    {t("account.profile.adminBadge")}
-                  </span>
-                )}
+                <span className="ml-auto px-2 py-1 bg-primary/10 text-primary text-xs font-semibold rounded">
+                  {t("account.profile.adminBadge")}
+                </span>
               </div>
             </div>
           )}
@@ -163,15 +159,33 @@ function ProfileTab({
               </LanguageAwareLink>
             </div>
           )}
-
-          {/* Info Note */}
-          <div className="p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900 rounded-lg">
-            <p className="text-sm text-blue-800 dark:text-blue-200">
-              {t("account.profile.updateNote")}
-            </p>
-          </div>
         </CardContent>
       </Card>
+
+      {/* Update Information Note */}
+      <div className="p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900 rounded-lg">
+        <div className="flex gap-3">
+          <AlertCircle className="w-5 h-5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm font-medium text-blue-900 dark:text-blue-100 mb-1">
+              {t("account.profile.updateTitle")}
+            </p>
+            <p className="text-sm text-blue-800 dark:text-blue-200 mb-3">
+              {t("account.profile.updateNote")}
+            </p>
+            <LanguageAwareLink href="/contact">
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-blue-300 dark:border-blue-700 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/50"
+              >
+                <MessageCircle className="w-4 h-4 mr-2" />
+                {t("account.profile.contactSupport")}
+              </Button>
+            </LanguageAwareLink>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

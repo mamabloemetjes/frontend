@@ -179,14 +179,15 @@
     --primary-foreground: oklch(0.18 0.02 250);
 
     /* Secondary – dusty pink */
-    --secondary: oklch(0.35 0.04 20);
+    --secondary: oklch(0.38 0.05 285);
     --secondary-foreground: oklch(0.96 0.01 95);
 
     /* Muted / accents */
     --muted: oklch(0.28 0.015 250);
     --muted-foreground: oklch(0.7 0.02 95);
 
-    --accent: oklch(0.32 0.04 20);
+    /* Accent */
+    --accent: oklch(0.34 0.05 285);
     --accent-foreground: oklch(0.96 0.01 95);
 
     /* Destructive */

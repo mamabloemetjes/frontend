@@ -1,13 +1,14 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { api as apiClient } from "@/lib/api";
+import { api as apiClient, apiClient as axiosClient } from "@/lib/api";
 import { env } from "@/lib/env";
 import type { User, LoginCredentials, RegisterData } from "@/types/auth";
 import { useRouter } from "next/navigation";
 import { showApiError, showApiSuccess } from "@/lib/apiToast";
 import { useTranslations } from "next-intl";
 import { useCallback } from "react";
+import { toast } from "sonner";
 
 /**
  * Track authentication state across app lifecycle
@@ -95,6 +96,74 @@ export function useRegister() {
     onError: (error) => {
       handleError(error);
     },
+  });
+}
+
+/**
+ * Hook for resending verification email
+ */
+export function useResendVerification() {
+  const t = useTranslations("auth.emailVerification");
+  const tGeneral = useTranslations();
+
+  const handleError = useCallback(
+    (error: unknown) => {
+      showApiError(error, tGeneral);
+    },
+    [tGeneral],
+  );
+
+  return useMutation({
+    mutationFn: async (email: string) => {
+      const response = await axiosClient.post("/auth/resend-verification", {
+        email,
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success(t("resendSuccess"), {
+        description: t("resendSuccessDescription"),
+        duration: 5000,
+      });
+    },
+    onError: (error: unknown) => {
+      // Check for rate limit error
+      const apiError = error as {
+        status?: number;
+        data?: { retry_after_seconds?: number };
+      };
+      if (apiError?.status === 429) {
+        toast.error(t("rateLimitError"), {
+          description: apiError?.data?.retry_after_seconds
+            ? `Please wait ${apiError.data.retry_after_seconds} seconds`
+            : t("resendErrorDescription"),
+          duration: 5000,
+        });
+      } else {
+        handleError(error);
+      }
+    },
+  });
+}
+
+/**
+ * Hook for checking email verification status
+ */
+export function useCheckVerification(userId: string | null) {
+  return useQuery({
+    queryKey: ["emailVerification", userId],
+    queryFn: async () => {
+      if (!userId) {
+        throw new Error("User ID is required");
+      }
+      const response = await axiosClient.get(
+        `/auth/check-verification?user_id=${userId}`,
+      );
+      return response.data as { verified: boolean; email?: string };
+    },
+    enabled: !!userId,
+    retry: 1,
+    staleTime: 0, // Always fetch fresh data
   });
 }
 

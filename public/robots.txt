@@ -32,8 +32,10 @@ Disallow: /en/login
 Disallow: /nl/login
 Disallow: /en/register
 Disallow: /nl/register
-Disallow: /en/email-verified
-Disallow: /nl/email-verified
+Disallow: /en/email/verified
+Disallow: /nl/email/verified
+Disallow: /en/email/resend
+Disallow: /nl/email/resend
 Disallow: /en/checkout
 Disallow: /nl/checkout
 Disallow: /en/cart
