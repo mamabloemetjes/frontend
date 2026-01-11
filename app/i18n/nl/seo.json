@@ -1,0 +1,71 @@
+{
+  "home": {
+    "title": "Roos van Sharon - Handgemaakte Viltbloemen | Rouwstukken & Bruidsboeketten",
+    "description": "Unieke handgemaakte viltbloemen voor rouwstukken en bruidsboeketten. Blijvende herinneringen aan bijzondere momenten. Persoonlijke aandacht en zorgvuldig vakmanschap.",
+    "keywords": "viltbloemen, rouwstukken, bruidsboeketten, handgemaakt, rouwbloemen, bruiloft bloemen, memorial, gedenkstukken, Francis van Wieringen"
+  },
+  "about": {
+    "title": "Over Roos van Sharon - Francis van Wieringen | Handgemaakte Viltbloemen",
+    "description": "Leer meer over Francis van Wieringen en de betekenis achter Roos van Sharon. Betrokkenheid en creativiteit in het maken van unieke viltbloemen voor bijzondere momenten.",
+    "keywords": "Francis van Wieringen, over ons, roos van sharon betekenis, handgemaakte bloemen, vilt kunstenaar"
+  },
+  "contact": {
+    "title": "Contact - Roos van Sharon | Neem Contact Op Voor Vragen",
+    "description": "Heeft u vragen over de viltbloemen, rouwstukken of bruidsboeketten? Neem gerust contact op. Persoonlijk advies en luisterend oor voor uw wensen.",
+    "keywords": "contact, vragen, persoonlijk advies, op maat, afspraak maken"
+  },
+  "products": {
+    "title": "Producten - Handgemaakte Viltbloemen | Roos van Sharon",
+    "description": "Ontdek de collectie handgemaakte viltbloemen. Rouwstukken, bruidsboeketten en meer. Elk stuk met liefde en zorg gemaakt voor blijvende herinneringen.",
+    "keywords": "viltbloemen collectie, producten, rouwstukken kopen, bruidsboeket bestellen, handgemaakt"
+  },
+  "rouwstukken": {
+    "title": "Rouwstukken - Handgemaakte Vilt Rouwbloemen | Roos van Sharon",
+    "description": "Handgemaakte vilt rouwstukken en herinneringsaltaartjes. Blijvende herinneringen aan uw geliefde. Met zorg en aandacht gemaakt.",
+    "keywords": "rouwstukken, rouwbloemen, herinneringsaltaar, gedenkstukken, viltbloemen, uitvaart bloemen"
+  },
+  "bruidsboeketten": {
+    "title": "Bruidsboeketten - Handgemaakte Vilt Bruidsboeketten",
+    "description": "Unieke handgemaakte vilt bruidsboeketten die nooit verwelken. Voor altijd een mooie herinnering aan uw bijzondere dag.",
+    "keywords": "bruidsboeketten, bruiloft bloemen, vilt boeket, bruidsboeket, trouwen, wedding flowers"
+  },
+  "cart": {
+    "title": "Winkelwagen - Roos van Sharon",
+    "description": "Uw winkelwagen met geselecteerde viltbloemen producten."
+  },
+  "productDetail": {
+    "notFoundTitle": "Product Niet Gevonden",
+    "notFoundDescription": "Het gevraagde product kon niet worden gevonden.",
+    "metaDescriptionTemplate": "{productName} - €{price} | Handgemaakte vilt bloem voor bijzondere momenten. {descriptionSnippet}... | Roos van Sharon",
+    "titleTemplate": "{productName} - €{price} | Roos van Sharon",
+    "keywords": {
+      "handmadeBouquet": "handgemaakt boeket",
+      "flowers": "bloemen",
+      "bouquet": "boeket",
+      "handmade": "handgemaakt",
+      "feltFlowers": "viltbloemen",
+      "felt": "vilt",
+      "buy": "kopen",
+      "order": "bestellen",
+      "mourning": "rouwstukken",
+      "bridal": "bruidsboeket",
+      "memorial": "memorial bloemen"
+    }
+  },
+  "privacy": {
+    "title": "Privacybeleid - Roos van Sharon",
+    "description": "Hoe wij uw persoonlijke gegevens verzamelen, gebruiken en beschermen.",
+    "keywords": "privacy, gegevensbescherming, privacybeleid, AVG"
+  },
+  "terms": {
+    "title": "Algemene Voorwaarden - Roos van Sharon",
+    "description": "Algemene voorwaarden voor het gebruik van onze diensten en het bestellen van producten.",
+    "keywords": "algemene voorwaarden, gebruiksvoorwaarden, servicevoorwaarden"
+  },
+  "common": {
+    "siteName": "Roos van Sharon",
+    "locale": "nl_NL",
+    "imageAlt": "Roos van Sharon - Handgemaakte Viltbloemen",
+    "heroImageAlt": "Handgemaakte viltbloemen voor rouwstukken en bruidsboeketten - Roos van Sharon"
+  }
+}

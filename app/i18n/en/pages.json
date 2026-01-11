@@ -1,0 +1,211 @@
+{
+  "404": {
+    "title": "404 - Page Not Found",
+    "description": "The page you are looking for does not exist.",
+    "goToHome": "Go to Home"
+  },
+  "home": {
+    "title": "Products",
+    "featuredProducts": "The Newest Creations",
+    "featuredProductsDescription": "Discover the newest handmade felt flowers, specially crafted for special moments.",
+    "viewAllProducts": "View All Products",
+    "exploreTitle": "Discover More",
+    "exploreDescription": "Browse the collections and learn more about Roos van Sharon",
+    "loading": "Loading products...",
+    "noProducts": "No products found.",
+    "funeralSection": {
+      "title": "Funeral Flowers",
+      "description": "Handmade felt memorial pieces that last forever",
+      "seeMore": "Want to see more funeral flowers?",
+      "viewAll": "View All Funeral Flowers"
+    },
+    "weddingSection": {
+      "title": "Wedding Bouquets",
+      "description": "Unique bridal bouquets crafted with love",
+      "seeMore": "Want to see more wedding bouquets?",
+      "viewAll": "View All Wedding Bouquets"
+    },
+    "hero": {
+      "title": "Welcome to Roos van Sharon",
+      "subtitle": "Handmade bouquets with love"
+    },
+    "premade": {
+      "title": "Premade Bouquets",
+      "description": "Ready-to-order bouquets, handmade with love and ready to be shipped.",
+      "cta": "Browse products"
+    },
+    "custom": {
+      "title": "Custom Bouquets",
+      "description": "Have a special request? I can create a custom bouquet!",
+      "cta": "Request a custom bouquet"
+    }
+  },
+  "funeral": {
+    "shop": {
+      "errorFetchingProducts": "Error fetching mourning pieces",
+      "noProductsFound": "No mourning pieces found."
+    }
+  },
+  "wedding": {
+    "shop": {
+      "errorFetchingProducts": "Error fetching mourning pieces",
+      "noProductsFound": "No bridal bouquets found."
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "description": "Fill out the form below and I'll get back to you as soon as possible.",
+    "name": "Name",
+    "yourName": "Enter your name",
+    "email": "Email",
+    "yourEmail": "your.email@example.com",
+    "subject": "Subject",
+    "selectSubject": "Select a subject",
+    "generalInquiry": "General Inquiry",
+    "customOrder": "Custom Order",
+    "accountAction": "Account Inquiry",
+    "other": "Other",
+    "message": "Message",
+    "yourMessage": "Tell us more about your inquiry...",
+    "deadlineDateQuestion": "Do you have a deadline?",
+    "deadlineDateDescription": "Do note that a bouquet takes 3-6 months to make",
+    "pickDate": "Pick a date",
+    "sendMessage": "Send Message"
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "emptyCart": "Your cart is empty",
+    "continueShopping": "Continue Shopping",
+    "clearCart": "Clear Cart",
+    "remove": "Remove",
+    "totalDiscount": "Total Discount:",
+    "total": "Total",
+    "proceedToCheckout": "Proceed to Checkout",
+    "addedToCart": "{name} has been added to your cart.",
+    "alreadyInCart": "Already in cart",
+    "alreadyInCartDescription": "{name} is already in your cart. There is no more stock available for this item.",
+    "insufficientStock": "Insufficient stock",
+    "insufficientStockDescription": "Some items in your cart exceed available stock. Please adjust quantities before proceeding to checkout."
+  },
+  "product": {
+    "loading": "Loading product details...",
+    "addToCart": "Add to Cart",
+    "addingToCart": "Adding to Cart...",
+    "outOfStock": "Out of Stock",
+    "inStock": "In Stock",
+    "onlyLeftInStock": "Only {count} left in stock!",
+    "description": "Description",
+    "colors": "Colors",
+    "sizes": "Sizes",
+    "selectColor": "Select Color",
+    "selectSize": "Select Size",
+    "quantity": "Quantity",
+    "selectQuantity": "Select Quantity",
+    "noImage": "No images available",
+    "save": "Save",
+    "taxIncluded": "Tax included",
+    "addToWishlist": "Add to Wishlist",
+    "freeShipping": "Free Shipping",
+    "freeShippingDesc": "On orders over €{threshold}",
+    "securePayment": "Secure Payment",
+    "securePaymentDesc": "Payments via Tikkie",
+    "easyContact": "Easy Contact",
+    "easyContactDesc": "Reach out anytime to me via email!",
+    "aboutThisProduct": "About This Product",
+    "handmadeWithLove": "Handmade with Love",
+    "handmadeWithLoveDesc": "Each bouquet is carefully handcrafted with love and attention to detail. Every piece is unique and specially made for you.",
+    "freshFlowers": "Fresh Flowers",
+    "freshFlowersDesc": "We use only the freshest and highest quality flowers to ensure your bouquet stays beautiful for as long as possible.",
+    "uniqueDesign": "Unique Design",
+    "uniqueDesignDesc": "No two bouquets are the same. Each arrangement has its own character and beauty that makes it truly special.",
+    "carefullyPackaged": "Carefully Packaged",
+    "carefullyPackagedDesc": "Your bouquet is expertly packaged to arrive safely so you can immediately gift it or display it with pride.",
+    "productNotFound": "Product not found",
+    "errorFetchingProduct": "Error fetching product",
+    "pleaseTryAgainLater": "Please try again later",
+    "priceExplanationTitle": "Price justification",
+    "priceExplanationDesc": "Felt flowers and regular flowers cannot be compared to each other. They differ in price, durability, and longevity. Felt flowers are labor-intensive to make—on average, I spend about an hour working on each flower. There are also material costs involved. This is why felt flowers are more expensive than regular flowers. On the other hand, felt flowers always remain beautiful, require no maintenance, and are environmentally friendly. You will be able to enjoy them for a very long time!"
+  },
+  "products": {
+    "title": "Products",
+    "loading": "Loading products...",
+    "noProducts": "No products found.",
+    "errorFetchingProduct": "Error fetching product details",
+    "pleaseTryAgainLater": "Please try again later or contact support.",
+    "introTitle": "Handmade Felt Flowers for Special Moments",
+    "introDescription": "Discover my unique collection of handmade felt flowers. Each piece is crafted with love and care, perfect for memorial pieces, wedding bouquets, and lasting memories. Sustainable, personal, and with attention to every detail.",
+    "browseByCategory": "Browse by category:",
+    "funeralFlowers": "Funeral Flowers",
+    "weddingBouquets": "Wedding Bouquets"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "products": "All Products",
+    "orders": "Orders",
+    "addProduct": "Add Product",
+    "editProduct": "Edit",
+    "deleteProduct": "Delete",
+    "confirmDelete": "Are you sure you want to delete this product?",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "noProducts": "No products found.",
+    "productDetails": "Product Details",
+    "productName": "Name",
+    "productSku": "SKU",
+    "productPrice": "Price",
+    "productStock": "Stock",
+    "productStatus": "Status",
+    "productType": "Type",
+    "productColors": "Colors",
+    "productDescription": "Description",
+    "active": "Active",
+    "sold": "Sold",
+    "inStock": "In Stock",
+    "outOfStock": "Out of Stock",
+    "saveChanges": "Save Changes",
+    "createProduct": "Create Product",
+    "updateProduct": "Update Product",
+    "productCreated": "Product successfully created!",
+    "productUpdated": "Product successfully updated!",
+    "productDeleted": "Product successfully deleted!",
+    "stockUpdated": "Stock successfully updated!",
+    "imagesUploaded": "Images uploaded successfully!",
+    "errorLoadingProducts": "Error loading products",
+    "tryAgainLater": "Please try again later or contact support.",
+    "markAsSold": "Mark as Sold",
+    "confirmMarkAsSoldTitle": "Are you sure you want to mark this product as sold?",
+    "confirmUndoSoldTitle": "Are you sure you want to undo the sold status for this product?",
+    "confirmMarkAsSoldDescription": "This will set the product status to sold and make it unavailable for purchase.",
+    "confirmUndoSoldDescription": "This will set the product status back to active and make it available for purchase.",
+    "undoSold": "Undo Sold",
+    "formLabels": {
+      "name": "Name *",
+      "price": "Price (€) *",
+      "description": "Description *",
+      "stock": "Stock",
+      "colors": "Colors",
+      "sizes": "Sizes",
+      "productType": "Product Type",
+      "active": "Active",
+      "images": "Images",
+      "sku": "SKU",
+      "enableTax": "Enable Tax",
+      "selectProductType": "Select a product type"
+    },
+    "productTypes": {
+      "funeral": "Funeral Piece",
+      "wedding": "Wedding Bouquet"
+    },
+    "imageManager": {
+      "title": "Product Images",
+      "uploadImages": "Upload Images",
+      "primary": "Primary",
+      "setAsPrimary": "Set as Primary",
+      "dropZone": "Drag and drop images here",
+      "orClickToUpload": "or click \"Add Images\" Above",
+      "uploading": "Uploading...",
+      "pleaseWait": "Please wait...",
+      "noImagesUploaded": "No images uploaded yet."
+    }
+  }
+}

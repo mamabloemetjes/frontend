@@ -1,0 +1,213 @@
+{
+  "404": {
+    "title": "404 - Pagina niet gevonden",
+    "description": "Deze pagina bestaat niet.",
+    "goToHome": "Terug naar home"
+  },
+  "home": {
+    "title": "Producten",
+    "featuredProducts": "De Nieuwste Creaties",
+    "featuredProductsDescription": "Ontdek de nieuwste handgemaakte viltbloemen, speciaal voor bijzondere momenten.",
+    "viewAllProducts": "Bekijk Alle Producten",
+    "exploreTitle": "Ontdek Meer",
+    "exploreDescription": "Bekijk de collecties en leer meer over Roos van Sharon",
+    "loading": "Producten laden...",
+    "noProducts": "Geen producten gevonden.",
+    "funeralSection": {
+      "title": "Rouwstukken",
+      "description": "Handgemaakte vilt memorial stukken die voor altijd meegaan",
+      "seeMore": "Wil je meer rouwstukken zien?",
+      "viewAll": "Bekijk Alle Rouwstukken"
+    },
+    "weddingSection": {
+      "title": "Bruidsboeketten",
+      "description": "Unieke bruidsboeketten gemaakt met liefde",
+      "seeMore": "Wil je meer bruidsboeketten zien?",
+      "viewAll": "Bekijk Alle Bruidsboeketten"
+    },
+    "hero": {
+      "title": "Welkom bij Roos van Sharon",
+      "subtitle": "Handgemaakte boeketten met liefde"
+    },
+    "premade": {
+      "title": "Kant-en-klare boeketten",
+      "description": "Boeketten die klaar zijn om te bestellen, handgemaakt met liefde en klaar om verzonden te worden.",
+      "cta": "Bekijk alle producten"
+    },
+    "custom": {
+      "title": "Boeketten op maat",
+      "description": "Heeft u een speciaal verzoek? Ik kan een boeket op maat maken!",
+      "cta": "Vraag een boeket op maat aan"
+    }
+  },
+  "funeral": {
+    "shop": {
+      "errorFetchingProducts": "Fout bij het ophalen van rouwstukken",
+      "noProductsFound": "Geen rouwstukken gevonden"
+    }
+  },
+  "wedding": {
+    "shop": {
+      "errorFetchingProducts": "Fout bij het ophalen van bruidsboeketten",
+      "noProductsFound": "Geen bruidsboeketten gevonden"
+    }
+  },
+  "contact": {
+    "title": "Neem Contact Op",
+    "description": "Vul het onderstaande formulier in en ik neem zo snel mogelijk contact met je op.",
+    "name": "Naam",
+    "yourName": "Voer je naam in",
+    "email": "E-mail",
+    "yourEmail": "jouw.email@voorbeeld.nl",
+    "subject": "Onderwerp",
+    "selectSubject": "Selecteer een onderwerp",
+    "generalInquiry": "Algemene Vraag",
+    "customOrder": "Boeket aanvraag",
+    "accountAction": "Account actie",
+    "other": "Anders",
+    "message": "Bericht",
+    "yourMessage": "Vertel ons meer over je vraag...",
+    "deadlineDateQuestion": "Heb je een deadline?",
+    "deadlineDateDescription": "Houd er rekening mee dat een bouquet 3-6 maanden voorbereidingstijd nodig heeft.",
+    "pickDate": "Kies een datum",
+    "sendMessage": "Verstuur Bericht"
+  },
+  "cart": {
+    "title": "Winkelwagen",
+    "emptyCart": "Je winkelwagen is leeg",
+    "continueShopping": "Verder winkelen",
+    "clearCart": "Winkelwagen legen",
+    "remove": "Verwijderen",
+    "totalDiscount": "Totale korting:",
+    "total": "Totaal:",
+    "proceedToCheckout": "Doorgaan naar afrekenen",
+    "alreadyInCart": "Al in winkelwagen",
+    "alreadyInCartDescription": "{name} zit al in je winkelwagen. Er is slechts één exemplaar van elk product beschikbaar.",
+    "insufficientStock": "Onvoldoende voorraad",
+    "insufficientStockDescription": "Er is niet genoeg voorraad beschikbaar voor {name}.",
+    "addedToCart": "{name} is toegevoegd aan je winkelwagen."
+  },
+  "product": {
+    "loading": "Productgegevens laden...",
+    "addToCart": "Aan winkelwagen toevoegen",
+    "addedToCart": "Toegevoegd aan winkelwagen",
+    "description": "Beschrijving",
+    "price": "Prijs",
+    "stock": "Voorraad",
+    "inStock": "Op voorraad",
+    "outOfStock": "Uitverkocht",
+    "colors": "Beschikbare kleuren",
+    "sizes": "Beschikbare maten",
+    "selectColor": "Kies een kleur",
+    "selectSize": "Kies een maat",
+    "quantity": "Aantal",
+    "relatedProducts": "Gerelateerde producten",
+    "noImage": "Geen afbeeldingen beschikbaar",
+    "save": "Bespaar",
+    "taxIncluded": "Inclusief BTW",
+    "addToWishlist": "Toevoegen aan verlanglijstje",
+    "freeShipping": "Gratis verzending",
+    "freeShippingDesc": "Op alle bestellingen boven de €{threshold}",
+    "securePayment": "Veilig betalen",
+    "securePaymentDesc": "Betalingen via Tikkie",
+    "easyContact": "Gemakkelijk contact",
+    "easyContactDesc": "Bereik mij via email!",
+    "aboutThisProduct": "Over dit product",
+    "handmadeWithLove": "Handgemaakt met liefde",
+    "handmadeWithLoveDesc": "Elk boeket wordt met zorg en aandacht handgemaakt. Ieder stuk is uniek en speciaal voor jou gemaakt.",
+    "freshFlowers": "Verse bloemen",
+    "freshFlowersDesc": "Wij gebruiken alleen de meest verse en hoogwaardige bloemen om ervoor te zorgen dat jouw boeket lang mooi blijft.",
+    "uniqueDesign": "Uniek ontwerp",
+    "uniqueDesignDesc": "Geen twee boeketten zijn hetzelfde. Elk arrangement heeft zijn eigen karakter en schoonheid.",
+    "carefullyPackaged": "Zorgvuldig verpakt",
+    "carefullyPackagedDesc": "Je boeket wordt vakkundig verpakt zodat het veilig bij je aankomt en je het direct kunt geven of neerzetten.",
+    "productNotFound": "Product niet gevonden",
+    "errorFetchingProduct": "Fout bij ophalen van product",
+    "pleaseTryAgainLater": "Probeer het later opnieuw",
+    "priceExplanationTitle": "Prijs verantwoording",
+    "priceExplanationDesc": "Viltbloemen en gewone bloemen kan je niet met elkaar vergelijken. Ze verschillen in prijs, duurzaamheid en houdbaarheid. Viltbloemen zijn arbeidsintensief om te maken.  Per bloem ben ik gemiddeld een uur aan het werk. Ook zijn er materiaalkosten aan verbonden. Dit is de reden dat viltbloemen duurder zijn dan gewone bloemen. Daar tegenover staat dat viltbloemen altijd mooi blijven, geen onderhoud nodig hebben en niet milieubelastend zijn. U zult er er heel lang van kunnen genieten!"
+  },
+  "products": {
+    "title": "Producten",
+    "loading": "Producten laden...",
+    "noProducts": "Geen producten gevonden.",
+    "errorFetchingProduct": "Fout bij ophalen van productgegevens.",
+    "pleaseTryAgainLater": "Probeer het later opnieuw of neem contact op met support.",
+    "introTitle": "Handgemaakte Viltbloemen voor Bijzondere Momenten",
+    "introDescription": "Ontdek de unieke collectie handgemaakte viltbloemen. Elk stuk wordt met liefde en zorg gemaakt, perfect voor rouwstukken, bruidsboeketten en blijvende herinneringen. Duurzaam, persoonlijk en met aandacht voor elk detail.",
+    "browseByCategory": "Blader per categorie:",
+    "funeralFlowers": "Rouwstukken",
+    "weddingBouquets": "Bruidsboeketten"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "products": "Alle Producten",
+    "orders": "Bestellingen",
+    "addProduct": "Product toevoegen",
+    "editProduct": "Bewerken",
+    "deleteProduct": "Verwijderen",
+    "delete": "Verwijderen",
+    "cancel": "Annuleren",
+    "noProducts": "Geen producten gevonden.",
+    "productDetails": "Productdetails",
+    "productName": "Naam",
+    "productSku": "SKU",
+    "productPrice": "Prijs",
+    "productStock": "Voorraad",
+    "productStatus": "Status",
+    "productType": "Type",
+    "productColors": "Kleuren",
+    "productDescription": "Beschrijving",
+    "active": "Actief",
+    "sold": "Verkocht",
+    "inactive": "Inactief",
+    "inStock": "Op voorraad",
+    "outOfStock": "Uitverkocht",
+    "saveChanges": "Wijzigingen opslaan",
+    "createProduct": "Product aanmaken",
+    "updateProduct": "Product bijwerken",
+    "productCreated": "Product succesvol aangemaakt!",
+    "productUpdated": "Product succesvol bijgewerkt!",
+    "productDeleted": "Product succesvol verwijderd!",
+    "stockUpdated": "Voorraad succesvol bijgewerkt!",
+    "imagesUploaded": "Afbeeldingen succesvol geüpload!",
+    "errorLoadingProducts": "Fout bij laden van producten",
+    "tryAgainLater": "Probeer het later opnieuw of neem contact op met support.",
+    "markAsSold": "Markeren als verkocht",
+    "undoSold": "Verkoop ongedaan maken",
+    "confirmMarkAsSoldTitle": "Weet je zeker dat je dit product als verkocht wilt markeren?",
+    "confirmUndoSoldTitle": "Weet je zeker dat je de verkoop van dit product ongedaan wilt maken?",
+    "confirmMarkAsSoldDescription": "Dit zal de voorraad op 0 zetten en het product als uitverkocht markeren.",
+    "confirmUndoSoldDescription": "Dit zal de voorraad terugzetten naar 1 en het product als op voorraad markeren.",
+    "formLabels": {
+      "name": "Naam *",
+      "price": "Prijs (€) *",
+      "description": "Beschrijving *",
+      "stock": "Voorraad",
+      "colors": "Kleuren",
+      "sizes": "Maten",
+      "productType": "Product Type",
+      "active": "Actief",
+      "images": "Afbeeldingen",
+      "sku": "SKU",
+      "enableTax": "Belasting inschakelen",
+      "selectProductType": "Selecteer een producttype"
+    },
+    "productTypes": {
+      "funeral": "Rouwstuk",
+      "wedding": "Bruidsbloemen"
+    },
+    "imageManager": {
+      "title": "Productafbeeldingen",
+      "uploadImages": "Afbeeldingen uploaden",
+      "primary": "Primair",
+      "setAsPrimary": "Als primair instellen",
+      "dropZone": "Sleep hier afbeeldingen naartoe",
+      "orClickToUpload": "of klik op \"Afbeeldingen toevoegen\" hierboven",
+      "uploading": "Uploaden...",
+      "pleaseWait": "Even geduld aub...",
+      "noImagesUploaded": "Nog geen afbeeldingen geüpload."
+    },
+    "confirmDelete": "Weet je zeker dat je dit product wilt verwijderen?"
+  }
+}

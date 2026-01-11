@@ -1,0 +1,150 @@
+{
+  "error": {
+    "auth": {
+      "invalidOrMissingAccessToken": "Ongeldige of ontbrekende toegangstoken",
+      "accessTokenRevoked": "Toegangstoken is ingetrokken",
+      "accessDenied": "Toegang geweigerd",
+      "adminAccessRequired": "Admin-toegang vereist",
+      "checkRegistrationInformation": "Controleer uw registratiegegevens en probeer het opnieuw",
+      "missingRequiredFields": "E-mail, volledige naam en wachtwoord zijn verplicht",
+      "noAccessToken": "Geen toegangstoken",
+      "sessionExpired": "Sessie verlopen",
+      "invalidAccessToken": "Ongeldig toegangstoken",
+      "noAccessTokenFound": "Geen toegangstoken gevonden",
+      "failedToLogout": "Uitloggen mislukt",
+      "checkLoginInformation": "Controleer uw inloggegevens en probeer het opnieuw",
+      "emailAndPasswordRequired": "E-mail en wachtwoord zijn verplicht",
+      "invalidCredentials": "Ongeldige inloggegevens",
+      "verifyEmail": "Verifieer uw e-mailadres voordat u inlogt",
+      "unableToCompleteLogin": "Inloggen mislukt. Probeer het opnieuw",
+      "missingTokenOrUserId": "Token of gebruikers-ID ontbreekt",
+      "missingUserId": "Gebruikers-ID ontbreekt",
+      "invalidUserIdFormat": "Ongeldig gebruikers-ID-formaat",
+      "invalidToken": "Ongeldige of verlopen token.",
+      "expiredToken": "Deze link is verlopen. Vraag een nieuwe aan."
+    },
+    "internalServerError": "Interne serverfout",
+    "serviceUnavailable": "Dienst tijdelijk niet beschikbaar",
+    "database": {
+      "healthCheckFailed": "Database gezondheidscontrole mislukt",
+      "connectionError": "Databaseverbindingsfout. Probeer het opnieuw.",
+      "serializationFailure": "Databasebewerkingsconflict. Probeer het opnieuw.",
+      "tooManyConnections": "De service is momenteel bezet. Probeer het over een ogenblik opnieuw.",
+      "unknown": "Er is een databasefout opgetreden. Probeer het opnieuw."
+    },
+    "invalidQueryParameters": "Ongeldige queryparameters",
+    "products": {
+      "failedToList": "Lijst met producten ophalen mislukt",
+      "selectProductToDelete": "Selecteer een product om te verwijderen",
+      "unableToDelete": "Product verwijderen mislukt. Probeer het opnieuw",
+      "notFound": "Product niet gevonden",
+      "checkProductInformation": "Controleer de productinformatie en probeer het opnieuw",
+      "unableToCreate": "Product aanmaken mislukt. Probeer het opnieuw",
+      "someFailedToUpdate": "Sommige producten zijn niet bijgewerkt",
+      "checkStockInformation": "Controleer de voorraadinformatie en probeer het opnieuw",
+      "someStockFailedToUpdate": "Voorraad van sommige producten is niet bijgewerkt",
+      "invalidIdFormat": "Ongeldig product-ID-formaat",
+      "failedToFetch": "Producten ophalen mislukt",
+      "productIdRequired": "Product-ID is vereist",
+      "failedToFetchOne": "Product ophalen mislukt",
+      "failedToFetchActive": "Actieve producten ophalen mislukt",
+      "failedToCount": "Producten tellen mislukt"
+    },
+    "csrf": {
+      "failedToGenerate": "CSRF-token genereren mislukt"
+    },
+    "addresses": {
+      "fetchFailed": "Adressen ophalen mislukt"
+    },
+    "user": {
+      "fetchFailed": "Gebruikersinformatie ophalen mislukt"
+    },
+    "foreignKeyViolation": {
+      "delete": "Dit item kan niet worden verwijderd omdat het elders in gebruik is.",
+      "notExists": "Het item waarnaar verwezen wordt, bestaat niet.",
+      "default": "Database relatiebeperking geschonden."
+    },
+    "notNullViolation": {
+      "default": "Vereist veld '%s' mag niet leeg zijn."
+    },
+    "checkViolation": {
+      "emailFormat": "Geef een geldig e-mailadres op.",
+      "usernameLength": "Naam moet tussen 2 en 100 tekens lang zijn.",
+      "positiveValue": "Prijs of bedrag moet een positieve waarde hebben.",
+      "stockQuantity": "Voorraadhoeveelheid moet nul of groter zijn.",
+      "futureDate": "Vervaldatum moet in de toekomst liggen.",
+      "default": "De opgegeven waarde voldoet niet aan de vereiste beperkingen."
+    },
+    "uniqueViolation": {
+      "email": "Er bestaat al een account met dit e-mailadres.",
+      "sku": "Er bestaat al een product met deze SKU.",
+      "token": "Deze token is al gebruikt.",
+      "phone": "Dit telefoonnummer is al geregistreerd.",
+      "url": "Deze URL is al in gebruik.",
+      "productName": "Er bestaat al een product met deze naam.",
+      "itemName": "Er bestaat al een item met deze naam.",
+      "default": "Deze %s bestaat al. Gebruik een andere waarde."
+    },
+    "notFound": "Het gevraagde item is niet gevonden.",
+    "conflict": "Dit item bestaat al.",
+    "generic": "Er is een fout opgetreden. Probeer het opnieuw.",
+    "order": {
+      "invalidOrderId": "Ongeldige bestelling ID",
+      "invalidRequestBody": "Ongeldig verzoek",
+      "attachingPaymentLink": "Betaallink koppelen mislukt",
+      "creationFailed": "Bestelling aanmaken mislukt",
+      "deletingOrder": "Bestelling verwijderen mislukt",
+      "fetchingAddress": "Adres ophalen mislukt",
+      "fetchingOrderLines": "Bestelregels ophalen mislukt",
+      "fetchingOrders": "Bestellingen ophalen mislukt",
+      "invalidStatusTransition": "Ongeldige statusovergang",
+      "markingAsPaid": "Markeren als betaald mislukt",
+      "notFound": "Bestelling niet gevonden",
+      "productUnavailable": "Product is niet beschikbaar",
+      "statusRequired": "Status is verplicht",
+      "updatingStatus": "Bestellingstatus bijwerken mislukt"
+    },
+    "rateLimitExceeded": "Snelheidslimiet overschreden",
+    "rateLimitExceededStrict": "Snelheidslimiet overschreden (strikte modus)",
+    "cache": {
+      "clearFailed": "Cache wissen mislukt"
+    }
+  },
+  "success": {
+    "addresses": {
+      "fetched": "Adressen succesvol opgehaald"
+    },
+    "products": {
+      "retrieved": "Producten succesvol opgehaald",
+      "deleted": "Product succesvol verwijderd",
+      "created": "Product succesvol aangemaakt",
+      "updated": "Producten succesvol bijgewerkt",
+      "stockUpdated": "Voorraad van producten succesvol bijgewerkt"
+    },
+    "csrf": {
+      "generated": "CSRF-token gegenereerd"
+    },
+    "auth": {
+      "userRegistered": "Gebruiker succesvol geregistreerd",
+      "loggedOut": "Succesvol uitgelogd",
+      "login": "Inloggen succesvol",
+      "verificationEmailSent": "Verificatie e-mail succesvol verzonden",
+      "emailAlreadyVerified": "E-mail is al geverifieerd"
+    },
+    "api": {
+      "welcome": "Welkom bij de Mamabloemetjes API"
+    },
+    "order": {
+      "created": "Bestelling succesvol aangemaakt",
+      "deleted": "Bestelling succesvol verwijderd",
+      "markedAsPaid": "Bestelling gemarkeerd als betaald",
+      "orderDetailsFetched": "Bestellingsgegevens succesvol opgehaald",
+      "ordersFetched": "Bestellingen succesvol opgehaald",
+      "paymentLinkAttached": "Betaallink succesvol gekoppeld",
+      "statusUpdated": "Bestellingstatus succesvol bijgewerkt"
+    },
+    "cache": {
+      "cleared": "Cache succesvol gewist"
+    }
+  }
+}

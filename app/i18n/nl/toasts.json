@@ -1,0 +1,31 @@
+{
+  "apiErrors": {
+    "tooManyRequests": "Te veel verzoeken",
+    "rateLimitDescription": "Je doet te veel verzoeken. Wacht even en probeer het opnieuw.",
+    "sessionExpired": "Sessie verlopen",
+    "sessionExpiredDescription": "Vernieuw de pagina en probeer het opnieuw.",
+    "authenticationRequired": "Authenticatie vereist",
+    "authenticationRequiredDescription": "Log in om door te gaan.",
+    "accessDenied": "Toegang geweigerd",
+    "accessDeniedDescription": "Je hebt geen toestemming voor deze actie.",
+    "invalidRequest": "Ongeldig verzoek",
+    "invalidRequestDescription": "Controleer je invoer en probeer het opnieuw.",
+    "notFound": "Niet gevonden",
+    "notFoundDescription": "Het gevraagde item kon niet worden gevonden.",
+    "alreadyExists": "Bestaat al",
+    "alreadyExistsDescription": "Dit item bestaat al.",
+    "serverError": "Serverfout",
+    "serverErrorDescription": "Er is iets misgegaan aan onze kant. Probeer het later opnieuw.",
+    "requestFailed": "Verzoek mislukt",
+    "connectionProblem": "Verbindingsprobleem",
+    "connectionProblemDescription": "Kan geen verbinding maken met de server. Controleer je internetverbinding.",
+    "error": "Fout",
+    "unknownError": "Onbekende fout"
+  },
+  "success": {
+    "emailVerified": "E-mail succesvol geverifieerd!",
+    "emailVerifiedDescription": "Je kunt nu inloggen op je account.",
+    "verificationInfo": "E-mailverificatie",
+    "verificationInfoDescription": "Verificatie status controleren..."
+  }
+}

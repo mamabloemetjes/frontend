@@ -1,0 +1,36 @@
+{
+  "apiErrors": {
+    "tooManyRequests": "Too many requests",
+    "rateLimitDescription": "You're making too many requests. Please wait a moment and try again.",
+    "sessionExpired": "Session expired",
+    "sessionExpiredDescription": "Please refresh the page and try again.",
+    "authenticationRequired": "Authentication required",
+    "authenticationRequiredDescription": "Please log in to continue.",
+    "accessDenied": "Access denied",
+    "accessDeniedDescription": "You don't have permission to perform this action.",
+    "invalidRequest": "Invalid request",
+    "invalidRequestDescription": "Please check your input and try again.",
+    "notFound": "Not found",
+    "notFoundDescription": "The requested item could not be found.",
+    "alreadyExists": "Already exists",
+    "alreadyExistsDescription": "This item already exists.",
+    "serverError": "Server error",
+    "serverErrorDescription": "Something went wrong on our end. Please try again in a moment.",
+    "requestFailed": "Request failed",
+    "connectionProblem": "Connection problem",
+    "connectionProblemDescription": "Unable to reach the server. Please check your internet connection.",
+    "error": "Error",
+    "unknownError": "Unknown error"
+  },
+  "success": {
+    "emailVerified": "Email verified successfully!",
+    "emailVerifiedDescription": "You can now log in to your account.",
+    "verificationInfo": "Email verification",
+    "verificationInfoDescription": "Checking your verification status..."
+  },
+  "cart": {
+    "addedToCart": "{name} has been added to your cart.",
+    "insufficientStockDescription": "{name} has insufficient stock.",
+    "insufficientStock": "Insufficient stock"
+  }
+}

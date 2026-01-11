@@ -1,0 +1,59 @@
+{
+  "title": "Mijn Account",
+  "tabs": {
+    "profile": "Profiel",
+    "orders": "Bestellingen"
+  },
+  "profile": {
+    "title": "Profielinformatie",
+    "username": "Volledige Naam",
+    "email": "E-mailadres",
+    "role": "Accounttype",
+    "adminBadge": "Admin",
+    "goToDashboard": "Naar Dashboard",
+    "updateTitle": "Wil je je gegevens aanpassen?",
+    "updateNote": "Om je naam of e-mailadres te wijzigen, neem contact op met ons support team. We helpen je graag!",
+    "contactSupport": "Contact opnemen"
+  },
+  "orders": {
+    "loading": "Bestellingen laden...",
+    "error": "Kan bestellingen niet laden",
+    "noOrders": "Nog geen bestellingen",
+    "noOrdersDescription": "Begin met winkelen om je bestellingen hier te zien",
+    "startShopping": "Bekijk Producten",
+    "totalOrders": "Totaal aantal bestellingen: {count}",
+    "orderNumber": "Bestelling #",
+    "paid": "Betaald",
+    "pendingPayment": "Betaling in behandeling",
+    "note": "Opmerking",
+    "viewDetails": "Bekijk Details"
+  },
+  "orderDetails": {
+    "title": "Bestelling",
+    "loading": "Bestelling laden...",
+    "error": "Kan bestelling niet laden",
+    "notFound": "Bestelling niet gevonden",
+    "backToAccount": "Terug naar Account",
+    "placedOn": "Geplaatst op",
+    "items": "Bestelde Items",
+    "quantity": "Aantal",
+    "each": "per stuk",
+    "discount": "Korting",
+    "total": "Totaal",
+    "customerNote": "Opmerking Klant",
+    "payment": "Betaling",
+    "paymentStatus": "Betalingsstatus",
+    "paid": "Betaald",
+    "unpaid": "Niet betaald",
+    "paymentLink": "Betaallink",
+    "payNow": "Nu Betalen",
+    "customerInfo": "Klantinformatie",
+    "name": "Naam",
+    "email": "E-mail",
+    "phone": "Telefoon",
+    "deliveryAddress": "Bezorgadres",
+    "timeline": "Bestelling Tijdlijn",
+    "orderPlaced": "Bestelling Geplaatst",
+    "lastUpdated": "Laatst Bijgewerkt"
+  }
+}
