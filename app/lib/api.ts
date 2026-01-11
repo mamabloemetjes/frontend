@@ -503,9 +503,11 @@ export const api = {
       page: number = 1,
       pageSize: number = 20,
       includeImages: boolean = false,
+      productType?: string,
     ): Promise<ApiResponse<ProductListResponse>> => {
       return apiClient.get("/products/active", {
         params: {
+          product_type: productType,
           page,
           page_size: pageSize,
           include_images: includeImages,
@@ -523,22 +525,6 @@ export const api = {
           include_images: includeImages,
           sort_by: "created_at",
           sort_direction: "DESC",
-        },
-      });
-    },
-
-    getByType: async (
-      type: string,
-      page: number = 1,
-      pageSize: number = 20,
-      includeImages: boolean = false,
-    ): Promise<ApiResponse<ProductListResponse>> => {
-      return apiClient.get("/products/active", {
-        params: {
-          product_type: type,
-          page,
-          page_size: pageSize,
-          include_images: includeImages,
         },
       });
     },

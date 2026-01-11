@@ -25,7 +25,7 @@ const Footer = async ({ locale }: { locale: string }) => {
             <p className="text-sm text-muted-foreground leading-relaxed">
               {tApp("madeBy")}{" "}
               <Link
-                href="https://github.com/MonkyMars"
+                href="https://levinoppers.nl"
                 className="text-primary underline"
               >
                 Levi Noppers
@@ -83,6 +83,21 @@ const Footer = async ({ locale }: { locale: string }) => {
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 {t("termsOfService")}
+              </LanguageAwareLink>
+            </nav>
+          </div>
+
+          {/* Support Section */}
+          <div className="space-y-3">
+            <h3 className="font-semibold text-sm uppercase tracking-wider">
+              {t("support")}
+            </h3>
+            <nav className="flex flex-col space-y-2 text-sm">
+              <LanguageAwareLink
+                href="/contact"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {t("contactSupport")}
               </LanguageAwareLink>
             </nav>
           </div>

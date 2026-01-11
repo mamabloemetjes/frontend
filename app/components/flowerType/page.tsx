@@ -1,6 +1,5 @@
 "use server";
 
-import { fetchProductsByType } from "@/hooks/useProducts";
 import { getTranslations } from "next-intl/server";
 import { ProductCard } from "@/components";
 import {
@@ -8,6 +7,7 @@ import {
   createLocalBusinessSchema,
 } from "@/lib/structured-data";
 import { LanguageAwareLink } from "@/components/LanguageAwareLink";
+import { fetchProducts } from "@/hooks/useProducts";
 
 type FlowerTypePageProps = {
   type: "funeral" | "wedding";
@@ -31,7 +31,7 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
   });
 
   // Fetch products by type
-  const res = await fetchProductsByType(type, 1, 50, true);
+  const res = await fetchProducts(1, 50, true, type);
   const { data, success } = res;
 
   if (!success) {

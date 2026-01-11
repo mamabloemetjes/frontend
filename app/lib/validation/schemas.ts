@@ -104,7 +104,7 @@ export const contactFormSchema = z.object({
     .string()
     .min(1, "validation.email.required")
     .email("validation.email.invalid"),
-  subject: z.enum(["generalInquiry", "customOrder"], {
+  subject: z.enum(["generalInquiry", "customOrder", "accountAction", "other"], {
     message: "validation.subject.required",
   }),
   message: z
