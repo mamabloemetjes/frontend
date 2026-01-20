@@ -144,6 +144,7 @@ export interface OrderRequest {
   name: string;
   email: string;
   phone: string;
+  shipping_cents: number;
   customer_note?: string;
   street: string;
   house_no: string;
@@ -189,6 +190,7 @@ export interface Order {
   payment_link?: string;
   payment_status: PaymentStatus;
   status: OrderStatus;
+  shipping_cents: number;
   created_at: string;
   updated_at: string;
   deleted_at?: string;

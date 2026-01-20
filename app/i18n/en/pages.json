@@ -85,6 +85,8 @@
     "clearCart": "Clear Cart",
     "remove": "Remove",
     "totalDiscount": "Total Discount:",
+    "shipping": "Shipping",
+    "freeShipping": "Free",
     "total": "Total",
     "proceedToCheckout": "Proceed to Checkout",
     "addedToCart": "{name} has been added to your cart.",

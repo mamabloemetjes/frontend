@@ -29,7 +29,9 @@
     "productUnavailable": "Sommige producten zijn niet meer beschikbaar",
     "autofillNotice": "Je gegevens zijn automatisch ingevuld vanuit je account",
     "savedAddresses": "Selecteer een opgeslagen adres",
-    "selectAddress": "Voer nieuw adres in"
+    "selectAddress": "Voer nieuw adres in",
+    "shipping": "Verzending",
+    "freeShipping": "Gratis"
   },
   "confirmation": {
     "title": "Bestelbevestiging",
@@ -132,6 +134,8 @@
       "quantity": "Aantal",
       "price": "Prijs",
       "subtotal": "Subtotaal",
+      "shipping": "Verzending",
+      "freeShipping": "Gratis",
       "total": "Totaal",
       "delete": "Verwijderen",
       "customer": "Klant",

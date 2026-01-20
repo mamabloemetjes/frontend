@@ -3,7 +3,12 @@
 import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { cartItemsAtom, cartTotalAtom, clearCartAtom } from "@/store/cart";
+import {
+  cartItemsAtom,
+  cartTotalAtom,
+  clearCartAtom,
+  cartShippingAtom,
+} from "@/store/cart";
 import { api, type OrderRequest, type Address } from "@/lib/api";
 import { LanguageAwareLink } from "@/components/LanguageAwareLink";
 import Image from "next/image";
@@ -25,6 +30,7 @@ export default function CheckoutPage() {
   const router = useRouter();
   const [cartItems] = useAtom(cartItemsAtom);
   const [cartTotal] = useAtom(cartTotalAtom);
+  const [cartShipping] = useAtom(cartShippingAtom);
   const clearCart = useSetAtom(clearCartAtom);
   const { handleError } = useApiError();
   const { data: userAddressesData } = useUserAddresses();
@@ -142,6 +148,7 @@ export default function CheckoutPage() {
       const orderData: OrderRequest = {
         ...data,
         products,
+        shipping_cents: cartShipping,
       };
 
       const response = await api.orders.create(orderData);
@@ -356,9 +363,19 @@ export default function CheckoutPage() {
               ))}
             </div>
             <div className="border-t mt-4 pt-4">
-              <div className="flex justify-between text-lg font-bold">
+              {/* Shipping row */}
+              <div className="flex justify-between text-base font-medium mt-2">
+                <span>{t("order.checkout.shipping")}</span>
+                <span>
+                  {cartShipping === 0
+                    ? t("order.checkout.freeShipping")
+                    : formatPrice(cartShipping)}
+                </span>
+              </div>
+              {/* Total row */}
+              <div className="flex justify-between text-lg font-bold mt-2">
                 <span>{t("order.checkout.total")}</span>
-                <span>{formatPrice(cartTotal)}</span>
+                <span>{formatPrice(cartTotal + cartShipping)}</span>
               </div>
             </div>
             <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg text-sm text-blue-800 dark:text-blue-200">

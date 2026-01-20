@@ -198,12 +198,22 @@ export default function AccountOrderDetailPage() {
 
               {/* Total */}
               <div className="mt-6 pt-6 border-t">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-lg font-semibold">
+                    {t("checkout.shipping")}
+                  </span>
+                  <span className="text-lg font-semibold">
+                    {order.shipping_cents === 0
+                      ? t("account.orderDetails.freeShipping")
+                      : formatOrderTotal(order.shipping_cents)}
+                  </span>
+                </div>
                 <div className="flex justify-between items-center">
                   <span className="text-lg font-semibold">
                     {t("account.orderDetails.total")}
                   </span>
                   <span className="text-2xl font-bold text-primary">
-                    {formatOrderTotal(total)}
+                    {formatOrderTotal(total + (order.shipping_cents ?? 0))}
                   </span>
                 </div>
               </div>

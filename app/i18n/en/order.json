@@ -29,7 +29,9 @@
     "productUnavailable": "Some products are no longer available",
     "autofillNotice": "Your information has been pre-filled from your account",
     "savedAddresses": "Select a saved address",
-    "selectAddress": "Enter new address"
+    "selectAddress": "Enter new address",
+    "shipping": "Shipping",
+    "freeShipping": "Free"
   },
   "confirmation": {
     "title": "Order Confirmation",
@@ -132,6 +134,8 @@
       "quantity": "Quantity",
       "price": "Price",
       "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "freeShipping": "Free",
       "total": "Total",
       "delete": "Delete",
       "customer": "Customer",
