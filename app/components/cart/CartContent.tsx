@@ -5,6 +5,7 @@ import {
   cartItemsAtom,
   cartTotalAtom,
   cartDiscountAtom,
+  cartShippingAtom,
   removeFromCartAtom,
   clearCartAtom,
 } from "@/store/cart";
@@ -17,6 +18,7 @@ export default function CartContent() {
   const [cartItems] = useAtom(cartItemsAtom);
   const [cartTotal] = useAtom(cartTotalAtom);
   const [totalDiscount] = useAtom(cartDiscountAtom);
+  const [shipping] = useAtom(cartShippingAtom);
   const removeFromCart = useSetAtom(removeFromCartAtom);
   const clearCart = useSetAtom(clearCartAtom);
   const t = useTranslations();
@@ -76,9 +78,19 @@ export default function CartContent() {
               </span>
             </div>
           )}
+          <div className="flex items-center justify-between text-lg">
+            <span className="text-muted-foreground">
+              {t("pages.cart.shipping")}
+            </span>
+            <span>
+              {shipping === 0
+                ? t("pages.cart.freeShipping")
+                : formatPrice(shipping)}
+            </span>
+          </div>
           <div className="flex items-center justify-between text-2xl font-bold">
             <span>{t("pages.cart.total")}</span>
-            <span>{formatPrice(cartTotal)}</span>
+            <span>{formatPrice(cartTotal + shipping)}</span>
           </div>
         </div>
         <LanguageAwareLink

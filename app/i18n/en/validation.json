@@ -1,0 +1,93 @@
+{
+  "required": "This field is required",
+  "email": {
+    "required": "Email is required",
+    "invalid": "Must be a valid email address"
+  },
+  "password": {
+    "minLength": "Password must be at least 8 characters",
+    "maxLength": "Password must be at most 100 characters"
+  },
+  "confirmPassword": {
+    "required": "Please confirm your password",
+    "noMatch": "Passwords do not match"
+  },
+  "username": {
+    "minLength": "Name must be at least 2 characters",
+    "maxLength": "Name must be at most 100 characters",
+    "invalid": "Please enter a valid name"
+  },
+  "name": {
+    "minLength": "Name must be at least 2 characters",
+    "maxLength": "Name must be at most 100 characters"
+  },
+  "phone": {
+    "minLength": "Phone number must be at least 10 characters",
+    "maxLength": "Phone number must be at most 20 characters",
+    "invalid": "Please enter a valid phone number"
+  },
+  "customerNote": {
+    "maxLength": "Note must be at most 500 characters"
+  },
+  "street": {
+    "minLength": "Street must be at least 2 characters",
+    "maxLength": "Street must be at most 200 characters"
+  },
+  "houseNumber": {
+    "required": "House number is required",
+    "maxLength": "House number must be at most 10 characters"
+  },
+  "postalCode": {
+    "minLength": "Postal code must be exactly 7 characters (1234 AB)",
+    "maxLength": "Postal code must be exactly 7 characters (1234 AB)",
+    "invalid": "Postal code must be in format: 1234 AB (4 digits, space, 2 letters)"
+  },
+  "city": {
+    "minLength": "City must be at least 2 characters",
+    "maxLength": "City must be at most 100 characters"
+  },
+  "country": {
+    "invalid": "Country code must be exactly 2 characters"
+  },
+  "subject": {
+    "required": "Subject is required"
+  },
+  "message": {
+    "minLength": "Message must be at least 10 characters",
+    "maxLength": "Message must be at most 2000 characters"
+  },
+  "product": {
+    "name": {
+      "minLength": "Product name must be at least 2 characters",
+      "maxLength": "Product name must be at most 200 characters"
+    },
+    "price": {
+      "integer": "Price must be an integer",
+      "nonNegative": "Price must be non-negative"
+    },
+    "discount": {
+      "integer": "Discount must be an integer",
+      "nonNegative": "Discount must be non-negative"
+    },
+    "tax": {
+      "integer": "Tax must be an integer",
+      "nonNegative": "Tax must be non-negative"
+    },
+    "description": {
+      "minLength": "Description must be at least 10 characters",
+      "maxLength": "Description must be at most 2000 characters"
+    },
+    "image": {
+      "url": "Must be a valid URL",
+      "altText": {
+        "maxLength": "Alt text must be at most 200 characters"
+      }
+    }
+  },
+  "paymentLink": {
+    "url": "Must be a valid URL"
+  },
+  "orderStatus": {
+    "invalid": "Invalid order status"
+  }
+}

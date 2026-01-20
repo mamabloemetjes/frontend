@@ -15,6 +15,7 @@ import {
 } from "@/lib/structured-data";
 import { Props } from "@/types";
 import { fetchProducts } from "@/hooks/useProducts";
+import WorkshopBanner from "@/components/WorkshopBanner";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -173,6 +174,7 @@ const HomePage = async ({ params }: Props) => {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
       />
+      <WorkshopBanner text={appT("workshopBannerText")} />
       <div className="container mx-auto px-4 py-12">
         {/* Hero Section with Image and Text */}
         <section className="mb-16">

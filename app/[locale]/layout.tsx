@@ -112,7 +112,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   setRequestLocale(locale);
   let messages;
   try {
-    messages = (await import(`@/i18n/${locale}.json`)).default;
+    messages = (await import(`@/i18n/${locale}/index`)).default;
   } catch (error) {
     console.error(error);
   }

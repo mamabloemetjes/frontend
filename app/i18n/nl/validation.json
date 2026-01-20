@@ -1,0 +1,93 @@
+{
+  "required": "Dit veld is verplicht",
+  "email": {
+    "required": "E-mail is verplicht",
+    "invalid": "Moet een geldig e-mailadres zijn"
+  },
+  "password": {
+    "minLength": "Wachtwoord moet minimaal 8 tekens lang zijn",
+    "maxLength": "Wachtwoord mag maximaal 100 tekens lang zijn"
+  },
+  "confirmPassword": {
+    "required": "Bevestig uw wachtwoord",
+    "noMatch": "Wachtwoorden komen niet overeen"
+  },
+  "username": {
+    "minLength": "Naam moet minimaal 2 tekens lang zijn",
+    "maxLength": "Naam mag maximaal 100 tekens lang zijn",
+    "invalid": "Voer een geldige naam in"
+  },
+  "name": {
+    "minLength": "Naam moet minimaal 2 tekens lang zijn",
+    "maxLength": "Naam mag maximaal 100 tekens lang zijn"
+  },
+  "phone": {
+    "minLength": "Telefoonnummer moet minimaal 10 tekens lang zijn",
+    "maxLength": "Telefoonnummer mag maximaal 20 tekens lang zijn",
+    "invalid": "Voer een geldig telefoonnummer in"
+  },
+  "customerNote": {
+    "maxLength": "Opmerking mag maximaal 500 tekens lang zijn"
+  },
+  "street": {
+    "minLength": "Straat moet minimaal 2 tekens lang zijn",
+    "maxLength": "Straat mag maximaal 200 tekens lang zijn"
+  },
+  "houseNumber": {
+    "required": "Huisnummer is verplicht",
+    "maxLength": "Huisnummer mag maximaal 10 tekens lang zijn"
+  },
+  "postalCode": {
+    "minLength": "Postcode moet precies 7 tekens lang zijn (1234 AB)",
+    "maxLength": "Postcode moet precies 7 tekens lang zijn (1234 AB)",
+    "invalid": "Postcode moet in het formaat: 1234 AB (4 cijfers, spatie, 2 letters)"
+  },
+  "city": {
+    "minLength": "Plaats moet minimaal 2 tekens lang zijn",
+    "maxLength": "Plaats mag maximaal 100 tekens lang zijn"
+  },
+  "country": {
+    "invalid": "Landcode moet precies 2 tekens lang zijn"
+  },
+  "subject": {
+    "required": "Onderwerp is verplicht"
+  },
+  "message": {
+    "minLength": "Bericht moet minimaal 10 tekens lang zijn",
+    "maxLength": "Bericht mag maximaal 2000 tekens lang zijn"
+  },
+  "product": {
+    "name": {
+      "minLength": "Productnaam moet minimaal 2 tekens lang zijn",
+      "maxLength": "Productnaam mag maximaal 200 tekens lang zijn"
+    },
+    "price": {
+      "integer": "Prijs moet een geheel getal zijn",
+      "nonNegative": "Prijs mag niet negatief zijn"
+    },
+    "discount": {
+      "integer": "Korting moet een geheel getal zijn",
+      "nonNegative": "Korting mag niet negatief zijn"
+    },
+    "tax": {
+      "integer": "BTW moet een geheel getal zijn",
+      "nonNegative": "BTW mag niet negatief zijn"
+    },
+    "description": {
+      "minLength": "Beschrijving moet minimaal 10 tekens lang zijn",
+      "maxLength": "Beschrijving mag maximaal 2000 tekens lang zijn"
+    },
+    "image": {
+      "url": "Moet een geldige URL zijn",
+      "altText": {
+        "maxLength": "Alt-tekst mag maximaal 200 tekens lang zijn"
+      }
+    }
+  },
+  "paymentLink": {
+    "url": "Moet een geldige URL zijn"
+  },
+  "orderStatus": {
+    "invalid": "Ongeldige orderstatus"
+  }
+}

@@ -4,8 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Home, Search } from "lucide-react";
 
 export default async function NotFound() {
-  // Default to Dutch locale for not-found pages
-  const locale = "nl";
+  const locale = "en";
   const t = await getTranslations({ locale, namespace: "pages.404" });
 
   return (

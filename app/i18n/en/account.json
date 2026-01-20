@@ -1,0 +1,59 @@
+{
+  "title": "My Account",
+  "tabs": {
+    "profile": "Profile",
+    "orders": "Orders"
+  },
+  "profile": {
+    "title": "Profile Information",
+    "username": "Full Name",
+    "email": "Email Address",
+    "role": "Account Type",
+    "adminBadge": "Admin",
+    "goToDashboard": "Go to Dashboard",
+    "updateTitle": "Need to update your information?",
+    "updateNote": "To change your name or email address, please contact our support team. We're here to help!",
+    "contactSupport": "Contact Support"
+  },
+  "orders": {
+    "loading": "Loading your orders...",
+    "error": "Failed to load orders",
+    "noOrders": "No orders yet",
+    "noOrdersDescription": "Start shopping to see your orders here",
+    "startShopping": "Browse Products",
+    "totalOrders": "Total orders: {count}",
+    "orderNumber": "Order #",
+    "paid": "Paid",
+    "pendingPayment": "Pending Payment",
+    "note": "Note",
+    "viewDetails": "View Details"
+  },
+  "orderDetails": {
+    "title": "Order",
+    "loading": "Loading order details...",
+    "error": "Failed to load order details",
+    "notFound": "Order not found",
+    "backToAccount": "Back to Account",
+    "placedOn": "Placed on",
+    "items": "Order Items",
+    "quantity": "Quantity",
+    "each": "each",
+    "discount": "Discount",
+    "total": "Total",
+    "customerNote": "Customer Note",
+    "payment": "Payment",
+    "paymentStatus": "Payment Status",
+    "paid": "Paid",
+    "unpaid": "Unpaid",
+    "paymentLink": "Payment Link",
+    "payNow": "Pay Now",
+    "customerInfo": "Customer Information",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "deliveryAddress": "Delivery Address",
+    "timeline": "Order Timeline",
+    "orderPlaced": "Order Placed",
+    "lastUpdated": "Last Updated"
+  }
+}

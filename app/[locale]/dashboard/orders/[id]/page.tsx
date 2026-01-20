@@ -297,10 +297,20 @@ export default function AdminOrderDetailPage() {
 
               <div>
                 <p className="text-sm text-muted-foreground mb-1">
+                  {t("order.admin.details.shipping")}
+                </p>
+                <p className="text-lg font-semibold">
+                  {order.shipping_cents === 0
+                    ? t("order.admin.details.freeShipping")
+                    : formatOrderTotal(order.shipping_cents)}
+                </p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">
                   {t("order.admin.details.total")}
                 </p>
                 <p className="text-2xl font-bold text-primary">
-                  {formatOrderTotal(total)}
+                  {formatOrderTotal(total + (order.shipping_cents ?? 0))}
                 </p>
               </div>
             </div>

@@ -3,6 +3,7 @@
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import type { Product } from "@/lib/api";
+import { env } from "@/lib/env";
 
 export interface CartItem extends Product {
   quantity: number;
@@ -31,7 +32,7 @@ type CartToast =
 export const cartItemsAtom = atomWithStorage<CartItem[]>("cart", []);
 export const cartToastAtom = atom<CartToast | null>(null);
 
-// Derived atom - calculate total price
+// Derived atom - calculate total pricehandleSubmit
 export const cartTotalAtom = atom((get) => {
   const items = get(cartItemsAtom);
   return items.reduce((sum, item) => sum + item.subtotal * item.quantity, 0);
@@ -41,6 +42,12 @@ export const cartTotalAtom = atom((get) => {
 export const cartDiscountAtom = atom((get) => {
   const items = get(cartItemsAtom);
   return items.reduce((sum, item) => sum + item.discount * item.quantity, 0);
+});
+
+// Derived atom - calculate shipping cost (495 cents if total < freeShippingThreshold)
+export const cartShippingAtom = atom((get) => {
+  const total = get(cartTotalAtom);
+  return total < env.freeShippingThreshold * 100 ? 495 : 0;
 });
 
 // Derived atom - count total items
