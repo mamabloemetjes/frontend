@@ -227,3 +227,16 @@
         @apply cursor-pointer;
     }
 }
+
+@keyframes marquee-reverse {
+    0% {
+        transform: translateX(-50%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.animate-marquee-reverse {
+    animation: marquee-reverse 20s linear infinite;
+}
