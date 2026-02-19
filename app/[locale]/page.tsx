@@ -2,7 +2,7 @@
 
 import { LanguageAwareLink } from "@/components/LanguageAwareLink";
 import { Button } from "@/components/ui/button";
-import { Mail, Heart, ArrowRight } from "lucide-react";
+import { Mail, Heart, ArrowRight, Palette } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { Metadata } from "next";
@@ -15,7 +15,6 @@ import {
 } from "@/lib/structured-data";
 import { Props } from "@/types";
 import { fetchProducts } from "@/hooks/useProducts";
-import WorkshopBanner from "@/components/WorkshopBanner";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -174,7 +173,6 @@ const HomePage = async ({ params }: Props) => {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
       />
-      <WorkshopBanner text={appT("workshopBannerText")} />
       <div className="container mx-auto px-4 py-12">
         {/* Hero Section with Image and Text */}
         <section className="mb-16">
@@ -292,7 +290,7 @@ const HomePage = async ({ params }: Props) => {
               {homeT("exploreDescription")}
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
             <Button asChild size="lg" variant="outline" className="h-auto py-6">
               <LanguageAwareLink
                 href="/funeral-flowers"
@@ -309,6 +307,15 @@ const HomePage = async ({ params }: Props) => {
               >
                 <span className="text-2xl">💐</span>
                 <span>{navT("bruidsboeketten")}</span>
+              </LanguageAwareLink>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="h-auto py-6">
+              <LanguageAwareLink
+                href="/workshops"
+                className="flex flex-col items-center gap-2"
+              >
+                <Palette className="w-8 h-8" />
+                <span>{navT("workshops")}</span>
               </LanguageAwareLink>
             </Button>
             <Button asChild size="lg" variant="outline" className="h-auto py-6">
