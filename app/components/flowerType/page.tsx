@@ -10,21 +10,29 @@ import { LanguageAwareLink } from "@/components/LanguageAwareLink";
 import { fetchProducts } from "@/hooks/useProducts";
 
 type FlowerTypePageProps = {
-  type: "funeral" | "wedding";
+  type: "funeral" | "wedding" | "birth";
   locale: string;
 };
 
 const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
   // Get translations based on type
   const namespace =
-    type === "funeral" ? "pages.funeral.shop" : "pages.wedding.shop";
+    type === "funeral"
+      ? "pages.funeral.shop"
+      : type === "wedding"
+        ? "pages.wedding.shop"
+        : "pages.birth.shop";
   const t = await getTranslations({ locale, namespace });
   const productsT = await getTranslations({
     locale,
     namespace: "pages.products",
   });
   const paragraphsNamespace =
-    type === "funeral" ? "paragraphs.mourning" : "paragraphs.wedding";
+    type === "funeral"
+      ? "paragraphs.mourning"
+      : type === "wedding"
+        ? "paragraphs.wedding"
+        : "paragraphs.birth";
   const paragraphsT = await getTranslations({
     locale,
     namespace: paragraphsNamespace,
@@ -56,7 +64,9 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
           <h1 className="text-3xl font-bold mb-4">
             {type === "funeral"
               ? paragraphsT("mournPiecesTitle")
-              : paragraphsT("weddingTitle")}
+              : type === "wedding"
+                ? paragraphsT("weddingTitle")
+                : paragraphsT("birthTitle")}
           </h1>
         </header>
         <p className="text-center text-muted-foreground mb-8">
@@ -74,20 +84,30 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
   const pageTitle =
     type === "funeral"
       ? paragraphsT("mournPiecesTitle")
-      : paragraphsT("weddingTitle");
+      : type === "wedding"
+        ? paragraphsT("weddingTitle")
+        : paragraphsT("birthTitle");
 
   const introTitle =
     type === "funeral"
       ? paragraphsT("mournPiecesTitle1")
-      : paragraphsT("weddingTitle1");
+      : type === "wedding"
+        ? paragraphsT("weddingTitle1")
+        : paragraphsT("birthTitle1");
 
   const introDescription =
     type === "funeral"
       ? paragraphsT("mournPiecesDesc1")
-      : paragraphsT("weddingDesc1");
+      : type === "wedding"
+        ? paragraphsT("weddingDesc1")
+        : paragraphsT("birthDesc1");
 
   const borderColor =
-    type === "funeral" ? "border-muted-foreground/30" : "border-primary/50";
+    type === "funeral"
+      ? "border-muted-foreground/30"
+      : type === "wedding"
+        ? "border-primary/50"
+        : "border-blue-500/50";
 
   // Structured Data for Product Listing
   const productListingSchema = createProductListingSchema(products, locale);
@@ -98,7 +118,7 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
     "@type": "CollectionPage",
     name: pageTitle,
     description: introDescription,
-    url: `${baseUrl}/${locale}/${type === "funeral" ? "funeral-flowers" : "wedding-bouquets"}/shop`,
+    url: `${baseUrl}/${locale}/${type === "funeral" ? "funeral-flowers" : type === "wedding" ? "wedding-bouquets" : "birth-pieces"}/shop`,
     inLanguage: locale === "nl" ? "nl-NL" : "en-US",
     isPartOf: {
       "@type": "WebSite",
@@ -107,7 +127,7 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
     },
     breadcrumb: {
       "@type": "BreadcrumbList",
-      "@id": `${baseUrl}/${locale}/${type === "funeral" ? "funeral-flowers" : "wedding-bouquets"}/shop#breadcrumb`,
+      "@id": `${baseUrl}/${locale}/${type === "funeral" ? "funeral-flowers" : type === "wedding" ? "wedding-bouquets" : "birth-pieces"}/shop#breadcrumb`,
     },
     mainEntity: {
       "@type": "ItemList",

@@ -31,6 +31,12 @@
       "seeMore": "Wil je meer bruidsboeketten zien?",
       "viewAll": "Bekijk Alle Bruidsboeketten"
     },
+    "birthSection": {
+      "title": "Geboortestukken",
+      "description": "Handgemaakte vilt geboortestukken voor het vieren van nieuw leven",
+      "seeMore": "Wil je meer geboortestukken zien?",
+      "viewAll": "Bekijk Alle Geboortestukken"
+    },
     "hero": {
       "title": "Welkom bij Roos van Sharon",
       "subtitle": "Handgemaakte boeketten met liefde"
@@ -56,6 +62,12 @@
     "shop": {
       "errorFetchingProducts": "Fout bij het ophalen van bruidsboeketten",
       "noProductsFound": "Geen bruidsboeketten gevonden"
+    }
+  },
+  "birth": {
+    "shop": {
+      "errorFetchingProducts": "Fout bij het ophalen van geboortestukken",
+      "noProductsFound": "Geen geboortestukken gevonden"
     }
   },
   "contact": {
@@ -142,10 +154,11 @@
     "errorFetchingProduct": "Fout bij ophalen van productgegevens.",
     "pleaseTryAgainLater": "Probeer het later opnieuw of neem contact op met support.",
     "introTitle": "Handgemaakte Viltbloemen voor Bijzondere Momenten",
-    "introDescription": "Ontdek de unieke collectie handgemaakte viltbloemen. Elk stuk wordt met liefde en zorg gemaakt, perfect voor rouwstukken, bruidsboeketten en blijvende herinneringen. Duurzaam, persoonlijk en met aandacht voor elk detail.",
+    "introDescription": "Ontdek de unieke collectie handgemaakte viltbloemen. Elk stuk wordt met liefde en zorg gemaakt, perfect voor rouwstukken, bruidsboeketten, geboortestukken en blijvende herinneringen. Duurzaam, persoonlijk en met aandacht voor elk detail.",
     "browseByCategory": "Blader per categorie:",
     "funeralFlowers": "Rouwstukken",
-    "weddingBouquets": "Bruidsboeketten"
+    "weddingBouquets": "Bruidsboeketten",
+    "birthPieces": "Geboortestukken"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -203,7 +216,8 @@
     },
     "productTypes": {
       "funeral": "Rouwstuk",
-      "wedding": "Bruidsbloemen"
+      "wedding": "Bruidsbloemen",
+      "birth": "Geboortestuk"
     },
     "imageManager": {
       "title": "Productafbeeldingen",
