@@ -146,6 +146,13 @@ const ProductsPage = async ({ params }: Props) => {
               {t("weddingBouquets")}
               <ArrowRight className="h-4 w-4" />
             </LanguageAwareLink>
+            <LanguageAwareLink
+              href="/birth-pieces/shop"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
+            >
+              {t("birthPieces")}
+              <ArrowRight className="h-4 w-4" />
+            </LanguageAwareLink>
           </div>
         </div>
       </div>

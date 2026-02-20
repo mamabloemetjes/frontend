@@ -86,7 +86,7 @@ const ProductCard = ({
 
   // Default variant for product listings
   return (
-    <div className="border rounded-lg p-4 hover:shadow-lg transition-all">
+    <div className="border rounded-lg p-4 hover:shadow-lg transition-all h-full flex flex-col">
       <LanguageAwareLink
         href={`/products/${product.id}`}
         aria-label={product.name}
@@ -107,7 +107,7 @@ const ProductCard = ({
         )}
       </LanguageAwareLink>
 
-      <div className="space-y-2">
+      <div className="space-y-2 flex-1 flex flex-col">
         <LanguageAwareLink
           href={`/products/${product.id}`}
           className="flex items-start justify-between gap-2 hover:underline"
@@ -121,7 +121,7 @@ const ProductCard = ({
           </p>
         )}
 
-        <div className="flex items-center justify-between pt-2">
+        <div className="flex items-center justify-between pt-2 mt-auto">
           <div className="space-y-0.5">
             <div className="flex items-baseline gap-2">
               <span className="text-xl font-bold">

@@ -31,6 +31,12 @@
       "seeMore": "Want to see more wedding bouquets?",
       "viewAll": "View All Wedding Bouquets"
     },
+    "birthSection": {
+      "title": "Birth Pieces",
+      "description": "Handmade felt birth pieces for celebrating new life",
+      "seeMore": "Want to see more birth pieces?",
+      "viewAll": "View All Birth Pieces"
+    },
     "hero": {
       "title": "Welcome to Roos van Sharon",
       "subtitle": "Handmade bouquets with love"
@@ -56,6 +62,12 @@
     "shop": {
       "errorFetchingProducts": "Error fetching mourning pieces",
       "noProductsFound": "No bridal bouquets found."
+    }
+  },
+  "birth": {
+    "shop": {
+      "errorFetchingProducts": "Error fetching birth pieces",
+      "noProductsFound": "No birth pieces found."
     }
   },
   "contact": {
@@ -141,10 +153,11 @@
     "errorFetchingProduct": "Error fetching product details",
     "pleaseTryAgainLater": "Please try again later or contact support.",
     "introTitle": "Handmade Felt Flowers for Special Moments",
-    "introDescription": "Discover my unique collection of handmade felt flowers. Each piece is crafted with love and care, perfect for memorial pieces, wedding bouquets, and lasting memories. Sustainable, personal, and with attention to every detail.",
+    "introDescription": "Discover my unique collection of handmade felt flowers. Each piece is crafted with love and care, perfect for memorial pieces, wedding bouquets, birth pieces, and lasting memories. Sustainable, personal, and with attention to every detail.",
     "browseByCategory": "Browse by category:",
     "funeralFlowers": "Funeral Flowers",
-    "weddingBouquets": "Wedding Bouquets"
+    "weddingBouquets": "Wedding Bouquets",
+    "birthPieces": "Birth Pieces"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -202,7 +215,8 @@
     },
     "productTypes": {
       "funeral": "Funeral Piece",
-      "wedding": "Wedding Bouquet"
+      "wedding": "Wedding Bouquet",
+      "birth": "Birth Piece"
     },
     "imageManager": {
       "title": "Product Images",
