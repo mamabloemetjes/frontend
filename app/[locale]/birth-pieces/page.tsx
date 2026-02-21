@@ -1,8 +1,8 @@
 "use server";
 
-import { LanguageAwareLink } from "@/components/LanguageAwareLink";
-import { Button } from "@/components/ui/button";
-import { Mail, ShoppingCart } from "lucide-react";
+// import { LanguageAwareLink } from "@/components/LanguageAwareLink";
+// import { Button } from "@/components/ui/button";
+// import { Mail, ShoppingCart } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Metadata } from "next";
 
@@ -52,7 +52,7 @@ const BirthPiecesPage = async ({ params }: Props) => {
           {paragraphsT("birth.birthTitle")}
         </h1>
 
-        <div className="space-y-8">
+        {/*<div className="space-y-8">
           <div>
             <h2 className="text-2xl font-semibold mb-4">
               {paragraphsT("birth.birthTitle1")}
@@ -115,7 +115,7 @@ const BirthPiecesPage = async ({ params }: Props) => {
               </LanguageAwareLink>
             </Button>
           </div>
-        </div>
+        </div>*/}
       </div>
     </div>
   );
