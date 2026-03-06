@@ -765,13 +765,8 @@ export const api = {
         orderId: string,
         status: OrderStatus,
       ): Promise<ApiResponse<null>> => {
-        const formData = new FormData();
-        formData.append("status", status);
-
-        return apiClient.put(`/admin/orders/${orderId}/status`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+        return apiClient.put(`/admin/orders/${orderId}/status`, {
+          status,
         });
       },
 

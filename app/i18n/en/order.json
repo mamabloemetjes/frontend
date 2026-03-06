@@ -146,7 +146,14 @@
       "status": "Status",
       "orderInformation": "Order Information",
       "orderDetails": "Order Details",
-      "loading": "Loading order details..."
+      "loading": "Loading order details...",
+      "pending": "Pending Payment",
+      "paid": "Paid",
+      "processing": "Processing",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled",
+      "refunded": "Refunded"
     }
   }
 }
