@@ -146,7 +146,14 @@
       "status": "Status",
       "orderInformation": "Bestel Informatie",
       "orderDetails": "Bestel Details",
-      "loading": "Bestelling laden..."
+      "loading": "Bestelling laden...",
+      "pending": "In afwachting",
+      "paid": "Betaald",
+      "processing": "In Behandeling",
+      "shipped": "Verzonden",
+      "delivered": "Bezorgd",
+      "cancelled": "Geannuleerd",
+      "refunded": "Terugbetaald"
     }
   }
 }

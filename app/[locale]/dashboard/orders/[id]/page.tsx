@@ -26,6 +26,7 @@ import {
   Trash2,
 } from "lucide-react";
 import type { AxiosError } from "axios";
+import { toast } from "sonner";
 
 export default function AdminOrderDetailPage() {
   const params = useParams();
@@ -131,16 +132,12 @@ export default function AdminOrderDetailPage() {
   };
 
   const handleUpdateStatus = async (newStatus: OrderStatus) => {
-    if (!confirm(t("order.admin.details.confirmStatusChange"))) {
-      return;
-    }
-
     setIsUpdatingStatus(true);
     try {
       const response = await api.admin.orders.updateStatus(orderId, newStatus);
 
       if (response.success) {
-        alert(t("order.admin.details.statusUpdated"));
+        toast.info("Het is gelukt om de status bij te werken!");
         fetchOrderDetails();
       } else {
         alert(response.message);
@@ -148,9 +145,8 @@ export default function AdminOrderDetailPage() {
     } catch (err) {
       const error = err as AxiosError<{ message?: string }>;
       console.error("Failed to update status:", error);
-      alert(
-        error.response?.data?.message ||
-          t("order.admin.details.statusUpdateError"),
+      toast.error(
+        "Het is niet gelukt om de status van deze bestelling bij te werken",
       );
     } finally {
       setIsUpdatingStatus(false);
@@ -158,10 +154,8 @@ export default function AdminOrderDetailPage() {
   };
 
   const handleDeleteOrder = async () => {
-    if (!confirm(t("order.admin.details.confirmDelete"))) {
+    if (!confirm("Weet je het zeker dat je deze bestelling wilt verwijderen?"))
       return;
-    }
-
     try {
       const response = await api.admin.orders.delete(orderId);
 
@@ -480,7 +474,7 @@ export default function AdminOrderDetailPage() {
             {order.payment_status === "paid" && (
               <div className="bg-green-50 border border-green-200 rounded-lg p-4">
                 <p className="text-green-800 font-semibold text-center">
-                  ✓ {t("order.admin.details.paidStatus")}
+                  ✓ {t("order.admin.details.paid")}
                 </p>
               </div>
             )}
