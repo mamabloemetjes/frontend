@@ -29,7 +29,7 @@ export interface WrappedProducts {
 
 // Product types (from structs/products.go)
 export type Size = "small" | "medium" | "large";
-export type ProductType = "funeral" | "wedding";
+export type ProductType = "funeral" | "wedding" | "birth";
 export type Color =
   | "red"
   | "blue"
