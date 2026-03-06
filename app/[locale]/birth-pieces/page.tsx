@@ -1,8 +1,8 @@
 "use server";
 
-// import { LanguageAwareLink } from "@/components/LanguageAwareLink";
-// import { Button } from "@/components/ui/button";
-// import { Mail, ShoppingCart } from "lucide-react";
+import { LanguageAwareLink } from "@/components/LanguageAwareLink";
+import { Button } from "@/components/ui/button";
+import { Mail, ShoppingCart } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Metadata } from "next";
 
@@ -52,49 +52,13 @@ const BirthPiecesPage = async ({ params }: Props) => {
           {paragraphsT("birth.birthTitle")}
         </h1>
 
-        {/*<div className="space-y-8">
+        <div className="space-y-8">
           <div>
             <h2 className="text-2xl font-semibold mb-4">
               {paragraphsT("birth.birthTitle1")}
             </h2>
             <p className="text-muted-foreground leading-relaxed text-lg">
               {paragraphsT("birth.birthDesc1")}
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-2xl font-semibold mb-4">
-              {paragraphsT("birth.birthTitle2")}
-            </h2>
-            <p className="text-muted-foreground leading-relaxed text-lg">
-              {paragraphsT("birth.birthDesc2")}
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-2xl font-semibold mb-4">
-              {paragraphsT("birth.birthTitle3")}
-            </h2>
-            <p className="text-muted-foreground leading-relaxed text-lg">
-              {paragraphsT("birth.birthDesc3")}
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-2xl font-semibold mb-4">
-              {paragraphsT("birth.birthTitle4")}
-            </h2>
-            <p className="text-muted-foreground leading-relaxed text-lg">
-              {paragraphsT("birth.birthDesc4")}
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-2xl font-semibold mb-4">
-              {paragraphsT("birth.birthTitle5")}
-            </h2>
-            <p className="text-muted-foreground leading-relaxed text-lg">
-              {paragraphsT("birth.birthDesc5")}
             </p>
           </div>
 
@@ -115,7 +79,7 @@ const BirthPiecesPage = async ({ params }: Props) => {
               </LanguageAwareLink>
             </Button>
           </div>
-        </div>*/}
+        </div>
       </div>
     </div>
   );
