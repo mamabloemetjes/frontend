@@ -108,9 +108,14 @@ export async function revalidateProducts(): Promise<boolean> {
     "/nl/funeral-flowers/shop",
     "/funeral-flowers/shop",
     "/en/funeral-flowers/shop",
+
     "/nl/wedding-bouquets/shop",
     "/wedding-bouquets/shop",
     "/en/wedding-bouquets/shop",
+
+    "/birth/shop",
+    "/nl/birth/shop",
+    "/en/birth/shop",
     // Also revalidate homepage as it does show some products
     "/en",
     "/nl",
@@ -144,6 +149,9 @@ export async function revalidateProduct(productId: string): Promise<boolean> {
     "/nl/funeral-flowers/shop",
     "/funeral-flowers/shop",
     "/en/funeral-flowers/shop",
+    "/birth/shop",
+    "/nl/birth/shop",
+    "/en/birth/shop",
   ]);
 }
 
