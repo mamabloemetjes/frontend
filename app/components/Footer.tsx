@@ -52,6 +52,12 @@ const Footer = async ({ locale }: { locale: string }) => {
                 {t("bruidsboeketten")}
               </LanguageAwareLink>
               <LanguageAwareLink
+                href="/birth-pieces"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {t("geboortestukken")}
+              </LanguageAwareLink>
+              <LanguageAwareLink
                 href="/workshops"
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
