@@ -37,6 +37,12 @@
       "seeMore": "Want to see more birth pieces?",
       "viewAll": "View All Birth Pieces"
     },
+    "flowersSection": {
+      "title": "Decorative Flowers",
+      "description": "Fresh florals for any occasion",
+      "seeMore": "Want to see more decorative flowers?",
+      "viewAll": "View All Decorative Flowers"
+    },
     "hero": {
       "title": "Welcome to Roos van Sharon",
       "subtitle": "Handmade bouquets with love"
@@ -68,6 +74,12 @@
     "shop": {
       "errorFetchingProducts": "Error fetching birth pieces",
       "noProductsFound": "No birth pieces found."
+    }
+  },
+  "flowers": {
+    "shop": {
+      "errorFetchingProducts": "Error fetching decorative flowers",
+      "noProductsFound": "No decorative flowers found."
     }
   },
   "contact": {
@@ -216,7 +228,8 @@
     "productTypes": {
       "funeral": "Funeral Piece",
       "wedding": "Wedding Bouquet",
-      "birth": "Birth Piece"
+      "birth": "Birth Piece",
+      "flowers": "Decorative Flowers"
     },
     "imageManager": {
       "title": "Product Images",
