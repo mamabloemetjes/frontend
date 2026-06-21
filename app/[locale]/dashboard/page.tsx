@@ -598,9 +598,6 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
             <SelectItem value="birth">
               {t("pages.dashboard.productTypes.birth")}
             </SelectItem>
-            <SelectItem value="flowers">
-              {t("pages.dashboard.productTypes.flowers")}
-            </SelectItem>
           </SelectContent>
         </Select>
         {errors.product_type && (
