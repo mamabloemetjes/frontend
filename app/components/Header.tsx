@@ -62,7 +62,7 @@ export default function Header() {
 
   return (
     <>
-      <nav className="sticky top-0 z-50 backdrop-blur-xl bg-background/80 border-b border-border/40 shadow-sm">
+      <nav className="sticky top-0 z-50 backdrop-blur-xl bg-background border-b-4 border-foreground shadow-sm">
         <div className="container mx-auto px-4 lg:px-6">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
@@ -77,7 +77,7 @@ export default function Header() {
             <nav className="hidden lg:flex items-center gap-2">
               <LanguageAwareLink
                 href="/products"
-                className="px-4 py-2 rounded-lg hover:bg-accent transition-all duration-200 flex items-center gap-2 group"
+                className="px-4 py-2 hover:bg-pastel-sage/20 transition-all duration-200 flex items-center gap-2 group font-semibold"
               >
                 <Package className="w-4 h-4 group-hover:scale-110 transition-transform" />
                 <span>{t("navigation.products")}</span>
@@ -85,7 +85,7 @@ export default function Header() {
 
               <LanguageAwareLink
                 href="/cart"
-                className="px-4 py-2 rounded-lg hover:bg-accent transition-all duration-200 flex items-center gap-2 relative group"
+                className="px-4 py-2 hover:bg-pastel-rose/20 transition-all duration-200 flex items-center gap-2 relative group font-semibold"
               >
                 <div className="relative">
                   <ShoppingCart className="w-4 h-4 group-hover:scale-110 transition-transform" />
@@ -103,7 +103,7 @@ export default function Header() {
                   <DropdownMenuTrigger asChild>
                     <Button
                       variant="ghost"
-                      className="px-4 py-2 rounded-lg hover:bg-accent transition-all duration-200 flex items-center gap-2 group"
+                      className="px-4 py-2 hover:bg-pastel-lavender/20 transition-all duration-200 flex items-center gap-2 group font-semibold"
                     >
                       <User className="w-4 h-4 group-hover:scale-110 transition-transform" />
                     </Button>
@@ -161,7 +161,7 @@ export default function Header() {
                 <FeatureComponent type="login">
                   <LanguageAwareLink
                     href="/login"
-                    className="px-4 py-2 rounded-lg hover:bg-accent flex items-center gap-2 group bg-primary text-primary-foreground font-medium hover:brightness-110 transition-all duration-200"
+                    className="px-4 py-2 flex items-center gap-2 group bg-pastel-peach text-foreground font-bold hover:brightness-95 active:brightness-110 transition-all duration-200 cubic-border border-foreground"
                   >
                     <User className="w-4 h-4 group-hover:scale-110 transition-transform" />
                     <span>{t("navigation.login")}</span>
@@ -169,7 +169,7 @@ export default function Header() {
                 </FeatureComponent>
               )}
 
-              <div className="flex items-center gap-1 ml-2 pl-2 border-l border-border">
+              <div className="flex items-center gap-1 ml-2 pl-2 border-l-2 border-foreground">
                 <LanguageSwitcher />
                 <ModeToggle />
               </div>
@@ -192,7 +192,7 @@ export default function Header() {
                 variant="ghost"
                 size="icon"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 hover:bg-accent rounded-lg transition-all duration-200"
+                className="p-2 hover:bg-pastel-mint/20 transition-all duration-200 font-bold"
                 aria-label="Toggle menu"
               >
                 {mobileMenuOpen ? (
@@ -217,7 +217,7 @@ export default function Header() {
 
       {/* Mobile Menu Drawer */}
       <div
-        className={`fixed top-16 right-0 bottom-0 z-50 w-full max-w-sm bg-background border-l border-border shadow-2xl lg:hidden transform transition-transform duration-300 ease-in-out ${
+        className={`fixed top-16 right-0 bottom-0 z-50 w-full max-w-sm bg-background border-l-4 border-foreground shadow-2xl lg:hidden transform transition-transform duration-300 ease-in-out ${
           mobileMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -227,38 +227,38 @@ export default function Header() {
             <div className="space-y-1 mb-6">
               <LanguageAwareLink
                 href="/"
-                className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent/50 active:bg-accent transition-all duration-200 group"
+                className="flex items-center gap-3 px-4 py-3 hover:bg-pastel-sage/20 active:bg-pastel-sage/40 transition-all duration-200 group font-semibold"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <Home className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                <span className="font-medium">{t("navigation.home")}</span>
+                <span>{t("navigation.home")}</span>
               </LanguageAwareLink>
 
               <LanguageAwareLink
                 href="/products"
-                className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent/50 active:bg-accent transition-all duration-200 group"
+                className="flex items-center gap-3 px-4 py-3 hover:bg-pastel-sage/20 active:bg-pastel-sage/40 transition-all duration-200 group font-semibold"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <Package className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                <span className="font-medium">{t("navigation.products")}</span>
+                <span>{t("navigation.products")}</span>
               </LanguageAwareLink>
 
               <LanguageAwareLink
                 href="/about"
-                className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent/50 active:bg-accent transition-all duration-200 group"
+                className="flex items-center gap-3 px-4 py-3 hover:bg-pastel-peach/20 active:bg-pastel-peach/40 transition-all duration-200 group font-semibold"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <IdCardIcon className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                <span className="font-medium">{t("navigation.about")}</span>
+                <span>{t("navigation.about")}</span>
               </LanguageAwareLink>
 
               <LanguageAwareLink
                 href="/contact"
-                className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent/50 active:bg-accent transition-all duration-200 group"
+                className="flex items-center gap-3 px-4 py-3 hover:bg-pastel-lavender/20 active:bg-pastel-lavender/40 transition-all duration-200 group font-semibold"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <Mail className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                <span className="font-medium">{t("navigation.contact")}</span>
+                <span>{t("navigation.contact")}</span>
               </LanguageAwareLink>
             </div>
 
@@ -274,25 +274,21 @@ export default function Header() {
 
                   <LanguageAwareLink
                     href="/account"
-                    className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent/50 active:bg-accent transition-all duration-200 group"
+                    className="flex items-center gap-3 px-4 py-3 hover:bg-pastel-lavender/20 active:bg-pastel-lavender/40 transition-all duration-200 group font-semibold"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <User className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                    <span className="font-medium">
-                      {t("navigation.account")}
-                    </span>
+                    <span>{t("navigation.account")}</span>
                   </LanguageAwareLink>
 
                   {user?.role === "admin" && (
                     <LanguageAwareLink
                       href="/dashboard"
-                      className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent/50 active:bg-accent transition-all duration-200 group"
+                      className="flex items-center gap-3 px-4 py-3 hover:bg-pastel-mint/20 active:bg-pastel-mint/40 transition-all duration-200 group font-semibold"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <LayoutDashboard className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                      <span className="font-medium">
-                        {t("navigation.dashboard")}
-                      </span>
+                      <span>{t("navigation.dashboard")}</span>
                     </LanguageAwareLink>
                   )}
 
@@ -302,10 +298,10 @@ export default function Header() {
                       setMobileMenuOpen(false);
                     }}
                     disabled={logout.isPending}
-                    className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-destructive/10 active:bg-destructive/20 transition-all duration-200 group text-destructive disabled:opacity-50"
+                    className="w-full flex items-center gap-3 px-4 py-3 hover:bg-pastel-rose/20 active:bg-pastel-rose/30 transition-all duration-200 group text-destructive disabled:opacity-50 font-semibold"
                   >
                     <LogOut className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                    <span className="font-medium">
+                    <span>
                       {logout.isPending
                         ? t("auth.loggingOut")
                         : t("auth.logout")}
@@ -316,7 +312,7 @@ export default function Header() {
                 <FeatureComponent type="login">
                   <LanguageAwareLink
                     href="/login"
-                    className="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:brightness-110 active:brightness-95 transition-all duration-200 shadow-lg hover:shadow-xl group"
+                    className="flex items-center gap-3 px-4 py-3 bg-pastel-peach text-foreground font-bold hover:brightness-95 active:brightness-110 transition-all duration-200 shadow-lg hover:shadow-xl group cubic-border border-foreground"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <User className="w-5 h-5 group-hover:scale-110 transition-transform" />

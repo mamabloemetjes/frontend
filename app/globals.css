@@ -110,9 +110,9 @@
 }
 
 :root {
-    --radius: 0.625rem;
+    --radius: 0; /* No border radius - cubic design */
 
-    /* Base */
+    /* Base - Neutral palette */
     --background: oklch(0.98 0.02 95); /* crème white */
     --foreground: oklch(0.22 0.03 250); /* soft navy text */
 
@@ -122,13 +122,13 @@
     --popover: oklch(0.985 0.015 95);
     --popover-foreground: oklch(0.22 0.03 250);
 
-    /* Primary – pastel blue */
-    --primary: oklch(0.75 0.08 245);
-    --primary-foreground: oklch(0.18 0.02 250);
+    /* Primary – soft navy (bold) */
+    --primary: oklch(0.22 0.03 250);
+    --primary-foreground: oklch(0.98 0.02 95);
 
-    /* Secondary – soft pink */
-    --secondary: oklch(0.88 0.05 20);
-    --secondary-foreground: oklch(0.25 0.03 20);
+    /* Secondary – light gray */
+    --secondary: oklch(0.94 0.02 95);
+    --secondary-foreground: oklch(0.22 0.03 250);
 
     /* Muted / accents */
     --muted: oklch(0.94 0.02 95);
@@ -143,24 +143,31 @@
     /* UI chrome */
     --border: oklch(0.9 0.015 250);
     --input: oklch(0.92 0.015 250);
-    --ring: oklch(0.75 0.08 245);
+    --ring: oklch(0.22 0.03 250);
+
+    /* Pastel accent colors - Nature & Flowers throughout */
+    --pastel-sage: oklch(0.82 0.08 145); /* soft sage green */
+    --pastel-rose: oklch(0.82 0.09 20); /* soft blush pink/rose */
+    --pastel-peach: oklch(0.84 0.1 45); /* soft peach */
+    --pastel-lavender: oklch(0.8 0.08 285); /* soft lavender */
+    --pastel-mint: oklch(0.85 0.07 165); /* soft mint */
 
     /* Optional charts (pastel-friendly) */
-    --chart-1: oklch(0.75 0.08 245);
-    --chart-2: oklch(0.78 0.07 160);
-    --chart-3: oklch(0.7 0.06 20);
-    --chart-4: oklch(0.82 0.06 95);
-    --chart-5: oklch(0.68 0.07 300);
+    --chart-1: oklch(0.82 0.08 145);
+    --chart-2: oklch(0.82 0.09 20);
+    --chart-3: oklch(0.84 0.1 45);
+    --chart-4: oklch(0.8 0.08 285);
+    --chart-5: oklch(0.85 0.07 165);
 
     /* Sidebar */
     --sidebar: oklch(0.97 0.02 95);
     --sidebar-foreground: oklch(0.22 0.03 250);
-    --sidebar-primary: oklch(0.75 0.08 245);
-    --sidebar-primary-foreground: oklch(0.18 0.02 250);
-    --sidebar-accent: oklch(0.9 0.04 20);
-    --sidebar-accent-foreground: oklch(0.25 0.03 20);
+    --sidebar-primary: oklch(0.22 0.03 250);
+    --sidebar-primary-foreground: oklch(0.98 0.02 95);
+    --sidebar-accent: oklch(0.82 0.08 145);
+    --sidebar-accent-foreground: oklch(0.22 0.03 250);
     --sidebar-border: oklch(0.9 0.015 250);
-    --sidebar-ring: oklch(0.75 0.08 245);
+    --sidebar-ring: oklch(0.22 0.03 250);
 }
 
 .dark {
@@ -174,12 +181,12 @@
     --popover: oklch(0.22 0.015 250);
     --popover-foreground: oklch(0.96 0.01 95);
 
-    /* Primary – muted pastel blue */
-    --primary: oklch(0.72 0.07 245);
-    --primary-foreground: oklch(0.18 0.02 250);
+    /* Primary – bold white text on dark */
+    --primary: oklch(0.96 0.01 95);
+    --primary-foreground: oklch(0.22 0.03 250);
 
-    /* Secondary – dusty pink */
-    --secondary: oklch(0.38 0.05 285);
+    /* Secondary – dark gray */
+    --secondary: oklch(0.28 0.015 250);
     --secondary-foreground: oklch(0.96 0.01 95);
 
     /* Muted / accents */
@@ -196,24 +203,31 @@
     /* UI chrome */
     --border: oklch(1 0 0 / 12%);
     --input: oklch(1 0 0 / 16%);
-    --ring: oklch(0.72 0.07 245);
+    --ring: oklch(0.96 0.01 95);
+
+    /* Pastel accent colors - brighter in dark mode */
+    --pastel-sage: oklch(0.78 0.1 145);
+    --pastel-rose: oklch(0.75 0.12 20);
+    --pastel-peach: oklch(0.8 0.12 45);
+    --pastel-lavender: oklch(0.76 0.1 285);
+    --pastel-mint: oklch(0.81 0.09 165);
 
     /* Charts */
-    --chart-1: oklch(0.72 0.07 245);
-    --chart-2: oklch(0.7 0.06 160);
-    --chart-3: oklch(0.78 0.07 95);
-    --chart-4: oklch(0.65 0.08 300);
-    --chart-5: oklch(0.68 0.07 20);
+    --chart-1: oklch(0.78 0.1 145);
+    --chart-2: oklch(0.75 0.12 20);
+    --chart-3: oklch(0.8 0.12 45);
+    --chart-4: oklch(0.76 0.1 285);
+    --chart-5: oklch(0.81 0.09 165);
 
     /* Sidebar */
     --sidebar: oklch(0.2 0.015 250);
     --sidebar-foreground: oklch(0.96 0.01 95);
-    --sidebar-primary: oklch(0.72 0.07 245);
-    --sidebar-primary-foreground: oklch(0.18 0.02 250);
-    --sidebar-accent: oklch(0.32 0.04 20);
-    --sidebar-accent-foreground: oklch(0.96 0.01 95);
+    --sidebar-primary: oklch(0.96 0.01 95);
+    --sidebar-primary-foreground: oklch(0.22 0.03 250);
+    --sidebar-accent: oklch(0.78 0.1 145);
+    --sidebar-accent-foreground: oklch(0.22 0.03 250);
     --sidebar-border: oklch(1 0 0 / 12%);
-    --sidebar-ring: oklch(0.72 0.07 245);
+    --sidebar-ring: oklch(0.96 0.01 95);
 }
 
 @layer base {
@@ -221,7 +235,7 @@
         @apply border-border outline-ring/50;
     }
     body {
-        @apply bg-background text-foreground;
+        @apply bg-background text-foreground font-medium;
     }
     button {
         @apply cursor-pointer;
@@ -239,4 +253,61 @@
 
 .animate-marquee-reverse {
     animation: marquee-reverse 20s linear infinite;
+}
+
+/* Utility classes for pastel accent colors */
+.bg-pastel-sage {
+    background-color: oklch(0.82 0.08 145);
+}
+.bg-pastel-rose {
+    background-color: oklch(0.82 0.09 20);
+}
+.bg-pastel-peach {
+    background-color: oklch(0.84 0.1 45);
+}
+.bg-pastel-lavender {
+    background-color: oklch(0.8 0.08 285);
+}
+.bg-pastel-mint {
+    background-color: oklch(0.85 0.07 165);
+}
+
+.text-pastel-sage {
+    color: oklch(0.82 0.08 145);
+}
+.text-pastel-rose {
+    color: oklch(0.82 0.09 20);
+}
+.text-pastel-peach {
+    color: oklch(0.84 0.1 45);
+}
+.text-pastel-lavender {
+    color: oklch(0.8 0.08 285);
+}
+.text-pastel-mint {
+    color: oklch(0.85 0.07 165);
+}
+
+.border-pastel-sage {
+    border-color: oklch(0.82 0.08 145);
+}
+.border-pastel-rose {
+    border-color: oklch(0.82 0.09 20);
+}
+.border-pastel-peach {
+    border-color: oklch(0.84 0.1 45);
+}
+.border-pastel-lavender {
+    border-color: oklch(0.8 0.08 285);
+}
+.border-pastel-mint {
+    border-color: oklch(0.85 0.07 165);
+}
+
+/* Bold cubic design - cubic borders */
+.cubic-border {
+    border-width: 2px;
+}
+.cubic-border-thick {
+    border-width: 3px;
 }
