@@ -70,7 +70,9 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
               ? paragraphsT("mournPiecesTitle")
               : type === "wedding"
                 ? paragraphsT("weddingTitle")
-                : paragraphsT("birthTitle")}
+                : type === "birth"
+                  ? paragraphsT("birthTitle")
+                  : paragraphsT("flowersTitle")}
           </h1>
         </header>
         <p className="text-center text-muted-foreground mb-8">

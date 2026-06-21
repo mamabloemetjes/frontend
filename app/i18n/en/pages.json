@@ -76,6 +76,12 @@
       "noProductsFound": "No birth pieces found."
     }
   },
+  "flowers": {
+    "shop": {
+      "errorFetchingProducts": "Error fetching deco flowers",
+      "noProductsFound": "No deco flowers found."
+    }
+  },
   "contact": {
     "title": "Contact Us",
     "description": "Fill out the form below and I'll get back to you as soon as possible.",

@@ -210,7 +210,7 @@ const HomePage = async ({ params }: Props) => {
         <Hero appT={appT} />
         <Separator className="my-12" />
         {/* A little about me Section with Image and Text */}
-        <section className="mb-16">
+        <section className="mb-32">
           <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 items-center">
             {/* Hero Image */}
             <div className="relative overflow-hidden rounded-3xl shadow-2xl">
