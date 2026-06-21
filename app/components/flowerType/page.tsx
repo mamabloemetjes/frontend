@@ -10,7 +10,7 @@ import { LanguageAwareLink } from "@/components/LanguageAwareLink";
 import { fetchProducts } from "@/hooks/useProducts";
 
 type FlowerTypePageProps = {
-  type: "funeral" | "wedding" | "birth" | "flowers";
+  type: "funeral" | "wedding" | "birth";
   locale: string;
 };
 
@@ -21,9 +21,7 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
       ? "pages.funeral.shop"
       : type === "wedding"
         ? "pages.wedding.shop"
-        : type === "birth"
-          ? "pages.birth.shop"
-          : "pages.flowers.shop";
+        : "pages.birth.shop";
   const t = await getTranslations({ locale, namespace });
   const productsT = await getTranslations({
     locale,
@@ -34,9 +32,7 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
       ? "paragraphs.mourning"
       : type === "wedding"
         ? "paragraphs.wedding"
-        : type === "birth"
-          ? "paragraphs.birth"
-          : "paragraphs.flowers";
+        : "paragraphs.birth";
   const paragraphsT = await getTranslations({
     locale,
     namespace: paragraphsNamespace,
@@ -70,9 +66,7 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
               ? paragraphsT("mournPiecesTitle")
               : type === "wedding"
                 ? paragraphsT("weddingTitle")
-                : type === "birth"
-                  ? paragraphsT("birthTitle")
-                  : paragraphsT("flowersTitle")}
+                : paragraphsT("birthTitle")}
           </h1>
         </header>
         <p className="text-center text-muted-foreground mb-8">
@@ -86,60 +80,34 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
   const baseUrl =
     process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl";
 
-  // Helper function for path segment
-  const getPathSegment = () => {
-    switch (type) {
-      case "funeral":
-        return "funeral-flowers";
-      case "wedding":
-        return "wedding-bouquets";
-      case "birth":
-        return "birth-pieces";
-      case "flowers":
-        return "flowers";
-      default:
-        return type;
-    }
-  };
-
   // Conditional rendering based on type
   const pageTitle =
     type === "funeral"
       ? paragraphsT("mournPiecesTitle")
       : type === "wedding"
         ? paragraphsT("weddingTitle")
-        : type === "birth"
-          ? paragraphsT("birthTitle")
-          : paragraphsT("flowersTitle");
+        : paragraphsT("birthTitle");
 
   const introTitle =
     type === "funeral"
       ? paragraphsT("mournPiecesTitle1")
       : type === "wedding"
         ? paragraphsT("weddingTitle1")
-        : type === "birth"
-          ? paragraphsT("birthTitle1")
-          : paragraphsT("flowersTitle1");
+        : paragraphsT("birthTitle1");
 
   const introDescription =
     type === "funeral"
       ? paragraphsT("mournPiecesDesc1")
       : type === "wedding"
         ? paragraphsT("weddingDesc1")
-        : type === "birth"
-          ? paragraphsT("birthDesc1")
-          : paragraphsT("flowersDesc1");
+        : paragraphsT("birthDesc1");
 
   const borderColor =
     type === "funeral"
-      ? "border-pastel-rose"
+      ? "border-muted-foreground/30"
       : type === "wedding"
-        ? "border-pastel-peach"
-        : type === "birth"
-          ? "border-pastel-lavender"
-          : type === "flowers"
-            ? "border-pastel-sage"
-            : "border-pastel-sage";
+        ? "border-primary/50"
+        : "border-blue-500/50";
 
   // Structured Data for Product Listing
   const productListingSchema = createProductListingSchema(products, locale);
@@ -150,7 +118,7 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
     "@type": "CollectionPage",
     name: pageTitle,
     description: introDescription,
-    url: `${baseUrl}/${locale}/${getPathSegment()}/shop`,
+    url: `${baseUrl}/${locale}/${type === "funeral" ? "funeral-flowers" : type === "wedding" ? "wedding-bouquets" : "birth-pieces"}/shop`,
     inLanguage: locale === "nl" ? "nl-NL" : "en-US",
     isPartOf: {
       "@type": "WebSite",
@@ -159,7 +127,7 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
     },
     breadcrumb: {
       "@type": "BreadcrumbList",
-      "@id": `${baseUrl}/${locale}/${getPathSegment()}/shop#breadcrumb`,
+      "@id": `${baseUrl}/${locale}/${type === "funeral" ? "funeral-flowers" : type === "wedding" ? "wedding-bouquets" : "birth-pieces"}/shop#breadcrumb`,
     },
     mainEntity: {
       "@type": "ItemList",

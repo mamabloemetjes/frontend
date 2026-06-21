@@ -39,18 +39,6 @@
     "birthDesc1": "I took this theme as my inspiration. The result is an original gift for a baby visit or a birthday. Would you like a flower of your choice in a teacup or flower pot? Feel free to inquire about the possibilities.",
     "birthShopButton": "View birth pieces",
     "birthContactButton": "Contact me",
-    "backToAllProducts": "\u2190 Back to All Products"
-  },
-  "flowers": {
-    "flowersTitle": "Decorative Flowers",
-    "flowersTitle1": "Beautiful Blooms for Every Space",
-    "flowersDesc1": "Sometimes you want a beautiful arrangement without a specific occasion. Our collection of decorative felt flowers brings natural beauty and lasting charm to your home or workspace. Each piece is crafted with the same care and attention to detail as our special occasion collections.",
-    "flowersTitle2": "Timeless Beauty That Never Fades",
-    "flowersDesc2": "Unlike fresh flowers, our felt flower arrangements maintain their vibrant colors and pristine appearance year after year. They are perfect for permanent displays, gifts, or as part of your interior design.",
-    "flowersTitle3": "Custom Arrangements Available",
-    "flowersDesc3": "Would you like a specific color palette or arrangement style? I'm happy to create custom decorative arrangements tailored to your preferences. Feel free to reach out to discuss your ideas.",
-    "flowersShopButton": "Browse Decorative Flowers",
-    "flowersContactButton": "Request Custom Arrangement",
-    "backToAllProducts": "\u2190 Back to All Products"
+    "backToAllProducts": "← Back to All Products"
   }
 }

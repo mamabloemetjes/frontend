@@ -29,20 +29,20 @@ const ProductCard = ({
   // Compact variant for cart
   if (variant === "compact") {
     return (
-      <div className="border-2 border-foreground p-4 flex items-center justify-between hover:shadow-lg hover:shadow-pastel-sage/30 transition-shadow">
+      <div className="border rounded-lg p-4 flex items-center justify-between hover:shadow-lg transition-shadow">
         <div className="flex items-center gap-4 flex-1">
           <LanguageAwareLink href={`/products/${product.id}`}>
             {imageUrl ? (
               <Image
                 src={imageUrl}
                 alt={primaryImage?.alt_text || product.name}
-                className="w-20 h-20 object-cover"
+                className="w-20 h-20 object-cover rounded"
                 width={80}
                 height={142}
                 loading="eager"
               />
             ) : (
-              <div className="w-20 h-20 bg-pastel-sage/20 flex items-center justify-center text-2xl">
+              <div className="w-20 h-20 bg-muted rounded flex items-center justify-center text-2xl">
                 🌸
               </div>
             )}
@@ -52,10 +52,10 @@ const ProductCard = ({
               href={`/products/${product.id}`}
               className="hover:underline"
             >
-              <h3 className="font-bold">{product.name}</h3>
+              <h3 className="font-semibold">{product.name}</h3>
             </LanguageAwareLink>
             <div className="flex items-center gap-2 text-sm mt-1">
-              <span className="text-muted-foreground font-medium">
+              <span className="text-muted-foreground">
                 {formatPrice(product.subtotal)}
               </span>
               {hasDiscount && (
@@ -86,7 +86,7 @@ const ProductCard = ({
 
   // Default variant for product listings
   return (
-    <div className="border-2 border-foreground p-4 hover:shadow-xl hover:shadow-pastel-lavender/20 transition-all h-full flex flex-col">
+    <div className="border rounded-lg p-4 hover:shadow-lg transition-all h-full flex flex-col">
       <LanguageAwareLink
         href={`/products/${product.id}`}
         aria-label={product.name}
@@ -95,13 +95,13 @@ const ProductCard = ({
           <Image
             src={imageUrl}
             alt={primaryImage?.alt_text || product.name}
-            className="w-full h-96 object-cover mb-4"
+            className="w-full h-96 object-cover rounded mb-4"
             height={400}
             width={300}
             loading="eager"
           />
         ) : (
-          <div className="w-full h-48 bg-pastel-rose/15 mb-4 flex items-center justify-center text-4xl">
+          <div className="w-full h-48 bg-muted rounded mb-4 flex items-center justify-center text-4xl">
             🌸
           </div>
         )}
@@ -112,7 +112,7 @@ const ProductCard = ({
           href={`/products/${product.id}`}
           className="flex items-start justify-between gap-2 hover:underline"
         >
-          <h3 className="font-bold text-lg line-clamp-2">{product.name}</h3>
+          <h3 className="font-semibold text-lg line-clamp-2">{product.name}</h3>
         </LanguageAwareLink>
 
         {product.description && (

@@ -37,12 +37,6 @@
       "seeMore": "Wil je meer geboortestukken zien?",
       "viewAll": "Bekijk Alle Geboortestukken"
     },
-    "flowersSection": {
-      "title": "Siervolle Bloemen",
-      "description": "Verse bloemen voor elk moment",
-      "seeMore": "Wil je meer siervolle bloemen zien?",
-      "viewAll": "Bekijk Alle Siervolle Bloemen"
-    },
     "hero": {
       "title": "Welkom bij Roos van Sharon",
       "subtitle": "Handgemaakte boeketten met liefde"
@@ -74,12 +68,6 @@
     "shop": {
       "errorFetchingProducts": "Fout bij het ophalen van geboortestukken",
       "noProductsFound": "Geen geboortestukken gevonden"
-    }
-  },
-  "flowers": {
-    "shop": {
-      "errorFetchingProducts": "Fout bij het ophalen van siervolle bloemen",
-      "noProductsFound": "Geen siervolle bloemen gevonden"
     }
   },
   "contact": {
@@ -229,8 +217,7 @@
     "productTypes": {
       "funeral": "Rouwstuk",
       "wedding": "Bruidsbloemen",
-      "birth": "Geboortestuk",
-      "flowers": "Siervolle Bloemen"
+      "birth": "Geboortestuk"
     },
     "imageManager": {
       "title": "Productafbeeldingen",

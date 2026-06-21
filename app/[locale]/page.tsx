@@ -77,16 +77,14 @@ const HomePage = async ({ params }: Props) => {
     namespace: "pages.home",
   });
 
-  // Fetch one funeral, wedding, birth, and flowers product
+  // Fetch one funeral, wedding, and birth product
   const funeralResponse = await fetchProducts(1, 1, true, "funeral");
   const weddingResponse = await fetchProducts(1, 1, true, "wedding");
   const birthResponse = await fetchProducts(1, 1, true, "birth");
-  const flowersResponse = await fetchProducts(1, 1, true, "flowers");
 
   const funeralProduct = funeralResponse.data?.products?.[0];
   const weddingProduct = weddingResponse.data?.products?.[0];
   const birthProduct = birthResponse.data?.products?.[0];
-  const flowersProduct = flowersResponse.data?.products?.[0];
 
   // Structured Data for Homepage
   const structuredData = {
@@ -123,16 +121,6 @@ const HomePage = async ({ params }: Props) => {
             "150.00",
             `${process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl"}/flower.webp`,
             `${process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl"}/${locale}/birth-pieces/shop`,
-          ),
-        },
-        {
-          "@type": "Offer",
-          itemOffered: createBasicProductSchema(
-            "Decoratieve Bloemen",
-            "Handgemaakte vilt decoratieve bloemen voor het huis",
-            "75.00",
-            `${process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl"}/flower.webp`,
-            `${process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl"}/${locale}/flowers/shop`,
           ),
         },
       ],
@@ -205,7 +193,7 @@ const HomePage = async ({ params }: Props) => {
           </h1>
           <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 items-center">
             {/* Hero Image */}
-            <div className="relative overflow-hidden border-4 border-foreground shadow-xl">
+            <div className="relative overflow-hidden rounded-3xl shadow-2xl">
               <Image
                 src="/flower.webp"
                 alt={seoCommon("heroImageAlt")}
@@ -223,11 +211,7 @@ const HomePage = async ({ params }: Props) => {
                 {appT("hero.description")}
               </p>
               <div>
-                <Button
-                  asChild
-                  variant="link"
-                  className="p-0 h-auto text-lg font-bold text-pastel-rose"
-                >
+                <Button asChild variant="link" className="p-0 h-auto text-lg">
                   <LanguageAwareLink href="/about">
                     {appT("readMore")} →
                   </LanguageAwareLink>
@@ -237,21 +221,18 @@ const HomePage = async ({ params }: Props) => {
           </div>
         </section>
 
-        {/* Featured Products Section - Funeral, Wedding, Birth & Flowers */}
-        {(funeralProduct ||
-          weddingProduct ||
-          birthProduct ||
-          flowersProduct) && (
+        {/* Featured Products Section - Funeral, Wedding & Birth */}
+        {(funeralProduct || weddingProduct || birthProduct) && (
           <section className="mb-16">
-            <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {/* Funeral Flowers Section */}
               {funeralProduct && (
-                <div className="flex flex-col h-full border-4 border-pastel-rose p-6 bg-pastel-rose/5">
+                <div className="flex flex-col h-full">
                   <div className="text-center mb-6">
-                    <h2 className="text-3xl font-bold mb-3 text-pastel-rose">
+                    <h2 className="text-3xl font-bold mb-3">
                       {homeT("funeralSection.title")}
                     </h2>
-                    <p className="text-muted-foreground font-medium">
+                    <p className="text-muted-foreground">
                       {homeT("funeralSection.description")}
                     </p>
                   </div>
@@ -261,14 +242,14 @@ const HomePage = async ({ params }: Props) => {
                     </div>
                   </div>
                   <div className="text-center mt-auto">
-                    <p className="text-muted-foreground mb-3 font-medium">
+                    <p className="text-muted-foreground mb-3">
                       {homeT("funeralSection.seeMore")}
                     </p>
                     <Button
                       asChild
                       size="lg"
                       variant="outline"
-                      className="w-full border-pastel-rose text-pastel-rose hover:bg-pastel-rose/10"
+                      className="w-full"
                     >
                       <LanguageAwareLink href="/funeral-flowers/shop">
                         {homeT("funeralSection.viewAll")}
@@ -278,14 +259,15 @@ const HomePage = async ({ params }: Props) => {
                   </div>
                 </div>
               )}
+
               {/* Wedding Bouquets Section */}
               {weddingProduct && (
-                <div className="flex flex-col h-full border-4 border-pastel-peach p-6 bg-pastel-peach/5">
+                <div className="flex flex-col h-full">
                   <div className="text-center mb-6">
-                    <h2 className="text-3xl font-bold mb-3 text-pastel-peach">
+                    <h2 className="text-3xl font-bold mb-3">
                       {homeT("weddingSection.title")}
                     </h2>
-                    <p className="text-muted-foreground font-medium">
+                    <p className="text-muted-foreground">
                       {homeT("weddingSection.description")}
                     </p>
                   </div>
@@ -295,14 +277,14 @@ const HomePage = async ({ params }: Props) => {
                     </div>
                   </div>
                   <div className="text-center mt-auto">
-                    <p className="text-muted-foreground mb-3 font-medium">
+                    <p className="text-muted-foreground mb-3">
                       {homeT("weddingSection.seeMore")}
                     </p>
                     <Button
                       asChild
                       size="lg"
                       variant="outline"
-                      className="w-full border-pastel-peach text-pastel-peach hover:bg-pastel-peach/10"
+                      className="w-full"
                     >
                       <LanguageAwareLink href="/wedding-bouquets/shop">
                         {homeT("weddingSection.viewAll")}
@@ -312,14 +294,15 @@ const HomePage = async ({ params }: Props) => {
                   </div>
                 </div>
               )}
+
               {/* Birth Pieces Section */}
               {birthProduct && (
-                <div className="flex flex-col h-full border-4 border-pastel-lavender p-6 bg-pastel-lavender/5">
+                <div className="flex flex-col h-full">
                   <div className="text-center mb-6">
-                    <h2 className="text-3xl font-bold mb-3 text-pastel-lavender">
+                    <h2 className="text-3xl font-bold mb-3">
                       {homeT("birthSection.title")}
                     </h2>
-                    <p className="text-muted-foreground font-medium">
+                    <p className="text-muted-foreground">
                       {homeT("birthSection.description")}
                     </p>
                   </div>
@@ -329,51 +312,17 @@ const HomePage = async ({ params }: Props) => {
                     </div>
                   </div>
                   <div className="text-center mt-auto">
-                    <p className="text-muted-foreground mb-3 font-medium">
+                    <p className="text-muted-foreground mb-3">
                       {homeT("birthSection.seeMore")}
                     </p>
                     <Button
                       asChild
                       size="lg"
                       variant="outline"
-                      className="w-full border-pastel-lavender text-pastel-lavender hover:bg-pastel-lavender/10"
+                      className="w-full"
                     >
                       <LanguageAwareLink href="/birth-pieces/shop">
                         {homeT("birthSection.viewAll")}
-                        <ArrowRight className="ml-2 h-5 w-5" />
-                      </LanguageAwareLink>
-                    </Button>
-                  </div>
-                </div>
-              )}
-              {/* Decorative Flowers Section */}
-              {flowersProduct && (
-                <div className="flex flex-col h-full border-4 border-pastel-sage p-6 bg-pastel-sage/5">
-                  <div className="text-center mb-6">
-                    <h2 className="text-3xl font-bold mb-3 text-pastel-sage">
-                      {homeT("flowersSection.title")}
-                    </h2>
-                    <p className="text-muted-foreground font-medium">
-                      {homeT("flowersSection.description")}
-                    </p>
-                  </div>
-                  <div className="mb-6 flex-1 flex">
-                    <div className="w-full">
-                      <ProductCard product={flowersProduct} variant="default" />
-                    </div>
-                  </div>
-                  <div className="text-center mt-auto">
-                    <p className="text-muted-foreground mb-3 font-medium">
-                      {homeT("flowersSection.seeMore")}
-                    </p>
-                    <Button
-                      asChild
-                      size="lg"
-                      variant="outline"
-                      className="w-full border-pastel-sage text-pastel-sage hover:bg-pastel-sage/10"
-                    >
-                      <LanguageAwareLink href="/flowers/shop">
-                        {homeT("flowersSection.viewAll")}
                         <ArrowRight className="ml-2 h-5 w-5" />
                       </LanguageAwareLink>
                     </Button>
@@ -388,139 +337,76 @@ const HomePage = async ({ params }: Props) => {
         <section className="mt-16 max-w-7xl mx-auto">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold mb-3">{homeT("exploreTitle")}</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto font-medium">
+            <p className="text-muted-foreground max-w-2xl mx-auto">
               {homeT("exploreDescription")}
             </p>
           </div>
+
           {/* Flower Collections Group */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
-            {/* Funeral */}
-            <div className="border-4 border-pastel-rose p-6 bg-pastel-rose/5 flex flex-col h-full hover:shadow-xl hover:shadow-pastel-rose/20 transition-all">
-              <h3 className="text-2xl font-bold text-pastel-rose mb-2">
-                {navT("rouwstukken")}
-              </h3>
-              <p className="text-muted-foreground mb-6 grow text-sm">
-                Elegant arrangements for honoring loved ones
-              </p>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="w-full border-2 border-pastel-rose text-pastel-rose hover:bg-pastel-rose/10 font-bold"
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6">
+            <Button asChild size="lg" variant="outline" className="h-auto py-8">
+              <LanguageAwareLink
+                href="/funeral-flowers"
+                className="flex flex-col items-center gap-3"
               >
-                <LanguageAwareLink href="/funeral-flowers/shop">
-                  Shop
-                </LanguageAwareLink>
-              </Button>
-            </div>
-
-            {/* Wedding */}
-            <div className="border-4 border-pastel-peach p-6 bg-pastel-peach/5 flex flex-col h-full hover:shadow-xl hover:shadow-pastel-peach/20 transition-all">
-              <h3 className="text-2xl font-bold text-pastel-peach mb-2">
-                {navT("bruidsboeketten")}
-              </h3>
-              <p className="text-muted-foreground mb-6 grow text-sm">
-                Beautiful bouquets for your special day
-              </p>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="w-full border-2 border-pastel-peach text-pastel-peach hover:bg-pastel-peach/10 font-bold"
+                <span className="text-sm md:text-base font-medium">
+                  {navT("rouwstukken")}
+                </span>
+              </LanguageAwareLink>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="h-auto py-8">
+              <LanguageAwareLink
+                href="/wedding-bouquets"
+                className="flex flex-col items-center gap-3"
               >
-                <LanguageAwareLink href="/wedding-bouquets/shop">
-                  Shop
-                </LanguageAwareLink>
-              </Button>
-            </div>
-
-            {/* Birth Pieces */}
-            <div className="border-4 border-pastel-lavender p-6 bg-pastel-lavender/5 flex flex-col h-full hover:shadow-xl hover:shadow-pastel-lavender/20 transition-all">
-              <h3 className="text-2xl font-bold text-pastel-lavender mb-2">
-                {navT("geboortestukken")}
-              </h3>
-              <p className="text-muted-foreground mb-6 grow text-sm">
-                Celebrate new arrivals with joy
-              </p>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="w-full border-2 border-pastel-lavender text-pastel-lavender hover:bg-pastel-lavender/10 font-bold"
+                <span className="text-sm md:text-base font-medium">
+                  {navT("bruidsboeketten")}
+                </span>
+              </LanguageAwareLink>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="h-auto py-8">
+              <LanguageAwareLink
+                href="/birth-pieces"
+                className="flex flex-col items-center gap-3"
               >
-                <LanguageAwareLink href="/birth-pieces/shop">
-                  Shop
-                </LanguageAwareLink>
-              </Button>
-            </div>
-
-            {/* Flowers */}
-            <div className="border-4 border-pastel-sage p-6 bg-pastel-sage/5 flex flex-col h-full hover:shadow-xl hover:shadow-pastel-sage/20 transition-all">
-              <h3 className="text-2xl font-bold text-pastel-sage mb-2">
-                {homeT("flowersSection.title")}
-              </h3>
-              <p className="text-muted-foreground mb-6 grow text-sm">
-                {homeT("flowersSection.description")}
-              </p>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="w-full border-2 border-pastel-sage text-pastel-sage hover:bg-pastel-sage/10 font-bold"
-              >
-                <LanguageAwareLink href="/flowers/shop">
-                  {homeT("flowersSection.viewAll")}
-                </LanguageAwareLink>
-              </Button>
-            </div>
+                <span className="text-sm md:text-base font-medium">
+                  {navT("geboortestukken")}
+                </span>
+              </LanguageAwareLink>
+            </Button>
           </div>
 
-          {/* Additional Links Group */}
+          {/* General Pages Group */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="h-auto py-6 border-2 border-pastel-mint text-pastel-mint hover:bg-pastel-mint/10 font-bold"
-            >
+            <Button asChild size="lg" variant="outline" className="h-auto py-8">
               <LanguageAwareLink
                 href="/workshops"
                 className="flex flex-col items-center gap-3"
               >
                 <Palette className="w-8 h-8 md:w-10 md:h-10" />
-                <span className="text-sm md:text-base font-bold">
+                <span className="text-sm md:text-base font-medium">
                   {navT("workshops")}
                 </span>
               </LanguageAwareLink>
             </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="h-auto py-6 border-2 border-pastel-rose text-pastel-rose hover:bg-pastel-rose/10 font-bold"
-            >
+            <Button asChild size="lg" variant="outline" className="h-auto py-8">
               <LanguageAwareLink
                 href="/about"
                 className="flex flex-col items-center gap-3"
               >
                 <Heart className="w-8 h-8 md:w-10 md:h-10" />
-                <span className="text-sm md:text-base font-bold">
+                <span className="text-sm md:text-base font-medium">
                   {navT("about")}
                 </span>
               </LanguageAwareLink>
             </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="h-auto py-6 border-2 border-pastel-peach text-pastel-peach hover:bg-pastel-peach/10 font-bold"
-            >
+            <Button asChild size="lg" variant="outline" className="h-auto py-8">
               <LanguageAwareLink
                 href="/contact"
                 className="flex flex-col items-center gap-3"
               >
                 <Mail className="w-8 h-8 md:w-10 md:h-10" />
-                <span className="text-sm md:text-base font-bold">
+                <span className="text-sm md:text-base font-medium">
                   {navT("contact")}
                 </span>
               </LanguageAwareLink>
