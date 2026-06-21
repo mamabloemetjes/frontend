@@ -76,6 +76,12 @@
       "noProductsFound": "Geen geboortestukken gevonden"
     }
   },
+  "flowers": {
+    "shop": {
+      "errorFetchingProducts": "Fout bij het ophalen van deco bloemen",
+      "noProductsFound": "Geen deco bloemen gevonden"
+    }
+  },
   "contact": {
     "title": "Neem Contact Op",
     "description": "Vul het onderstaande formulier in en ik neem zo snel mogelijk contact met je op.",
