@@ -6,7 +6,7 @@ import {
   useCreateProduct,
   useUpdateProduct,
 } from "@/hooks/useAdminProducts";
-import type { Product } from "@/lib/api";
+import type { Product, ProductInput } from "@/lib/api";
 import { ImageManager } from "@/components/admin/ImageManager";
 import { ProductsTable } from "@/components/admin/ProductsTable";
 import { type ColumnDef } from "@tanstack/react-table";
@@ -597,6 +597,9 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
             </SelectItem>
             <SelectItem value="birth">
               {t("pages.dashboard.productTypes.birth")}
+            </SelectItem>
+            <SelectItem value="flowers">
+              {t("pages.dashboard.productTypes.flowers")}
             </SelectItem>
           </SelectContent>
         </Select>

@@ -240,3 +240,7 @@
 .animate-marquee-reverse {
     animation: marquee-reverse 20s linear infinite;
 }
+
+* {
+    border-radius: 0 !important;
+}

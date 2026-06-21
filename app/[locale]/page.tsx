@@ -81,10 +81,19 @@ const HomePage = async ({ params }: Props) => {
   const funeralResponse = await fetchProducts(1, 1, true, "funeral");
   const weddingResponse = await fetchProducts(1, 1, true, "wedding");
   const birthResponse = await fetchProducts(1, 1, true, "birth");
+  const flowerResponse = await fetchProducts(1, 1, true, "flowers");
 
   const funeralProduct = funeralResponse.data?.products?.[0];
   const weddingProduct = weddingResponse.data?.products?.[0];
   const birthProduct = birthResponse.data?.products?.[0];
+  const flowerProduct = flowerResponse.data?.products?.[0];
+
+  const len = [
+    funeralProduct,
+    weddingProduct,
+    birthProduct,
+    flowerProduct,
+  ].filter(Boolean).length;
 
   // Structured Data for Homepage
   const structuredData = {
@@ -121,6 +130,16 @@ const HomePage = async ({ params }: Props) => {
             "150.00",
             `${process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl"}/flower.webp`,
             `${process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl"}/${locale}/birth-pieces/shop`,
+          ),
+        },
+        {
+          "@type": "Offer",
+          itemOffered: createBasicProductSchema(
+            "Viltbloemen",
+            "Handgemaakte viltbloemen voor alle gelegenheden",
+            "50.00",
+            `${process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl"}/flower.webp`,
+            `${process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl"}/${locale}/flowers/shop`,
           ),
         },
       ],
@@ -222,9 +241,14 @@ const HomePage = async ({ params }: Props) => {
         </section>
 
         {/* Featured Products Section - Funeral, Wedding & Birth */}
-        {(funeralProduct || weddingProduct || birthProduct) && (
+        {(funeralProduct ||
+          weddingProduct ||
+          birthProduct ||
+          flowerProduct) && (
           <section className="mb-16">
-            <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div
+              className={`max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-${len} gap-8`}
+            >
               {/* Funeral Flowers Section */}
               {funeralProduct && (
                 <div className="flex flex-col h-full">
@@ -329,6 +353,40 @@ const HomePage = async ({ params }: Props) => {
                   </div>
                 </div>
               )}
+              {/* Flower Section */}
+              {flowerProduct && (
+                <div className="flex flex-col h-full">
+                  <div className="text-center mb-6">
+                    <h2 className="text-3xl font-bold mb-3">
+                      {homeT("flowerSection.title")}
+                    </h2>
+                    <p className="text-muted-foreground">
+                      {homeT("flowerSection.description")}
+                    </p>
+                  </div>
+                  <div className="mb-6 flex-1 flex">
+                    <div className="w-full">
+                      <ProductCard product={flowerProduct} variant="default" />
+                    </div>
+                  </div>
+                  <div className="text-center mt-auto">
+                    <p className="text-muted-foreground mb-3">
+                      {homeT("flowerSection.seeMore")}
+                    </p>
+                    <Button
+                      asChild
+                      size="lg"
+                      variant="outline"
+                      className="w-full"
+                    >
+                      <LanguageAwareLink href="/flowers/shop">
+                        {homeT("flowerSection.viewAll")}
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </LanguageAwareLink>
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           </section>
         )}
@@ -343,7 +401,7 @@ const HomePage = async ({ params }: Props) => {
           </div>
 
           {/* Flower Collections Group */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 mb-6">
             <Button asChild size="lg" variant="outline" className="h-auto py-8">
               <LanguageAwareLink
                 href="/funeral-flowers"
@@ -371,6 +429,16 @@ const HomePage = async ({ params }: Props) => {
               >
                 <span className="text-sm md:text-base font-medium">
                   {navT("geboortestukken")}
+                </span>
+              </LanguageAwareLink>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="h-auto py-8">
+              <LanguageAwareLink
+                href="/flowers"
+                className="flex flex-col items-center gap-3"
+              >
+                <span className="text-sm md:text-base font-medium">
+                  {navT("bloemen")}
                 </span>
               </LanguageAwareLink>
             </Button>
