@@ -97,12 +97,11 @@ const DashboardPage = () => {
 function ProductsTab() {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const pageSize = 20;
   const t = useTranslations();
 
   const { data, isLoading, error } = useAdminProducts({
     page: 1,
-    page_size: pageSize,
+    page_size: 100,
     include_images: true,
   });
 
@@ -269,7 +268,9 @@ function ProductsTab() {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">{t("pages.dashboard.products")}</h2>
+        <h2 className="text-2xl font-bold">
+          {t("pages.dashboard.products")} ({products.length})
+        </h2>
         <Button onClick={() => setShowCreateForm(true)}>
           {t("pages.dashboard.addProduct")}
         </Button>
