@@ -73,7 +73,7 @@ const ProductsPage = async ({ params }: Props) => {
   const t = await getTranslations({ locale, namespace: "pages.products" });
 
   // Fetch active products with images
-  const { data, success } = await fetchProducts(1, 20, true);
+  const { data, success } = await fetchProducts(1, 100, true);
 
   const products = data?.products || [];
 
@@ -109,7 +109,9 @@ const ProductsPage = async ({ params }: Props) => {
       />
       <div className="container mx-auto px-4 py-8">
         <header className="mb-8">
-          <h1 className="text-3xl font-bold mb-4">{t("title")}</h1>
+          <h1 className="text-3xl font-bold mb-4">
+            {t("title")} ({products.length})
+          </h1>
           <div className="max-w-3xl">
             <h2 className="text-xl font-semibold mb-2 text-muted-foreground">
               {t("introTitle")}
