@@ -37,6 +37,12 @@
       "seeMore": "Wil je meer geboortestukken zien?",
       "viewAll": "Bekijk Alle Geboortestukken"
     },
+    "flowerSection": {
+      "title": "Deco Bloemen",
+      "description": "Handgemaakte vilt bloemen voor decoratie en geschenken",
+      "seeMore": "Wil je meer deco bloemen zien?",
+      "viewAll": "Bekijk Alle Deco Bloemen"
+    },
     "hero": {
       "title": "Welkom bij Roos van Sharon",
       "subtitle": "Handgemaakte boeketten met liefde"
@@ -217,7 +223,8 @@
     "productTypes": {
       "funeral": "Rouwstuk",
       "wedding": "Bruidsbloemen",
-      "birth": "Geboortestuk"
+      "birth": "Geboortestuk",
+      "flowers": "Deco Bloemen"
     },
     "imageManager": {
       "title": "Productafbeeldingen",

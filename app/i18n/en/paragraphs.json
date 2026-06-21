@@ -40,5 +40,13 @@
     "birthShopButton": "View birth pieces",
     "birthContactButton": "Contact me",
     "backToAllProducts": "← Back to All Products"
+  },
+  "flowers": {
+    "flowersTitle": "Deco Flowers",
+    "flowersTitle1": "Forever Beautiful Flowers",
+    "flowersDesc1": "Handmade felt deco flowers for your home or as a gift. These flowers are perfect for adding a touch of beauty and warmth to any space. They never wilt, so you can enjoy their charm for a long time.",
+    "flowersShopButton": "View deco flowers",
+    "flowersContactButton": "Contact me",
+    "backToAllProducts": "← Back to All Products"
   }
 }

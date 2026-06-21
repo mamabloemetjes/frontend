@@ -8,6 +8,7 @@ import ProductCard from "./ProductCard";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { TokenRefreshHandler } from "./TokenRefreshHandler";
 import Footer from "./Footer";
+import Hero from "./Hero";
 
 export {
   FeatureComponent,
@@ -20,4 +21,5 @@ export {
   ProtectedRoute,
   TokenRefreshHandler,
   Footer,
+  Hero,
 };

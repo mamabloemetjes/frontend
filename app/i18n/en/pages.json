@@ -37,6 +37,12 @@
       "seeMore": "Want to see more birth pieces?",
       "viewAll": "View All Birth Pieces"
     },
+    "flowerSection": {
+      "title": "Deco Flowers",
+      "description": "Handmade felt flowers for decoration and gifting",
+      "seeMore": "Want to see more deco flowers?",
+      "viewAll": "View All Deco Flowers"
+    },
     "hero": {
       "title": "Welcome to Roos van Sharon",
       "subtitle": "Handmade bouquets with love"
@@ -216,7 +222,8 @@
     "productTypes": {
       "funeral": "Funeral Piece",
       "wedding": "Wedding Bouquet",
-      "birth": "Birth Piece"
+      "birth": "Birth Piece",
+      "flowers": "Deco Flower"
     },
     "imageManager": {
       "title": "Product Images",
