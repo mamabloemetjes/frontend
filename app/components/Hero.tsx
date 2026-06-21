@@ -1,3 +1,5 @@
+import { LanguageAwareLink } from "./LanguageAwareLink";
+
 function FeltFlower({
   cx,
   cy,
@@ -191,40 +193,35 @@ export default function Hero({ appT }: { appT: (key: string) => string }) {
         }
       `}</style>
 
-      {/* subtle felt grain texture */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.05]"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-        }}
-      />
-
       <div className="relative mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-12 px-6 py-24 md:grid-cols-2 md:gap-10 md:px-10">
         {/* Copy */}
         <div className="order-2 md:order-1">
-          <span className="fade-up mb-6 inline-flex items-center gap-2 rounded-full border border-[#C2654B]/30 bg-[#C2654B]/10 px-4 py-1.5 text-sm font-medium tracking-wide text-secondary-foreground/70">
+          <span className="fade-up mb-6 inline-flex items-center gap-2 rounded-full border border-secondary/50 bg-secondary/20 px-4 py-1.5 text-sm font-medium tracking-wide text-secondary-foreground">
             <span className="h-1.5 w-1.5 rounded-full bg-secondary" />
             {appT("handmade")}
           </span>
 
           <h1
-            className="fade-up fade-up-d1 text-5xl font-semibold leading-[1.05] tracking-tight text-[#2B231D] sm:text-6xl lg:text-7xl"
+            className="fade-up fade-up-d1 text-5xl font-semibold leading-[1.05] tracking-tight text-foreground/90 sm:text-6xl lg:text-7xl"
             style={{ fontFamily: "'Fraunces', Georgia, serif" }}
           >
             {appT("title")}
           </h1>
 
-          <h3 className="fade-up fade-up-d2 mt-6 max-w-md text-xl leading-relaxed text-[#5B5247]">
+          <h3 className="fade-up fade-up-d2 mt-6 max-w-md text-xl leading-relaxed text-foreground/50">
             {appT("description")}
           </h3>
 
           <div className="fade-up fade-up-d3 mt-10 flex flex-wrap items-center gap-4">
             <button className="rounded-full bg-primary px-8 py-3.5 text-base font-medium text-white shadow-lg shadow-primary/20 transition hover:bg-primary/60 hover:shadow-xl hover:shadow-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
-              {appT("shop")}
+              <LanguageAwareLink href="/products" className="flex items-center">
+                {appT("shop")}
+              </LanguageAwareLink>
             </button>
-            <button className="rounded-full border border-[#2B231D]/15 px-8 py-3.5 text-base font-medium text-[#2B231D] transition hover:border-[#2B231D]/30 hover:bg-[#2B231D]/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2B231D]/40 focus-visible:ring-offset-2">
-              {appT("about")}
+            <button className="rounded-full border border-border px-8 py-3.5 text-base font-medium text-foreground transition hover:border-foreground/30 hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background">
+              <LanguageAwareLink href="/about" className="flex items-center">
+                {appT("about")}
+              </LanguageAwareLink>
             </button>
           </div>
         </div>
