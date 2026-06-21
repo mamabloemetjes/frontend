@@ -10,7 +10,7 @@ import { LanguageAwareLink } from "@/components/LanguageAwareLink";
 import { fetchProducts } from "@/hooks/useProducts";
 
 type FlowerTypePageProps = {
-  type: "funeral" | "wedding" | "birth";
+  type: "funeral" | "wedding" | "birth" | "flowers";
   locale: string;
 };
 
@@ -21,7 +21,9 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
       ? "pages.funeral.shop"
       : type === "wedding"
         ? "pages.wedding.shop"
-        : "pages.birth.shop";
+        : type === "birth"
+          ? "pages.birth.shop"
+          : "pages.flowers.shop";
   const t = await getTranslations({ locale, namespace });
   const productsT = await getTranslations({
     locale,
@@ -32,7 +34,9 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
       ? "paragraphs.mourning"
       : type === "wedding"
         ? "paragraphs.wedding"
-        : "paragraphs.birth";
+        : type === "birth"
+          ? "paragraphs.birth"
+          : "paragraphs.flowers";
   const paragraphsT = await getTranslations({
     locale,
     namespace: paragraphsNamespace,
@@ -86,28 +90,36 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
       ? paragraphsT("mournPiecesTitle")
       : type === "wedding"
         ? paragraphsT("weddingTitle")
-        : paragraphsT("birthTitle");
+        : type === "birth"
+          ? paragraphsT("birthTitle")
+          : paragraphsT("flowersTitle");
 
   const introTitle =
     type === "funeral"
       ? paragraphsT("mournPiecesTitle1")
       : type === "wedding"
         ? paragraphsT("weddingTitle1")
-        : paragraphsT("birthTitle1");
+        : type === "birth"
+          ? paragraphsT("birthTitle1")
+          : paragraphsT("flowersTitle1");
 
   const introDescription =
     type === "funeral"
       ? paragraphsT("mournPiecesDesc1")
       : type === "wedding"
         ? paragraphsT("weddingDesc1")
-        : paragraphsT("birthDesc1");
+        : type === "birth"
+          ? paragraphsT("birthDesc1")
+          : paragraphsT("flowersDesc1");
 
   const borderColor =
     type === "funeral"
       ? "border-muted-foreground/30"
       : type === "wedding"
         ? "border-primary/50"
-        : "border-blue-500/50";
+        : type === "birth"
+          ? "border-green-500/50"
+          : "border-blue-500/50";
 
   // Structured Data for Product Listing
   const productListingSchema = createProductListingSchema(products, locale);

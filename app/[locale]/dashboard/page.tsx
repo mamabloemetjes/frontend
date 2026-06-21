@@ -6,7 +6,7 @@ import {
   useCreateProduct,
   useUpdateProduct,
 } from "@/hooks/useAdminProducts";
-import type { Product, ProductInput } from "@/lib/api";
+import type { Product } from "@/lib/api";
 import { ImageManager } from "@/components/admin/ImageManager";
 import { ProductsTable } from "@/components/admin/ProductsTable";
 import { type ColumnDef } from "@tanstack/react-table";

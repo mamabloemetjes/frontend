@@ -6,7 +6,7 @@ import { Mail, Heart, ArrowRight, Palette } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { Metadata } from "next";
-import { ProductCard } from "@/components";
+import { Hero, ProductCard } from "@/components";
 import {
   createLocalBusinessSchema,
   createBasicProductSchema,
@@ -15,6 +15,7 @@ import {
 } from "@/lib/structured-data";
 import { Props } from "@/types";
 import { fetchProducts } from "@/hooks/useProducts";
+import { Separator } from "@/components/ui/separator";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -204,38 +205,31 @@ const HomePage = async ({ params }: Props) => {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
       />
-      <div className="container mx-auto px-4 py-12">
-        {/* Hero Section with Image and Text */}
+      <div className="container mx-auto px-4 pb-12">
+        {/* Hero */}
+        <Hero appT={appT} />
+        <Separator className="my-12" />
+        {/* A little about me Section with Image and Text */}
         <section className="mb-16">
-          <h1 className="text-4xl font-bold text-center mb-8">
-            {appT("title")}
-          </h1>
           <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 items-center">
             {/* Hero Image */}
             <div className="relative overflow-hidden rounded-3xl shadow-2xl">
               <Image
                 src="/flower.webp"
                 alt={seoCommon("heroImageAlt")}
-                className="w-full h-auto object-cover"
-                width={1200}
-                height={600}
+                className="object-cover w-full h-full"
+                width={400}
+                height={200}
                 priority
               />
             </div>
 
-            {/* Hero Text */}
+            {/* About me Text */}
             <div className="space-y-6">
               <h2 className="text-3xl font-bold">{appT("hero.title")}</h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
                 {appT("hero.description")}
               </p>
-              <div>
-                <Button asChild variant="link" className="p-0 h-auto text-lg">
-                  <LanguageAwareLink href="/about">
-                    {appT("readMore")} →
-                  </LanguageAwareLink>
-                </Button>
-              </div>
             </div>
           </div>
         </section>
@@ -390,6 +384,8 @@ const HomePage = async ({ params }: Props) => {
             </div>
           </section>
         )}
+
+        <Separator className="my-12" />
 
         {/* Navigation Links Section */}
         <section className="mt-16 max-w-7xl mx-auto">
