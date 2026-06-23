@@ -502,18 +502,10 @@ export const api = {
      * Fetch only active products
      */
     getActive: async (
-      page: number = 1,
-      pageSize: number = 20,
-      includeImages: boolean = false,
-      productType?: string,
+      filters: ProductListFilters,
     ): Promise<ApiResponse<ProductListResponse>> => {
       return apiClient.get("/products/active", {
-        params: {
-          product_type: productType,
-          page,
-          page_size: pageSize,
-          include_images: includeImages,
-        },
+        params: filters,
       });
     },
 
@@ -792,8 +784,8 @@ export const queryKeys = {
       [...queryKeys.products.lists(), filters] as const,
     details: () => [...queryKeys.products.all, "detail"] as const,
     detail: (id: string) => [...queryKeys.products.details(), id] as const,
-    active: (page?: number, pageSize?: number) =>
-      [...queryKeys.products.all, "active", { page, pageSize }] as const,
+    active: (filters: ProductListFilters) =>
+      [...queryKeys.products.all, "active", filters] as const,
     count: (filters?: ProductListFilters) =>
       [...queryKeys.products.all, "count", filters] as const,
   },

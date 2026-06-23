@@ -16,6 +16,7 @@ import {
 import { Props } from "@/types";
 import { fetchProducts } from "@/hooks/useProducts";
 import { Separator } from "@/components/ui/separator";
+import { ProductListFilters } from "@/lib/api";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -79,10 +80,33 @@ const HomePage = async ({ params }: Props) => {
   });
 
   // Fetch one funeral, wedding, and birth product
-  const funeralResponse = await fetchProducts(1, 1, true, "funeral");
-  const weddingResponse = await fetchProducts(1, 1, true, "wedding");
-  const birthResponse = await fetchProducts(1, 1, true, "birth");
-  const flowerResponse = await fetchProducts(1, 1, true, "flowers");
+  // We fetch one product from each category to display on the homepage. If a category has no products, it will be skipped.
+
+  const filters: ProductListFilters = {
+    page: 1,
+    page_size: 1,
+    is_active: true,
+    include_images: true,
+  };
+  const funeralResponse = await fetchProducts({
+    ...filters,
+    product_type: "funeral",
+  });
+
+  const weddingResponse = await fetchProducts({
+    ...filters,
+    product_type: "wedding",
+  });
+
+  const birthResponse = await fetchProducts({
+    ...filters,
+    product_type: "birth",
+  });
+
+  const flowerResponse = await fetchProducts({
+    ...filters,
+    product_type: "flowers",
+  });
 
   const funeralProduct = funeralResponse.data?.products?.[0];
   const weddingProduct = weddingResponse.data?.products?.[0];

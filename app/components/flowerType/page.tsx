@@ -8,6 +8,7 @@ import {
 } from "@/lib/structured-data";
 import { LanguageAwareLink } from "@/components/LanguageAwareLink";
 import { fetchProducts } from "@/hooks/useProducts";
+import { type ProductListFilters } from "@/lib/api";
 
 type FlowerTypePageProps = {
   type: "funeral" | "wedding" | "birth" | "flowers";
@@ -43,7 +44,13 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
   });
 
   // Fetch products by type
-  const res = await fetchProducts(1, 50, true, type);
+  const filters: ProductListFilters = {
+    page: 1,
+    page_size: 100,
+    product_type: type as ProductListFilters["product_type"],
+    include_images: true,
+  };
+  const res = await fetchProducts(filters);
   const { data, success } = res;
 
   if (!success) {

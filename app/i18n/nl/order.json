@@ -40,7 +40,7 @@
     "orderPlaced": "Je bestelling is succesvol geplaatst",
     "emailSent": "Er is een bevestigingsmail gestuurd naar je e-mailadres",
     "paymentInfo": "Betaalinformatie",
-    "tikkiePayment": "Je ontvangt binnenkort een Tikkie betaallink via e-mail",
+    "tikkiePayment": "Je ontvangt binnenkort een Tikkie betaallink via e-mail. Dit is omdat ik nog geen KVK nummer heb.",
     "waitingForPayment": "Zodra de betaling is ontvangen, ga ik aan de slag met je bestelling",
     "orderDetails": "Wat Gebeurt Er Nu",
     "deliveryAddress": "Bezorgadres",
