@@ -29,18 +29,8 @@ export const fetchProductById = async (
   return res;
 };
 
-export const fetchProducts = async (
-  page = 1,
-  pageSize = 20,
-  includeImages = false,
-  productType?: string,
-) => {
-  const res = await api.products.getActive(
-    page,
-    pageSize,
-    includeImages,
-    productType,
-  );
+export const fetchProducts = async (filters: ProductListFilters) => {
+  const res = await api.products.getActive(filters);
   return res;
 };
 
@@ -63,19 +53,11 @@ export function useProduct(id: string, includeImages: boolean = false) {
   });
 }
 
-export function useActiveProducts(
-  page: number = 1,
-  pageSize: number = 20,
-  includeImages: boolean = false,
-) {
+export function useActiveProducts(filters: ProductListFilters = {}) {
   return useQuery<ProductListResponse, ApiError>({
-    queryKey: queryKeys.products.active(page, pageSize),
+    queryKey: queryKeys.products.active(filters),
     queryFn: async () => {
-      const response = await api.products.getActive(
-        page,
-        pageSize,
-        includeImages,
-      );
+      const response = await api.products.getActive(filters);
       return response.data;
     },
   });

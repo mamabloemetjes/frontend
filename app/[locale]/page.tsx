@@ -16,6 +16,7 @@ import {
 import { Props } from "@/types";
 import { fetchProducts } from "@/hooks/useProducts";
 import { Separator } from "@/components/ui/separator";
+import { ProductListFilters } from "@/lib/api";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -79,10 +80,33 @@ const HomePage = async ({ params }: Props) => {
   });
 
   // Fetch one funeral, wedding, and birth product
-  const funeralResponse = await fetchProducts(1, 1, true, "funeral");
-  const weddingResponse = await fetchProducts(1, 1, true, "wedding");
-  const birthResponse = await fetchProducts(1, 1, true, "birth");
-  const flowerResponse = await fetchProducts(1, 1, true, "flowers");
+  // We fetch one product from each category to display on the homepage. If a category has no products, it will be skipped.
+
+  const filters: ProductListFilters = {
+    page: 1,
+    page_size: 1,
+    is_active: true,
+    include_images: true,
+  };
+  const funeralResponse = await fetchProducts({
+    ...filters,
+    product_type: "funeral",
+  });
+
+  const weddingResponse = await fetchProducts({
+    ...filters,
+    product_type: "wedding",
+  });
+
+  const birthResponse = await fetchProducts({
+    ...filters,
+    product_type: "birth",
+  });
+
+  const flowerResponse = await fetchProducts({
+    ...filters,
+    product_type: "flowers",
+  });
 
   const funeralProduct = funeralResponse.data?.products?.[0];
   const weddingProduct = weddingResponse.data?.products?.[0];
@@ -205,276 +229,259 @@ const HomePage = async ({ params }: Props) => {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
       />
-      <div className="container mx-auto px-4 pb-12">
+      <div className="container mx-auto px-4 pb-24">
         {/* Hero */}
         <Hero appT={appT} />
-        <Separator className="my-12" />
-        {/* A little about me Section with Image and Text */}
-        <section className="mb-32">
-          <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 items-center">
-            {/* Hero Image */}
-            <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+
+        <Separator className="my-16" />
+
+        {/* About section */}
+        <section className="mb-24 max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="overflow-hidden">
               <Image
                 src="/flower.webp"
                 alt={seoCommon("heroImageAlt")}
-                className="object-cover w-full h-full"
-                width={400}
-                height={200}
+                className="object-cover w-full aspect-4/3"
+                width={600}
+                height={450}
                 priority
               />
             </div>
 
-            {/* About me Text */}
             <div className="space-y-6">
-              <h2 className="text-3xl font-bold">{appT("hero.title")}</h2>
+              <span className="inline-flex items-center gap-2 border border-secondary/50 bg-secondary/20 px-4 py-1.5 text-sm font-medium tracking-wide text-secondary-foreground">
+                <span className="h-1.5 w-1.5 bg-secondary" />
+                {appT("about")}
+              </span>
+              <h2 className="text-4xl lg:text-5xl font-semibold leading-tight tracking-tight text-foreground">
+                {appT("hero.title")}
+              </h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
                 {appT("hero.description")}
               </p>
+              <Button asChild size="lg" variant="outline">
+                <LanguageAwareLink
+                  href="/about"
+                  className="flex items-center gap-2"
+                >
+                  {appT("readMore")}
+                  <ArrowRight className="h-4 w-4" />
+                </LanguageAwareLink>
+              </Button>
             </div>
           </div>
         </section>
 
-        {/* Featured Products Section - Funeral, Wedding & Birth */}
+        {/* Featured Products */}
         {(funeralProduct ||
           weddingProduct ||
           birthProduct ||
           flowerProduct) && (
-          <section className="mb-16">
-            <div
-              className={`max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-${len} gap-8`}
-            >
-              {/* Funeral Flowers Section */}
-              {funeralProduct && (
-                <div className="flex flex-col h-full">
-                  <div className="text-center mb-6">
-                    <h2 className="text-3xl font-bold mb-3">
-                      {homeT("funeralSection.title")}
-                    </h2>
-                    <p className="text-muted-foreground">
-                      {homeT("funeralSection.description")}
-                    </p>
-                  </div>
-                  <div className="mb-6 flex-1 flex">
-                    <div className="w-full">
+          <section className="mb-24">
+            <div className="max-w-7xl mx-auto">
+              <div className="mb-12">
+                <span className="inline-flex items-center gap-2 border border-secondary/50 bg-secondary/20 px-4 py-1.5 text-sm font-medium tracking-wide text-secondary-foreground mb-5">
+                  <span className="h-1.5 w-1.5 bg-secondary" />
+                  {appT("collection")}
+                </span>
+                <h2 className="text-4xl lg:text-5xl font-semibold tracking-tight text-foreground">
+                  {homeT("title")}
+                </h2>
+              </div>
+
+              <div className={`grid md:grid-cols-2 lg:grid-cols-${len} gap-8`}>
+                {funeralProduct && (
+                  <div className="flex flex-col h-full">
+                    <div className="mb-5 pb-5 border-b border-border">
+                      <h3 className="text-xl font-semibold mb-2">
+                        {homeT("funeralSection.title")}
+                      </h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {homeT("funeralSection.description")}
+                      </p>
+                    </div>
+                    <div className="mb-6 flex-1">
                       <ProductCard product={funeralProduct} variant="default" />
                     </div>
+                    <div className="mt-auto space-y-2">
+                      <p className="text-xs text-muted-foreground">
+                        {homeT("funeralSection.seeMore")}
+                      </p>
+                      <Button
+                        asChild
+                        size="lg"
+                        variant="outline"
+                        className="w-full justify-between"
+                      >
+                        <LanguageAwareLink href="/funeral-flowers/shop">
+                          {homeT("funeralSection.viewAll")}
+                          <ArrowRight className="h-4 w-4" />
+                        </LanguageAwareLink>
+                      </Button>
+                    </div>
                   </div>
-                  <div className="text-center mt-auto">
-                    <p className="text-muted-foreground mb-3">
-                      {homeT("funeralSection.seeMore")}
-                    </p>
-                    <Button
-                      asChild
-                      size="lg"
-                      variant="outline"
-                      className="w-full"
-                    >
-                      <LanguageAwareLink href="/funeral-flowers/shop">
-                        {homeT("funeralSection.viewAll")}
-                        <ArrowRight className="ml-2 h-5 w-5" />
-                      </LanguageAwareLink>
-                    </Button>
-                  </div>
-                </div>
-              )}
+                )}
 
-              {/* Wedding Bouquets Section */}
-              {weddingProduct && (
-                <div className="flex flex-col h-full">
-                  <div className="text-center mb-6">
-                    <h2 className="text-3xl font-bold mb-3">
-                      {homeT("weddingSection.title")}
-                    </h2>
-                    <p className="text-muted-foreground">
-                      {homeT("weddingSection.description")}
-                    </p>
-                  </div>
-                  <div className="mb-6 flex-1 flex">
-                    <div className="w-full">
+                {weddingProduct && (
+                  <div className="flex flex-col h-full">
+                    <div className="mb-5 pb-5 border-b border-border">
+                      <h3 className="text-xl font-semibold mb-2">
+                        {homeT("weddingSection.title")}
+                      </h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {homeT("weddingSection.description")}
+                      </p>
+                    </div>
+                    <div className="mb-6 flex-1">
                       <ProductCard product={weddingProduct} variant="default" />
                     </div>
+                    <div className="mt-auto space-y-2">
+                      <p className="text-xs text-muted-foreground">
+                        {homeT("weddingSection.seeMore")}
+                      </p>
+                      <Button
+                        asChild
+                        size="lg"
+                        variant="outline"
+                        className="w-full justify-between"
+                      >
+                        <LanguageAwareLink href="/wedding-bouquets/shop">
+                          {homeT("weddingSection.viewAll")}
+                          <ArrowRight className="h-4 w-4" />
+                        </LanguageAwareLink>
+                      </Button>
+                    </div>
                   </div>
-                  <div className="text-center mt-auto">
-                    <p className="text-muted-foreground mb-3">
-                      {homeT("weddingSection.seeMore")}
-                    </p>
-                    <Button
-                      asChild
-                      size="lg"
-                      variant="outline"
-                      className="w-full"
-                    >
-                      <LanguageAwareLink href="/wedding-bouquets/shop">
-                        {homeT("weddingSection.viewAll")}
-                        <ArrowRight className="ml-2 h-5 w-5" />
-                      </LanguageAwareLink>
-                    </Button>
-                  </div>
-                </div>
-              )}
+                )}
 
-              {/* Birth Pieces Section */}
-              {birthProduct && (
-                <div className="flex flex-col h-full">
-                  <div className="text-center mb-6">
-                    <h2 className="text-3xl font-bold mb-3">
-                      {homeT("birthSection.title")}
-                    </h2>
-                    <p className="text-muted-foreground">
-                      {homeT("birthSection.description")}
-                    </p>
-                  </div>
-                  <div className="mb-6 flex-1 flex">
-                    <div className="w-full">
+                {birthProduct && (
+                  <div className="flex flex-col h-full">
+                    <div className="mb-5 pb-5 border-b border-border">
+                      <h3 className="text-xl font-semibold mb-2">
+                        {homeT("birthSection.title")}
+                      </h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {homeT("birthSection.description")}
+                      </p>
+                    </div>
+                    <div className="mb-6 flex-1">
                       <ProductCard product={birthProduct} variant="default" />
                     </div>
-                  </div>
-                  <div className="text-center mt-auto">
-                    <p className="text-muted-foreground mb-3">
-                      {homeT("birthSection.seeMore")}
-                    </p>
-                    <Button
-                      asChild
-                      size="lg"
-                      variant="outline"
-                      className="w-full"
-                    >
-                      <LanguageAwareLink href="/birth-pieces/shop">
-                        {homeT("birthSection.viewAll")}
-                        <ArrowRight className="ml-2 h-5 w-5" />
-                      </LanguageAwareLink>
-                    </Button>
-                  </div>
-                </div>
-              )}
-              {/* Flower Section */}
-              {flowerProduct && (
-                <div className="flex flex-col h-full">
-                  <div className="text-center mb-6">
-                    <h2 className="text-3xl font-bold mb-3">
-                      {homeT("flowerSection.title")}
-                    </h2>
-                    <p className="text-muted-foreground">
-                      {homeT("flowerSection.description")}
-                    </p>
-                  </div>
-                  <div className="mb-6 flex-1 flex">
-                    <div className="w-full">
-                      <ProductCard product={flowerProduct} variant="default" />
+                    <div className="mt-auto space-y-2">
+                      <p className="text-xs text-muted-foreground">
+                        {homeT("birthSection.seeMore")}
+                      </p>
+                      <Button
+                        asChild
+                        size="lg"
+                        variant="outline"
+                        className="w-full justify-between"
+                      >
+                        <LanguageAwareLink href="/birth-pieces/shop">
+                          {homeT("birthSection.viewAll")}
+                          <ArrowRight className="h-4 w-4" />
+                        </LanguageAwareLink>
+                      </Button>
                     </div>
                   </div>
-                  <div className="text-center mt-auto">
-                    <p className="text-muted-foreground mb-3">
-                      {homeT("flowerSection.seeMore")}
-                    </p>
-                    <Button
-                      asChild
-                      size="lg"
-                      variant="outline"
-                      className="w-full"
-                    >
-                      <LanguageAwareLink href="/flowers/shop">
-                        {homeT("flowerSection.viewAll")}
-                        <ArrowRight className="ml-2 h-5 w-5" />
-                      </LanguageAwareLink>
-                    </Button>
+                )}
+
+                {flowerProduct && (
+                  <div className="flex flex-col h-full">
+                    <div className="mb-5 pb-5 border-b border-border">
+                      <h3 className="text-xl font-semibold mb-2">
+                        {homeT("flowerSection.title")}
+                      </h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {homeT("flowerSection.description")}
+                      </p>
+                    </div>
+                    <div className="mb-6 flex-1">
+                      <ProductCard product={flowerProduct} variant="default" />
+                    </div>
+                    <div className="mt-auto space-y-2">
+                      <p className="text-xs text-muted-foreground">
+                        {homeT("flowerSection.seeMore")}
+                      </p>
+                      <Button
+                        asChild
+                        size="lg"
+                        variant="outline"
+                        className="w-full justify-between"
+                      >
+                        <LanguageAwareLink href="/flowers/shop">
+                          {homeT("flowerSection.viewAll")}
+                          <ArrowRight className="h-4 w-4" />
+                        </LanguageAwareLink>
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </section>
         )}
 
-        <Separator className="my-12" />
+        <Separator className="my-16" />
 
-        {/* Navigation Links Section */}
-        <section className="mt-16 max-w-7xl mx-auto">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-3">{homeT("exploreTitle")}</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+        {/* Explore / Navigation */}
+        <section className="max-w-7xl mx-auto mb-8">
+          <div className="mb-10">
+            <span className="inline-flex items-center gap-2 border border-secondary/50 bg-secondary/20 px-4 py-1.5 text-sm font-medium tracking-wide text-secondary-foreground mb-5">
+              <span className="h-1.5 w-1.5 bg-secondary" />
+              Ontdekken
+            </span>
+            <h2 className="text-4xl lg:text-5xl font-semibold tracking-tight text-foreground">
+              {homeT("exploreTitle")}
+            </h2>
+            <p className="text-muted-foreground mt-3 max-w-xl">
               {homeT("exploreDescription")}
             </p>
           </div>
 
-          {/* Flower Collections Group */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 mb-6">
-            <Button asChild size="lg" variant="outline" className="h-auto py-8">
+          {/* Category tiles */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border mb-px">
+            {[
+              { href: "/funeral-flowers", label: navT("rouwstukken") },
+              { href: "/wedding-bouquets", label: navT("bruidsboeketten") },
+              { href: "/birth-pieces", label: navT("geboortestukken") },
+              { href: "/flowers", label: navT("bloemen") },
+            ].map(({ href, label }) => (
               <LanguageAwareLink
-                href="/funeral-flowers"
-                className="flex flex-col items-center gap-3"
+                key={href}
+                href={href}
+                className="group flex flex-col justify-between bg-card hover:bg-accent hover:text-accent-foreground transition-colors p-8 min-h-35"
               >
-                <span className="text-sm md:text-base font-medium">
-                  {navT("rouwstukken")}
+                <span className="text-base font-medium text-foreground group-hover:text-accent-foreground">
+                  {label}
                 </span>
+                <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-accent-foreground transition-transform group-hover:translate-x-1" />
               </LanguageAwareLink>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="h-auto py-8">
-              <LanguageAwareLink
-                href="/wedding-bouquets"
-                className="flex flex-col items-center gap-3"
-              >
-                <span className="text-sm md:text-base font-medium">
-                  {navT("bruidsboeketten")}
-                </span>
-              </LanguageAwareLink>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="h-auto py-8">
-              <LanguageAwareLink
-                href="/birth-pieces"
-                className="flex flex-col items-center gap-3"
-              >
-                <span className="text-sm md:text-base font-medium">
-                  {navT("geboortestukken")}
-                </span>
-              </LanguageAwareLink>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="h-auto py-8">
-              <LanguageAwareLink
-                href="/flowers"
-                className="flex flex-col items-center gap-3"
-              >
-                <span className="text-sm md:text-base font-medium">
-                  {navT("bloemen")}
-                </span>
-              </LanguageAwareLink>
-            </Button>
+            ))}
           </div>
 
-          {/* General Pages Group */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-            <Button asChild size="lg" variant="outline" className="h-auto py-8">
+          {/* General pages */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border">
+            {[
+              { href: "/workshops", label: navT("workshops"), icon: Palette },
+              { href: "/about", label: navT("about"), icon: Heart },
+              { href: "/contact", label: navT("contact"), icon: Mail },
+            ].map(({ href, label, icon: Icon }) => (
               <LanguageAwareLink
-                href="/workshops"
-                className="flex flex-col items-center gap-3"
+                key={href}
+                href={href}
+                className="group flex items-center justify-between bg-card hover:bg-accent hover:text-accent-foreground transition-colors px-8 py-6"
               >
-                <Palette className="w-8 h-8 md:w-10 md:h-10" />
-                <span className="text-sm md:text-base font-medium">
-                  {navT("workshops")}
-                </span>
+                <div className="flex items-center gap-4">
+                  <Icon className="h-5 w-5 text-muted-foreground group-hover:text-accent-foreground" />
+                  <span className="text-base font-medium text-foreground group-hover:text-accent-foreground">
+                    {label}
+                  </span>
+                </div>
+                <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-accent-foreground transition-transform group-hover:translate-x-1" />
               </LanguageAwareLink>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="h-auto py-8">
-              <LanguageAwareLink
-                href="/about"
-                className="flex flex-col items-center gap-3"
-              >
-                <Heart className="w-8 h-8 md:w-10 md:h-10" />
-                <span className="text-sm md:text-base font-medium">
-                  {navT("about")}
-                </span>
-              </LanguageAwareLink>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="h-auto py-8">
-              <LanguageAwareLink
-                href="/contact"
-                className="flex flex-col items-center gap-3"
-              >
-                <Mail className="w-8 h-8 md:w-10 md:h-10" />
-                <span className="text-sm md:text-base font-medium">
-                  {navT("contact")}
-                </span>
-              </LanguageAwareLink>
-            </Button>
+            ))}
           </div>
         </section>
       </div>

@@ -24,6 +24,7 @@ import {
   getPriceValidUntil,
 } from "@/lib/structured-data";
 import { notFound } from "next/navigation";
+import { ProductListFilters } from "@/lib/api";
 
 const testId = (id: string): boolean => {
   const regex =
@@ -35,7 +36,12 @@ const testId = (id: string): boolean => {
 export async function generateStaticParams() {
   const locales = ["nl", "en"];
   const params = [];
-  const { data, success } = await fetchProducts(1, 1000, false);
+
+  const filters: ProductListFilters = {
+    is_active: true,
+    include_images: true,
+  };
+  const { data, success } = await fetchProducts(filters);
 
   for (const locale of locales) {
     try {

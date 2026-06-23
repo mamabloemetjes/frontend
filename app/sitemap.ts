@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { fetchProducts } from "@/hooks/useProducts";
+import { ProductListFilters } from "./lib/api";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl =
@@ -15,8 +16,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/terms",
     "/wedding-bouquets/shop",
     "/funeral-flowers/shop",
+    "/flowers/shop",
     "/funeral-flowers",
     "/wedding-bouquets",
+    "/flowers",
   ];
 
   const sitemap: MetadataRoute.Sitemap = [];
@@ -42,7 +45,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Fetch all active products and add them to sitemap
   try {
-    const { data, success } = await fetchProducts(1, 1000, false);
+    const filters: ProductListFilters = {
+      is_active: true,
+    };
+    const { data, success } = await fetchProducts(filters);
 
     if (success && data?.products) {
       for (const product of data.products) {

@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const baseUrl =
     process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl";
-  const pageUrl = `${baseUrl}/${locale}/flowers-pieces`;
+  const pageUrl = `${baseUrl}/${locale}/flowers`;
 
   return {
     title: t("title"),
@@ -25,8 +25,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: {
       canonical: pageUrl,
       languages: {
-        nl: `${baseUrl}/nl/flowers-pieces`,
-        en: `${baseUrl}/en/flowers-pieces`,
+        nl: `${baseUrl}/nl/flowers`,
+        en: `${baseUrl}/en/flowers`,
       },
     },
     openGraph: {
@@ -71,7 +71,7 @@ const FlowersPage = async ({ params }: Props) => {
             </Button>
             <Button asChild size="lg">
               <LanguageAwareLink
-                href="/flowers-pieces/shop"
+                href="/flowers/shop"
                 className="flex items-center"
               >
                 <ShoppingCart className="mr-2 h-5 w-5" />

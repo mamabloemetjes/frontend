@@ -40,7 +40,7 @@
     "orderPlaced": "Your order has been placed successfully",
     "emailSent": "A confirmation email has been sent to your email address",
     "paymentInfo": "Payment Information",
-    "tikkiePayment": "You will receive a Tikkie payment link via email shortly",
+    "tikkiePayment": "You will receive a Tikkie payment link via email shortly. This is because I do not have a KVK number yet.",
     "waitingForPayment": "Once the payment is received, I'll start preparing your order",
     "orderDetails": "What Happens Next",
     "deliveryAddress": "Delivery Address",
