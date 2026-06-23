@@ -15,8 +15,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/terms",
     "/wedding-bouquets/shop",
     "/funeral-flowers/shop",
+    "/flowers/shop",
     "/funeral-flowers",
     "/wedding-bouquets",
+    "/flowers",
   ];
 
   const sitemap: MetadataRoute.Sitemap = [];

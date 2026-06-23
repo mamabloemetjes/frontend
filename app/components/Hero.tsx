@@ -201,10 +201,7 @@ export default function Hero({ appT }: { appT: (key: string) => string }) {
             {appT("handmade")}
           </span>
 
-          <h1
-            className="fade-up fade-up-d1 text-5xl font-semibold leading-[1.05] tracking-tight text-foreground/90 sm:text-6xl lg:text-7xl"
-            style={{ fontFamily: "'Fraunces', Georgia, serif" }}
-          >
+          <h1 className="fade-up fade-up-d1 text-5xl font-semibold leading-[1.05] tracking-tight text-foreground/90 sm:text-6xl lg:text-7xl">
             {appT("title")}
           </h1>
 
