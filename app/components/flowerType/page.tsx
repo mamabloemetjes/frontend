@@ -9,6 +9,7 @@ import {
 import { LanguageAwareLink } from "@/components/LanguageAwareLink";
 import { fetchProducts } from "@/hooks/useProducts";
 import { type ProductListFilters } from "@/lib/api";
+import { ArrowLeft } from "lucide-react";
 
 type FlowerTypePageProps = {
   type: "funeral" | "wedding" | "birth" | "flowers";
@@ -16,7 +17,6 @@ type FlowerTypePageProps = {
 };
 
 const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
-  // Get translations based on type
   const namespace =
     type === "funeral"
       ? "pages.funeral.shop"
@@ -26,10 +26,7 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
           ? "pages.birth.shop"
           : "pages.flowers.shop";
   const t = await getTranslations({ locale, namespace });
-  const productsT = await getTranslations({
-    locale,
-    namespace: "pages.products",
-  });
+
   const paragraphsNamespace =
     type === "funeral"
       ? "paragraphs.mourning"
@@ -43,57 +40,24 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
     namespace: paragraphsNamespace,
   });
 
-  // Fetch products by type
   const filters: ProductListFilters = {
     page: 1,
     page_size: 100,
     product_type: type as ProductListFilters["product_type"],
     include_images: true,
   };
-  const res = await fetchProducts(filters);
-  const { data, success } = res;
+  const { data, success } = await fetchProducts(filters);
 
   if (!success) {
     return (
-      <div className="container mx-auto px-4 py-8 text-center">
-        <h1 className="text-2xl font-bold text-red-500">
-          {t("errorFetchingProducts")}
-        </h1>
-        <p className="text-muted-foreground mt-2">
-          {productsT("pleaseTryAgainLater")}
-        </p>
+      <div className="container mx-auto px-4 lg:px-6 py-24 text-center">
+        <p className="text-muted-foreground">{t("errorFetchingProducts")}</p>
       </div>
     );
   }
 
-  const products = data?.products || [];
+  const products = data?.products ?? [];
 
-  if (products.length === 0) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <header className="mb-8">
-          <h1 className="text-3xl font-bold mb-4">
-            {type === "funeral"
-              ? paragraphsT("mournPiecesTitle")
-              : type === "wedding"
-                ? paragraphsT("weddingTitle")
-                : type === "birth"
-                  ? paragraphsT("birthTitle")
-                  : paragraphsT("flowersTitle")}
-          </h1>
-        </header>
-        <p className="text-center text-muted-foreground mb-8">
-          {t("noProductsFound")}
-        </p>
-      </div>
-    );
-  }
-
-  // Base URL for structured data
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl";
-
-  // Conditional rendering based on type
   const pageTitle =
     type === "funeral"
       ? paragraphsT("mournPiecesTitle")
@@ -121,19 +85,9 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
           ? paragraphsT("birthDesc1")
           : paragraphsT("flowersDesc1");
 
-  const borderColor =
-    type === "funeral"
-      ? "border-muted-foreground/30"
-      : type === "wedding"
-        ? "border-primary/50"
-        : type === "birth"
-          ? "border-green-500/50"
-          : "border-blue-500/50";
-
-  // Structured Data for Product Listing
+  const baseUrl =
+    process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl";
   const productListingSchema = createProductListingSchema(products, locale);
-
-  // Collection Page Structured Data
   const collectionPageSchema = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -141,15 +95,7 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
     description: introDescription,
     url: `${baseUrl}/${locale}/${type === "funeral" ? "funeral-flowers" : type === "wedding" ? "wedding-bouquets" : "birth-pieces"}/shop`,
     inLanguage: locale === "nl" ? "nl-NL" : "en-US",
-    isPartOf: {
-      "@type": "WebSite",
-      name: "Roos van Sharon",
-      url: baseUrl,
-    },
-    breadcrumb: {
-      "@type": "BreadcrumbList",
-      "@id": `${baseUrl}/${locale}/${type === "funeral" ? "funeral-flowers" : type === "wedding" ? "wedding-bouquets" : "birth-pieces"}/shop#breadcrumb`,
-    },
+    isPartOf: { "@type": "WebSite", name: "Roos van Sharon", url: baseUrl },
     mainEntity: {
       "@type": "ItemList",
       numberOfItems: products.length,
@@ -160,13 +106,10 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
       })),
     },
   };
-
-  // Organization Schema
   const organizationSchema = createLocalBusinessSchema(locale);
 
   return (
     <>
-      {/* Structured Data for SEO */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -181,49 +124,68 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(organizationSchema),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
       />
 
-      <div className="container mx-auto px-4 py-8">
-        {/* Main Content */}
+      <div className="container mx-auto px-4 lg:px-6 py-12">
         <article>
-          {/* Back to All Products Link */}
-          <div className="mb-6">
-            <LanguageAwareLink
-              href="/products"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center"
-            >
-              {paragraphsT("backToAllProducts")}
-            </LanguageAwareLink>
-          </div>
+          {/* Back link */}
+          <LanguageAwareLink
+            href="/products"
+            className="inline-flex items-center gap-2 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors mb-10 group"
+          >
+            <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
+            {paragraphsT("backToAllProducts")}
+          </LanguageAwareLink>
 
-          <header className="mb-8">
-            <h1
-              className={`text-3xl font-bold mb-4 pb-4 border-b-4 ${borderColor}`}
-            >
+          {/* Header */}
+          <header className="mb-10 pb-8 border-b border-border">
+            <h1 className="text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-4">
               {pageTitle}
             </h1>
-            <div className="max-w-3xl">
-              <h2 className="text-xl font-semibold mb-2 text-muted-foreground">
+            <div className="max-w-2xl space-y-2">
+              <p className="text-base font-medium text-muted-foreground">
                 {introTitle}
-              </h2>
-              <p className="text-muted-foreground leading-relaxed">
+              </p>
+              <p className="text-sm text-muted-foreground leading-relaxed">
                 {introDescription}
               </p>
             </div>
           </header>
 
+          {/* Product count */}
+          <p className="text-xs text-muted-foreground mb-6">
+            <span className="text-foreground font-medium">
+              {products.length}
+            </span>{" "}
+            {products.length === 1
+              ? locale === "nl"
+                ? "product"
+                : "product"
+              : locale === "nl"
+                ? "producten"
+                : "products"}
+          </p>
+
+          {/* Grid */}
           <section aria-label="Product List">
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
+            {products.length === 0 ? (
+              <div className="py-24 text-center border border-border">
+                <p className="text-muted-foreground text-sm">
+                  {t("noProductsFound")}
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-px bg-border">
+                {products.map((product) => (
+                  <div key={product.id} className="bg-background">
+                    <ProductCard product={product} />
+                  </div>
+                ))}
+              </div>
+            )}
           </section>
 
-          {/* Product Count for Accessibility */}
           <p className="sr-only" aria-live="polite">
             {products.length}{" "}
             {products.length === 1

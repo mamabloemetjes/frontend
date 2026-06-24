@@ -142,6 +142,7 @@ const ProductsPage = async ({ params, searchParams }: ProductsProps) => {
               { href: "/funeral-flowers/shop", label: t("funeralFlowers") },
               { href: "/wedding-bouquets/shop", label: t("weddingBouquets") },
               { href: "/birth-pieces/shop", label: t("birthPieces") },
+              { href: "/flowers/shop", label: t("flowers") },
             ].map(({ href, label }) => (
               <LanguageAwareLink
                 key={href}

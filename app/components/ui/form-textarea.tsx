@@ -4,9 +4,9 @@ import * as React from "react";
 import { Textarea } from "./textarea";
 import { Label } from "./label";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
-export interface FormTextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface FormTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label: string;
   error?: string;
   helperText?: string;
@@ -26,9 +26,10 @@ const FormTextarea = React.forwardRef<HTMLTextAreaElement, FormTextareaProps>(
       id,
       ...props
     },
-    ref
+    ref,
   ) => {
     const textareaId = id || label.toLowerCase().replace(/\s+/g, "-");
+    const t = useTranslations();
     const hasError = !!error;
 
     return (
@@ -37,7 +38,7 @@ const FormTextarea = React.forwardRef<HTMLTextAreaElement, FormTextareaProps>(
           htmlFor={textareaId}
           className={cn(
             "block text-sm font-medium",
-            hasError && "text-red-500"
+            hasError && "text-red-500",
           )}
         >
           {label}
@@ -49,11 +50,15 @@ const FormTextarea = React.forwardRef<HTMLTextAreaElement, FormTextareaProps>(
           className={cn(
             hasError &&
               "border-red-500 focus-visible:ring-red-500 focus-visible:border-red-500",
-            className
+            className,
           )}
           aria-invalid={hasError}
           aria-describedby={
-            error ? `${textareaId}-error` : helperText ? `${textareaId}-helper` : undefined
+            error
+              ? `${textareaId}-error`
+              : helperText
+                ? `${textareaId}-helper`
+                : undefined
           }
           {...props}
         />
@@ -62,7 +67,7 @@ const FormTextarea = React.forwardRef<HTMLTextAreaElement, FormTextareaProps>(
             id={`${textareaId}-error`}
             className="text-sm text-red-500 font-medium animate-in fade-in-50 duration-200"
           >
-            {error}
+            {t(error)}
           </p>
         )}
         {!error && helperText && (
@@ -70,12 +75,12 @@ const FormTextarea = React.forwardRef<HTMLTextAreaElement, FormTextareaProps>(
             id={`${textareaId}-helper`}
             className="text-sm text-muted-foreground"
           >
-            {helperText}
+            {t(helperText)}
           </p>
         )}
       </div>
     );
-  }
+  },
 );
 
 FormTextarea.displayName = "FormTextarea";

@@ -45,6 +45,7 @@ const Footer = async ({ locale }: { locale: string }) => {
                 { href: "/funeral-flowers", label: t("rouwstukken") },
                 { href: "/wedding-bouquets", label: t("bruidsboeketten") },
                 { href: "/birth-pieces", label: t("geboortestukken") },
+                { href: "/flowers", label: t("bloemen") },
                 { href: "/workshops", label: t("workshops") },
                 { href: "/about", label: t("about") },
                 { href: "/contact", label: t("contact") },
