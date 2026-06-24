@@ -16,13 +16,6 @@ type FlowerTypePageProps = {
   locale: string;
 };
 
-const TYPE_BADGE_LABELS: Record<FlowerTypePageProps["type"], string> = {
-  funeral: "Rouwstukken",
-  wedding: "Bruidsboeketten",
-  birth: "Geboortestukken",
-  flowers: "Bloemen",
-};
-
 const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
   const namespace =
     type === "funeral"
@@ -33,10 +26,7 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
           ? "pages.birth.shop"
           : "pages.flowers.shop";
   const t = await getTranslations({ locale, namespace });
-  const productsT = await getTranslations({
-    locale,
-    namespace: "pages.products",
-  });
+
   const paragraphsNamespace =
     type === "funeral"
       ? "paragraphs.mourning"
