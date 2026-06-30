@@ -2,7 +2,8 @@
   "404": {
     "title": "404 - Pagina niet gevonden",
     "description": "Deze pagina bestaat niet.",
-    "goToHome": "Terug naar home"
+    "goToHome": "Terug naar home",
+    "goToProducts": "Bekijk onze producten"
   },
   "workshops": {
     "title": "Workshops",
@@ -22,26 +23,30 @@
     "funeralSection": {
       "title": "Rouwstukken",
       "description": "Handgemaakte vilt memorial stukken die voor altijd meegaan",
-      "seeMore": "Wil je meer rouwstukken zien?",
-      "viewAll": "Bekijk Alle Rouwstukken"
+      "readMore": "Lees meer over rouwstukken",
+      "interested": "Geinteresseerd?",
+      "shop": "Bekijk Rouwstukken"
     },
     "weddingSection": {
       "title": "Bruidsboeketten",
       "description": "Unieke bruidsboeketten gemaakt met liefde",
-      "seeMore": "Wil je meer bruidsboeketten zien?",
-      "viewAll": "Bekijk Alle Bruidsboeketten"
+      "readMore": "Lees meer over bruidsboeketten",
+      "interested": "Geinteresseerd?",
+      "shop": "Bekijk Bruidsboeketten"
     },
     "birthSection": {
       "title": "Geboortestukken",
       "description": "Handgemaakte vilt geboortestukken voor het vieren van nieuw leven",
-      "seeMore": "Wil je meer geboortestukken zien?",
-      "viewAll": "Bekijk Alle Geboortestukken"
+      "readMore": "Lees meer over geboortestukken",
+      "interested": "Geinteresseerd?",
+      "shop": "Bekijk Geboortestukken"
     },
     "flowerSection": {
       "title": "Deco Bloemen",
       "description": "Handgemaakte vilt bloemen voor decoratie en geschenken",
-      "seeMore": "Wil je meer deco bloemen zien?",
-      "viewAll": "Bekijk Alle Deco Bloemen"
+      "readMore": "Lees meer over deco bloemen",
+      "interested": "Geinteresseerd?",
+      "shop": "Bekijk Deco Bloemen"
     },
     "hero": {
       "title": "Welkom bij Roos van Sharon",
