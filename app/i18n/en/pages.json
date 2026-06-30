@@ -2,7 +2,8 @@
   "404": {
     "title": "404 - Page Not Found",
     "description": "The page you are looking for does not exist.",
-    "goToHome": "Go to Home"
+    "goToHome": "Go to Home",
+    "goToProducts": "Go to Products"
   },
   "workshops": {
     "title": "Workshops",
@@ -20,28 +21,38 @@
     "loading": "Loading products...",
     "noProducts": "No products found.",
     "funeralSection": {
-      "title": "Funeral Flowers",
+      "title": "Mourning Pieces",
       "description": "Handmade felt memorial pieces that last forever",
-      "seeMore": "Want to see more funeral flowers?",
-      "viewAll": "View All Funeral Flowers"
+      "readMore": "Read About Mourning Pieces",
+      "shop": "View Mourning Pieces",
+      "interested": "Interested?",
+      "viewAll": "View All Mourning Pieces"
     },
     "weddingSection": {
       "title": "Wedding Bouquets",
       "description": "Unique bridal bouquets crafted with love",
-      "seeMore": "Want to see more wedding bouquets?",
-      "viewAll": "View All Wedding Bouquets"
+      "viewAll": "View All Wedding Bouquets",
+      "shop": "View Wedding Bouquets",
+      "interested": "Interested?",
+      "readMore": "Read About Wedding Bouquets"
     },
     "birthSection": {
       "title": "Birth Pieces",
       "description": "Handmade felt birth pieces for celebrating new life",
-      "seeMore": "Want to see more birth pieces?",
-      "viewAll": "View All Birth Pieces"
+      "viewAll": "View All Birth Pieces",
+      "shop": "View Birth Pieces",
+      "interested": "Interested?",
+      "readMore": "Read About Birth Pieces"
     },
     "flowerSection": {
       "title": "Deco Flowers",
       "description": "Handmade felt flowers for decoration and gifting",
       "seeMore": "Want to see more deco flowers?",
-      "viewAll": "View All Deco Flowers"
+      "viewAll": "View All Deco Flowers",
+      "shop": "View Deco Flowers",
+      "interested": "Interested?",
+
+      "readMore": "Read About Deco Flowers"
     },
     "hero": {
       "title": "Welcome to Roos van Sharon",
@@ -167,7 +178,7 @@
     "introTitle": "Handmade Felt Flowers for Special Moments",
     "introDescription": "Discover my unique collection of handmade felt flowers. Each piece is crafted with love and care, perfect for memorial pieces, wedding bouquets, birth pieces, and lasting memories. Sustainable, personal, and with attention to every detail.",
     "browseByCategory": "Browse by category:",
-    "funeralFlowers": "Funeral Flowers",
+    "funeralFlowers": "Mourning Pieces",
     "weddingBouquets": "Wedding Bouquets",
     "birthPieces": "Birth Pieces",
     "flowers": "Deco Flowers",

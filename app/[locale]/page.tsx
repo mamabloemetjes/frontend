@@ -242,9 +242,9 @@ const HomePage = async ({ params }: Props) => {
               <Image
                 src="/flower.webp"
                 alt={seoCommon("heroImageAlt")}
-                className="object-cover w-full aspect-4/3"
+                className="object-cover w-full h-full"
                 width={600}
-                height={450}
+                height={600}
                 priority
               />
             </div>
@@ -304,10 +304,10 @@ const HomePage = async ({ params }: Props) => {
                     <div className="mb-6 flex-1">
                       <ProductCard product={funeralProduct} variant="default" />
                     </div>
-                    <div className="mt-auto space-y-2">
-                      <p className="text-xs text-muted-foreground">
-                        {homeT("funeralSection.seeMore")}
-                      </p>
+                    <p className="text-sm space-y-2 text-muted-foreground">
+                      {homeT("birthSection.interested")}
+                    </p>
+                    <div className="mt-auto grid grid-cols-1 lg:grid-cols-2 gap-3">
                       <Button
                         asChild
                         size="lg"
@@ -315,7 +315,18 @@ const HomePage = async ({ params }: Props) => {
                         className="w-full justify-between"
                       >
                         <LanguageAwareLink href="/funeral-flowers/shop">
-                          {homeT("funeralSection.viewAll")}
+                          {homeT("funeralSection.shop")}
+                          <ArrowRight className="h-4 w-4" />
+                        </LanguageAwareLink>
+                      </Button>
+                      <Button
+                        asChild
+                        size="lg"
+                        variant="outline"
+                        className="w-full justify-between"
+                      >
+                        <LanguageAwareLink href="/funeral-flowers">
+                          {homeT("funeralSection.readMore")}
                           <ArrowRight className="h-4 w-4" />
                         </LanguageAwareLink>
                       </Button>
@@ -336,10 +347,10 @@ const HomePage = async ({ params }: Props) => {
                     <div className="mb-6 flex-1">
                       <ProductCard product={weddingProduct} variant="default" />
                     </div>
-                    <div className="mt-auto space-y-2">
-                      <p className="text-xs text-muted-foreground">
-                        {homeT("weddingSection.seeMore")}
-                      </p>
+                    <p className="text-sm space-y-2 text-muted-foreground">
+                      {homeT("birthSection.interested")}
+                    </p>
+                    <div className="mt-auto grid grid-cols-1 lg:grid-cols-2 gap-3">
                       <Button
                         asChild
                         size="lg"
@@ -347,7 +358,18 @@ const HomePage = async ({ params }: Props) => {
                         className="w-full justify-between"
                       >
                         <LanguageAwareLink href="/wedding-bouquets/shop">
-                          {homeT("weddingSection.viewAll")}
+                          {homeT("weddingSection.shop")}
+                          <ArrowRight className="h-4 w-4" />
+                        </LanguageAwareLink>
+                      </Button>
+                      <Button
+                        asChild
+                        size="lg"
+                        variant="outline"
+                        className="w-full justify-between"
+                      >
+                        <LanguageAwareLink href="/wedding-bouquets">
+                          {homeT("weddingSection.readMore")}
                           <ArrowRight className="h-4 w-4" />
                         </LanguageAwareLink>
                       </Button>
@@ -368,10 +390,10 @@ const HomePage = async ({ params }: Props) => {
                     <div className="mb-6 flex-1">
                       <ProductCard product={birthProduct} variant="default" />
                     </div>
-                    <div className="mt-auto space-y-2">
-                      <p className="text-xs text-muted-foreground">
-                        {homeT("birthSection.seeMore")}
-                      </p>
+                    <p className="text-sm space-y-2 text-muted-foreground">
+                      {homeT("birthSection.interested")}
+                    </p>
+                    <div className="mt-auto grid grid-cols-1 lg:grid-cols-2 gap-3">
                       <Button
                         asChild
                         size="lg"
@@ -379,7 +401,18 @@ const HomePage = async ({ params }: Props) => {
                         className="w-full justify-between"
                       >
                         <LanguageAwareLink href="/birth-pieces/shop">
-                          {homeT("birthSection.viewAll")}
+                          {homeT("birthSection.shop")}
+                          <ArrowRight className="h-4 w-4" />
+                        </LanguageAwareLink>
+                      </Button>
+                      <Button
+                        asChild
+                        size="lg"
+                        variant="outline"
+                        className="w-full justify-between"
+                      >
+                        <LanguageAwareLink href="/birth-pieces">
+                          {homeT("birthSection.readMore")}
                           <ArrowRight className="h-4 w-4" />
                         </LanguageAwareLink>
                       </Button>
@@ -400,10 +433,10 @@ const HomePage = async ({ params }: Props) => {
                     <div className="mb-6 flex-1">
                       <ProductCard product={flowerProduct} variant="default" />
                     </div>
-                    <div className="mt-auto space-y-2">
-                      <p className="text-xs text-muted-foreground">
-                        {homeT("flowerSection.seeMore")}
-                      </p>
+                    <p className="text-sm space-y-2 text-muted-foreground">
+                      {homeT("birthSection.interested")}
+                    </p>
+                    <div className="mt-auto grid grid-cols-1 lg:grid-cols-2 gap-3">
                       <Button
                         asChild
                         size="lg"
@@ -411,7 +444,18 @@ const HomePage = async ({ params }: Props) => {
                         className="w-full justify-between"
                       >
                         <LanguageAwareLink href="/flowers/shop">
-                          {homeT("flowerSection.viewAll")}
+                          {homeT("flowerSection.shop")}
+                          <ArrowRight className="h-4 w-4" />
+                        </LanguageAwareLink>
+                      </Button>
+                      <Button
+                        asChild
+                        size="lg"
+                        variant="outline"
+                        className="w-full justify-between"
+                      >
+                        <LanguageAwareLink href="/flowers">
+                          {homeT("flowerSection.readMore")}
                           <ArrowRight className="h-4 w-4" />
                         </LanguageAwareLink>
                       </Button>

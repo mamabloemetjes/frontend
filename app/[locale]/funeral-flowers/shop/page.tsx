@@ -62,7 +62,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         "max-snippet": -1,
       },
     },
-    category: "funeral flowers",
+    category: "mourning pieces",
   };
 }
 
