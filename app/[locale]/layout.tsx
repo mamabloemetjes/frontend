@@ -8,6 +8,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Providers } from "@/providers";
 import { cn } from "@/lib/utils";
+import { env } from "@/lib/env";
 import { Footer, Header } from "@/components";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { createLocalBusinessSchema } from "@/lib/structured-data";
@@ -30,8 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: "app" });
   const seo = await getTranslations({ locale, namespace: "seo.home" });
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl";
+  const baseUrl = env.baseUrl;
 
   return {
     metadataBase: new URL(baseUrl),

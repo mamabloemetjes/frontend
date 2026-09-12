@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { Flower2, Heart, Mail } from "lucide-react";
 import { Metadata } from "next";
+import { env } from "@/lib/env";
 import { createAboutPageSchema } from "@/lib/structured-data";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -12,8 +13,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: "seo.about" });
   const common = await getTranslations({ locale, namespace: "seo.common" });
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl";
+  const baseUrl = env.baseUrl;
   const pageUrl = `${baseUrl}/${locale}/about`;
 
   return {

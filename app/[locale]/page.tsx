@@ -7,6 +7,7 @@ import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { Metadata } from "next";
 import { Hero, ProductCard } from "@/components";
+import { env } from "@/lib/env";
 import {
   createLocalBusinessSchema,
   createBasicProductSchema,
@@ -23,8 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: "seo.home" });
   const common = await getTranslations({ locale, namespace: "seo.common" });
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl";
+  const baseUrl = env.baseUrl;
   const pageUrl = `${baseUrl}/${locale}`;
 
   return {
@@ -312,7 +312,7 @@ const HomePage = async ({ params }: Props) => {
                         asChild
                         size="lg"
                         variant="outline"
-                        className="w-full justify-between"
+                        className="w-full h-auto min-h-10 justify-between px-5 py-2.5 whitespace-normal text-left"
                       >
                         <LanguageAwareLink href="/funeral-flowers/shop">
                           {homeT("funeralSection.shop")}
@@ -323,7 +323,7 @@ const HomePage = async ({ params }: Props) => {
                         asChild
                         size="lg"
                         variant="outline"
-                        className="w-full justify-between"
+                        className="w-full h-auto min-h-10 justify-between px-5 py-2.5 whitespace-normal text-left"
                       >
                         <LanguageAwareLink href="/funeral-flowers">
                           {homeT("funeralSection.readMore")}
@@ -355,7 +355,7 @@ const HomePage = async ({ params }: Props) => {
                         asChild
                         size="lg"
                         variant="outline"
-                        className="w-full justify-between"
+                        className="w-full h-auto min-h-10 justify-between px-5 py-2.5 whitespace-normal text-left"
                       >
                         <LanguageAwareLink href="/wedding-bouquets/shop">
                           {homeT("weddingSection.shop")}
@@ -366,7 +366,7 @@ const HomePage = async ({ params }: Props) => {
                         asChild
                         size="lg"
                         variant="outline"
-                        className="w-full justify-between"
+                        className="w-full h-auto min-h-10 justify-between px-5 py-2.5 whitespace-normal text-left"
                       >
                         <LanguageAwareLink href="/wedding-bouquets">
                           {homeT("weddingSection.readMore")}
@@ -398,7 +398,7 @@ const HomePage = async ({ params }: Props) => {
                         asChild
                         size="lg"
                         variant="outline"
-                        className="w-full justify-between"
+                        className="w-full h-auto min-h-10 justify-between px-5 py-2.5 whitespace-normal text-left"
                       >
                         <LanguageAwareLink href="/birth-pieces/shop">
                           {homeT("birthSection.shop")}
@@ -409,7 +409,7 @@ const HomePage = async ({ params }: Props) => {
                         asChild
                         size="lg"
                         variant="outline"
-                        className="w-full justify-between"
+                        className="w-full h-auto min-h-10 justify-between px-5 py-2.5 whitespace-normal text-left"
                       >
                         <LanguageAwareLink href="/birth-pieces">
                           {homeT("birthSection.readMore")}
@@ -441,7 +441,7 @@ const HomePage = async ({ params }: Props) => {
                         asChild
                         size="lg"
                         variant="outline"
-                        className="w-full justify-between"
+                        className="w-full h-auto min-h-10 justify-between px-5 py-2.5 whitespace-normal text-left"
                       >
                         <LanguageAwareLink href="/flowers/shop">
                           {homeT("flowerSection.shop")}
@@ -452,7 +452,7 @@ const HomePage = async ({ params }: Props) => {
                         asChild
                         size="lg"
                         variant="outline"
-                        className="w-full justify-between"
+                        className="w-full h-auto min-h-10 justify-between px-5 py-2.5 whitespace-normal text-left"
                       >
                         <LanguageAwareLink href="/flowers">
                           {homeT("flowerSection.readMore")}
