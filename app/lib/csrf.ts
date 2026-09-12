@@ -1,95 +1,73 @@
-import { apiClient } from "@/lib/api";
+import { apiClient, type ApiResponse } from "@/lib/api";
+
+interface CSRFTokenData {
+  csrf_token: string;
+}
 
 class CSRFService {
-  private fetchPromise: Promise<void> | null = null;
+  private token: string | null = null;
+  private fetchPromise: Promise<string> | null = null;
 
   /**
-   * Get the CSRF token from cookie
+   * Fetch a new CSRF token from the server.
+   * The server also sets a cookie for its own double-submit comparison,
+   * but that cookie is scoped to the API's own host and can't be read
+   * from JS running on a different origin (document.cookie won't see it
+   * cross-site) — so we take the token value from the response body
+   * instead, which is the value the server expects back in the header.
    */
-  getTokenFromCookie(): string | null {
-    const cookies = document.cookie.split(";");
-    for (const cookie of cookies) {
-      const trimmed = cookie.trim();
-      const separatorIndex = trimmed.indexOf("=");
-      if (separatorIndex === -1) continue;
+   private async fetchToken(): Promise<string> {
+     const res = (await apiClient.get(
+       "/auth/csrf",
+     )) as unknown as ApiResponse<CSRFTokenData>;
 
-      const name = trimmed.substring(0, separatorIndex);
-      const value = trimmed.substring(separatorIndex + 1);
-
-      if (name === "csrf") {
-        return value;
-      }
-    }
-    return null;
-  }
+     const token = res.data.csrf_token;
+     this.token = token;
+     return token;
+   }
 
   /**
-   * Fetch a new CSRF token from the server
-   * This will set the CSRF cookie, which we'll read from document.cookie
+   * Ensure we have a CSRF token, fetching one if needed.
    */
-  private async fetchToken(): Promise<void> {
-    try {
-      await apiClient.get("/auth/csrf");
-      console.log("[CSRF] Token fetched successfully");
-    } catch (error) {
-      console.error("[CSRF] Failed to fetch token:", error);
-      throw error;
-    }
-  }
-
-  /**
-   * Ensure we have a CSRF token, fetching one if needed
-   */
-  async ensureToken(): Promise<void> {
-    // Check if we already have a token in cookie
-    const cookieToken = this.getTokenFromCookie();
-    if (cookieToken) {
-      return;
+  async ensureToken(): Promise<string> {
+    if (this.token) {
+      return this.token;
     }
 
-    // If we're already fetching a token, wait for that request
     if (this.fetchPromise) {
       return this.fetchPromise;
     }
 
-    // Fetch a new token
     this.fetchPromise = this.fetchToken();
 
     try {
-      await this.fetchPromise;
+      return await this.fetchPromise;
     } finally {
       this.fetchPromise = null;
     }
   }
 
   /**
-   * Get the current CSRF token from cookie
-   * Always returns the cookie value to ensure consistency with backend
+   * Get the current CSRF token, fetching one first if needed.
    */
   async getToken(): Promise<string> {
-    await this.ensureToken();
-
-    const token = this.getTokenFromCookie();
-    if (!token) {
-      throw new Error("CSRF token not found in cookie after fetch");
-    }
-
-    return token;
+    return this.ensureToken();
   }
 
   /**
-   * Refresh the CSRF token
+   * Force a fresh token from the server (e.g. after a mismatch/expiry).
    */
   async refreshToken(): Promise<string> {
+    this.token = null;
     this.fetchPromise = null;
-    await this.fetchToken();
-    return this.getToken();
+    return this.ensureToken();
   }
 
   /**
-   * Clear the fetch promise (used when cookie is cleared)
+   * Clear the cached token (e.g. on logout).
    */
   clearCache(): void {
+    this.token = null;
     this.fetchPromise = null;
   }
 }
