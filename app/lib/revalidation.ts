@@ -1,8 +1,8 @@
 export async function revalidatePath(path: string): Promise<boolean> {
-  const secret = process.env.NEXT_PUBLIC_REVALIDATION_SECRET;
+  const secret = process.env.REVALIDATION_SECRET;
 
   if (!secret) {
-    console.warn("[Revalidation] NEXT_PUBLIC_REVALIDATION_SECRET not set");
+    console.warn("[Revalidation] REVALIDATION_SECRET not set");
     return false;
   }
 
@@ -31,10 +31,10 @@ export async function revalidatePath(path: string): Promise<boolean> {
 }
 
 export async function revalidatePaths(paths: string[]): Promise<boolean> {
-  const secret = process.env.NEXT_PUBLIC_REVALIDATION_SECRET;
+  const secret = process.env.REVALIDATION_SECRET;
 
   if (!secret) {
-    console.warn("[Revalidation] NEXT_PUBLIC_REVALIDATION_SECRET not set");
+    console.warn("[Revalidation] REVALIDATION_SECRET not set");
     return false;
   }
 
@@ -63,10 +63,10 @@ export async function revalidatePaths(paths: string[]): Promise<boolean> {
 }
 
 export async function revalidateTag(tag: string): Promise<boolean> {
-  const secret = process.env.NEXT_PUBLIC_REVALIDATION_SECRET;
+  const secret = process.env.REVALIDATION_SECRET;
 
   if (!secret) {
-    console.warn("[Revalidation] NEXT_PUBLIC_REVALIDATION_SECRET not set");
+    console.warn("[Revalidation] REVALIDATION_SECRET not set");
     return false;
   }
 

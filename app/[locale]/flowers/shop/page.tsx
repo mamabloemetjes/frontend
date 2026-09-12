@@ -4,15 +4,13 @@ import FlowerTypePage from "@/components/flowerType/page";
 import { Props } from "@/types";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import { env } from "@/lib/env";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "seo.decobloemen" });
   const common = await getTranslations({ locale, namespace: "seo.common" });
-
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl";
-  const pageUrl = `${baseUrl}/${locale}/flowers/shop`;
+  const pageUrl = `${env.baseUrl}/${locale}/flowers/shop`;
 
   return {
     title: t("title"),
@@ -24,8 +22,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: {
       canonical: pageUrl,
       languages: {
-        nl: `${baseUrl}/nl/flowers/shop`,
-        en: `${baseUrl}/en/flowers/shop`,
+        nl: `${env.baseUrl}/nl/flowers/shop`,
+        en: `${env.baseUrl}/en/flowers/shop`,
       },
     },
     openGraph: {
@@ -37,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "website",
       images: [
         {
-          url: `${baseUrl}/flower.webp`,
+          url: `${env.baseUrl}/flower.webp`,
           width: 1200,
           height: 630,
           alt: common("imageAlt"),
@@ -48,7 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: "summary_large_image",
       title: t("title"),
       description: t("description"),
-      images: [`${baseUrl}/flower.webp`],
+      images: [`${env.baseUrl}/flower.webp`],
       creator: "@roosvansharon",
     },
     robots: {

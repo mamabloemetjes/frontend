@@ -7,6 +7,7 @@ import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { Metadata } from "next";
 import { Hero, ProductCard } from "@/components";
+import { env } from "@/lib/env";
 import {
   createLocalBusinessSchema,
   createBasicProductSchema,
@@ -23,8 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: "seo.home" });
   const common = await getTranslations({ locale, namespace: "seo.common" });
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl";
+  const baseUrl = env.baseUrl;
   const pageUrl = `${baseUrl}/${locale}`;
 
   return {

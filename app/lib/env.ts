@@ -43,7 +43,7 @@ export const env = {
   /** Node environment */
   nodeEnv: process.env.NODE_ENV || "development",
 
-  supabaseAnonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON || "",
+  supabaseAnonKey: process.env.SUPABASE_ANON || "",
 
   supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL || "",
 
