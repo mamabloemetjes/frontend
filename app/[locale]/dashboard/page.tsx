@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import {
   useAdminProducts,
   useCreateProduct,
+  useDeleteProduct,
   useUpdateProduct,
 } from "@/hooks/useAdminProducts";
 import type { Product } from "@/lib/api";
@@ -106,6 +107,7 @@ function ProductsTab() {
   });
 
   const updateProduct = useUpdateProduct();
+  const deleteProduct = useDeleteProduct();
 
   const handleMarkAsSold = async (id: string) => {
     await updateProduct.mutateAsync({
@@ -119,6 +121,13 @@ function ProductsTab() {
       id,
       updates: { is_active: true },
     });
+  };
+
+  const handleDeleteProduct = async (id: string) => {
+      if (editingProduct && editingProduct.id === id) {
+        setEditingProduct(null);
+      }
+      await deleteProduct.mutateAsync(id);
   };
 
   const handleProductClick = async (product: Product) => {
@@ -198,8 +207,9 @@ function ProductsTab() {
             <DialogTrigger asChild>
               {row.original.is_active ? (
                 <Button
-                  variant="destructive"
+                  variant="outline"
                   size="sm"
+                  className="text-red-600 hover:text-red-700"
                   disabled={!row.original.is_active}
                 >
                   {t("pages.dashboard.markAsSold")}
@@ -238,6 +248,30 @@ function ProductsTab() {
                   {row.original.is_active
                     ? t("pages.dashboard.markAsSold")
                     : t("pages.dashboard.undoSold")}
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="destructive" size="sm">
+                {t("common.delete")}
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>{t("pages.dashboard.confirmDeleteProductTitle")}</DialogTitle>
+              </DialogHeader>
+              <p>{t("pages.dashboard.confirmDeleteProductDescription")}</p>
+              <div className="flex justify-end gap-2">
+                <DialogTrigger asChild>
+                  <Button variant="outline">{t("common.cancel")}</Button>
+                </DialogTrigger>
+                <Button
+                  variant="destructive"
+                  onClick={() => handleDeleteProduct(row.original.id)}
+                >
+                  {t("common.delete")}
                 </Button>
               </div>
             </DialogContent>

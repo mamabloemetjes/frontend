@@ -223,6 +223,8 @@
     "confirmUndoSoldTitle": "Are you sure you want to undo the sold status for this product?",
     "confirmMarkAsSoldDescription": "This will set the product status to sold and make it unavailable for purchase.",
     "confirmUndoSoldDescription": "This will set the product status back to active and make it available for purchase.",
+    "confirmDeleteProductTitle": "Are you sure you want to delete this product?",
+    "confirmDeleteProductDescription": "This will permanently delete the product and all associated data.",
     "undoSold": "Undo Sold",
     "formLabels": {
       "name": "Name *",

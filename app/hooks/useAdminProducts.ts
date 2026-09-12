@@ -101,3 +101,40 @@ export function useUpdateProduct() {
     },
   });
 }
+
+/**
+ * Hook to delete a product
+ */
+export function useDeleteProduct() {
+  const queryClient = useQueryClient();
+  const t = useTranslations("pages.dashboard");
+  const tGeneral = useTranslations();
+
+  const handleError = useCallback(
+    (error: unknown) => {
+      showApiError(error, tGeneral);
+    },
+    [tGeneral],
+  );
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await api.admin.products.delete(id);
+      return response.data;
+    },
+    onSuccess: async (_data, id) => {
+      // Invalidate React Query cache (client-side)
+      queryClient.invalidateQueries({ queryKey: queryKeys.admin.products.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.products.all });
+
+      // Invalidate Next.js cache (server-side)
+      await revalidateProducts();
+      await revalidateProduct(id);
+
+      showApiSuccess(t("productDeleted"));
+    },
+    onError: (error) => {
+      handleError(error);
+    },
+  });
+}

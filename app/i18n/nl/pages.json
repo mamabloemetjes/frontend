@@ -219,6 +219,8 @@
     "confirmUndoSoldTitle": "Weet je zeker dat je de verkoop van dit product ongedaan wilt maken?",
     "confirmMarkAsSoldDescription": "Dit zal de voorraad op 0 zetten en het product als uitverkocht markeren.",
     "confirmUndoSoldDescription": "Dit zal de voorraad terugzetten naar 1 en het product als op voorraad markeren.",
+    "confirmDeleteProductTitle": "Weet je zeker dat je dit product wilt verwijderen?",
+    "confirmDeleteProductDescription": "Dit zal het product en alle gerelateerde gegevens permanent verwijderen.",
     "formLabels": {
       "name": "Naam *",
       "price": "Prijs (€) *",
