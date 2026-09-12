@@ -711,11 +711,6 @@ function OrdersTab() {
   const [paymentFilter, setPaymentFilter] = useState<PaymentStatus | "">("");
   const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    fetchOrders();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, statusFilter, paymentFilter]);
-
   const fetchOrders = async () => {
     setLoading(true);
     setError(null);
@@ -760,6 +755,11 @@ function OrdersTab() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    void Promise.resolve().then(() => fetchOrders());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, statusFilter, paymentFilter]);
 
   const formatDate = (dateString: string): string => {
     if (!dateString) return "-";

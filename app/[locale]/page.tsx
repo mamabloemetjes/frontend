@@ -312,7 +312,7 @@ const HomePage = async ({ params }: Props) => {
                         asChild
                         size="lg"
                         variant="outline"
-                        className="w-full justify-between"
+                        className="w-full h-auto min-h-10 justify-between px-5 py-2.5 whitespace-normal text-left"
                       >
                         <LanguageAwareLink href="/funeral-flowers/shop">
                           {homeT("funeralSection.shop")}
@@ -323,7 +323,7 @@ const HomePage = async ({ params }: Props) => {
                         asChild
                         size="lg"
                         variant="outline"
-                        className="w-full justify-between"
+                        className="w-full h-auto min-h-10 justify-between px-5 py-2.5 whitespace-normal text-left"
                       >
                         <LanguageAwareLink href="/funeral-flowers">
                           {homeT("funeralSection.readMore")}
@@ -355,7 +355,7 @@ const HomePage = async ({ params }: Props) => {
                         asChild
                         size="lg"
                         variant="outline"
-                        className="w-full justify-between"
+                        className="w-full h-auto min-h-10 justify-between px-5 py-2.5 whitespace-normal text-left"
                       >
                         <LanguageAwareLink href="/wedding-bouquets/shop">
                           {homeT("weddingSection.shop")}
@@ -366,7 +366,7 @@ const HomePage = async ({ params }: Props) => {
                         asChild
                         size="lg"
                         variant="outline"
-                        className="w-full justify-between"
+                        className="w-full h-auto min-h-10 justify-between px-5 py-2.5 whitespace-normal text-left"
                       >
                         <LanguageAwareLink href="/wedding-bouquets">
                           {homeT("weddingSection.readMore")}
@@ -398,7 +398,7 @@ const HomePage = async ({ params }: Props) => {
                         asChild
                         size="lg"
                         variant="outline"
-                        className="w-full justify-between"
+                        className="w-full h-auto min-h-10 justify-between px-5 py-2.5 whitespace-normal text-left"
                       >
                         <LanguageAwareLink href="/birth-pieces/shop">
                           {homeT("birthSection.shop")}
@@ -409,7 +409,7 @@ const HomePage = async ({ params }: Props) => {
                         asChild
                         size="lg"
                         variant="outline"
-                        className="w-full justify-between"
+                        className="w-full h-auto min-h-10 justify-between px-5 py-2.5 whitespace-normal text-left"
                       >
                         <LanguageAwareLink href="/birth-pieces">
                           {homeT("birthSection.readMore")}
@@ -441,7 +441,7 @@ const HomePage = async ({ params }: Props) => {
                         asChild
                         size="lg"
                         variant="outline"
-                        className="w-full justify-between"
+                        className="w-full h-auto min-h-10 justify-between px-5 py-2.5 whitespace-normal text-left"
                       >
                         <LanguageAwareLink href="/flowers/shop">
                           {homeT("flowerSection.shop")}
@@ -452,7 +452,7 @@ const HomePage = async ({ params }: Props) => {
                         asChild
                         size="lg"
                         variant="outline"
-                        className="w-full justify-between"
+                        className="w-full h-auto min-h-10 justify-between px-5 py-2.5 whitespace-normal text-left"
                       >
                         <LanguageAwareLink href="/flowers">
                           {homeT("flowerSection.readMore")}

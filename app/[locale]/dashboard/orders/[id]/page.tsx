@@ -41,13 +41,6 @@ export default function AdminOrderDetailPage() {
   const [isUpdatingPayment, setIsUpdatingPayment] = useState(false);
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
 
-  useEffect(() => {
-    if (orderId) {
-      fetchOrderDetails();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [orderId]);
-
   const fetchOrderDetails = async () => {
     setLoading(true);
     setError(null);
@@ -73,6 +66,13 @@ export default function AdminOrderDetailPage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (orderId) {
+      void Promise.resolve().then(() => fetchOrderDetails());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [orderId]);
 
   const handleAttachPaymentLink = async () => {
     if (!paymentLink.trim()) {
