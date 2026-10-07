@@ -4,6 +4,7 @@ import { QueryClient } from "@tanstack/react-query";
 import type { User, RegisterData, LoginCredentials } from "@/types/auth";
 import { csrfService } from "@/lib/csrf";
 import { env } from "@/lib/env";
+import { FlowerTypes } from "@/types";
 
 // ============================================================================
 // CONFIGURATION
@@ -29,7 +30,6 @@ export interface WrappedProducts {
 
 // Product types (from structs/products.go)
 export type Size = "small" | "medium" | "large";
-export type ProductType = "funeral" | "wedding" | "birth" | "flowers";
 export type Color =
   | "red"
   | "blue"
@@ -64,7 +64,7 @@ export interface Product {
   is_active: boolean;
   created_at: string;
   updated_at: string;
-  product_type?: ProductType;
+  product_type?: FlowerTypes;
   stock?: number;
   images?: ProductImage[];
 }
@@ -110,7 +110,7 @@ export interface ProductListFilters {
   page_size?: number;
   is_active?: boolean;
   in_stock?: boolean;
-  product_type?: ProductType;
+  product_type?: FlowerTypes;
   size?: Size;
   search?: string;
   min_price?: number; // in cents

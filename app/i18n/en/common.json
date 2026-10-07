@@ -22,5 +22,16 @@
   "price": "Price",
   "status": "Status",
   "email": "Email",
-  "backToHome": "Back to home"
+  "backToHome": "Back to home",
+  "all": "All",
+  "clearAll": "Clear all",
+  "category": "Category",
+  "products": "Products",
+  "flowerTypes": {
+    "funeral-flowers": "Mourning Pieces",
+    "wedding-bouquets": "Bridal Bouquets",
+    "birth-pieces": "Birth Pieces",
+    "flowers": "Flowers",
+    "decoflowers": "Decoration Flowers"
+  }
 }

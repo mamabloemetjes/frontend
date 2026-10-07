@@ -51,6 +51,7 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
+import { FlowerTypes, FlowerTypesList } from "@/types";
 
 type Tab = "products" | "orders";
 
@@ -171,9 +172,10 @@ function ProductsTab() {
     //   header: "SKU",
     // },
     {
-      accessorKey: "price",
+      id: "price",
+      accessorFn: (row) => row.subtotal,
       header: t("common.price"),
-      cell: ({ row }) => `€${(row.original.subtotal / 100).toFixed(2)}`,
+      cell: ({ getValue }) => `€${(getValue<number>() / 100).toFixed(2)}`,
     },
     {
       accessorKey: "is_active",
@@ -355,13 +357,14 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
   const createProduct = useCreateProduct();
   const updateProduct = useUpdateProduct();
   const t = useTranslations();
+  const commonT = useTranslations("common");
 
   const [formData, setFormData] = useState({
     name: product?.name || "",
     price: product ? (product.price / 100).toString() : "",
     discount: product ? ((product.discount || 0) / 100).toString() : "0",
     tax: product ? ((product.price * 0.21) / 100).toString() : "0",
-    enableTax: product ? product.tax > 0 : true,
+    enableTax: product ? product.tax > 0 : false,
     description: product?.description || "",
     is_active: product?.is_active ?? true,
     product_type: product?.product_type || "",
@@ -377,7 +380,7 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const tax = formData.enableTax
@@ -391,7 +394,7 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
       tax,
       description: formData.description,
       is_active: formData.is_active,
-      product_type: formData.product_type || "",
+      product_type: (formData.product_type || "") as FlowerTypes,
       images:
         images.length > 0
           ? images.map((img) => ({
@@ -624,18 +627,11 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
             />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="funeral">
-              {t("pages.dashboard.productTypes.funeral")}
-            </SelectItem>
-            <SelectItem value="wedding">
-              {t("pages.dashboard.productTypes.wedding")}
-            </SelectItem>
-            <SelectItem value="birth">
-              {t("pages.dashboard.productTypes.birth")}
-            </SelectItem>
-            <SelectItem value="flowers">
-              {t("pages.dashboard.productTypes.flowers")}
-            </SelectItem>
+            {Object.entries(FlowerTypesList).map(([value, label]) => (
+              <SelectItem value={value} key={value}>
+                {commonT(label)}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
         {errors.product_type && (

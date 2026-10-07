@@ -1,5 +1,5 @@
 import { z } from "zod";
-
+import { FlowerTypesList } from "@/types"
 // ============================================================================
 // Authentication Schemas
 // ============================================================================
@@ -150,7 +150,10 @@ export const productSchema = z.object({
     .string()
     .min(10, "validation.product.description.minLength")
     .max(2000, "validation.product.description.maxLength"),
-  product_type: z.enum(["funeral", "wedding", "birth", "flowers"], {
+  product_type: z.enum(Object.keys(FlowerTypesList) as [
+    keyof typeof FlowerTypesList,
+    ...(keyof typeof FlowerTypesList)[]
+  ], {
     message: "validation.product.productType.invalid",
   }),
   is_active: z.boolean().default(true),
@@ -190,11 +193,12 @@ export const updateProductSchema = z.object({
     )
     .optional()
     .or(z.literal("")),
-  product_type: z
-    .enum(["funeral", "wedding", "birth", "flowers"], {
-      message: "validation.product.productType.invalid",
-    })
-    .optional(),
+  product_type: z.enum(Object.keys(FlowerTypesList) as [
+    keyof typeof FlowerTypesList,
+    ...(keyof typeof FlowerTypesList)[]
+  ], {
+    message: "validation.product.productType.invalid",
+  }).optional(),
   is_active: z.boolean().optional(),
   images: z.array(productImageSchema).optional(),
 });

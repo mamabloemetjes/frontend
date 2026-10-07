@@ -7,6 +7,7 @@ import Link from "next/link";
 const Footer = async ({ locale }: { locale: string }) => {
   const t = await getTranslations({ locale, namespace: "navigation.footer" });
   const tApp = await getTranslations({ locale, namespace: "app" });
+  const tCommon = await getTranslations({locale, namespace:"common"})
 
   return (
     <footer className="mt-24 border-t border-border bg-muted/20">
@@ -42,10 +43,11 @@ const Footer = async ({ locale }: { locale: string }) => {
             </h3>
             <nav className="flex flex-col space-y-3 text-sm">
               {[
-                { href: "/funeral-flowers", label: t("rouwstukken") },
-                { href: "/wedding-bouquets", label: t("bruidsboeketten") },
-                { href: "/birth-pieces", label: t("geboortestukken") },
-                { href: "/flowers", label: t("bloemen") },
+                { href: "/funeral-flowers", label: tCommon("flowerTypes.funeral-flowers") },
+                { href: "/wedding-bouquets", label: tCommon("flowerTypes.wedding-bouquets") },
+                { href: "/birth-pieces", label: tCommon("flowerTypes.birth-pieces") },
+                { href: "/decoflowers", label: tCommon("flowerTypes.decoflowers") },
+                { href: "/flowers", label: tCommon("flowerTypes.flowers") },
                 { href: "/workshops", label: t("workshops") },
                 { href: "/about", label: t("about") },
                 { href: "/contact", label: t("contact") },

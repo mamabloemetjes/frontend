@@ -48,6 +48,7 @@
     "zod": "^4.3.4"
   },
   "devDependencies": {
+    "@eloqnt/cli": "^0.6.33",
     "@tailwindcss/postcss": "^4",
     "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^20",

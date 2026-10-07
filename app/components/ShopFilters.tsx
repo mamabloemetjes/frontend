@@ -10,14 +10,15 @@ export function ShopFilters({ totalCount }: { totalCount: number }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const t = useTranslations("navigation");
+  const t = useTranslations("common");
 
   const CATEGORY_OPTIONS = [
     { value: "", label: t("all") },
-    { value: "funeral", label: t("funeral-flowers") },
-    { value: "wedding", label: t("wedding-bouquets") },
-    { value: "birth", label: t("birth-pieces") },
-    { value: "flowers", label: t("flowers") },
+    { value: "funeral-flowers", label: t("flowerTypes.funeral-flowers") },
+    { value: "wedding-bouquets", label: t("flowerTypes.wedding-bouquets") },
+    { value: "birth-pieces", label: t("flowerTypes.birth-pieces") },
+    { value: "flowers", label: t("flowerTypes.flowers") },
+    { value: "decoflowers", label: t("flowerTypes.decoflowers") },
   ];
 
   const currentSort = searchParams.get("sort") ?? "";

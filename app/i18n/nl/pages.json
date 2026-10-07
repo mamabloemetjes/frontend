@@ -42,11 +42,11 @@
       "shop": "Bekijk Geboortestukken"
     },
     "flowerSection": {
-      "title": "Deco Bloemen",
+      "title": "Decoratieve Bloemen",
       "description": "Handgemaakte vilt bloemen voor decoratie en geschenken",
-      "readMore": "Lees meer over deco bloemen",
+      "readMore": "Lees meer over decoratieve bloemen",
       "interested": "Geinteresseerd?",
-      "shop": "Bekijk Deco Bloemen"
+      "shop": "Bekijk Decoratieve Bloemen"
     },
     "hero": {
       "title": "Welkom bij Roos van Sharon",
@@ -84,7 +84,7 @@
   "flowers": {
     "shop": {
       "errorFetchingProducts": "Fout bij het ophalen van deco bloemen",
-      "noProductsFound": "Geen deco bloemen gevonden"
+      "noProductsFound": "Geen decoratieve bloemen gevonden"
     }
   },
   "contact": {
@@ -173,10 +173,6 @@
     "introTitle": "Handgemaakte Viltbloemen voor Bijzondere Momenten",
     "introDescription": "Ontdek de unieke collectie handgemaakte viltbloemen. Elk stuk wordt met liefde en zorg gemaakt, perfect voor rouwstukken, bruidsboeketten, geboortestukken en blijvende herinneringen. Duurzaam, persoonlijk en met aandacht voor elk detail.",
     "browseByCategory": "Blader per categorie:",
-    "funeralFlowers": "Rouwstukken",
-    "weddingBouquets": "Bruidsboeketten",
-    "birthPieces": "Geboortestukken",
-    "flowers": "Deco Bloemen",
     "collection": "Collectie"
   },
   "dashboard": {
@@ -234,12 +230,6 @@
       "sku": "SKU",
       "enableTax": "Belasting inschakelen",
       "selectProductType": "Selecteer een producttype"
-    },
-    "productTypes": {
-      "funeral": "Rouwstuk",
-      "wedding": "Bruidsbloemen",
-      "birth": "Geboortestuk",
-      "flowers": "Deco Bloemen"
     },
     "imageManager": {
       "title": "Productafbeeldingen",
