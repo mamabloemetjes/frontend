@@ -19,21 +19,21 @@ type FlowerTypePageProps = {
 
 const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
   const namespace =
-    type === "funeral"
+    type === "funeral-flowers"
       ? "pages.funeral.shop"
-      : type === "wedding"
+      : type === "wedding-bouquets"
         ? "pages.wedding.shop"
-        : type === "birth"
+        : type === "birth-pieces"
           ? "pages.birth.shop"
           : "pages.flowers.shop";
   const t = await getTranslations({ locale, namespace });
 
   const paragraphsNamespace =
-    type === "funeral"
+    type === "funeral-flowers"
       ? "paragraphs.mourning"
-      : type === "wedding"
+      : type === "wedding-bouquets"
         ? "paragraphs.wedding"
-        : type === "birth"
+        : type === "birth-pieces"
           ? "paragraphs.birth"
           : "paragraphs.flowers";
   const paragraphsT = await getTranslations({
@@ -60,29 +60,29 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
   const products = data?.products ?? [];
 
   const pageTitle =
-    type === "funeral"
+    type === "funeral-flowers"
       ? paragraphsT("mournPiecesTitle")
-      : type === "wedding"
+      : type === "wedding-bouquets"
         ? paragraphsT("weddingTitle")
-        : type === "birth"
+        : type === "birth-pieces"
           ? paragraphsT("birthTitle")
           : paragraphsT("flowersTitle");
 
   const introTitle =
-    type === "funeral"
+    type === "funeral-flowers"
       ? paragraphsT("mournPiecesTitle1")
-      : type === "wedding"
+      : type === "wedding-bouquets"
         ? paragraphsT("weddingTitle1")
-        : type === "birth"
+        : type === "birth-pieces"
           ? paragraphsT("birthTitle1")
           : paragraphsT("flowersTitle1");
 
   const introDescription =
-    type === "funeral"
+    type === "funeral-flowers"
       ? paragraphsT("mournPiecesDesc1")
-      : type === "wedding"
+      : type === "wedding-bouquets"
         ? paragraphsT("weddingDesc1")
-        : type === "birth"
+        : type === "birth-pieces"
           ? paragraphsT("birthDesc1")
           : paragraphsT("flowersDesc1");
 
@@ -94,7 +94,7 @@ const FlowerTypePage = async ({ type, locale }: FlowerTypePageProps) => {
     "@type": "CollectionPage",
     name: pageTitle,
     description: introDescription,
-    url: `${baseUrl}/${locale}/${type === "funeral" ? "funeral-flowers" : type === "wedding" ? "wedding-bouquets" : "birth-pieces"}/shop`,
+    url: `${baseUrl}/${locale}/${type === "funeral-flowers" ? "funeral-flowers" : type === "wedding-bouquets" ? "wedding-bouquets" : "birth-pieces"}/shop`,
     inLanguage: locale === "nl" ? "nl-NL" : "en-US",
     isPartOf: { "@type": "WebSite", name: "Roos van Sharon", url: baseUrl },
     mainEntity: {

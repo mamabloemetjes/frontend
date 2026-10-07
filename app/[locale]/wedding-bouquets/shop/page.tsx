@@ -68,7 +68,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 const WeddingBouquetsProductsPage = async ({ params }: Props) => {
   const { locale } = await params;
-  return <FlowerTypePage type="wedding" locale={locale} />;
+  return <FlowerTypePage type="wedding-bouquets" locale={locale} />;
 };
 
 export default WeddingBouquetsProductsPage;
