@@ -3,6 +3,7 @@
   "yes": "Ja",
   "no": "Nee",
   "ok": "OK",
+  "found": "Gevonden",
   "cancel": "Annuleren",
   "save": "Opslaan",
   "delete": "Verwijderen",
@@ -22,5 +23,16 @@
   "price": "Prijs",
   "status": "Status",
   "email": "E-mail",
-  "backToHome": "Terug naar home"
+  "backToHome": "Terug naar home",
+  "all": "Alles",
+  "products": "Producten",
+  "category": "Categorie",
+  "clearAll": "Wis alles",
+  "flowerTypes": {
+    "funeral-flowers": "Rouwstukken",
+    "wedding-bouquets": "Bruidsboeketten",
+    "birth-pieces": "Geboortestukken",
+    "flowers": "Losse Bloemen",
+    "decoflowers": "Decoratieve bloemen"
+  }
 }

@@ -6,6 +6,7 @@ import { ChevronRight, Home } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
+import { FlowerTypesList } from "@/types";
 
 interface BreadcrumbItem {
   label: string;
@@ -15,6 +16,8 @@ interface BreadcrumbItem {
 export default function Breadcrumbs() {
   const pathname = usePathname();
   const t = useTranslations("navigation");
+  const tCommon = useTranslations("common");
+
   const [productName, setProductName] = useState<string | null>(null);
 
   // Remove locale from pathname
@@ -76,9 +79,13 @@ export default function Breadcrumbs() {
 
     // Use translations for known routes
     const translationMap: Record<string, string> = {
-      products: t("products"),
-      "funeral-flowers": t("funeral-flowers"),
-      "wedding-bouquets": t("wedding-bouquets"),
+      products: tCommon("products"),
+      ...Object.fromEntries(
+        Object.entries(FlowerTypesList).map(([slug, translationKey]) => [
+          slug,
+          tCommon(translationKey),
+        ])
+      ),
       cart: t("cart"),
       shop: t("shop"),
       contact: t("contact"),

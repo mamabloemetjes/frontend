@@ -178,10 +178,6 @@
     "introTitle": "Handmade Felt Flowers for Special Moments",
     "introDescription": "Discover my unique collection of handmade felt flowers. Each piece is crafted with love and care, perfect for memorial pieces, wedding bouquets, birth pieces, and lasting memories. Sustainable, personal, and with attention to every detail.",
     "browseByCategory": "Browse by category:",
-    "funeralFlowers": "Mourning Pieces",
-    "weddingBouquets": "Wedding Bouquets",
-    "birthPieces": "Birth Pieces",
-    "flowers": "Deco Flowers",
     "collection": "Collection"
   },
   "dashboard": {
@@ -239,12 +235,6 @@
       "sku": "SKU",
       "enableTax": "Enable Tax",
       "selectProductType": "Select a product type"
-    },
-    "productTypes": {
-      "funeral": "Funeral Piece",
-      "wedding": "Wedding Bouquet",
-      "birth": "Birth Piece",
-      "flowers": "Deco Flower"
     },
     "imageManager": {
       "title": "Product Images",

@@ -18,10 +18,6 @@
   "checkout": "Afrekenen",
   "privacy": "Privacybeleid",
   "terms": "Algemene Voorwaarden",
-  "funeral-flowers": "Rouwstukken",
-  "wedding-bouquets": "Bruidsboeketten",
-  "birth-pieces": "Geboortestukken",
-  "flowers": "Deco Bloemen",
   "shop": "Winkel",
   "category": "Categorie",
   "settings": "Instellingen",
@@ -38,11 +34,7 @@
     "default": "Standaard"
   },
   "footer": {
-    "rouwstukken": "Rouwstukken",
     "workshops": "Workshops",
-    "bruidsboeketten": "Bruidsboeketten",
-    "bloemen": "Deco Bloemen",
-    "geboortestukken": "Geboortestukken",
     "about": "Over mij",
     "contact": "Contact",
     "privacyPolicy": "Privacybeleid",

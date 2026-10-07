@@ -10,9 +10,10 @@ import { LanguageAwareLink } from "@/components/LanguageAwareLink";
 import { fetchProducts } from "@/hooks/useProducts";
 import { type ProductListFilters } from "@/lib/api";
 import { ArrowLeft } from "lucide-react";
+import { FlowerTypes } from "@/types";
 
 type FlowerTypePageProps = {
-  type: "funeral" | "wedding" | "birth" | "flowers";
+  type: FlowerTypes;
   locale: string;
 };
 

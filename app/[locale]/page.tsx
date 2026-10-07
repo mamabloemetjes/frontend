@@ -19,10 +19,21 @@ import { fetchProducts } from "@/hooks/useProducts";
 import { Separator } from "@/components/ui/separator";
 import { ProductListFilters } from "@/lib/api";
 
+// Adjust this import to your actual location.
+import { FlowerTypesList } from "@/types";
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "seo.home" });
-  const common = await getTranslations({ locale, namespace: "seo.common" });
+
+  const t = await getTranslations({
+    locale,
+    namespace: "seo.home",
+  });
+
+  const common = await getTranslations({
+    locale,
+    namespace: "seo.common",
+  });
 
   const baseUrl = env.baseUrl;
   const pageUrl = `${baseUrl}/${locale}`;
@@ -65,45 +76,63 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 const HomePage = async ({ params }: Props) => {
   const { locale } = await params;
-  const appT = await getTranslations({ locale, namespace: "app" });
+
+  const appT = await getTranslations({
+    locale,
+    namespace: "app",
+  });
+
   const navT = await getTranslations({
     locale,
     namespace: "navigation.footer",
   });
+
   const seoCommon = await getTranslations({
     locale,
     namespace: "seo.common",
   });
+
   const homeT = await getTranslations({
     locale,
     namespace: "pages.home",
   });
 
-  // Fetch one funeral, wedding, and birth product
-  // We fetch one product from each category to display on the homepage. If a category has no products, it will be skipped.
+  const commonT = await getTranslations({
+    locale,
+    namespace: "common",
+  });
 
+  // Fetch one product from each flower category.
+  // The category slug comes directly from FlowerTypesList,
+  // so adding a new flower category only requires updating that list.
   const filters: ProductListFilters = {
     page: 1,
     page_size: 1,
     is_active: true,
     include_images: true,
   };
+
   const funeralResponse = await fetchProducts({
     ...filters,
-    product_type: "funeral",
+    product_type: "funeral-flowers",
   });
 
   const weddingResponse = await fetchProducts({
     ...filters,
-    product_type: "wedding",
+    product_type: "wedding-bouquets",
   });
 
   const birthResponse = await fetchProducts({
     ...filters,
-    product_type: "birth",
+    product_type: "birth-pieces",
   });
 
-  const flowerResponse = await fetchProducts({
+  const decoflowerResponse = await fetchProducts({
+    ...filters,
+    product_type: "decoflowers",
+  });
+
+  const flowersResponse = await fetchProducts({
     ...filters,
     product_type: "flowers",
   });
@@ -111,13 +140,15 @@ const HomePage = async ({ params }: Props) => {
   const funeralProduct = funeralResponse.data?.products?.[0];
   const weddingProduct = weddingResponse.data?.products?.[0];
   const birthProduct = birthResponse.data?.products?.[0];
-  const flowerProduct = flowerResponse.data?.products?.[0];
+  const decoflowerProduct = decoflowerResponse.data?.products?.[0];
+  const flowerProduct = flowersResponse.data?.products?.[0];
 
   const len = [
     funeralProduct,
     weddingProduct,
     birthProduct,
     flowerProduct,
+    decoflowerProduct
   ].filter(Boolean).length;
 
   // Structured Data for Homepage
@@ -219,16 +250,27 @@ const HomePage = async ({ params }: Props) => {
     ],
   };
 
+  const flowerCategories = Object.entries(FlowerTypesList).map(
+    ([slug, translationKey]) => ({
+      href: `/${slug}`,
+      label: commonT(translationKey),
+    }),
+  );
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
+
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqStructuredData),
+        }}
       />
+
       <div className="container mx-auto px-4 pb-24">
         {/* Hero */}
         <Hero appT={appT} />
@@ -254,12 +296,15 @@ const HomePage = async ({ params }: Props) => {
                 <span className="h-1.5 w-1.5 bg-secondary" />
                 {appT("about")}
               </span>
+
               <h2 className="text-4xl lg:text-5xl font-semibold leading-tight tracking-tight text-foreground">
                 {appT("hero.title")}
               </h2>
+
               <p className="text-lg text-muted-foreground leading-relaxed">
                 {appT("hero.description")}
               </p>
+
               <Button asChild size="lg" variant="outline">
                 <LanguageAwareLink
                   href="/about"
@@ -277,7 +322,9 @@ const HomePage = async ({ params }: Props) => {
         {(funeralProduct ||
           weddingProduct ||
           birthProduct ||
-          flowerProduct) && (
+          flowerProduct ||
+          decoflowerProduct
+        ) && (
           <section className="mb-24">
             <div className="max-w-7xl mx-auto">
               <div className="mb-12">
@@ -285,28 +332,38 @@ const HomePage = async ({ params }: Props) => {
                   <span className="h-1.5 w-1.5 bg-secondary" />
                   {appT("collection")}
                 </span>
+
                 <h2 className="text-4xl lg:text-5xl font-semibold tracking-tight text-foreground">
                   {homeT("title")}
                 </h2>
               </div>
 
-              <div className={`grid md:grid-cols-2 lg:grid-cols-${len} gap-8`}>
+              <div
+                className={`grid md:grid-cols-2 lg:grid-cols-${len} gap-8`}
+              >
                 {funeralProduct && (
                   <div className="flex flex-col h-full">
                     <div className="mb-5 pb-5 border-b border-border">
                       <h3 className="text-xl font-semibold mb-2">
                         {homeT("funeralSection.title")}
                       </h3>
+
                       <p className="text-sm text-muted-foreground leading-relaxed">
                         {homeT("funeralSection.description")}
                       </p>
                     </div>
+
                     <div className="mb-6 flex-1">
-                      <ProductCard product={funeralProduct} variant="default" />
+                      <ProductCard
+                        product={funeralProduct}
+                        variant="default"
+                      />
                     </div>
+
                     <p className="text-sm space-y-2 text-muted-foreground">
                       {homeT("birthSection.interested")}
                     </p>
+
                     <div className="mt-auto grid grid-cols-1 lg:grid-cols-2 gap-3">
                       <Button
                         asChild
@@ -319,6 +376,7 @@ const HomePage = async ({ params }: Props) => {
                           <ArrowRight className="h-4 w-4" />
                         </LanguageAwareLink>
                       </Button>
+
                       <Button
                         asChild
                         size="lg"
@@ -340,16 +398,23 @@ const HomePage = async ({ params }: Props) => {
                       <h3 className="text-xl font-semibold mb-2">
                         {homeT("weddingSection.title")}
                       </h3>
+
                       <p className="text-sm text-muted-foreground leading-relaxed">
                         {homeT("weddingSection.description")}
                       </p>
                     </div>
+
                     <div className="mb-6 flex-1">
-                      <ProductCard product={weddingProduct} variant="default" />
+                      <ProductCard
+                        product={weddingProduct}
+                        variant="default"
+                      />
                     </div>
+
                     <p className="text-sm space-y-2 text-muted-foreground">
                       {homeT("birthSection.interested")}
                     </p>
+
                     <div className="mt-auto grid grid-cols-1 lg:grid-cols-2 gap-3">
                       <Button
                         asChild
@@ -362,6 +427,7 @@ const HomePage = async ({ params }: Props) => {
                           <ArrowRight className="h-4 w-4" />
                         </LanguageAwareLink>
                       </Button>
+
                       <Button
                         asChild
                         size="lg"
@@ -383,16 +449,20 @@ const HomePage = async ({ params }: Props) => {
                       <h3 className="text-xl font-semibold mb-2">
                         {homeT("birthSection.title")}
                       </h3>
+
                       <p className="text-sm text-muted-foreground leading-relaxed">
                         {homeT("birthSection.description")}
                       </p>
                     </div>
+
                     <div className="mb-6 flex-1">
                       <ProductCard product={birthProduct} variant="default" />
                     </div>
+
                     <p className="text-sm space-y-2 text-muted-foreground">
                       {homeT("birthSection.interested")}
                     </p>
+
                     <div className="mt-auto grid grid-cols-1 lg:grid-cols-2 gap-3">
                       <Button
                         asChild
@@ -405,6 +475,7 @@ const HomePage = async ({ params }: Props) => {
                           <ArrowRight className="h-4 w-4" />
                         </LanguageAwareLink>
                       </Button>
+
                       <Button
                         asChild
                         size="lg"
@@ -426,16 +497,20 @@ const HomePage = async ({ params }: Props) => {
                       <h3 className="text-xl font-semibold mb-2">
                         {homeT("flowerSection.title")}
                       </h3>
+
                       <p className="text-sm text-muted-foreground leading-relaxed">
                         {homeT("flowerSection.description")}
                       </p>
                     </div>
+
                     <div className="mb-6 flex-1">
                       <ProductCard product={flowerProduct} variant="default" />
                     </div>
+
                     <p className="text-sm space-y-2 text-muted-foreground">
                       {homeT("birthSection.interested")}
                     </p>
+
                     <div className="mt-auto grid grid-cols-1 lg:grid-cols-2 gap-3">
                       <Button
                         asChild
@@ -448,6 +523,7 @@ const HomePage = async ({ params }: Props) => {
                           <ArrowRight className="h-4 w-4" />
                         </LanguageAwareLink>
                       </Button>
+
                       <Button
                         asChild
                         size="lg"
@@ -476,9 +552,11 @@ const HomePage = async ({ params }: Props) => {
               <span className="h-1.5 w-1.5 bg-secondary" />
               Ontdekken
             </span>
+
             <h2 className="text-4xl lg:text-5xl font-semibold tracking-tight text-foreground">
               {homeT("exploreTitle")}
             </h2>
+
             <p className="text-muted-foreground mt-3 max-w-xl">
               {homeT("exploreDescription")}
             </p>
@@ -486,12 +564,7 @@ const HomePage = async ({ params }: Props) => {
 
           {/* Category tiles */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border mb-px">
-            {[
-              { href: "/funeral-flowers", label: navT("rouwstukken") },
-              { href: "/wedding-bouquets", label: navT("bruidsboeketten") },
-              { href: "/birth-pieces", label: navT("geboortestukken") },
-              { href: "/flowers", label: navT("bloemen") },
-            ].map(({ href, label }) => (
+            {flowerCategories.map(({ href, label }) => (
               <LanguageAwareLink
                 key={href}
                 href={href}
@@ -500,6 +573,7 @@ const HomePage = async ({ params }: Props) => {
                 <span className="text-base font-medium text-foreground group-hover:text-accent-foreground">
                   {label}
                 </span>
+
                 <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-accent-foreground transition-transform group-hover:translate-x-1" />
               </LanguageAwareLink>
             ))}
@@ -508,9 +582,21 @@ const HomePage = async ({ params }: Props) => {
           {/* General pages */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border">
             {[
-              { href: "/workshops", label: navT("workshops"), icon: Palette },
-              { href: "/about", label: navT("about"), icon: Heart },
-              { href: "/contact", label: navT("contact"), icon: Mail },
+              {
+                href: "/workshops",
+                label: navT("workshops"),
+                icon: Palette,
+              },
+              {
+                href: "/about",
+                label: navT("about"),
+                icon: Heart,
+              },
+              {
+                href: "/contact",
+                label: navT("contact"),
+                icon: Mail,
+              },
             ].map(({ href, label, icon: Icon }) => (
               <LanguageAwareLink
                 key={href}
@@ -519,10 +605,12 @@ const HomePage = async ({ params }: Props) => {
               >
                 <div className="flex items-center gap-4">
                   <Icon className="h-5 w-5 text-muted-foreground group-hover:text-accent-foreground" />
+
                   <span className="text-base font-medium text-foreground group-hover:text-accent-foreground">
                     {label}
                   </span>
                 </div>
+
                 <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-accent-foreground transition-transform group-hover:translate-x-1" />
               </LanguageAwareLink>
             ))}
