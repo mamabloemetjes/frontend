@@ -45,14 +45,14 @@
       "readMore": "Read About Birth Pieces"
     },
     "flowerSection": {
-      "title": "Deco Flowers",
+      "title": "Decoration Flowers",
       "description": "Handmade felt flowers for decoration and gifting",
-      "seeMore": "Want to see more deco flowers?",
-      "viewAll": "View All Deco Flowers",
-      "shop": "View Deco Flowers",
+      "seeMore": "Want to see more decoration flowers?",
+      "viewAll": "View All Decoration Flowers",
+      "shop": "View Decoration Flowers",
       "interested": "Interested?",
 
-      "readMore": "Read About Deco Flowers"
+      "readMore": "Read About Decoration Flowers"
     },
     "hero": {
       "title": "Welcome to Roos van Sharon",
@@ -89,8 +89,8 @@
   },
   "flowers": {
     "shop": {
-      "errorFetchingProducts": "Error fetching deco flowers",
-      "noProductsFound": "No deco flowers found."
+      "errorFetchingProducts": "Error fetching decoration flowers",
+      "noProductsFound": "No decoration flowers found."
     }
   },
   "contact": {

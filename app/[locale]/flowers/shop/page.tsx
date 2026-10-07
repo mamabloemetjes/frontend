@@ -60,13 +60,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         "max-snippet": -1,
       },
     },
-    category: "decoration flowers",
+    category: "vilt flowers",
   };
 }
 
 const FlowersBouquetsProductsPage = async ({ params }: Props) => {
   const { locale } = await params;
-  return <FlowerTypePage type="decoflowers" locale={locale} />;
+  return <FlowerTypePage type="flowers" locale={locale} />;
 };
 
 export default FlowersBouquetsProductsPage;
