@@ -1,5 +1,3 @@
-"use server";
-
 import { fetchProductById, fetchProducts } from "@/hooks/useProducts";
 import Image from "next/image";
 import AddToCart from "@/components/AddToCart";
@@ -25,12 +23,17 @@ import {
 } from "@/lib/structured-data";
 import { notFound } from "next/navigation";
 import { ProductListFilters } from "@/lib/api";
+import { cache } from "react";
+// Keep public product pages fresh while allowing Next.js to reuse rendered output.
+export const revalidate = 7200;
 
 const testId = (id: string): boolean => {
   const regex =
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   return regex.test(id);
 };
+
+const getProductForPage = cache((id: string) => fetchProductById(id, true));
 
 // Generate static params for all products (for SEO pre-rendering)
 export async function generateStaticParams() {
@@ -39,7 +42,6 @@ export async function generateStaticParams() {
 
   const filters: ProductListFilters = {
     is_active: true,
-    include_images: true,
   };
   const { data, success } = await fetchProducts(filters);
 
@@ -75,7 +77,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const { data, success } = await fetchProductById(id, true);
+  const { data, success } = await getProductForPage(id);
 
   if (!success || !data?.product) {
     return {
@@ -194,7 +196,7 @@ const ProductDetailPage = async ({ params }: Props) => {
     return notFound();
   }
 
-  const { data, success } = await fetchProductById(id, true);
+  const { data, success } = await getProductForPage(id);
 
   if (!success) {
     return (

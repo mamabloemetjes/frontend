@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import {
   api,
   queryKeys,
@@ -20,6 +25,9 @@ export function useAdminProducts(filters?: ProductListFilters) {
       const response = await api.admin.products.getAll(filters);
       return response.data;
     },
+    placeholderData: keepPreviousData,
+    retry: 2,
+    retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 5000),
   });
 }
 

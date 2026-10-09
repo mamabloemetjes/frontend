@@ -44,7 +44,9 @@ export async function showApiError(
     if (error.status === 429) {
       toast.error(t("toasts.apiErrors.tooManyRequests"), {
         description:
-          translatedMessage || t("toasts.apiErrors.rateLimitDescription"),
+          error.retryAfter
+            ? `${translatedMessage || t("toasts.apiErrors.rateLimitDescription")} (${error.retryAfter}s)`
+            : translatedMessage || t("toasts.apiErrors.rateLimitDescription"),
         duration: 10000,
       });
       return;
@@ -122,7 +124,9 @@ export async function showApiError(
 
     // Generic API error with backend message
     toast.error(requestFailed, {
-      description: translatedMessage || requestFailed,
+      description: error.requestId
+        ? `${translatedMessage || requestFailed} (${error.requestId})`
+        : translatedMessage || requestFailed,
       duration: 10000,
     });
     return;

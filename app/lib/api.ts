@@ -24,10 +24,6 @@ export interface ApiResponse<T> {
   timestamp: string;
 }
 
-export interface WrappedProducts {
-  products: Product[];
-}
-
 // Product types (from structs/products.go)
 export type Size = "small" | "medium" | "large";
 export type Color =
@@ -83,6 +79,7 @@ export interface ProductListResponse {
   pagination: {
     page: number;
     page_size: number;
+    total: number;
     total_items: number;
     total_pages: number;
   };
@@ -109,6 +106,7 @@ export interface ProductListFilters {
   page?: number;
   page_size?: number;
   is_active?: boolean;
+  status?: "active" | "sold";
   in_stock?: boolean;
   product_type?: FlowerTypes;
   size?: Size;
@@ -246,13 +244,16 @@ const apiClient: AxiosInstance = axios.create({
   withCredentials: true,
 });
 
-// Configure axios-retry to retry on 500 errors only
+// Retry transient server failures only for idempotent requests.
 axiosRetry(apiClient, {
   retries: 3, // Retry up to 3 times
   retryDelay: axiosRetry.exponentialDelay, // Exponential backoff: 1s, 2s, 4s
   retryCondition: (error: AxiosError) => {
-    // Only retry on 500-level errors (server errors)
-    return error.response?.status ? error.response.status >= 500 : false;
+    const method = error.config?.method?.toLowerCase();
+    const isIdempotent = ["get", "head", "options"].includes(method ?? "");
+    const status = error.response?.status;
+
+    return isIdempotent && status !== undefined && status >= 500;
   },
   onRetry: (retryCount: number, error: AxiosError) => {
     console.log(
@@ -309,6 +310,12 @@ const processQueue = (error: ApiError | null = null) => {
 apiClient.interceptors.response.use(
   (response) => {
     const apiResponse: ApiResponse<unknown> = response.data;
+
+    // The CSRF bootstrap endpoint intentionally returns a smaller raw
+    // payload rather than the standard API envelope.
+    if (response.config.url?.includes("/auth/csrf")) {
+      return response.data;
+    }
 
     // Check if gecho indicates success
     if (!apiResponse.success) {
@@ -374,6 +381,16 @@ apiClient.interceptors.response.use(
             apiResponse?.message || error.message,
             error.response.status,
             apiResponse?.data,
+            {
+              code:
+                typeof apiResponse?.data === "object" &&
+                apiResponse.data !== null &&
+                "code" in apiResponse.data
+                  ? String(apiResponse.data.code)
+                  : undefined,
+              requestId: error.response.headers["x-request-id"],
+              retryAfter: Number(error.response.headers["retry-after"]) || undefined,
+            },
           );
         }
 
@@ -440,11 +457,22 @@ apiClient.interceptors.response.use(
 export class ApiError extends Error {
   status: number;
   data?: unknown;
+  code?: string;
+  requestId?: string;
+  retryAfter?: number;
 
-  constructor(message: string, status: number = 500, data?: unknown) {
+  constructor(
+    message: string,
+    status: number = 500,
+    data?: unknown,
+    metadata?: { code?: string; requestId?: string; retryAfter?: number },
+  ) {
     super(message);
     this.status = status;
     this.data = data;
+    this.code = metadata?.code;
+    this.requestId = metadata?.requestId;
+    this.retryAfter = metadata?.retryAfter;
   }
 }
 
@@ -461,7 +489,8 @@ export const api = {
       if (filters?.page) params.page = filters.page;
       if (filters?.page_size) params.page_size = filters.page_size;
       if (filters?.is_active !== undefined)
-        params.is_active = filters.is_active;
+        params.is_active = String(filters.is_active);
+      if (filters?.status) params.status = filters.status;
       if (filters?.in_stock !== undefined) params.in_stock = filters.in_stock;
       if (filters?.product_type) params.product_type = filters.product_type;
       if (filters?.size) params.size = filters.size;
@@ -582,8 +611,13 @@ export const api = {
      */
     create: async (
       orderData: OrderRequest,
+      idempotencyKey?: string,
     ): Promise<ApiResponse<CreateOrderResponse>> => {
-      return apiClient.post("/orders/create", orderData);
+      return apiClient.post("/orders/create", orderData, {
+        headers: idempotencyKey
+          ? { "Idempotency-Key": idempotencyKey }
+          : undefined,
+      });
     },
 
     /**
@@ -616,13 +650,14 @@ export const api = {
        */
       getAll: async (
         filters?: ProductListFilters,
-      ): Promise<ApiResponse<WrappedProducts>> => {
+      ): Promise<ApiResponse<ProductListResponse>> => {
         const params: Record<string, unknown> = {};
 
         if (filters?.page) params.page = filters.page;
         if (filters?.page_size) params.page_size = filters.page_size;
         if (filters?.is_active !== undefined)
-          params.is_active = filters.is_active;
+          params.is_active = String(filters.is_active);
+        if (filters?.status) params.status = filters.status;
         if (filters?.in_stock !== undefined) params.in_stock = filters.in_stock;
         if (filters?.product_type) params.product_type = filters.product_type;
         if (filters?.size) params.size = filters.size;

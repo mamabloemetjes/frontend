@@ -6,7 +6,10 @@ import { NextRequest, NextResponse } from "next/server";
  */
 export async function POST(request: NextRequest) {
   // Validate secret token to prevent unauthorized revalidation
-  const secret = request.nextUrl.searchParams.get("secret");
+  const authorization = request.headers.get("authorization");
+  const secret = authorization?.startsWith("Bearer ")
+    ? authorization.slice("Bearer ".length)
+    : null;
 
   if (!secret || secret !== process.env.REVALIDATION_SECRET) {
     return NextResponse.json(
@@ -59,12 +62,11 @@ export async function POST(request: NextRequest) {
       { message: "Missing required parameter: path, tag, or paths" },
       { status: 400 },
     );
-  } catch (error) {
-    console.error("[Revalidation] Error:", error);
+  } catch {
+    console.error("[Revalidation] Cache revalidation failed");
     return NextResponse.json(
       {
         message: "Error revalidating cache",
-        error: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 },
     );
