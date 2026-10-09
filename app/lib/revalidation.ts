@@ -7,10 +7,11 @@ export async function revalidatePath(path: string): Promise<boolean> {
   }
 
   try {
-    const response = await fetch(`/api/revalidate?secret=${secret}`, {
+    const response = await fetch("/api/revalidate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${secret}`,
       },
       body: JSON.stringify({ path }),
     });
@@ -39,10 +40,11 @@ export async function revalidatePaths(paths: string[]): Promise<boolean> {
   }
 
   try {
-    const response = await fetch(`/api/revalidate?secret=${secret}`, {
+    const response = await fetch("/api/revalidate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${secret}`,
       },
       body: JSON.stringify({ paths }),
     });
@@ -71,10 +73,11 @@ export async function revalidateTag(tag: string): Promise<boolean> {
   }
 
   try {
-    const response = await fetch(`/api/revalidate?secret=${secret}`, {
+    const response = await fetch("/api/revalidate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${secret}`,
       },
       body: JSON.stringify({ tag }),
     });

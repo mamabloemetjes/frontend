@@ -35,6 +35,7 @@ export default function CheckoutPage() {
   const { handleError } = useApiError();
   const { data: userAddressesData } = useUserAddresses();
   const hasAutofilledRef = useRef(false);
+  const [orderIdempotencyKey] = useState(() => crypto.randomUUID());
 
   // Initialize selected address from user data
   const initialAddressId = userAddressesData?.addresses[0]?.id || "";
@@ -151,7 +152,10 @@ export default function CheckoutPage() {
         shipping_cents: cartShipping,
       };
 
-      const response = await api.orders.create(orderData);
+      const response = await api.orders.create(
+        orderData,
+        orderIdempotencyKey,
+      );
 
       showSuccess(
         t("order.checkout.orderSuccess"),

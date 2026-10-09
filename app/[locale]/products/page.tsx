@@ -1,5 +1,3 @@
-"use server";
-
 import { fetchProducts } from "@/hooks/useProducts";
 import { ProductCard } from "@/components";
 import { getTranslations } from "next-intl/server";
@@ -14,9 +12,16 @@ import {
   createOpenGraphMetadata,
   createTwitterMetadata,
 } from "@/lib/structured-data";
+import {
+  PUBLIC_PRODUCTS_PAGE_SIZE,
+} from "@/lib/cache-config";
 
 // Adjust this import to your actual location.
 import { FlowerTypesList } from "@/types";
+import { ProductPagination } from "@/components/ProductPagination";
+
+// Keep public product pages fresh while allowing Next.js to reuse rendered output.
+export const revalidate = 7200;
 
 interface ProductsProps {
   params: Promise<{ locale: string }>;
@@ -106,8 +111,8 @@ const ProductsPage = async ({
   );
 
   const filters: ProductListFilters = {
-    page: 1,
-    page_size: 100,
+    page: Number(sp?.page) > 0 ? Number(sp.page) : 1,
+    page_size: PUBLIC_PRODUCTS_PAGE_SIZE,
     is_active: true,
     include_images: true,
     ...(sp?.search && { search: sp.search }),
@@ -120,6 +125,14 @@ const ProductsPage = async ({
   const { data, success } = await fetchProducts(filters);
 
   const products = data?.products ?? [];
+  const totalProducts = Math.max(
+    data?.pagination.total_items ?? 0,
+    data?.pagination.total ?? 0,
+    products.length,
+  );
+  const totalPages =
+    data?.pagination.total_pages ??
+    Math.ceil(totalProducts / PUBLIC_PRODUCTS_PAGE_SIZE);
 
   const structuredData = createProductListingSchema(
     products,
@@ -168,7 +181,7 @@ const ProductsPage = async ({
         </header>
 
         {/* Filters — client island */}
-        <ShopFilters totalCount={products.length} />
+        <ShopFilters totalCount={totalProducts} />
 
         {/* Product grid */}
         {products.length === 0 ? (
@@ -188,6 +201,12 @@ const ProductsPage = async ({
               </div>
             ))}
           </div>
+        )}
+
+        {totalPages > 1 && data?.pagination && (
+          <ProductPagination
+            pagination={{ ...data.pagination, total_pages: totalPages }}
+          />
         )}
 
         {/* Browse by category */}

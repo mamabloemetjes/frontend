@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useMemo, useState, useEffect } from "react";
 import {
   useAdminProducts,
   useCreateProduct,
@@ -11,6 +11,7 @@ import type { Product } from "@/lib/api";
 import { ImageManager } from "@/components/admin/ImageManager";
 import { ProductsTable } from "@/components/admin/ProductsTable";
 import { type ColumnDef } from "@tanstack/react-table";
+import type { SortingState } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -42,6 +43,7 @@ import {
   Search,
   Calendar,
   User,
+  X,
 } from "lucide-react";
 import { productSchema, updateProductSchema } from "@/lib/validation/schemas";
 import {
@@ -54,6 +56,7 @@ import {
 import { FlowerTypes, FlowerTypesList } from "@/types";
 
 type Tab = "products" | "orders";
+const EMPTY_PRODUCTS: Product[] = [];
 
 const DashboardPage = () => {
   const [activeTab, setActiveTab] = useState<Tab>("products");
@@ -99,16 +102,63 @@ const DashboardPage = () => {
 function ProductsTab() {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [search, setSearch] = useState("");
+  const [appliedSearch, setAppliedSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState<"all" | "active" | "sold">(
+    "all",
+  );
+  const [typeFilter, setTypeFilter] = useState<string>("all");
+  const [page, setPage] = useState(1);
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: "created_at", desc: true },
+  ]);
   const t = useTranslations();
 
-  const { data, isLoading, error } = useAdminProducts({
-    page: 1,
-    page_size: 100,
+  const { data, isLoading, isPlaceholderData, error, refetch } = useAdminProducts({
+    page,
+    page_size: 20,
     include_images: true,
+    ...(appliedSearch && { search: appliedSearch }),
+    ...(statusFilter !== "all" && {
+      is_active: statusFilter === "active",
+    }),
+    ...(typeFilter !== "all" && {
+      product_type: typeFilter as FlowerTypes,
+    }),
+    ...(sorting[0] && {
+      sort_by:
+        sorting[0].id === "price"
+          ? "price"
+          : sorting[0].id === "is_active"
+            ? "is_active"
+            : sorting[0].id,
+      sort_direction: sorting[0].desc ? "DESC" : "ASC",
+    }),
   });
 
   const updateProduct = useUpdateProduct();
   const deleteProduct = useDeleteProduct();
+  const products = isPlaceholderData ? EMPTY_PRODUCTS : (data?.products ?? EMPTY_PRODUCTS);
+  const filteredProducts = useMemo(() => products, [products]);
+  const hasFilters = search.trim() !== "" || statusFilter !== "all" || typeFilter !== "all";
+  const pagination = isPlaceholderData ? undefined : data?.pagination;
+  const totalProductCount = pagination?.total_items ?? products.length;
+  const resultStart =
+    totalProductCount > 0 ? ((pagination?.page ?? page) - 1) * 20 + 1 : 0;
+  const resultEnd = Math.min(
+    totalProductCount,
+    ((pagination?.page ?? page) - 1) * 20 + filteredProducts.length,
+  );
+
+  useEffect(() => {
+    const timeout = window.setTimeout(() => {
+      const nextSearch = search.trim();
+      setAppliedSearch(nextSearch);
+      setPage(1);
+    }, 300);
+
+    return () => window.clearTimeout(timeout);
+  }, [search]);
 
   const handleMarkAsSold = async (id: string) => {
     await updateProduct.mutateAsync({
@@ -283,7 +333,7 @@ function ProductsTab() {
     },
   ];
 
-  if (isLoading) {
+  if (isLoading && !data) {
     return (
       <div className="text-center py-8 text-muted-foreground">
         Loading products...
@@ -294,18 +344,25 @@ function ProductsTab() {
   if (error) {
     return (
       <div className="bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded">
-        Error: {error.message}
+        <p>{t("pages.dashboard.errorLoadingProducts")}</p>
+        <p className="mt-1 text-sm">{t("pages.dashboard.tryAgainLater")}</p>
+        <Button
+          className="mt-3"
+          variant="outline"
+          onClick={() => refetch()}
+          disabled={isLoading}
+        >
+          {t("common.tryAgain")}
+        </Button>
       </div>
     );
   }
-
-  const products = data?.products || [];
 
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">
-          {t("pages.dashboard.products")} ({products.length})
+          {t("pages.dashboard.products")} ({totalProductCount})
         </h2>
         <Button onClick={() => setShowCreateForm(true)}>
           {t("pages.dashboard.addProduct")}
@@ -341,7 +398,128 @@ function ProductsTab() {
         </Dialog>
       )}
 
-      <ProductsTable columns={columns} data={products} />
+      <Card className="mb-6">
+        <CardContent className="flex flex-col gap-4 pt-6 lg:flex-row lg:items-end">
+          <div className="flex-1">
+            <Label htmlFor="admin-product-search">
+              {t("pages.dashboard.searchProducts")}
+            </Label>
+            <div className="relative mt-2">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                id="admin-product-search"
+                value={search}
+                onChange={(event) => {
+                  setSearch(event.target.value);
+                }}
+                placeholder={t("pages.dashboard.searchProductsPlaceholder")}
+                className="pl-9"
+              />
+            </div>
+          </div>
+          <div className="w-full lg:w-48">
+            <Label htmlFor="admin-product-status">
+              {t("pages.dashboard.status")}
+            </Label>
+            <select
+              id="admin-product-status"
+              value={statusFilter}
+              onChange={(event) => {
+                setStatusFilter(event.target.value as typeof statusFilter);
+                setPage(1);
+              }}
+              className="mt-2 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
+            >
+              <option value="all">{t("pages.dashboard.allStatuses")}</option>
+              <option value="active">{t("pages.dashboard.active")}</option>
+              <option value="sold">{t("pages.dashboard.sold")}</option>
+            </select>
+          </div>
+          <div className="w-full lg:w-56">
+            <Label htmlFor="admin-product-type">
+              {t("pages.dashboard.productType")}
+            </Label>
+            <select
+              id="admin-product-type"
+              value={typeFilter}
+              onChange={(event) => {
+                  setTypeFilter(event.target.value);
+                  setPage(1);
+                }}
+              className="mt-2 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
+            >
+              <option value="all">{t("common.all")}</option>
+              {Object.entries(FlowerTypesList).map(([value, label]) => (
+                <option key={value} value={value}>
+                  {t(`common.${label}`)}
+                </option>
+              ))}
+            </select>
+          </div>
+          {hasFilters && (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => {
+                setSearch("");
+                setAppliedSearch("");
+                setStatusFilter("all");
+                setTypeFilter("all");
+                setPage(1);
+              }}
+            >
+              <X className="mr-2 h-4 w-4" />
+              {t("common.clearAll")}
+            </Button>
+          )}
+        </CardContent>
+      </Card>
+
+      <ProductsTable
+        columns={columns}
+        data={filteredProducts}
+        sorting={sorting}
+        onSortingChange={(nextSorting) => {
+          setSorting(nextSorting);
+          setPage(1);
+        }}
+        emptyMessage={t("pages.dashboard.noProducts")}
+      />
+
+      {!isPlaceholderData && (
+        <div className="mt-3 text-sm text-muted-foreground" aria-live="polite">
+          {t("pages.dashboard.resultsSummary", { count: totalProductCount })}
+          {" · "}
+          {t("pages.dashboard.showingResults", {
+            start: resultStart,
+            end: resultEnd,
+            total: totalProductCount,
+          })}
+        </div>
+      )}
+
+      {pagination && pagination.total_pages > 1 && (
+        <div className="mt-6 flex items-center justify-center gap-4">
+          <Button
+            variant="outline"
+            disabled={page <= 1}
+            onClick={() => setPage((current) => current - 1)}
+          >
+            {t("common.previous")}
+          </Button>
+          <span className="text-sm text-muted-foreground">
+            {t("common.page")} {pagination.page} {t("common.of")}{" "}
+            {pagination.total_pages}
+          </span>
+          <Button
+            variant="outline"
+            disabled={page >= pagination.total_pages}
+            onClick={() => setPage((current) => current + 1)}
+          >
+            {t("common.next")}
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,7 +1,11 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { api as apiClient, apiClient as axiosClient } from "@/lib/api";
+import {
+  api as apiClient,
+  apiClient as axiosClient,
+  queryKeys,
+} from "@/lib/api";
 import { env } from "@/lib/env";
 import type { User, LoginCredentials, RegisterData } from "@/types/auth";
 import { useRouter } from "next/navigation";
@@ -48,8 +52,11 @@ export function useLogin() {
       hasAttemptedAuth = true;
       lastAuthResult = true;
       // Cache user data - tokens are now handled via cookies
-      queryClient.setQueryData(["auth", "user"], user);
-      queryClient.invalidateQueries({ queryKey: ["auth"] });
+      queryClient.setQueryData(queryKeys.auth.currentUser, user);
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.auth.currentUser,
+        refetchType: "none",
+      });
       showApiSuccess(
         t("welcomeBack"),
         t("loggedInAs", { username: user.username }),
