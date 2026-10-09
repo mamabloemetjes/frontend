@@ -531,7 +531,7 @@ export const api = {
      * Fetch only active products
      */
     getActive: async (
-      filters: ProductListFilters,
+      filters?: ProductListFilters,
     ): Promise<ApiResponse<ProductListResponse>> => {
       return apiClient.get("/products/active", {
         params: filters,

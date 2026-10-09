@@ -1,7 +1,7 @@
-import { fetchProductById, fetchProducts } from "@/hooks/useProducts";
 import Image from "next/image";
 import AddToCart from "@/components/AddToCart";
 import { Props } from "@/types";
+import { fetchProducts } from "@/hooks/useProducts";
 import { getTranslations } from "next-intl/server";
 import { formatPrice } from "@/lib/utils";
 import {
@@ -22,8 +22,8 @@ import {
   getPriceValidUntil,
 } from "@/lib/structured-data";
 import { notFound } from "next/navigation";
-import { ProductListFilters } from "@/lib/api";
-import { cache } from "react";
+import { getCachedProductCatalog } from "@/lib/server-products";
+
 // Keep public product pages fresh while allowing Next.js to reuse rendered output.
 export const revalidate = 7200;
 
@@ -33,34 +33,15 @@ const testId = (id: string): boolean => {
   return regex.test(id);
 };
 
-const getProductForPage = cache((id: string) => fetchProductById(id, true));
-
 // Generate static params for all products (for SEO pre-rendering)
 export async function generateStaticParams() {
-  const locales = ["nl", "en"];
   const params = [];
-
-  const filters: ProductListFilters = {
-    is_active: true,
-  };
-  const { data, success } = await fetchProducts(filters);
-
-  for (const locale of locales) {
-    try {
-      // Fetch all active products
-      if (success && data?.products) {
-        for (const product of data.products) {
-          params.push({
-            locale,
-            id: product.id,
-          });
-        }
-      }
-    } catch (error) {
-      console.error(`Error fetching products for locale ${locale}:`, error);
-    }
+  const { data: catalog } = await getCachedProductCatalog();
+    for (const product of catalog.products) {
+      params.push({
+        id: product.id,
+      });
   }
-
   return params;
 }
 
@@ -77,16 +58,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const { data, success } = await getProductForPage(id);
+  const { data } = await getCachedProductCatalog();
+  const product = data.products.find((p) => p.id === id);
 
-  if (!success || !data?.product) {
+  if (!product) {
     return {
       title: t("notFoundTitle"),
       description: t("notFoundDescription"),
     };
   }
 
-  const { product } = data;
   const primaryImage = product.images?.find((img) => img.is_primary);
   const mainImage = primaryImage || product.images?.[0];
   const priceInEuros = (product.subtotal / 100).toFixed(2);
@@ -196,20 +177,10 @@ const ProductDetailPage = async ({ params }: Props) => {
     return notFound();
   }
 
-  const { data, success } = await getProductForPage(id);
+  const { data } = await getCachedProductCatalog();
+  const product = data.products.find((p) => p.id === id);
 
-  if (!success) {
-    return (
-      <div className="container mx-auto px-4 py-8 text-center">
-        <h1 className="text-2xl font-bold text-red-500">
-          {t("errorFetchingProduct")}
-        </h1>
-        <p>{t("pleaseTryAgainLater")}</p>
-      </div>
-    );
-  }
-
-  if (!data?.product) {
+  if (!product) {
     return (
       <div className="container mx-auto px-4 py-8 text-center">
         <h1 className="text-2xl font-bold text-red-500">
@@ -219,7 +190,6 @@ const ProductDetailPage = async ({ params }: Props) => {
     );
   }
 
-  const { product } = data;
   const hasDiscount = product.discount > 0;
   const originalPrice = product.subtotal + product.discount;
   const discountPercentage = hasDiscount
@@ -233,7 +203,7 @@ const ProductDetailPage = async ({ params }: Props) => {
 
   // Generate JSON-LD structured data for SEO
   const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "https://mamabloemetjes.nl";
+    process.env.NEXT_PUBLIC_BASE_URL || "https://roosvansharon.nl";
   const productUrl = `${baseUrl}/${locale}/products/${product.id}`;
 
   const structuredData = createProductSchema(product, locale);
