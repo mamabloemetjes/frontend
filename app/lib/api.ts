@@ -37,17 +37,20 @@ export type Color =
   | "orange"
   | "pink";
 
-export interface ProductImage {
-  id: string;
-  product_id: string;
-  name: string;
-  url: string;
-  alt_text?: string;
-  is_primary: boolean;
-}
+  export interface ProductImage {
+    id: string;
+    product_id: string;
+    name: string;
+    srcset?: string;
+    alt_text?: string;
+    is_primary: boolean;
+  }
 
 // Type for creating product images (without id and product_id)
-export type ProductImageInput = Omit<ProductImage, "id" | "product_id">;
+export type ProductImageInput = Pick<
+  ProductImage,
+  "name" | "alt_text" | "is_primary"
+>;
 
 export interface Product {
   id: string;

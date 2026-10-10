@@ -118,7 +118,9 @@ export const contactFormSchema = z.object({
 // ============================================================================
 
 export const productImageSchema = z.object({
-  url: z.string().url("validation.product.image.url"),
+  name: z
+    .string()
+    .regex(/^[a-f0-9]{32}$/, "validation.product.image.name"),
   alt_text: z
     .string()
     .max(200, "validation.product.image.altText.maxLength")

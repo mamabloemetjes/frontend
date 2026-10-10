@@ -1,4 +1,5 @@
 import { env } from "@/lib/env";
+import { getImageUrl } from "@/lib/image-url";
 
 /**
  * Shared Structured Data Constants
@@ -176,7 +177,7 @@ export const createProductSchema = (
     subtotal: number;
     discount?: number;
     is_active: boolean;
-    images?: Array<{ url: string; alt_text?: string }>;
+    images?: Array<{ name: string; alt_text?: string }>;
   },
   locale: string,
 ) => {
@@ -188,7 +189,7 @@ export const createProductSchema = (
     "@type": "Product",
     name: product.name,
     description: product.description,
-    image: allImages.map((img) => img.url),
+    image: allImages.map(getImageUrl).filter(Boolean),
     sku: product.sku,
     mpn: product.sku,
     brand: BRAND_SCHEMA,
@@ -236,7 +237,7 @@ export const createProductListingSchema = (
     sku: string;
     subtotal: number;
     is_active: boolean;
-    images?: Array<{ url: string }>;
+    images?: Array<{ name: string }>;
   }>,
   locale: string,
 ) => ({
@@ -251,7 +252,8 @@ export const createProductListingSchema = (
       url: getFullUrl(locale, `products/${product.id}`),
       name: product.name,
       description: product.description,
-      image: product.images?.[0]?.url || BUSINESS_INFO.image,
+      image:
+        getImageUrl(product.images?.[0]) || BUSINESS_INFO.image,
       sku: product.sku,
       offers: createProductOfferSchema(
         getFullUrl(locale, `products/${product.id}`),

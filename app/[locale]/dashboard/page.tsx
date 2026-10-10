@@ -26,6 +26,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
+import { getImageUrl } from "@/lib/image-url";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import {
@@ -114,33 +115,37 @@ function ProductsTab() {
   ]);
   const t = useTranslations();
 
-  const { data, isLoading, isPlaceholderData, error, refetch } = useAdminProducts({
-    page,
-    page_size: 20,
-    include_images: true,
-    ...(appliedSearch && { search: appliedSearch }),
-    ...(statusFilter !== "all" && {
-      is_active: statusFilter === "active",
-    }),
-    ...(typeFilter !== "all" && {
-      product_type: typeFilter as FlowerTypes,
-    }),
-    ...(sorting[0] && {
-      sort_by:
-        sorting[0].id === "price"
-          ? "price"
-          : sorting[0].id === "is_active"
-            ? "is_active"
-            : sorting[0].id,
-      sort_direction: sorting[0].desc ? "DESC" : "ASC",
-    }),
-  });
+  const { data, isLoading, isPlaceholderData, error, refetch } =
+    useAdminProducts({
+      page,
+      page_size: 20,
+      include_images: true,
+      ...(appliedSearch && { search: appliedSearch }),
+      ...(statusFilter !== "all" && {
+        is_active: statusFilter === "active",
+      }),
+      ...(typeFilter !== "all" && {
+        product_type: typeFilter as FlowerTypes,
+      }),
+      ...(sorting[0] && {
+        sort_by:
+          sorting[0].id === "price"
+            ? "price"
+            : sorting[0].id === "is_active"
+              ? "is_active"
+              : sorting[0].id,
+        sort_direction: sorting[0].desc ? "DESC" : "ASC",
+      }),
+    });
 
   const updateProduct = useUpdateProduct();
   const deleteProduct = useDeleteProduct();
-  const products = isPlaceholderData ? EMPTY_PRODUCTS : (data?.products ?? EMPTY_PRODUCTS);
+  const products = isPlaceholderData
+    ? EMPTY_PRODUCTS
+    : (data?.products ?? EMPTY_PRODUCTS);
   const filteredProducts = useMemo(() => products, [products]);
-  const hasFilters = search.trim() !== "" || statusFilter !== "all" || typeFilter !== "all";
+  const hasFilters =
+    search.trim() !== "" || statusFilter !== "all" || typeFilter !== "all";
   const pagination = isPlaceholderData ? undefined : data?.pagination;
   const totalProductCount = pagination?.total_items ?? products.length;
   const resultStart =
@@ -175,10 +180,10 @@ function ProductsTab() {
   };
 
   const handleDeleteProduct = async (id: string) => {
-      if (editingProduct && editingProduct.id === id) {
-        setEditingProduct(null);
-      }
-      await deleteProduct.mutateAsync(id);
+    if (editingProduct && editingProduct.id === id) {
+      setEditingProduct(null);
+    }
+    await deleteProduct.mutateAsync(id);
   };
 
   const handleProductClick = async (product: Product) => {
@@ -195,7 +200,7 @@ function ProductsTab() {
       header: t("common.name"),
       cell: ({ row }) => {
         const primaryImage = row.original.images?.find((img) => img.is_primary);
-        const imageUrl = primaryImage?.url || row.original.images?.[0]?.url;
+        const imageUrl = getImageUrl(primaryImage || row.original.images?.[0]);
         return (
           <div className="flex items-center gap-4">
             {imageUrl ? (
@@ -312,7 +317,9 @@ function ProductsTab() {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>{t("pages.dashboard.confirmDeleteProductTitle")}</DialogTitle>
+                <DialogTitle>
+                  {t("pages.dashboard.confirmDeleteProductTitle")}
+                </DialogTitle>
               </DialogHeader>
               <p>{t("pages.dashboard.confirmDeleteProductDescription")}</p>
               <div className="flex justify-end gap-2">
@@ -443,9 +450,9 @@ function ProductsTab() {
               id="admin-product-type"
               value={typeFilter}
               onChange={(event) => {
-                  setTypeFilter(event.target.value);
-                  setPage(1);
-                }}
+                setTypeFilter(event.target.value);
+                setPage(1);
+              }}
               className="mt-2 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
             >
               <option value="all">{t("common.all")}</option>
@@ -550,7 +557,8 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
 
   const [images, setImages] = useState(
     (product?.images || []).map((img) => ({
-      url: img.url,
+      url: getImageUrl(img) || "", // only used for the preview in ImageManager, never sent
+      name: img.name,
       alt_text: img.alt_text || "",
       is_primary: img.is_primary,
     })),
@@ -576,9 +584,9 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
       images:
         images.length > 0
           ? images.map((img) => ({
-              url: img.url,
+              name: img.name,
               alt_text: img.alt_text,
-            is_primary: img.is_primary,
+              is_primary: img.is_primary,
             }))
           : undefined,
     };
@@ -636,7 +644,6 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
         discount: validationResult.data.discount ?? 0,
       };
 
-      // @ts-expect-error diiofrhgri
       await createProduct.mutateAsync(createData);
     }
 
@@ -835,11 +842,7 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
 
       {/* Image Manager */}
       <div className="pt-4 border-t border-border">
-        <ImageManager
-          images={images}
-          onChange={setImages}
-          product_name={formData.name}
-        />
+        <ImageManager images={images} onChange={setImages} />
         {errors.images && (
           <p className="text-red-500 text-sm mt-1">{errors.images}</p>
         )}

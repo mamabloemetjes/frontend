@@ -49,6 +49,5 @@ export interface AuthState {
 
 export interface UploadResponse {
   name: string;
-  url: string;
   srcset: string;
 }
