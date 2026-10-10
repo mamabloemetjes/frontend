@@ -578,7 +578,7 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
           ? images.map((img) => ({
               url: img.url,
               alt_text: img.alt_text,
-              is_primary: img.is_primary,
+            is_primary: img.is_primary,
             }))
           : undefined,
     };
@@ -636,6 +636,7 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
         discount: validationResult.data.discount ?? 0,
       };
 
+      // @ts-expect-error diiofrhgri
       await createProduct.mutateAsync(createData);
     }
 

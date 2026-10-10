@@ -1,7 +1,6 @@
 import Image from "next/image";
 import AddToCart from "@/components/AddToCart";
 import { Props } from "@/types";
-import { fetchProducts } from "@/hooks/useProducts";
 import { getTranslations } from "next-intl/server";
 import { formatPrice } from "@/lib/utils";
 import {
