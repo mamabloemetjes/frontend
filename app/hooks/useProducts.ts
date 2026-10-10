@@ -29,7 +29,7 @@ export const fetchProductById = async (
   return res;
 };
 
-export const fetchProducts = async (filters: ProductListFilters) => {
+export const fetchProducts = async (filters?: ProductListFilters) => {
   const res = await api.products.getActive(filters);
   return res;
 };

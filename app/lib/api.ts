@@ -1,7 +1,7 @@
 import axios, { type AxiosInstance, type AxiosError } from "axios";
 import axiosRetry from "axios-retry";
 import { QueryClient } from "@tanstack/react-query";
-import type { User, RegisterData, LoginCredentials } from "@/types/auth";
+import type { User, RegisterData, LoginCredentials, UploadResponse } from "@/types/auth";
 import { csrfService } from "@/lib/csrf";
 import { env } from "@/lib/env";
 import { FlowerTypes } from "@/types";
@@ -40,6 +40,7 @@ export type Color =
 export interface ProductImage {
   id: string;
   product_id: string;
+  name: string;
   url: string;
   alt_text?: string;
   is_primary: boolean;
@@ -531,7 +532,7 @@ export const api = {
      * Fetch only active products
      */
     getActive: async (
-      filters: ProductListFilters,
+      filters?: ProductListFilters,
     ): Promise<ApiResponse<ProductListResponse>> => {
       return apiClient.get("/products/active", {
         params: filters,
@@ -805,6 +806,21 @@ export const api = {
         return apiClient.delete(`/admin/orders/${orderId}`);
       },
     },
+    filesystem: {
+      /**
+       * POST /upload
+       */
+      uploadImage: async (file: File): Promise<ApiResponse<UploadResponse>> => {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        return apiClient.post("/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      }
+    }
   },
 };
 
@@ -851,6 +867,10 @@ export const queryKeys = {
     all: ["orders"] as const,
     myOrders: () => [...queryKeys.orders.all, "my-orders"] as const,
   },
+  filesystem: {
+    all: ["filesystem"] as const,
+    images: () => [...queryKeys.filesystem.all, "images"] as const,
+  }
 } as const;
 
 // ============================================================================

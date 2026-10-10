@@ -46,3 +46,9 @@ export interface AuthState {
   isLoading: boolean;
   error?: string;
 }
+
+export interface UploadResponse {
+  name: string;
+  url: string;
+  srcset: string;
+}

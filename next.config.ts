@@ -8,10 +8,23 @@ const nextConfig: NextConfig = {
       process.env.NEXT_PUBLIC_SUPABASE_ANON
   },
   images: {
+    dangerouslyAllowLocalIP: process.env.NODE_ENV === "development",
     remotePatterns: [
       {
         protocol: "https",
         hostname: "wludcrzecbalaarykziw.supabase.co",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "8081",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "api.roosvansharon.nl",
         port: "",
         pathname: "/**",
       },

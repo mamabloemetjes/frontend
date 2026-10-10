@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { X, Star, Upload, Image as ImageIcon } from "lucide-react";
-import { v4 as uuidv4 } from "uuid";
-import { client } from "@/lib/supabase";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { useMutation } from "@tanstack/react-query";
+import { api } from "@/lib/api";
+import { UploadResponse } from "@/types/auth";
 
 interface ImageData {
   url: string;
   alt_text: string;
   is_primary: boolean;
+  // Base name returned by the server. Store this in the DB, not the URL.
+  name?: string;
   // For temporary IDs before upload
   tempId?: string;
 }
@@ -17,107 +20,74 @@ interface ImageManagerProps {
   images: ImageData[];
   onChange: (images: ImageData[]) => void;
   maxImages?: number;
-  product_name: string;
+  product_name?: string;
 }
 
-const BUCKET_NAME = "product_images";
+async function uploadImage(file: File): Promise<UploadResponse> {
+  const res = await api.admin.filesystem.uploadImage(file);
+
+  console.log(res)
+  return {
+      name: res.data.name,
+      url: res.data.url,
+      srcset: res.data.srcset,
+  }
+}
 
 export function ImageManager({
   images,
   onChange,
   maxImages = 10,
-  product_name,
 }: ImageManagerProps) {
   const [dragOver, setDragOver] = useState(false);
-  const [uploading, setUploading] = useState(false);
   const t = useTranslations();
 
-  const uploadImageFile = async (
-    file: File,
-    productName: string,
-  ): Promise<string> => {
-    if (!file) {
-      throw new Error("No file provided");
-    }
+  const uploadMutation = useMutation({
+    mutationFn: uploadImage,
+    onError: (error) => {
+      // TODO: Show error toast/notification to user
+      console.error("Failed to upload image:", error);
+    },
+  });
 
-    const fileExt = file.name.split(".").pop()?.toLowerCase();
-    if (!fileExt) {
-      throw new Error("Invalid file extension");
-    }
+  const uploading = uploadMutation.isPending;
 
-    const id = uuidv4();
-    const sanitizedName = productName
-      .toLowerCase()
-      .trim()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "");
-
-    const filePath = `${sanitizedName}-${id}.${fileExt}`;
-
-    const { error: uploadError } = await client.storage
-      .from(BUCKET_NAME)
-      .upload(filePath, file, {
-        cacheControl: "86400",
-        upsert: true,
-        contentType: file.type, // keeps correct MIME type
-      });
-
-    if (uploadError) {
-      console.error("Supabase upload error:", uploadError);
-      throw new Error("Failed to upload image");
-    }
-
-    const { data } = client.storage.from(BUCKET_NAME).getPublicUrl(filePath);
-
-    if (!data?.publicUrl) {
-      throw new Error("Failed to retrieve public image URL");
-    }
-
-    return data.publicUrl;
-  };
-
-  const handleFileSelect = async (
-    files: FileList | null,
-    product_name: string,
-  ) => {
+  const handleFileSelect = async (files: FileList | null) => {
     if (!files) return;
 
-    setUploading(true);
     const newImages: ImageData[] = [];
     const filesArray = Array.from(files);
 
-    try {
-      for (let i = 0; i < filesArray.length; i++) {
-        if (images.length + newImages.length >= maxImages) break;
+    // Upload one at a time so the primary flag and ordering stay predictable
+    for (let i = 0; i < filesArray.length; i++) {
+      if (images.length + newImages.length >= maxImages) break;
 
-        const file = filesArray[i];
+      const file = filesArray[i];
 
-        // Upload the file and get the URL
-        const url = await uploadImageFile(file, product_name);
+      try {
+        const result = await uploadMutation.mutateAsync(file);
 
         newImages.push({
-          url: url,
+          url: result.url,
+          name: result.name,
           alt_text: file.name.replace(/\.[^/.]+$/, ""), // Remove extension
           is_primary: images.length === 0 && newImages.length === 0,
           tempId: `temp-${Date.now()}-${i}`,
         });
+      } catch (error) {
+        console.error("Error uploading file:", error);
       }
+    }
 
-      if (newImages.length > 0) {
-        onChange([...images, ...newImages]);
-      }
-    } catch (error) {
-      console.error("Failed to upload images:", error);
-      // TODO: Show error toast/notification to user
-    } finally {
-      setUploading(false);
+    if (newImages.length > 0) {
+      onChange([...images, ...newImages]);
     }
   };
 
-  const handleDrop = async (e: React.DragEvent, product_name: string) => {
+  const handleDrop = async (e: React.DragEvent) => {
     e.preventDefault();
     setDragOver(false);
-    await handleFileSelect(e.dataTransfer.files, product_name);
+    await handleFileSelect(e.dataTransfer.files);
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -135,7 +105,7 @@ export function ImageManager({
     // If we removed the primary image and there are still images left,
     // make the first one primary
     if (images[index].is_primary && newImages.length > 0) {
-      newImages[0].is_primary = true;
+      newImages[0] = { ...newImages[0], is_primary: true };
     }
 
     onChange(newImages);
@@ -178,9 +148,12 @@ export function ImageManager({
         <input
           id="image-upload"
           type="file"
-          accept="image/*"
+          accept="image/jpeg,image/png"
           multiple
-          onChange={(e) => handleFileSelect(e.target.files, product_name)}
+          onChange={(e) => {
+            handleFileSelect(e.target.files);
+            e.target.value = ""; // allow re-selecting the same file
+          }}
           className="hidden"
           disabled={uploading || images.length >= maxImages}
         />
@@ -189,7 +162,7 @@ export function ImageManager({
       {/* Drop Zone */}
       {images.length < maxImages && (
         <div
-          onDrop={(e) => handleDrop(e, product_name)}
+          onDrop={handleDrop}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
@@ -222,15 +195,17 @@ export function ImageManager({
               key={image.tempId || image.url}
               className="border border-border rounded-lg p-3 space-y-2 bg-background"
             >
-              {/* Image Preview Placeholder */}
+              {/* Image Preview */}
               <div className="relative aspect-square bg-muted rounded flex items-center justify-center">
                 <ImageIcon className="w-12 h-12 text-muted-foreground" />
-                <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded">
+                <div className="absolute inset-0 flex items-center justify-center rounded">
                   <Image
                     src={image.url}
                     alt={image.alt_text || "Product Image"}
                     className="max-h-full max-w-full object-contain rounded"
                     fill
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                    unoptimized // server already made the WebP variants
                   />
                 </div>
 

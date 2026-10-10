@@ -102,7 +102,7 @@ export async function revalidateTag(tag: string): Promise<boolean> {
  * Useful after creating, updating, or deleting products
  */
 export async function revalidateProducts(): Promise<boolean> {
-  return await revalidatePaths([
+  const pathsRevalidated = await revalidatePaths([
     // Main product listing pages
     "/products",
     "/en/products",
@@ -124,6 +124,8 @@ export async function revalidateProducts(): Promise<boolean> {
     "/nl",
     "/",
   ]);
+  const tagRevalidated = await revalidateTag("products:active-catalog");
+  return pathsRevalidated && tagRevalidated;
 }
 
 /**
@@ -142,7 +144,7 @@ export async function revalidateOrders(): Promise<boolean> {
 }
 
 export async function revalidateProduct(productId: string): Promise<boolean> {
-  return await revalidatePaths([
+  const pathsRevalidated = await revalidatePaths([
     `/products/${productId}`,
     `/en/products/${productId}`,
     `/nl/products/${productId}`,
@@ -156,6 +158,8 @@ export async function revalidateProduct(productId: string): Promise<boolean> {
     "/nl/birth/shop",
     "/en/birth/shop",
   ]);
+  const tagRevalidated = await revalidateTag("products:active-catalog");
+  return pathsRevalidated && tagRevalidated;
 }
 
 export async function revalidateOrder(orderId: string): Promise<boolean> {
