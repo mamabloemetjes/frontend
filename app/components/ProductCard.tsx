@@ -4,6 +4,7 @@ import Image from "next/image";
 import { LanguageAwareLink } from "./LanguageAwareLink";
 import AddToCart from "./AddToCart";
 import { formatPrice } from "@/lib/utils";
+import { getImageUrl } from "@/lib/image-url";
 
 interface ProductCardProps {
   product: Product;
@@ -21,7 +22,7 @@ const ProductCard = ({
   removeLabel = "Remove",
 }: ProductCardProps) => {
   const primaryImage = product.images?.find((img) => img.is_primary);
-  const imageUrl = primaryImage?.url || product.images?.[0]?.url;
+  const imageUrl = getImageUrl(primaryImage || product.images?.[0]);
 
   const hasDiscount = product.discount > 0;
   const originalPrice = product.subtotal + product.discount;

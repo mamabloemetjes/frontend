@@ -12,6 +12,7 @@ import {
 import { api, type OrderRequest, type Address } from "@/lib/api";
 import { LanguageAwareLink } from "@/components/LanguageAwareLink";
 import Image from "next/image";
+import { getImageUrl } from "@/lib/image-url";
 import { useSetAtom } from "jotai";
 import { formatPrice } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -343,7 +344,7 @@ export default function CheckoutPage() {
                 <div key={item.id} className="flex gap-3">
                   {item.images && item.images.length > 0 ? (
                     <Image
-                      src={item.images[0].url}
+                      src={getImageUrl(item.images[0]) || ""}
                       alt={item.name}
                       className="w-16 h-16 object-cover rounded"
                       width={64}

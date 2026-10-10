@@ -22,6 +22,7 @@ import {
 } from "@/lib/structured-data";
 import { notFound } from "next/navigation";
 import { getCachedProductCatalog } from "@/lib/server-products";
+import { getImageUrl } from "@/lib/image-url";
 
 // Keep public product pages fresh while allowing Next.js to reuse rendered output.
 export const revalidate = 7200;
@@ -69,6 +70,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const primaryImage = product.images?.find((img) => img.is_primary);
   const mainImage = primaryImage || product.images?.[0];
+  const mainImageUrl = getImageUrl(mainImage);
   const priceInEuros = (product.subtotal / 100).toFixed(2);
 
   // Create an SEO-optimized meta description with product name, price, and USP
@@ -136,7 +138,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: mainImage
         ? [
             {
-              url: mainImage.url,
+              url: mainImageUrl || "",
               width: 800,
               height: 800,
               alt: mainImage.alt_text || product.name,
@@ -148,7 +150,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: "summary_large_image",
       title: `${product.name} - ${common("siteName")}`,
       description: metaDescription,
-      images: mainImage ? [mainImage.url] : [],
+      images: mainImageUrl ? [mainImageUrl] : [],
     },
     robots: {
       index: product.is_active,
@@ -198,6 +200,7 @@ const ProductDetailPage = async ({ params }: Props) => {
   const primaryImage = product.images?.find((img) => img.is_primary);
   const allImages = product.images || [];
   const mainImage = primaryImage || allImages[0];
+  const mainImageUrl = getImageUrl(mainImage);
   const galleryImages = allImages.filter((img) => img.id !== mainImage?.id);
 
   // Generate JSON-LD structured data for SEO
@@ -255,7 +258,7 @@ const ProductDetailPage = async ({ params }: Props) => {
                 {mainImage ? (
                   <>
                     <Image
-                      src={mainImage.url}
+                      src={mainImageUrl || ""}
                       alt={mainImage.alt_text || product.name}
                       className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
                       width={800}
@@ -263,7 +266,7 @@ const ProductDetailPage = async ({ params }: Props) => {
                       priority
                       itemProp="contentUrl"
                     />
-                    <meta itemProp="url" content={mainImage.url} />
+                    <meta itemProp="url" content={mainImageUrl || ""} />
                     <meta
                       itemProp="description"
                       content={mainImage.alt_text || product.name}
@@ -433,7 +436,7 @@ const ProductDetailPage = async ({ params }: Props) => {
               <div key={image.id} className="break-inside-avoid mb-6">
                 <figure className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 group">
                   <Image
-                    src={image.url}
+                    src={getImageUrl(image) || ""}
                     alt={
                       image.alt_text || `${product.name} - Image ${index + 2}`
                     }

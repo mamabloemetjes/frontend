@@ -5,13 +5,14 @@ import Image from "next/image";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { UploadResponse } from "@/types/auth";
+import { getImageUrl } from "@/lib/image-url";
 
 interface ImageData {
   url: string;
   alt_text: string;
   is_primary: boolean;
   // Base name returned by the server. Store this in the DB, not the URL.
-  name?: string;
+  name: string;
   // For temporary IDs before upload
   tempId?: string;
 }
@@ -29,7 +30,6 @@ async function uploadImage(file: File): Promise<UploadResponse> {
   console.log(res)
   return {
       name: res.data.name,
-      url: res.data.url,
       srcset: res.data.srcset,
   }
 }
@@ -68,7 +68,7 @@ export function ImageManager({
         const result = await uploadMutation.mutateAsync(file);
 
         newImages.push({
-          url: result.url,
+          url: getImageUrl(result) || "",
           name: result.name,
           alt_text: file.name.replace(/\.[^/.]+$/, ""), // Remove extension
           is_primary: images.length === 0 && newImages.length === 0,
