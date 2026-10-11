@@ -158,7 +158,7 @@ export const productSchema = z.object({
   ], {
     message: "validation.product.productType.invalid",
   }),
-  is_active: z.boolean().default(true),
+  status: z.enum(["active", "inactive", "sold"]).default("active"),
   images: z.array(productImageSchema).optional(),
 });
 
@@ -201,7 +201,7 @@ export const updateProductSchema = z.object({
   ], {
     message: "validation.product.productType.invalid",
   }).optional(),
-  is_active: z.boolean().optional(),
+  status: z.enum(["active", "inactive", "sold"]).optional(),
   images: z.array(productImageSchema).optional(),
 });
 

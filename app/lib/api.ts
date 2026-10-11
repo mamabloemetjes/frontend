@@ -61,7 +61,7 @@ export interface Product {
   tax: number; // in cents
   subtotal: number; // in cents
   description: string;
-  is_active: boolean;
+  status: ProductStatus;
   created_at: string;
   updated_at: string;
   product_type?: FlowerTypes;
@@ -109,8 +109,7 @@ export interface ProductCountResponse {
 export interface ProductListFilters {
   page?: number;
   page_size?: number;
-  is_active?: boolean;
-  status?: "active" | "sold";
+  status?: ProductStatus;
   in_stock?: boolean;
   product_type?: FlowerTypes;
   size?: Size;
@@ -126,6 +125,8 @@ export interface ProductListFilters {
   sort_direction?: "ASC" | "DESC";
   include_images?: boolean;
 }
+
+export type ProductStatus = "active" | "inactive" | "sold";
 
 // ============================================================================
 // ORDER TYPES - Aligned with Go backend
@@ -492,8 +493,6 @@ export const api = {
 
       if (filters?.page) params.page = filters.page;
       if (filters?.page_size) params.page_size = filters.page_size;
-      if (filters?.is_active !== undefined)
-        params.is_active = String(filters.is_active);
       if (filters?.status) params.status = filters.status;
       if (filters?.in_stock !== undefined) params.in_stock = filters.in_stock;
       if (filters?.product_type) params.product_type = filters.product_type;
@@ -565,8 +564,6 @@ export const api = {
     ): Promise<ApiResponse<ProductCountResponse>> => {
       const params: Record<string, unknown> = {};
 
-      if (filters?.is_active !== undefined)
-        params.is_active = filters.is_active;
       if (filters?.in_stock !== undefined) params.in_stock = filters.in_stock;
       if (filters?.product_type) params.product_type = filters.product_type;
       if (filters?.size) params.size = filters.size;
@@ -659,8 +656,6 @@ export const api = {
 
         if (filters?.page) params.page = filters.page;
         if (filters?.page_size) params.page_size = filters.page_size;
-        if (filters?.is_active !== undefined)
-          params.is_active = String(filters.is_active);
         if (filters?.status) params.status = filters.status;
         if (filters?.in_stock !== undefined) params.in_stock = filters.in_stock;
         if (filters?.product_type) params.product_type = filters.product_type;

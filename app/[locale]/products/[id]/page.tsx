@@ -153,10 +153,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: mainImageUrl ? [mainImageUrl] : [],
     },
     robots: {
-      index: product.is_active,
+      index: product.status === "active",
       follow: true,
       googleBot: {
-        index: product.is_active,
+        index: product.status === "active",
         follow: true,
         "max-video-preview": -1,
         "max-image-preview": "large",
@@ -311,7 +311,7 @@ const ProductDetailPage = async ({ params }: Props) => {
                   <meta
                     itemProp="availability"
                     content={
-                      product.is_active
+                      product.status === "active"
                         ? "https://schema.org/InStock"
                         : "https://schema.org/OutOfStock"
                     }

@@ -7,7 +7,7 @@ import {
   useDeleteProduct,
   useUpdateProduct,
 } from "@/hooks/useAdminProducts";
-import type { Product } from "@/lib/api";
+import type { Product, ProductStatus } from "@/lib/api";
 import { ImageManager } from "@/components/admin/ImageManager";
 import { ProductsTable } from "@/components/admin/ProductsTable";
 import { type ColumnDef } from "@tanstack/react-table";
@@ -123,15 +123,15 @@ function ProductsTab() {
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [search, setSearch] = useState("");
   const [appliedSearch, setAppliedSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState<"all" | "active" | "sold">(
-    "all",
-  );
+  const [statusFilter, setStatusFilter] = useState<"all" | ProductStatus>("all");
   const [typeFilter, setTypeFilter] = useState<string>("all");
   const [page, setPage] = useState(1);
   const [sorting, setSorting] = useState<SortingState>([
     { id: "created_at", desc: true },
   ]);
   const t = useTranslations();
+  const sortBy = sorting[0]?.id;
+  const sortDirection = sorting[0]?.desc ? "DESC" : "ASC";
 
   const { data, isLoading, isPlaceholderData, error, refetch } =
     useAdminProducts({
@@ -140,19 +140,14 @@ function ProductsTab() {
       include_images: true,
       ...(appliedSearch && { search: appliedSearch }),
       ...(statusFilter !== "all" && {
-        is_active: statusFilter === "active",
+        status: statusFilter,
       }),
       ...(typeFilter !== "all" && {
         product_type: typeFilter as FlowerTypes,
       }),
-      ...(sorting[0] && {
-        sort_by:
-          sorting[0].id === "price"
-            ? "price"
-            : sorting[0].id === "is_active"
-              ? "is_active"
-              : sorting[0].id,
-        sort_direction: sorting[0].desc ? "DESC" : "ASC",
+      ...(sortBy && {
+        sort_by: sortBy === "price" ? "price" : sortBy,
+        sort_direction: sortDirection,
       }),
     });
 
@@ -186,14 +181,14 @@ function ProductsTab() {
   const handleMarkAsSold = async (id: string) => {
     await updateProduct.mutateAsync({
       id,
-      updates: { is_active: false },
+      updates: { status: "sold" },
     });
   };
 
   const handleUndoMarkAsSold = async (id: string) => {
     await updateProduct.mutateAsync({
       id,
-      updates: { is_active: true },
+      updates: { status: "active" },
     });
   };
 
@@ -205,7 +200,7 @@ function ProductsTab() {
   };
 
   const handleProductClick = async (product: Product) => {
-    if (product.is_active) {
+    if (product.status === "active") {
       await handleMarkAsSold(product.id);
     } else {
       await handleUndoMarkAsSold(product.id);
@@ -251,19 +246,20 @@ function ProductsTab() {
       cell: ({ getValue }) => `€${(getValue<number>() / 100).toFixed(2)}`,
     },
     {
-      accessorKey: "is_active",
+      accessorKey: "status",
       header: t("common.status"),
+      sortingFn: "text",
       cell: ({ row }) => (
         <span
           className={`px-2 py-1 rounded text-xs ${
-            row.original.is_active
+            row.original.status === "active"
               ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
-              : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
+              : row.original.status === "inactive"
+                ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400"
+                : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
           }`}
         >
-          {row.original.is_active
-            ? t("pages.dashboard.active")
-            : t("pages.dashboard.sold")}
+          {t(`pages.dashboard.${row.original.status}`)}
         </span>
       ),
     },
@@ -283,7 +279,7 @@ function ProductsTab() {
           <Dialog>
             <DialogTrigger asChild>
                 <DropdownMenuItem>
-                  {row.original.is_active
+                  {row.original.status === "active"
                     ? t("pages.dashboard.markAsSold")
                     : t("pages.dashboard.undoSold")}
                 </DropdownMenuItem>
@@ -291,13 +287,13 @@ function ProductsTab() {
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>
-                  {row.original.is_active
+                  {row.original.status === "active"
                     ? t("pages.dashboard.confirmMarkAsSoldTitle")
                     : t("pages.dashboard.confirmUndoSoldTitle")}
                 </DialogTitle>
               </DialogHeader>
               <p>
-                {row.original.is_active
+                {row.original.status === "active"
                   ? t("pages.dashboard.confirmMarkAsSoldDescription")
                   : t("pages.dashboard.confirmUndoSoldDescription")}
               </p>
@@ -309,7 +305,7 @@ function ProductsTab() {
                   variant="destructive"
                   onClick={() => handleProductClick(row.original)}
                 >
-                  {row.original.is_active
+                  {row.original.status === "active"
                     ? t("pages.dashboard.markAsSold")
                     : t("pages.dashboard.undoSold")}
                 </Button>
@@ -440,13 +436,22 @@ function ProductsTab() {
               id="admin-product-status"
               value={statusFilter}
               onChange={(event) => {
-                setStatusFilter(event.target.value as typeof statusFilter);
+                const value = event.target.value;
+                if (
+                  value === "all" ||
+                  value === "active" ||
+                  value === "inactive" ||
+                  value === "sold"
+                ) {
+                  setStatusFilter(value);
+                }
                 setPage(1);
               }}
               className="mt-2 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
             >
               <option value="all">{t("pages.dashboard.allStatuses")}</option>
               <option value="active">{t("pages.dashboard.active")}</option>
+              <option value="inactive">{t("pages.dashboard.inactive")}</option>
               <option value="sold">{t("pages.dashboard.sold")}</option>
             </select>
           </div>
@@ -495,7 +500,9 @@ function ProductsTab() {
         data={filteredProducts}
         sorting={sorting}
         onSortingChange={(nextSorting) => {
-          setSorting(nextSorting);
+          // The API accepts one sort field; discard TanStack's multi-column
+          // state so the requested status order is not silently ignored.
+          setSorting(nextSorting.slice(0, 1));
           setPage(1);
         }}
         emptyMessage={t("pages.dashboard.noProducts")}
@@ -573,7 +580,7 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
     discount: product ? ((product.discount || 0) / 100).toString() : "0",
     enableTax: product ? product.tax > 0 : false,
     description: product?.description || "",
-    is_active: product?.is_active ?? true,
+    status: product?.status ?? "active",
     product_type: product?.product_type || "",
   });
 
@@ -604,7 +611,7 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
       discount: Math.round(parseFloat(formData.discount) * 100),
       tax,
       description: formData.description,
-      is_active: formData.is_active,
+      status: formData.status,
       product_type: (formData.product_type || "") as FlowerTypes,
       images:
         images.length > 0
@@ -853,18 +860,26 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
       </div>
 
       <div>
-        <Label className="flex items-center gap-2 cursor-pointer">
-          <Checkbox
-            checked={formData.is_active}
-            className="pointer-events-none w-5 h-5 rounded border-border"
-            onClick={() =>
-              setFormData({ ...formData, is_active: !formData.is_active })
-            }
-          />
-          <Label className="font-semibold text-sm">
-            {t("pages.dashboard.formLabels.active")}
-          </Label>
+        <Label className="mb-1 block font-semibold text-sm">
+          {t("pages.dashboard.status")}
         </Label>
+        <Select
+          value={formData.status}
+          onValueChange={(value: ProductStatus) =>
+            setFormData({ ...formData, status: value })
+          }
+        >
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="active">{t("pages.dashboard.active")}</SelectItem>
+            <SelectItem value="inactive">
+              {t("pages.dashboard.inactive")}
+            </SelectItem>
+            <SelectItem value="sold">{t("pages.dashboard.sold")}</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Image Manager */}

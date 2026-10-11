@@ -207,6 +207,7 @@
     "showingResults": "Showing {start}–{end} of {total}",
     "productDescription": "Description",
     "active": "Active",
+    "inactive": "Inactive",
     "sold": "Sold",
     "inStock": "In Stock",
     "outOfStock": "Out of Stock",

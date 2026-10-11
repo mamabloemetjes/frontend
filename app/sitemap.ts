@@ -46,14 +46,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch all active products and add them to sitemap
   try {
     const filters: ProductListFilters = {
-      is_active: true,
+      status: "active",
     };
     const { data, success } = await fetchProducts(filters);
 
     if (success && data?.products) {
       for (const product of data.products) {
         // Only add active products to sitemap
-        if (product.is_active) {
+        if (product.status === "active") {
           locales.forEach((locale) => {
             sitemap.push({
               url: `${baseUrl}/${locale}/products/${product.id}`,
