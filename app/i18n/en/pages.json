@@ -231,6 +231,7 @@
     "formLabels": {
       "name": "Name *",
       "price": "Price (€) *",
+      "priceIncludingTax": "Total price including 21% VAT (€) *",
       "description": "Description *",
       "stock": "Stock",
       "colors": "Colors",
@@ -239,12 +240,13 @@
       "active": "Active",
       "images": "Images",
       "sku": "SKU",
-      "enableTax": "Enable Tax",
+      "enableTax": "Calculate and include 21% VAT",
       "selectProductType": "Select a product type"
     },
     "imageManager": {
       "title": "Product Images",
       "uploadImages": "Upload Images",
+      "uploadFailed": "One or more images could not be uploaded. Please try again.",
       "primary": "Primary",
       "setAsPrimary": "Set as Primary",
       "dropZone": "Drag and drop images here",

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { X, Star, Upload, Image as ImageIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
@@ -27,11 +27,10 @@ interface ImageManagerProps {
 async function uploadImage(file: File): Promise<UploadResponse> {
   const res = await api.admin.filesystem.uploadImage(file);
 
-  console.log(res)
   return {
-      name: res.data.name,
-      srcset: res.data.srcset,
-  }
+    name: res.data.name,
+    srcset: res.data.srcset,
+  };
 }
 
 export function ImageManager({
@@ -40,14 +39,11 @@ export function ImageManager({
   maxImages = 10,
 }: ImageManagerProps) {
   const [dragOver, setDragOver] = useState(false);
+  const uploadInputId = useId();
   const t = useTranslations();
 
   const uploadMutation = useMutation({
     mutationFn: uploadImage,
-    onError: (error) => {
-      // TODO: Show error toast/notification to user
-      console.error("Failed to upload image:", error);
-    },
   });
 
   const uploading = uploadMutation.isPending;
@@ -74,8 +70,8 @@ export function ImageManager({
           is_primary: images.length === 0 && newImages.length === 0,
           tempId: `temp-${Date.now()}-${i}`,
         });
-      } catch (error) {
-        console.error("Error uploading file:", error);
+      } catch {
+        // The mutation error is rendered below the upload control.
       }
     }
 
@@ -133,7 +129,7 @@ export function ImageManager({
           )
         </label>
         <label
-          htmlFor="image-upload"
+          htmlFor={uploadInputId}
           className={`px-3 py-1.5 text-sm border border-border rounded hover:bg-muted transition-colors inline-flex items-center gap-2 ${
             uploading || images.length >= maxImages
               ? "opacity-50 cursor-not-allowed"
@@ -142,11 +138,11 @@ export function ImageManager({
         >
           <Upload className="w-4 h-4" />
           {uploading
-            ? "Uploading..."
+            ? t("pages.dashboard.imageManager.uploading")
             : t("pages.dashboard.imageManager.uploadImages")}
         </label>
         <input
-          id="image-upload"
+          id={uploadInputId}
           type="file"
           accept="image/jpeg,image/png"
           multiple
@@ -158,6 +154,12 @@ export function ImageManager({
           disabled={uploading || images.length >= maxImages}
         />
       </div>
+
+      {uploadMutation.isError && (
+        <p className="text-sm text-destructive" role="alert">
+          {t("pages.dashboard.imageManager.uploadFailed")}
+        </p>
+      )}
 
       {/* Drop Zone */}
       {images.length < maxImages && (
@@ -189,7 +191,7 @@ export function ImageManager({
 
       {/* Images Grid */}
       {images.length > 0 && (
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {images.map((image, index) => (
             <div
               key={image.tempId || image.url}

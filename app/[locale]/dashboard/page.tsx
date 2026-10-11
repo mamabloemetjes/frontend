@@ -45,6 +45,7 @@ import {
   Calendar,
   User,
   X,
+  MoreHorizontal,
 } from "lucide-react";
 import { productSchema, updateProductSchema } from "@/lib/validation/schemas";
 import {
@@ -56,6 +57,12 @@ import {
 } from "@/components/ui/select";
 import { FlowerTypes, FlowerTypesList } from "@/types";
 import { AdminRoute } from "@/components/ProtectedRoute";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type Tab = "products" | "orders";
 const EMPTY_PRODUCTS: Product[] = [];
@@ -66,13 +73,18 @@ const DashboardPage = () => {
 
   return (
     <AdminRoute>
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8">{t("title")}</h1>
+      <div className="container mx-auto max-w-7xl px-4 py-5 sm:px-6 sm:py-8">
+        <h1 className="mb-6 text-2xl font-bold sm:mb-8 sm:text-3xl">
+          {t("title")}
+        </h1>
 
         {/* Tab Navigation */}
-        <div className="border-b border-border mb-6">
-          <div className="flex gap-4">
+        <div className="mb-6 overflow-x-auto border-b border-border">
+          <div className="flex min-w-max gap-2 sm:gap-4" role="tablist">
             <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === "products"}
               onClick={() => setActiveTab("products")}
               className={`px-4 py-2 border-b-2 transition-colors ${
                 activeTab === "products"
@@ -83,6 +95,9 @@ const DashboardPage = () => {
               {t("products")}
             </button>
             <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === "orders"}
               onClick={() => setActiveTab("orders")}
               className={`px-4 py-2 border-b-2 transition-colors ${
                 activeTab === "orders"
@@ -255,34 +270,23 @@ function ProductsTab() {
     {
       id: "actions",
       cell: ({ row }) => (
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setEditingProduct(row.original)}
-          >
-            {t("common.edit")}
-          </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" aria-label={t("common.actions")}>
+              <MoreHorizontal className="h-4 w-4" aria-hidden="true" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onSelect={() => setEditingProduct(row.original)}>
+              {t("common.edit")}
+            </DropdownMenuItem>
           <Dialog>
             <DialogTrigger asChild>
-              {row.original.is_active ? (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="text-red-600 hover:text-red-700"
-                  disabled={!row.original.is_active}
-                >
-                  {t("pages.dashboard.markAsSold")}
-                </Button>
-              ) : (
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  disabled={row.original.is_active}
-                >
-                  {t("pages.dashboard.undoSold")}
-                </Button>
-              )}
+                <DropdownMenuItem>
+                  {row.original.is_active
+                    ? t("pages.dashboard.markAsSold")
+                    : t("pages.dashboard.undoSold")}
+                </DropdownMenuItem>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
@@ -314,9 +318,9 @@ function ProductsTab() {
           </Dialog>
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="destructive" size="sm">
+              <DropdownMenuItem variant="destructive">
                 {t("common.delete")}
-              </Button>
+              </DropdownMenuItem>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
@@ -338,7 +342,8 @@ function ProductsTab() {
               </div>
             </DialogContent>
           </Dialog>
-        </div>
+          </DropdownMenuContent>
+        </DropdownMenu>
       ),
     },
   ];
@@ -370,11 +375,11 @@ function ProductsTab() {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">
+      <div className="mb-6 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h2 className="text-xl font-bold sm:text-2xl">
           {t("pages.dashboard.products")} ({totalProductCount})
         </h2>
-        <Button onClick={() => setShowCreateForm(true)}>
+        <Button className="w-full sm:w-auto" onClick={() => setShowCreateForm(true)}>
           {t("pages.dashboard.addProduct")}
         </Button>
       </div>
@@ -395,7 +400,7 @@ function ProductsTab() {
 
       {editingProduct && (
         <Dialog open onOpenChange={() => setEditingProduct(null)}>
-          <DialogContent>
+          <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">
             <DialogHeader>
               <DialogTitle>{t("pages.dashboard.editProduct")}</DialogTitle>
             </DialogHeader>
@@ -540,6 +545,19 @@ interface ProductFormProps {
   onSuccess: () => void;
 }
 
+const VAT_RATE = 0.21;
+
+function getPriceBreakdown(price: string) {
+  const totalCents = Math.round(parseFloat(price || "0") * 100);
+  const netCents = Math.round(totalCents / (1 + VAT_RATE));
+
+  return {
+    totalCents,
+    netCents,
+    taxCents: totalCents - netCents,
+  };
+}
+
 function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
   const isEditing = !!product;
   const createProduct = useCreateProduct();
@@ -549,9 +567,10 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
 
   const [formData, setFormData] = useState({
     name: product?.name || "",
-    price: product ? (product.price / 100).toString() : "",
+    price: product
+      ? ((product.price + product.tax) / 100).toString()
+      : "",
     discount: product ? ((product.discount || 0) / 100).toString() : "0",
-    tax: product ? ((product.price * 0.21) / 100).toString() : "0",
     enableTax: product ? product.tax > 0 : false,
     description: product?.description || "",
     is_active: product?.is_active ?? true,
@@ -572,13 +591,16 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const tax = formData.enableTax
-      ? Math.round(parseFloat(formData.price) * 0.21 * 100)
-      : 0;
+    // The entered price is the customer-facing total. Split it into a
+    // 21% VAT-exclusive amount and tax while preserving the exact total.
+    const { netCents, taxCents } = getPriceBreakdown(formData.price);
+    const totalCents = Math.round(parseFloat(formData.price || "0") * 100);
+    const price = formData.enableTax ? netCents : totalCents;
+    const tax = formData.enableTax ? taxCents : 0;
 
     const productData = {
       name: formData.name,
-      price: Math.round(parseFloat(formData.price) * 100),
+      price,
       discount: Math.round(parseFloat(formData.discount) * 100),
       tax,
       description: formData.description,
@@ -678,14 +700,16 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
         )}
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <div>
           <Label className="block mb-1 font-semibold text-sm">
-            {t("pages.dashboard.formLabels.price")}
+            {formData.enableTax
+              ? t("pages.dashboard.formLabels.priceIncludingTax")
+              : t("pages.dashboard.formLabels.price")}
           </Label>
           <Input
             type="number"
-            step="0.50"
+            step="0.01"
             max="9999.99"
             min="0.00"
             value={formData.price}
@@ -730,44 +754,44 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
         </div>
 
         <div>
-          <Label className="block mb-1 font-semibold text-sm">Tax (€) *</Label>
-          {/* Assuming a fixed tax rate of 21% for simplicity */}
+          <Label className="block mb-1 font-semibold text-sm">VAT (21%)</Label>
           <Label
             className={`block p-3 bg-muted rounded ${
               errors.tax ? "border border-red-500" : ""
             }`}
           >
             €
-            {formData.enableTax
-              ? (parseFloat(formData.price || "0") * 0.21).toFixed(2)
-              : "0.00"}
+            {(
+              (formData.enableTax
+                ? getPriceBreakdown(formData.price).taxCents
+                : 0) / 100
+            ).toFixed(2)}
           </Label>
           {errors.tax && (
             <p className="text-red-500 text-sm mt-1">{errors.tax}</p>
           )}
         </div>
 
-        <Label className="col-span-3 text-right font-bold text-lg mt-2">
+        <div className="flex items-center gap-2 sm:col-span-2 lg:col-span-3">
+          <Checkbox
+            checked={formData.enableTax}
+            onCheckedChange={(checked) =>
+              setFormData({ ...formData, enableTax: checked === true })
+            }
+            className="w-5 h-5 rounded border-border"
+          />
+          <Label className="font-semibold text-sm">
+            {t("pages.dashboard.formLabels.enableTax")}
+          </Label>
+        </div>
+
+        <Label className="text-right font-bold text-lg sm:col-span-2 lg:col-span-3">
           {t("common.total")}: €
           {(
             parseFloat(formData.price || "0") -
-            parseFloat(formData.discount || "0") +
-            (formData.enableTax ? parseFloat(formData.price || "0") * 0.21 : 0)
+            parseFloat(formData.discount || "0")
           ).toFixed(2)}
         </Label>
-      </div>
-
-      <div className="flex flex-col items-start">
-        <Label className="block mb-1 font-semibold text-sm">
-          {t("pages.dashboard.formLabels.enableTax")}
-        </Label>
-        <Checkbox
-          className="w-5 h-5 rounded border-border"
-          checked={formData.enableTax}
-          onClick={() =>
-            setFormData({ ...formData, enableTax: !formData.enableTax })
-          }
-        />
       </div>
 
       <div>

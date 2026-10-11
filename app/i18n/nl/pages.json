@@ -226,6 +226,7 @@
     "formLabels": {
       "name": "Naam *",
       "price": "Prijs (€) *",
+      "priceIncludingTax": "Totaalprijs inclusief 21% btw (€) *",
       "description": "Beschrijving *",
       "stock": "Voorraad",
       "colors": "Kleuren",
@@ -234,12 +235,13 @@
       "active": "Actief",
       "images": "Afbeeldingen",
       "sku": "SKU",
-      "enableTax": "Belasting inschakelen",
+      "enableTax": "21% btw berekenen en opnemen",
       "selectProductType": "Selecteer een producttype"
     },
     "imageManager": {
       "title": "Productafbeeldingen",
       "uploadImages": "Afbeeldingen uploaden",
+      "uploadFailed": "Een of meer afbeeldingen konden niet worden geüpload. Probeer het opnieuw.",
       "primary": "Primair",
       "setAsPrimary": "Als primair instellen",
       "dropZone": "Sleep hier afbeeldingen naartoe",
