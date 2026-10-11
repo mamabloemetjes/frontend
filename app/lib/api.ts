@@ -211,6 +211,7 @@ export interface OrderLine {
   line_total: number;
   product_name: string;
   product_sku: string;
+  product_image_name?: string;
 }
 
 export interface OrderDetails {
