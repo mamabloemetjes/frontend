@@ -210,6 +210,7 @@
     "inactive": "Inactive",
     "sold": "Sold",
     "deleted": "Deleted",
+    "deletedRetentionDays": "{count, plural, =0 {Deletion due today} one {# day left} other {# days left}}",
     "inStock": "In Stock",
     "outOfStock": "Out of Stock",
     "saveChanges": "Save Changes",

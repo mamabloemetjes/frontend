@@ -204,6 +204,7 @@
     "inactive": "Inactief",
     "sold": "Verkocht",
     "deleted": "Verwijderd",
+    "deletedRetentionDays": "{count, plural, =0 {Vandaag definitief verwijderen} one {# dag resterend} other {# dagen resterend}}",
     "inactive": "Inactief",
     "inStock": "Op voorraad",
     "outOfStock": "Uitverkocht",

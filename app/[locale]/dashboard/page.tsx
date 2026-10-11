@@ -42,6 +42,7 @@ import {
   Filter,
   Search,
   Calendar,
+  Clock3,
   User,
   X,
   MoreHorizontal,
@@ -65,6 +66,23 @@ import {
 
 type Tab = "products" | "orders";
 const EMPTY_PRODUCTS: Product[] = [];
+const DELETED_PRODUCT_RETENTION_DAYS = 30;
+const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000;
+
+function getDeletedProductDaysRemaining(deletedAt?: string): number | null {
+  if (!deletedAt) {
+    return null;
+  }
+
+  const deletedAtMs = Date.parse(deletedAt);
+  if (Number.isNaN(deletedAtMs)) {
+    return null;
+  }
+
+  const expiresAtMs =
+    deletedAtMs + DELETED_PRODUCT_RETENTION_DAYS * MILLISECONDS_PER_DAY;
+  return Math.max(0, Math.ceil((expiresAtMs - Date.now()) / MILLISECONDS_PER_DAY));
+}
 
 const DashboardPage = () => {
   const [activeTab, setActiveTab] = useState<Tab>("products");
@@ -252,19 +270,46 @@ function ProductsTab() {
       accessorKey: "status",
       header: t("common.status"),
       sortingFn: "text",
-      cell: ({ row }) => (
-        <span
-          className={`px-2 py-1 rounded text-xs ${
-            row.original.status === "active"
-              ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
-              : row.original.status === "inactive"
-                ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400"
-                : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
-          }`}
-        >
-          {t(`pages.dashboard.${row.original.status}`)}
-        </span>
-      ),
+      cell: ({ row }) => {
+        const daysRemaining =
+          row.original.status === "deleted"
+            ? getDeletedProductDaysRemaining(row.original.deleted_at)
+            : null;
+
+        const isDueToday = daysRemaining === 0;
+
+        return (
+          <div className="flex min-w-[8rem] flex-col items-start gap-1.5">
+            <span
+              className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium ${
+                row.original.status === "active"
+                  ? "border-green-200 bg-green-50 text-green-800 dark:border-green-800/60 dark:bg-green-900/30 dark:text-green-300"
+                  : row.original.status === "inactive"
+                    ? "border-yellow-200 bg-yellow-50 text-yellow-800 dark:border-yellow-800/60 dark:bg-yellow-900/30 dark:text-yellow-300"
+                    : row.original.status === "deleted"
+                      ? "border-red-200 bg-red-50 text-red-800 dark:border-red-800/60 dark:bg-red-900/30 dark:text-red-300"
+                      : "border-orange-200 bg-orange-50 text-orange-800 dark:border-orange-800/60 dark:bg-orange-900/30 dark:text-orange-300"
+              }`}
+            >
+              {t(`pages.dashboard.${row.original.status}`)}
+            </span>
+            {daysRemaining !== null && (
+              <span
+                className={`inline-flex items-center gap-1 rounded-md px-2 py-1 text-[11px] font-medium ${
+                  isDueToday
+                    ? "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300"
+                    : "bg-muted text-muted-foreground"
+                }`}
+              >
+                <Clock3 className="h-3 w-3" aria-hidden="true" />
+                {t("pages.dashboard.deletedRetentionDays", {
+                  count: daysRemaining,
+                })}
+              </span>
+            )}
+          </div>
+        );
+      },
     },
     {
       id: "actions",
