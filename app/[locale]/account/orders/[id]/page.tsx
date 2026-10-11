@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { OrderProductCard } from "@/components/orders/OrderProductCard";
 
 export default function AccountOrderDetailPage() {
   const params = useParams();
@@ -163,36 +164,14 @@ export default function AccountOrderDetailPage() {
             <CardContent>
               <div className="space-y-4">
                 {order_lines.map((line) => (
-                  <div
+                  <OrderProductCard
                     key={line.id}
-                    className="flex items-start gap-4 p-4 bg-muted rounded-lg"
-                  >
-                    <div className="flex-1">
-                      <h3 className="font-semibold mb-1">
-                        {line.product_name}
-                      </h3>
-                      <div className="flex items-center gap-4 text-sm">
-                        <span className="text-muted-foreground">
-                          {t("account.orderDetails.quantity")}: {line.quantity}
-                        </span>
-                        <span className="text-muted-foreground">
-                          {formatOrderTotal(line.unit_price)}{" "}
-                          {t("account.orderDetails.each")}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="font-bold">
-                        {formatOrderTotal(line.line_total)}
-                      </p>
-                      {line.unit_discount > 0 && (
-                        <p className="text-xs text-green-600 dark:text-green-400">
-                          {t("account.orderDetails.discount")}:{" "}
-                          {formatOrderTotal(line.unit_discount * line.quantity)}
-                        </p>
-                      )}
-                    </div>
-                  </div>
+                    line={line}
+                      eachLabel={t("account.orderDetails.each")}
+                    discountLabel={t("account.orderDetails.discount")}
+                    unitAmount={line.unit_price}
+                    showDiscount
+                  />
                 ))}
               </div>
 
@@ -200,11 +179,11 @@ export default function AccountOrderDetailPage() {
               <div className="mt-6 pt-6 border-t">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-lg font-semibold">
-                    {t("checkout.shipping")}
+                    {t("order.checkout.shipping")}
                   </span>
                   <span className="text-lg font-semibold">
                     {order.shipping_cents === 0
-                      ? t("account.orderDetails.freeShipping")
+                      ? t("order.checkout.freeShipping")
                       : formatOrderTotal(order.shipping_cents)}
                   </span>
                 </div>
