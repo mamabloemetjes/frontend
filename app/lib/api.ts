@@ -64,6 +64,7 @@ export interface Product {
   status: ProductStatus;
   created_at: string;
   updated_at: string;
+  deleted_at?: string;
   product_type?: FlowerTypes;
   stock?: number;
   images?: ProductImage[];
@@ -72,7 +73,13 @@ export interface Product {
 // Type for creating/updating products with images
 export type ProductInput = Omit<
   Product,
-  "id" | "created_at" | "updated_at" | "subtotal" | "images" | "sku"
+  | "id"
+  | "created_at"
+  | "updated_at"
+  | "deleted_at"
+  | "subtotal"
+  | "images"
+  | "sku"
 > & {
   images?: ProductImageInput[];
 };
@@ -126,7 +133,7 @@ export interface ProductListFilters {
   include_images?: boolean;
 }
 
-export type ProductStatus = "active" | "inactive" | "sold";
+export type ProductStatus = "active" | "inactive" | "sold" | "deleted";
 
 // ============================================================================
 // ORDER TYPES - Aligned with Go backend

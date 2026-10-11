@@ -209,6 +209,7 @@
     "active": "Active",
     "inactive": "Inactive",
     "sold": "Sold",
+    "deleted": "Deleted",
     "inStock": "In Stock",
     "outOfStock": "Out of Stock",
     "saveChanges": "Save Changes",

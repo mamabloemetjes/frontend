@@ -18,7 +18,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -129,6 +128,10 @@ function ProductsTab() {
   const [sorting, setSorting] = useState<SortingState>([
     { id: "created_at", desc: true },
   ]);
+  const [pendingStatusProduct, setPendingStatusProduct] =
+    useState<Product | null>(null);
+  const [pendingDeleteProduct, setPendingDeleteProduct] =
+    useState<Product | null>(null);
   const t = useTranslations();
   const sortBy = sorting[0]?.id;
   const sortDirection = sorting[0]?.desc ? "DESC" : "ASC";
@@ -276,68 +279,21 @@ function ProductsTab() {
             <DropdownMenuItem onSelect={() => setEditingProduct(row.original)}>
               {t("common.edit")}
             </DropdownMenuItem>
-          <Dialog>
-            <DialogTrigger asChild>
-                <DropdownMenuItem>
-                  {row.original.status === "active"
-                    ? t("pages.dashboard.markAsSold")
-                    : t("pages.dashboard.undoSold")}
-                </DropdownMenuItem>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>
-                  {row.original.status === "active"
-                    ? t("pages.dashboard.confirmMarkAsSoldTitle")
-                    : t("pages.dashboard.confirmUndoSoldTitle")}
-                </DialogTitle>
-              </DialogHeader>
-              <p>
-                {row.original.status === "active"
-                  ? t("pages.dashboard.confirmMarkAsSoldDescription")
-                  : t("pages.dashboard.confirmUndoSoldDescription")}
-              </p>
-              <div className="flex justify-end gap-2">
-                <DialogTrigger asChild>
-                  <Button variant="outline">{t("common.cancel")}</Button>
-                </DialogTrigger>
-                <Button
-                  variant="destructive"
-                  onClick={() => handleProductClick(row.original)}
-                >
-                  {row.original.status === "active"
-                    ? t("pages.dashboard.markAsSold")
-                    : t("pages.dashboard.undoSold")}
-                </Button>
-              </div>
-            </DialogContent>
-          </Dialog>
-          <Dialog>
-            <DialogTrigger asChild>
-              <DropdownMenuItem variant="destructive">
+            <DropdownMenuItem
+              onSelect={() => setPendingStatusProduct(row.original)}
+            >
+              {row.original.status === "active"
+                ? t("pages.dashboard.markAsSold")
+                : t("pages.dashboard.undoSold")}
+            </DropdownMenuItem>
+            {row.original.status !== "deleted" && (
+              <DropdownMenuItem
+                variant="destructive"
+                onSelect={() => setPendingDeleteProduct(row.original)}
+              >
                 {t("common.delete")}
               </DropdownMenuItem>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>
-                  {t("pages.dashboard.confirmDeleteProductTitle")}
-                </DialogTitle>
-              </DialogHeader>
-              <p>{t("pages.dashboard.confirmDeleteProductDescription")}</p>
-              <div className="flex justify-end gap-2">
-                <DialogTrigger asChild>
-                  <Button variant="outline">{t("common.cancel")}</Button>
-                </DialogTrigger>
-                <Button
-                  variant="destructive"
-                  onClick={() => handleDeleteProduct(row.original.id)}
-                >
-                  {t("common.delete")}
-                </Button>
-              </div>
-            </DialogContent>
-          </Dialog>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       ),
@@ -409,6 +365,84 @@ function ProductsTab() {
         </Dialog>
       )}
 
+      <Dialog
+        open={pendingStatusProduct !== null}
+        onOpenChange={(open) => {
+          if (!open) setPendingStatusProduct(null);
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {pendingStatusProduct?.status === "active"
+                ? t("pages.dashboard.confirmMarkAsSoldTitle")
+                : t("pages.dashboard.confirmUndoSoldTitle")}
+            </DialogTitle>
+          </DialogHeader>
+          <p>
+            {pendingStatusProduct?.status === "active"
+              ? t("pages.dashboard.confirmMarkAsSoldDescription")
+              : t("pages.dashboard.confirmUndoSoldDescription")}
+          </p>
+          <div className="flex justify-end gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setPendingStatusProduct(null)}
+            >
+              {t("common.cancel")}
+            </Button>
+            <Button
+              variant="destructive"
+              disabled={updateProduct.isPending}
+              onClick={async () => {
+                if (!pendingStatusProduct) return;
+                await handleProductClick(pendingStatusProduct);
+                setPendingStatusProduct(null);
+              }}
+            >
+              {pendingStatusProduct?.status === "active"
+                ? t("pages.dashboard.markAsSold")
+                : t("pages.dashboard.undoSold")}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={pendingDeleteProduct !== null}
+        onOpenChange={(open) => {
+          if (!open) setPendingDeleteProduct(null);
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {t("pages.dashboard.confirmDeleteProductTitle")}
+            </DialogTitle>
+          </DialogHeader>
+          <p>{t("pages.dashboard.confirmDeleteProductDescription")}</p>
+          <div className="flex justify-end gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setPendingDeleteProduct(null)}
+            >
+              {t("common.cancel")}
+            </Button>
+            <Button
+              variant="destructive"
+              disabled={deleteProduct.isPending}
+              onClick={async () => {
+                if (!pendingDeleteProduct) return;
+                await handleDeleteProduct(pendingDeleteProduct.id);
+                setPendingDeleteProduct(null);
+              }}
+            >
+              {t("common.delete")}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       <Card className="mb-6">
         <CardContent className="flex flex-col gap-4 pt-6 lg:flex-row lg:items-end">
           <div className="flex-1">
@@ -441,7 +475,8 @@ function ProductsTab() {
                   value === "all" ||
                   value === "active" ||
                   value === "inactive" ||
-                  value === "sold"
+                  value === "sold" ||
+                  value === "deleted"
                 ) {
                   setStatusFilter(value);
                 }
@@ -453,6 +488,7 @@ function ProductsTab() {
               <option value="active">{t("pages.dashboard.active")}</option>
               <option value="inactive">{t("pages.dashboard.inactive")}</option>
               <option value="sold">{t("pages.dashboard.sold")}</option>
+              <option value="deleted">{t("pages.dashboard.deleted")}</option>
             </select>
           </div>
           <div className="w-full lg:w-56">
@@ -878,6 +914,7 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
               {t("pages.dashboard.inactive")}
             </SelectItem>
             <SelectItem value="sold">{t("pages.dashboard.sold")}</SelectItem>
+            <SelectItem value="deleted">{t("pages.dashboard.deleted")}</SelectItem>
           </SelectContent>
         </Select>
       </div>
