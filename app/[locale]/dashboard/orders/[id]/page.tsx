@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 import {
   api,
@@ -12,8 +11,8 @@ import {
   getPaymentStatusColor,
   formatOrderTotal,
 } from "@/lib/api";
-import { getImageUrl } from "@/lib/image-url";
 import { LanguageAwareLink } from "@/components/LanguageAwareLink";
+import { OrderProductCard } from "@/components/orders/OrderProductCard";
 import {
   ArrowLeft,
   Package,
@@ -318,51 +317,12 @@ export default function AdminOrderDetailPage() {
               {t("order.admin.details.items")}
             </h2>
             <div className="space-y-3">
-              {order_lines.map((line) => {
-                const imageUrl = line.product_image_name
-                  ? getImageUrl({ name: line.product_image_name })
-                  : undefined;
-
-                return (
-                  <div
-                    key={line.id}
-                    className="flex items-center gap-3 rounded-lg border border-border bg-muted/30 p-3"
-                  >
-                    {imageUrl ? (
-                    <Image
-                      src={imageUrl}
-                      alt={line.product_name}
-                      width={128}
-                      height={128}
-                      className="h-32 w-32 shrink-0 rounded-md border border-border object-cover"
-                    />
-                  ) : (
-                    <div
-                      className="flex h-16 w-16 shrink-0 items-center justify-center rounded-md border border-border bg-background text-xl"
-                      aria-hidden="true"
-                    >
-                      🌸
-                    </div>
-                    )}
-                    <div className="min-w-0 flex-1">
-                      <h3 className="truncate font-semibold">
-                        {line.product_name}
-                      </h3>
-                      <p className="text-sm text-muted-foreground">
-                        SKU: {line.product_sku}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {line.quantity} × {formatOrderTotal(line.unit_subtotal)}
-                      </p>
-                    </div>
-                    <div className="shrink-0 text-right">
-                      <p className="font-bold">
-                        {formatOrderTotal(line.line_total)}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
+              {order_lines.map((line) => (
+                <OrderProductCard
+                  key={line.id}
+                  line={line}
+                />
+              ))}
             </div>
           </div>
 
