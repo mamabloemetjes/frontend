@@ -120,7 +120,7 @@ export const createLocalBusinessSchema = (locale: string) => ({
 export const createProductOfferSchema = (
   productUrl: string,
   price: number,
-  status: "active" | "inactive" | "sold" = "active",
+  status: "active" | "inactive" | "sold" | "deleted" = "active",
 ) => ({
   "@type": "Offer",
   url: productUrl,
@@ -176,7 +176,7 @@ export const createProductSchema = (
     sku: string;
     subtotal: number;
     discount?: number;
-    status: "active" | "inactive" | "sold";
+    status: "active" | "inactive" | "sold" | "deleted";
     images?: Array<{ name: string; alt_text?: string }>;
   },
   locale: string,
@@ -236,7 +236,7 @@ export const createProductListingSchema = (
     description: string;
     sku: string;
     subtotal: number;
-    status: "active" | "inactive" | "sold";
+    status: "active" | "inactive" | "sold" | "deleted";
     images?: Array<{ name: string }>;
   }>,
   locale: string,
