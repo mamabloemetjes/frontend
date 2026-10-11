@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useAuthStatus } from "@/hooks/useAuth";
 import React from "react";
+import { useEffect } from "react";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -16,23 +17,27 @@ export function ProtectedRoute({
   const { user, isAuthenticated, isLoading } = useAuthStatus();
   const router = useRouter();
 
-  // Show loading state while checking auth
+  useEffect(() => {
+    if (isLoading) {
+      return;
+    }
+
+    if (!isAuthenticated) {
+      router.replace("/login");
+      return;
+    }
+
+    if (requireAdmin && user?.role !== "admin") {
+      router.replace("/");
+    }
+  }, [isAuthenticated, isLoading, requireAdmin, router, user?.role]);
+
   if (isLoading) {
-    return (
-      <div className="container mx-auto px-4 py-16 text-center">
-        <p className="text-muted-foreground">Loading...</p>
-      </div>
-    );
+    return null;
   }
 
-  // Redirect to login if not authenticated
-  if (!isAuthenticated) {
-    router.replace("/login");
-  }
-
-  // Check admin requirement
-  if (requireAdmin && user?.role !== "admin") {
-    router.replace("/");
+  if (!isAuthenticated || (requireAdmin && user?.role !== "admin")) {
+    return null;
   }
 
   return <>{children}</>;

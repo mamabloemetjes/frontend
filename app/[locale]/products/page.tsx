@@ -113,7 +113,7 @@ const ProductsPage = async ({
   const filters: ProductListFilters = {
     page: Number(sp?.page) > 0 ? Number(sp.page) : 1,
     page_size: PUBLIC_PRODUCTS_PAGE_SIZE,
-    is_active: true,
+    status: "active",
     include_images: true,
     ...(sp?.search && { search: sp.search }),
     ...(sp?.category && {

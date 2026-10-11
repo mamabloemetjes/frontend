@@ -120,14 +120,14 @@ export const createLocalBusinessSchema = (locale: string) => ({
 export const createProductOfferSchema = (
   productUrl: string,
   price: number,
-  isActive: boolean = true,
+  status: "active" | "inactive" | "sold" = "active",
 ) => ({
   "@type": "Offer",
   url: productUrl,
   priceCurrency: "EUR",
   price: (price / 100).toFixed(2),
   priceValidUntil: getPriceValidUntil(),
-  availability: isActive
+  availability: status === "active"
     ? "https://schema.org/InStock"
     : "https://schema.org/OutOfStock",
   itemCondition: "https://schema.org/NewCondition",
@@ -176,7 +176,7 @@ export const createProductSchema = (
     sku: string;
     subtotal: number;
     discount?: number;
-    is_active: boolean;
+    status: "active" | "inactive" | "sold";
     images?: Array<{ name: string; alt_text?: string }>;
   },
   locale: string,
@@ -198,9 +198,9 @@ export const createProductSchema = (
     offers: createProductOfferSchema(
       productUrl,
       product.subtotal,
-      product.is_active,
+      product.status,
     ),
-    aggregateRating: product.is_active
+    aggregateRating: product.status === "active"
       ? {
           "@type": "AggregateRating",
           ratingValue: "5",
@@ -236,7 +236,7 @@ export const createProductListingSchema = (
     description: string;
     sku: string;
     subtotal: number;
-    is_active: boolean;
+    status: "active" | "inactive" | "sold";
     images?: Array<{ name: string }>;
   }>,
   locale: string,
@@ -258,7 +258,7 @@ export const createProductListingSchema = (
       offers: createProductOfferSchema(
         getFullUrl(locale, `products/${product.id}`),
         product.subtotal,
-        product.is_active,
+        product.status,
       ),
     },
   })),

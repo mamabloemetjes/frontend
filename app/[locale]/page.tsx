@@ -108,7 +108,7 @@ const HomePage = async ({ params }: Props) => {
   const filters: ProductListFilters = {
     page: 1,
     page_size: 1,
-    is_active: true,
+    status: "active",
     include_images: true,
   };
 

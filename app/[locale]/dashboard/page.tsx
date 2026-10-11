@@ -7,7 +7,7 @@ import {
   useDeleteProduct,
   useUpdateProduct,
 } from "@/hooks/useAdminProducts";
-import type { Product } from "@/lib/api";
+import type { Product, ProductStatus } from "@/lib/api";
 import { ImageManager } from "@/components/admin/ImageManager";
 import { ProductsTable } from "@/components/admin/ProductsTable";
 import { type ColumnDef } from "@tanstack/react-table";
@@ -45,6 +45,7 @@ import {
   Calendar,
   User,
   X,
+  MoreHorizontal,
 } from "lucide-react";
 import { productSchema, updateProductSchema } from "@/lib/validation/schemas";
 import {
@@ -55,6 +56,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { FlowerTypes, FlowerTypesList } from "@/types";
+import { AdminRoute } from "@/components/ProtectedRoute";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type Tab = "products" | "orders";
 const EMPTY_PRODUCTS: Product[] = [];
@@ -64,39 +72,49 @@ const DashboardPage = () => {
   const t = useTranslations("pages.dashboard");
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">{t("title")}</h1>
+    <AdminRoute>
+      <div className="container mx-auto max-w-7xl px-4 py-5 sm:px-6 sm:py-8">
+        <h1 className="mb-6 text-2xl font-bold sm:mb-8 sm:text-3xl">
+          {t("title")}
+        </h1>
 
-      {/* Tab Navigation */}
-      <div className="border-b border-border mb-6">
-        <div className="flex gap-4">
-          <button
-            onClick={() => setActiveTab("products")}
-            className={`px-4 py-2 border-b-2 transition-colors ${
-              activeTab === "products"
-                ? "border-primary font-bold text-foreground"
-                : "border-transparent text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            {t("products")}
-          </button>
-          <button
-            onClick={() => setActiveTab("orders")}
-            className={`px-4 py-2 border-b-2 transition-colors ${
-              activeTab === "orders"
-                ? "border-primary font-bold text-foreground"
-                : "border-transparent text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            {t("orders")}
-          </button>
+        {/* Tab Navigation */}
+        <div className="mb-6 overflow-x-auto border-b border-border">
+          <div className="flex min-w-max gap-2 sm:gap-4" role="tablist">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === "products"}
+              onClick={() => setActiveTab("products")}
+              className={`px-4 py-2 border-b-2 transition-colors ${
+                activeTab === "products"
+                  ? "border-primary font-bold text-foreground"
+                  : "border-transparent text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {t("products")}
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === "orders"}
+              onClick={() => setActiveTab("orders")}
+              className={`px-4 py-2 border-b-2 transition-colors ${
+                activeTab === "orders"
+                  ? "border-primary font-bold text-foreground"
+                  : "border-transparent text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {t("orders")}
+            </button>
+          </div>
         </div>
-      </div>
 
-      {/* Tab Content */}
-      {activeTab === "products" && <ProductsTab />}
-      {activeTab === "orders" && <OrdersTab />}
-    </div>
+        {/* Tab Content */}
+        {activeTab === "products" && <ProductsTab />}
+        {activeTab === "orders" && <OrdersTab />}
+      </div>
+    </AdminRoute>
   );
 };
 
@@ -105,15 +123,15 @@ function ProductsTab() {
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [search, setSearch] = useState("");
   const [appliedSearch, setAppliedSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState<"all" | "active" | "sold">(
-    "all",
-  );
+  const [statusFilter, setStatusFilter] = useState<"all" | ProductStatus>("all");
   const [typeFilter, setTypeFilter] = useState<string>("all");
   const [page, setPage] = useState(1);
   const [sorting, setSorting] = useState<SortingState>([
     { id: "created_at", desc: true },
   ]);
   const t = useTranslations();
+  const sortBy = sorting[0]?.id;
+  const sortDirection = sorting[0]?.desc ? "DESC" : "ASC";
 
   const { data, isLoading, isPlaceholderData, error, refetch } =
     useAdminProducts({
@@ -122,19 +140,14 @@ function ProductsTab() {
       include_images: true,
       ...(appliedSearch && { search: appliedSearch }),
       ...(statusFilter !== "all" && {
-        is_active: statusFilter === "active",
+        status: statusFilter,
       }),
       ...(typeFilter !== "all" && {
         product_type: typeFilter as FlowerTypes,
       }),
-      ...(sorting[0] && {
-        sort_by:
-          sorting[0].id === "price"
-            ? "price"
-            : sorting[0].id === "is_active"
-              ? "is_active"
-              : sorting[0].id,
-        sort_direction: sorting[0].desc ? "DESC" : "ASC",
+      ...(sortBy && {
+        sort_by: sortBy === "price" ? "price" : sortBy,
+        sort_direction: sortDirection,
       }),
     });
 
@@ -168,14 +181,14 @@ function ProductsTab() {
   const handleMarkAsSold = async (id: string) => {
     await updateProduct.mutateAsync({
       id,
-      updates: { is_active: false },
+      updates: { status: "sold" },
     });
   };
 
   const handleUndoMarkAsSold = async (id: string) => {
     await updateProduct.mutateAsync({
       id,
-      updates: { is_active: true },
+      updates: { status: "active" },
     });
   };
 
@@ -187,7 +200,7 @@ function ProductsTab() {
   };
 
   const handleProductClick = async (product: Product) => {
-    if (product.is_active) {
+    if (product.status === "active") {
       await handleMarkAsSold(product.id);
     } else {
       await handleUndoMarkAsSold(product.id);
@@ -233,64 +246,54 @@ function ProductsTab() {
       cell: ({ getValue }) => `€${(getValue<number>() / 100).toFixed(2)}`,
     },
     {
-      accessorKey: "is_active",
+      accessorKey: "status",
       header: t("common.status"),
+      sortingFn: "text",
       cell: ({ row }) => (
         <span
           className={`px-2 py-1 rounded text-xs ${
-            row.original.is_active
+            row.original.status === "active"
               ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
-              : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
+              : row.original.status === "inactive"
+                ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400"
+                : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
           }`}
         >
-          {row.original.is_active
-            ? t("pages.dashboard.active")
-            : t("pages.dashboard.sold")}
+          {t(`pages.dashboard.${row.original.status}`)}
         </span>
       ),
     },
     {
       id: "actions",
       cell: ({ row }) => (
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setEditingProduct(row.original)}
-          >
-            {t("common.edit")}
-          </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" aria-label={t("common.actions")}>
+              <MoreHorizontal className="h-4 w-4" aria-hidden="true" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onSelect={() => setEditingProduct(row.original)}>
+              {t("common.edit")}
+            </DropdownMenuItem>
           <Dialog>
             <DialogTrigger asChild>
-              {row.original.is_active ? (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="text-red-600 hover:text-red-700"
-                  disabled={!row.original.is_active}
-                >
-                  {t("pages.dashboard.markAsSold")}
-                </Button>
-              ) : (
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  disabled={row.original.is_active}
-                >
-                  {t("pages.dashboard.undoSold")}
-                </Button>
-              )}
+                <DropdownMenuItem>
+                  {row.original.status === "active"
+                    ? t("pages.dashboard.markAsSold")
+                    : t("pages.dashboard.undoSold")}
+                </DropdownMenuItem>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>
-                  {row.original.is_active
+                  {row.original.status === "active"
                     ? t("pages.dashboard.confirmMarkAsSoldTitle")
                     : t("pages.dashboard.confirmUndoSoldTitle")}
                 </DialogTitle>
               </DialogHeader>
               <p>
-                {row.original.is_active
+                {row.original.status === "active"
                   ? t("pages.dashboard.confirmMarkAsSoldDescription")
                   : t("pages.dashboard.confirmUndoSoldDescription")}
               </p>
@@ -302,7 +305,7 @@ function ProductsTab() {
                   variant="destructive"
                   onClick={() => handleProductClick(row.original)}
                 >
-                  {row.original.is_active
+                  {row.original.status === "active"
                     ? t("pages.dashboard.markAsSold")
                     : t("pages.dashboard.undoSold")}
                 </Button>
@@ -311,9 +314,9 @@ function ProductsTab() {
           </Dialog>
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="destructive" size="sm">
+              <DropdownMenuItem variant="destructive">
                 {t("common.delete")}
-              </Button>
+              </DropdownMenuItem>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
@@ -335,7 +338,8 @@ function ProductsTab() {
               </div>
             </DialogContent>
           </Dialog>
-        </div>
+          </DropdownMenuContent>
+        </DropdownMenu>
       ),
     },
   ];
@@ -367,11 +371,11 @@ function ProductsTab() {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">
+      <div className="mb-6 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h2 className="text-xl font-bold sm:text-2xl">
           {t("pages.dashboard.products")} ({totalProductCount})
         </h2>
-        <Button onClick={() => setShowCreateForm(true)}>
+        <Button className="w-full sm:w-auto" onClick={() => setShowCreateForm(true)}>
           {t("pages.dashboard.addProduct")}
         </Button>
       </div>
@@ -392,7 +396,7 @@ function ProductsTab() {
 
       {editingProduct && (
         <Dialog open onOpenChange={() => setEditingProduct(null)}>
-          <DialogContent>
+          <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">
             <DialogHeader>
               <DialogTitle>{t("pages.dashboard.editProduct")}</DialogTitle>
             </DialogHeader>
@@ -432,13 +436,22 @@ function ProductsTab() {
               id="admin-product-status"
               value={statusFilter}
               onChange={(event) => {
-                setStatusFilter(event.target.value as typeof statusFilter);
+                const value = event.target.value;
+                if (
+                  value === "all" ||
+                  value === "active" ||
+                  value === "inactive" ||
+                  value === "sold"
+                ) {
+                  setStatusFilter(value);
+                }
                 setPage(1);
               }}
               className="mt-2 h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
             >
               <option value="all">{t("pages.dashboard.allStatuses")}</option>
               <option value="active">{t("pages.dashboard.active")}</option>
+              <option value="inactive">{t("pages.dashboard.inactive")}</option>
               <option value="sold">{t("pages.dashboard.sold")}</option>
             </select>
           </div>
@@ -487,7 +500,9 @@ function ProductsTab() {
         data={filteredProducts}
         sorting={sorting}
         onSortingChange={(nextSorting) => {
-          setSorting(nextSorting);
+          // The API accepts one sort field; discard TanStack's multi-column
+          // state so the requested status order is not silently ignored.
+          setSorting(nextSorting.slice(0, 1));
           setPage(1);
         }}
         emptyMessage={t("pages.dashboard.noProducts")}
@@ -537,6 +552,19 @@ interface ProductFormProps {
   onSuccess: () => void;
 }
 
+const VAT_RATE = 0.21;
+
+function getPriceBreakdown(price: string) {
+  const totalCents = Math.round(parseFloat(price || "0") * 100);
+  const netCents = Math.round(totalCents / (1 + VAT_RATE));
+
+  return {
+    totalCents,
+    netCents,
+    taxCents: totalCents - netCents,
+  };
+}
+
 function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
   const isEditing = !!product;
   const createProduct = useCreateProduct();
@@ -546,12 +574,13 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
 
   const [formData, setFormData] = useState({
     name: product?.name || "",
-    price: product ? (product.price / 100).toString() : "",
+    price: product
+      ? ((product.price + product.tax) / 100).toString()
+      : "",
     discount: product ? ((product.discount || 0) / 100).toString() : "0",
-    tax: product ? ((product.price * 0.21) / 100).toString() : "0",
     enableTax: product ? product.tax > 0 : false,
     description: product?.description || "",
-    is_active: product?.is_active ?? true,
+    status: product?.status ?? "active",
     product_type: product?.product_type || "",
   });
 
@@ -569,17 +598,20 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const tax = formData.enableTax
-      ? Math.round(parseFloat(formData.price) * 0.21 * 100)
-      : 0;
+    // The entered price is the customer-facing total. Split it into a
+    // 21% VAT-exclusive amount and tax while preserving the exact total.
+    const { netCents, taxCents } = getPriceBreakdown(formData.price);
+    const totalCents = Math.round(parseFloat(formData.price || "0") * 100);
+    const price = formData.enableTax ? netCents : totalCents;
+    const tax = formData.enableTax ? taxCents : 0;
 
     const productData = {
       name: formData.name,
-      price: Math.round(parseFloat(formData.price) * 100),
+      price,
       discount: Math.round(parseFloat(formData.discount) * 100),
       tax,
       description: formData.description,
-      is_active: formData.is_active,
+      status: formData.status,
       product_type: (formData.product_type || "") as FlowerTypes,
       images:
         images.length > 0
@@ -675,14 +707,16 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
         )}
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <div>
           <Label className="block mb-1 font-semibold text-sm">
-            {t("pages.dashboard.formLabels.price")}
+            {formData.enableTax
+              ? t("pages.dashboard.formLabels.priceIncludingTax")
+              : t("pages.dashboard.formLabels.price")}
           </Label>
           <Input
             type="number"
-            step="0.50"
+            step="0.01"
             max="9999.99"
             min="0.00"
             value={formData.price}
@@ -727,44 +761,44 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
         </div>
 
         <div>
-          <Label className="block mb-1 font-semibold text-sm">Tax (€) *</Label>
-          {/* Assuming a fixed tax rate of 21% for simplicity */}
+          <Label className="block mb-1 font-semibold text-sm">VAT (21%)</Label>
           <Label
             className={`block p-3 bg-muted rounded ${
               errors.tax ? "border border-red-500" : ""
             }`}
           >
             €
-            {formData.enableTax
-              ? (parseFloat(formData.price || "0") * 0.21).toFixed(2)
-              : "0.00"}
+            {(
+              (formData.enableTax
+                ? getPriceBreakdown(formData.price).taxCents
+                : 0) / 100
+            ).toFixed(2)}
           </Label>
           {errors.tax && (
             <p className="text-red-500 text-sm mt-1">{errors.tax}</p>
           )}
         </div>
 
-        <Label className="col-span-3 text-right font-bold text-lg mt-2">
+        <div className="flex items-center gap-2 sm:col-span-2 lg:col-span-3">
+          <Checkbox
+            checked={formData.enableTax}
+            onCheckedChange={(checked) =>
+              setFormData({ ...formData, enableTax: checked === true })
+            }
+            className="w-5 h-5 rounded border-border"
+          />
+          <Label className="font-semibold text-sm">
+            {t("pages.dashboard.formLabels.enableTax")}
+          </Label>
+        </div>
+
+        <Label className="text-right font-bold text-lg sm:col-span-2 lg:col-span-3">
           {t("common.total")}: €
           {(
             parseFloat(formData.price || "0") -
-            parseFloat(formData.discount || "0") +
-            (formData.enableTax ? parseFloat(formData.price || "0") * 0.21 : 0)
+            parseFloat(formData.discount || "0")
           ).toFixed(2)}
         </Label>
-      </div>
-
-      <div className="flex flex-col items-start">
-        <Label className="block mb-1 font-semibold text-sm">
-          {t("pages.dashboard.formLabels.enableTax")}
-        </Label>
-        <Checkbox
-          className="w-5 h-5 rounded border-border"
-          checked={formData.enableTax}
-          onClick={() =>
-            setFormData({ ...formData, enableTax: !formData.enableTax })
-          }
-        />
       </div>
 
       <div>
@@ -826,18 +860,26 @@ function ProductForm({ product, onClose, onSuccess }: ProductFormProps) {
       </div>
 
       <div>
-        <Label className="flex items-center gap-2 cursor-pointer">
-          <Checkbox
-            checked={formData.is_active}
-            className="pointer-events-none w-5 h-5 rounded border-border"
-            onClick={() =>
-              setFormData({ ...formData, is_active: !formData.is_active })
-            }
-          />
-          <Label className="font-semibold text-sm">
-            {t("pages.dashboard.formLabels.active")}
-          </Label>
+        <Label className="mb-1 block font-semibold text-sm">
+          {t("pages.dashboard.status")}
         </Label>
+        <Select
+          value={formData.status}
+          onValueChange={(value: ProductStatus) =>
+            setFormData({ ...formData, status: value })
+          }
+        >
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="active">{t("pages.dashboard.active")}</SelectItem>
+            <SelectItem value="inactive">
+              {t("pages.dashboard.inactive")}
+            </SelectItem>
+            <SelectItem value="sold">{t("pages.dashboard.sold")}</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Image Manager */}
