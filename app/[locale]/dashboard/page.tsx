@@ -55,6 +55,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { FlowerTypes, FlowerTypesList } from "@/types";
+import { AdminRoute } from "@/components/ProtectedRoute";
 
 type Tab = "products" | "orders";
 const EMPTY_PRODUCTS: Product[] = [];
@@ -64,39 +65,41 @@ const DashboardPage = () => {
   const t = useTranslations("pages.dashboard");
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">{t("title")}</h1>
+    <AdminRoute>
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-8">{t("title")}</h1>
 
-      {/* Tab Navigation */}
-      <div className="border-b border-border mb-6">
-        <div className="flex gap-4">
-          <button
-            onClick={() => setActiveTab("products")}
-            className={`px-4 py-2 border-b-2 transition-colors ${
-              activeTab === "products"
-                ? "border-primary font-bold text-foreground"
-                : "border-transparent text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            {t("products")}
-          </button>
-          <button
-            onClick={() => setActiveTab("orders")}
-            className={`px-4 py-2 border-b-2 transition-colors ${
-              activeTab === "orders"
-                ? "border-primary font-bold text-foreground"
-                : "border-transparent text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            {t("orders")}
-          </button>
+        {/* Tab Navigation */}
+        <div className="border-b border-border mb-6">
+          <div className="flex gap-4">
+            <button
+              onClick={() => setActiveTab("products")}
+              className={`px-4 py-2 border-b-2 transition-colors ${
+                activeTab === "products"
+                  ? "border-primary font-bold text-foreground"
+                  : "border-transparent text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {t("products")}
+            </button>
+            <button
+              onClick={() => setActiveTab("orders")}
+              className={`px-4 py-2 border-b-2 transition-colors ${
+                activeTab === "orders"
+                  ? "border-primary font-bold text-foreground"
+                  : "border-transparent text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {t("orders")}
+            </button>
+          </div>
         </div>
-      </div>
 
-      {/* Tab Content */}
-      {activeTab === "products" && <ProductsTab />}
-      {activeTab === "orders" && <OrdersTab />}
-    </div>
+        {/* Tab Content */}
+        {activeTab === "products" && <ProductsTab />}
+        {activeTab === "orders" && <OrdersTab />}
+      </div>
+    </AdminRoute>
   );
 };
 
